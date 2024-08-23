@@ -1,35 +1,5 @@
-.toolbar-menu {
-  display: grid;
-  grid-template-columns: 10fr auto auto;
-  position: relative;
-  background-color: white;
-  height: 150%;
-  border-bottom: 1px solid #c2bebe;
-}
-
-.progress-status {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.notification-drawer {
-  width: 480px;
-  max-width: 100%;
-  padding: 1em;
-}
-
 .right-menu{
-  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
-
-.search-bar{
-  margin-left: 260px;
-  margin-top: 1rem;
-}
-
-.search{
-  width: 35%;
-}
-

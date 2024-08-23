@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://127.0.0.1:8000/api';
+export const API_BASE_URL = 'http://127.0.0.1:4000/api';
 export const IS_DEVELOPMENT = true;
 
 export const USERS_URL = `${API_BASE_URL}/users`;
@@ -19,3 +19,4 @@ export const MARK_NOTIFICATION_URL = `${API_BASE_URL}/notifications/mark-as-read
 
 export const VALIDATION_RULES_URL = `${API_BASE_URL}/field-validation-rules/validation-rules`;
 export const DATE_TIME_URL = `${API_BASE_URL}/date-time`;
+export const RESTAURANTS_URL = `${API_BASE_URL}/restaurants`;

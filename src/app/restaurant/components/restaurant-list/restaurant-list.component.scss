@@ -1,0 +1,39 @@
+.restaurant-list-container {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: rgb(218 236 214);
+}
+
+table {
+  width: 100%;
+  box-shadow: none;
+}
+
+.mat-paginator {
+  align-self: flex-end;
+}
+
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-btn{
+  background-color: rgb(71 159 45);
+  // background-color: rgb(253 157 80);
+  color: white;
+}
+
+.active-status {
+  color: green;
+}
+
+.inactive-status {
+  color: red;
+}
+
+tr{
+  cursor: pointer;
+}

@@ -5,6 +5,7 @@ import {
   ROLES_ROUTE,
   USERS_LIST,
   ADMINS_LIST,
+  RESTAURANT_LIST,
 } from 'src/app/core/constants/routes';
 
 @Component({
@@ -14,6 +15,11 @@ import {
 })
 export class HomeComponent {
   navLinks: Array<{ link: string; label: string; icon: string }> = [
+    {
+      link: RESTAURANT_LIST,
+      label: 'Restaurants',
+      icon: '',
+    },
     {
       link: USERS_LIST,
       label: 'Users',

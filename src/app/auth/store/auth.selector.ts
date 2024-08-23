@@ -14,8 +14,8 @@ export class AuthSelector {
 
   @Selector([AuthState])
   static isAuthenticated(state: AuthStateModel): boolean {
-    const currentTime = Math.floor(Date.now() / 1000); 
-    return !!state.accessToken && state.expiresAt > currentTime;
+
+    return !!state.accessToken
   }
 
   @Selector([AuthState])

@@ -18,6 +18,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { ProgressStatusState } from './core/store/progress-status.state';
 import { ProgressStatusComponent } from './shared/shared-components/progress-status/progress-status.component';
 import { NotificationState } from './core/store/notification.state';
+import { RestaurantModule } from './restaurant/restaurant.module';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -51,6 +52,7 @@ import { NotificationState } from './core/store/notification.state';
     UsersModule,
     SharedModule,
     ProgressStatusComponent,
+    RestaurantModule
   ],
 })
 export class AppModule {}

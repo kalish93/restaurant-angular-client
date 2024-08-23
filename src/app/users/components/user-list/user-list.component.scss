@@ -1,27 +1,4 @@
-:host {
-  display: grid;
-  padding: 16px;
-}
-
-.add-btn {
-  width: fit-content;
-  align-self: center;
-  justify-self: end;
-  margin-bottom: 16px;
-}
-
-.flex {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 30px;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.gap-x {
-  display: flex;
-  gap: 30px;
+.container{
+  background-color: rgb(218 236 214);
+  height: 100vh;
 }

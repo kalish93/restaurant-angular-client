@@ -46,7 +46,7 @@ export class AuthState {
         const expiresAt = currentTime + result.expires_in;
 
         patchState({
-          accessToken: result.access_token,
+          accessToken: result.accessToken,
           refreshToken: result.refreshToken,
           roles: result.roles,
           permissions: result.permissions,
