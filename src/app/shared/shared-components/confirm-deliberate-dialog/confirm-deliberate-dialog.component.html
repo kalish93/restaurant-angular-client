@@ -1,0 +1,36 @@
+<div class="w-500">
+  <h2 mat-dialog-title>{{ message }}</h2>
+  <div mat-dialog-content class="w-full">
+    <div class="bg-warning warning-text flex">
+      <mat-icon class="pr-2">warning</mat-icon>
+      <div class="mx-1">
+        Unexpected bad things will happen if you don’t read this!
+      </div>
+    </div>
+    <div class="my-1"></div>
+    {{ description }}
+    <div class="my-1"></div>
+    <span class="font-bold">{{ extra }}</span>
+    <div class="my-1"></div>
+    <div class="full-width-input">
+      <input
+        type="text"
+        class="input-style"
+        (input)="onConfirmTextChange($event)"
+        placeholder="Type {{ name }} to confirm"
+      />
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      [disabled]="confirmText !== name"
+      [mat-dialog-close]="true"
+      mat-flat-button
+      color="accent"
+      (click)="onConfirm()"
+    >
+      Confirm Delete
+    </button>
+    <button mat-flat-button mat-dialog-close color="primary">Cancel</button>
+  </div>
+</div>

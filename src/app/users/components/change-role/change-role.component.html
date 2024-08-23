@@ -1,0 +1,28 @@
+<mat-dialog-content class="pb-0">
+  <div class="mb-2">Select Role</div>
+  <form class="user-form" [formGroup]="roleForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="newRole">
+        <mat-option *ngFor="let role of filteredRoles" [value]="role.id">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button
+    class="submit"
+    mat-flat-button
+    color="primary"
+    (click)="save()"
+    [disabled]="!roleForm.valid"
+    mat-dialog-close="save"
+  >
+    Save
+  </button>
+  <button class="submit" mat-flat-button color="accent" mat-dialog-close>
+    Cancel
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>{{ message }}</h2>
+<div mat-dialog-content class="mat-dialog">
+  <div class="my-1"></div>
+  {{ description }}
+  <div class="my-1"></div>
+  <span class="font-bold">{{ extra }}</span>
+  <div class="my-1"></div>
+  <div class="flex">
+    <input
+      class="input-style"
+      matInput
+      [matDatepicker]="picker"
+      placeholder="Choose a date"
+      (dateChange)="onConfirmDateChange($event)"
+      [min]="minDate"
+      [max]="maxDate"
+      disabled
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false"></mat-datepicker>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button
+    [mat-dialog-close]="true"
+    mat-flat-button
+    color="accent"
+    (click)="onConfirm()"
+    [disabled]="!date"
+  >
+    Yes
+  </button>
+  <button mat-flat-button mat-dialog-close color="primary">Cancel</button>
+</div>

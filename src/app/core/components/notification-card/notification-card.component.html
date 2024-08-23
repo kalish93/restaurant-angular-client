@@ -1,0 +1,25 @@
+<div #card>
+  <mat-card
+    class="mat-elevation-z0 notification-card"
+    [class.unread]="!notification.isViewed"
+  >
+    <mat-card-content>
+      <p class="mat-body-2">
+        {{ notification.message }}
+      </p>
+      <div class="actions">
+        <p class="mat-caption">
+          {{ notification.dateCreated | date : "medium" }}
+        </p>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="visible.emit()"
+          *ngIf="!notification.isViewed"
+        >
+          Mark as read
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

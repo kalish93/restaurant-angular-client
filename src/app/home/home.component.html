@@ -1,0 +1,48 @@
+<mat-toolbar class="toolbar-menu"  *ngIf="(isAuthenticated$ | async)">
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="search">
+      <mat-label>Search</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput type="text" placeholder="Search">
+    </mat-form-field>
+  </div>
+
+  <div class="right-menu">
+    <app-notification-button
+      (openNotificationMenu)="drawer.open()"
+    ></app-notification-button>
+    <button mat-icon-button [matMenuTriggerFor]="accountMenu">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    <mat-menu #accountMenu="matMenu">
+      <a
+        *ngIf="!(isAuthenticated$ | async)"
+        mat-menu-item
+        [routerLink]="loginRoute.link"
+        [routerLinkActive]="['is-active']"
+        >Login</a
+      >
+      <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()"
+        >Logout</a
+      >
+
+      <a mat-menu-item (click)="addUser()">Register</a>
+      <a
+        *ngIf="isAuthenticated$ | async"
+        mat-menu-item
+        [routerLink]="changePasswordRoute.link"
+        [routerLinkActive]="['is-active']"
+        >Change Password</a
+      >
+    </mat-menu>
+  </div>
+  <div class="progress-status">
+    <app-progress-status></app-progress-status>
+  </div>
+</mat-toolbar>
+<mat-drawer-container>
+  <mat-drawer #drawer position="end" class="notification-drawer"
+    ><app-notification-menu
+  /></mat-drawer>
+  <mat-drawer-content> <router-outlet></router-outlet> </mat-drawer-content
+></mat-drawer-container>

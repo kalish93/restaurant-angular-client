@@ -1,0 +1,26 @@
+// import material icons
+@import "material-icons/iconfont/material-icons.css";
+
+// slick-grid theme
+@import "@slickgrid-universal/common/dist/styles/sass/slickgrid-theme-material.scss";
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-elevation-z0 .mat-expansion-panel-body {
+  padding: 0 0 0 16px;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  height: 48px;
+}
+
+.timepicker-overlay {
+  z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000000 !important;
+}

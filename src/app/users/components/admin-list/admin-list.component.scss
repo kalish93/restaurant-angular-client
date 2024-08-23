@@ -1,0 +1,18 @@
+:host {
+  display: grid;
+  padding: 16px;
+}
+
+.add-btn {
+  width: fit-content;
+  align-self: center;
+  justify-self: end;
+  margin-bottom: 16px;
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+}

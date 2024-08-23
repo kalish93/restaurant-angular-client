@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ message }}</h2>
+<div mat-dialog-content class="mat-dialog">
+  <div class="my-1"></div>
+  {{ description }}
+  <div class="my-1"></div>
+  <span class="font-bold">{{ extra }}</span>
+  <div class="my-1"></div>
+  <div class="full-width-input" z>
+    <textarea
+      type="text"
+      class="input-style"
+      rows="3"
+      (input)="onConfirmTextChange($event)"
+    ></textarea>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button
+    [mat-dialog-close]="true"
+    mat-flat-button
+    color="accent"
+    (click)="onConfirm()"
+    [disabled]="!confirmText"
+  >
+    Yes
+  </button>
+  <button mat-flat-button mat-dialog-close color="primary">Cancel</button>
+</div>

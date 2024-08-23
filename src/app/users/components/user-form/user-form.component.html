@@ -1,0 +1,142 @@
+<mat-dialog-content>
+  <form class="user-form" [formGroup]="userForm">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input id="firstName" formControlName="firstName" matInput />
+      <mat-error *ngIf="userForm.get('firstName')?.hasError('required')"
+        >First name is required</mat-error
+      >
+      <mat-error *ngIf="userForm.get('firstName')?.hasError('minlength')"
+        >Must contain at least 3 characters</mat-error
+      >
+      <mat-error *ngIf="userForm.get('firstName')?.hasError('pattern')"
+        >Must contain only alphabets</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Middle Name</mat-label>
+      <input id="middleName" formControlName="middleName" matInput />
+      <mat-error *ngIf="userForm.get('middleName')?.hasError('minlength')"
+        >Must contain at least 3 characters
+      </mat-error>
+      <mat-error *ngIf="userForm.get('middleName')?.hasError('pattern')"
+        >Must contain only alphabets</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input id="lastName" formControlName="lastName" matInput />
+      <mat-error *ngIf="userForm.get('lastName')?.hasError('minlength')"
+        >Must contain at least 3 characters
+      </mat-error>
+      <mat-error *ngIf="userForm.get('lastName')?.hasError('pattern')"
+        >Must contain only alphabets</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>User Name</mat-label>
+      <input id="userName" formControlName="userName" matInput />
+      <mat-error *ngIf="userForm.get('userName')?.hasError('required')"
+        >Username is required</mat-error
+      >
+      <mat-error *ngIf="userForm.get('userName')?.hasError('pattern')"
+        >Username is not valid</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline" *ngIf="isUserRegistration()">
+      <mat-label>Date of birth</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        id="dateOfBirth"
+        formControlName="dateOfBirth"
+        [max]="maxBirthDate"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field *ngIf="!update" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        matInput
+      />
+      <mat-error *ngIf="userForm.get('password')?.hasError('required')"
+        >Password is required</mat-error
+      >
+      <mat-error *ngIf="userForm.get('password')?.hasError('minlength')"
+        >Must contain at least 8 characters</mat-error
+      >
+      <mat-error *ngIf="userForm.get('password')?.hasError('pattern')"
+        >Must contain alphanumeric characters and symbols
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" *ngIf="!update">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        id="confirmPassword"
+        type="password"
+        formControlName="confirmPassword"
+        matInput
+      />
+      <mat-error *ngIf="userForm.get('confirmPassword')?.hasError('required')">
+        Confirm password is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input id="email" formControlName="email" matInput />
+      <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+        Please enter email
+      </mat-error>
+      <mat-error *ngIf="userForm.get('email')?.hasError('email')"
+        >Email is not valid</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <span matPrefix>&nbsp;+251 &nbsp;</span>
+      <input
+        id="phoneNumber"
+        formControlName="phoneNumber"
+        matInput
+        type="tel"
+      />
+      <mat-error *ngIf="userForm.get('phoneNumber')?.hasError('required')">
+        Phone Number is required
+      </mat-error>
+      <mat-error *ngIf="userForm.get('phoneNumber')?.hasError('pattern')"
+        >Phone Number is not valid</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline" *ngIf="isAdminRegistration()">
+      <mat-label>Select Role</mat-label>
+      <mat-select id="roleId" formControlName="roleId">
+        <mat-option *ngFor="let role of roles" [value]="role.id">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    class="submit"
+    mat-flat-button
+    color="primary"
+    (click)="save()"
+    [disabled]="!userForm.valid"
+    mat-dialog-close="save"
+  >
+    Save
+  </button>
+  <button class="submit" mat-flat-button color="accent" mat-dialog-close>
+    Cancel
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,42 @@
+.mat-dialog {
+  max-width: 400px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pr-2 {
+  padding-right: 0.5rem;
+}
+
+.mx-1 {
+  margin: 0 0.5rem;
+}
+
+.my-1 {
+  margin: 1rem 0;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.full-width-input {
+  width: 94%;
+}
+
+.input-style {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
