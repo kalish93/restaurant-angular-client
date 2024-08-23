@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { RestaurantSelector } from '../store/restaurant.selectors';
-import { CreateRestaurant, GetRestaurant, GetRestaurants } from '../store/restaurant.actions';
+import { AddRestaurantStaff, CreateRestaurant, GetRestaurant, GetRestaurants } from '../store/restaurant.actions';
 
 
 @Injectable({
@@ -24,5 +24,9 @@ export class RestaurantFacade {
 
   dispatchGetRestaurant(id: any) {
     this.store.dispatch(new GetRestaurant(id));
+  }
+
+  dispatchAddRestaurantStaff(data: any) {
+    this.store.dispatch(new AddRestaurantStaff(data));
   }
 }

@@ -15,7 +15,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { CreateRestaurant, GetRestaurant, GetRestaurants } from './restaurant.actions';
+import { AddRestaurantStaff, CreateRestaurant, GetRestaurant, GetRestaurants } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface RestaurantStateModel {
@@ -112,6 +112,35 @@ getRestaurant(
       );
       this.store.dispatch(new SetProgressOff());
     })
+  );
+}
+
+@Action(AddRestaurantStaff)
+addRestaurantStaff(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data }: AddRestaurantStaff
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.addRestaurantStaff(data).pipe(
+      tap((result) => {
+        const state = getState();
+
+        setState(
+          patch({
+            selectedRestaurant: {
+              ...state.selectedRestaurant,
+              users: [...state.selectedRestaurant.users, result],
+            },
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Staff added successfully!',
+          successStyle,);
+      })
   );
 }
 }

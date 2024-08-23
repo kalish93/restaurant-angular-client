@@ -1,5 +1,5 @@
 .left-menu {
-  width: 225px;
+  width: 240px;
   border-right: none;
   background: "#FAFAFA";
   border-radius: 10px;
@@ -20,14 +20,8 @@
   min-height: 100vh;
 }
 
-divider {
-  margin-bottom: 16px;
-  background-color: rgba(255, 255, 255, 0.5);
-}
-
 .is-active {
-  border-bottom: 2px solid darkblue;
-  border-left: 1px solid darkblue;
+  background-color: rgb(218 236 214);
   transition: 100ms;
 }
 
@@ -37,4 +31,6 @@ divider {
   align-items: center;
   justify-content: flex-start;
   font-size: 1rem;
+  font-weight: 100;
+  padding: 1.5rem;
 }

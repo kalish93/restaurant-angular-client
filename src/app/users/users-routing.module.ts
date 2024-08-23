@@ -12,6 +12,8 @@ import {
   EMPLOYEES_LIST,
   CHANGE_PASSWORD_ROUTE,
   RESTAURANT_LIST,
+  STOCK_LIST,
+  MENU_LIST,
 } from '../core/constants/routes';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
@@ -20,6 +22,8 @@ import { RegistrationType } from './components/user-form/user-form.component';
 import { HomeComponent } from './components/home/home.component';
 import { RestaurantListComponent } from '../restaurant/components/restaurant-list/restaurant-list.component';
 import { RestaurantDetailComponent } from '../restaurant/components/restaurant-detail/restaurant-detail.component';
+import { StockListComponent } from '../restaurant/components/stock/stock-list/stock-list.component';
+import { MenuListComponent } from '../restaurant/components/menu-list/menu-list.component';
 
 const routes: Routes = [
   {
@@ -33,6 +37,12 @@ const routes: Routes = [
       {
         path: `${RESTAURANT_LIST}/:id`,
         component: RestaurantDetailComponent,
+      },
+     { path: STOCK_LIST,
+      component: StockListComponent
+      },
+     { path: MENU_LIST,
+      component: MenuListComponent
       },
       {
         path: USERS_LIST,
