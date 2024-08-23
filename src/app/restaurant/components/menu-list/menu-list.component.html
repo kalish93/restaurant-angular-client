@@ -1,3 +1,19 @@
 <div class="container">
-  <p>menu-list works!</p>
+  <div class="menu-section">
+    <h2>Discover Our Menus</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id at mauris dis tincidunt ipsum faucibus ipsum.</p>
+    <div class="menu-grid">
+      <div class="menu-item" *ngFor="let item of menuItems">
+        <img [src]="item.imageUrl" alt="{{ item.name }}">
+        <div class="menu-info">
+          <h3>{{ item.name }} <span class="price">${{ item.price }}</span></h3>
+          <p>{{ item.description }}</p>
+          <div class="order-btn-container">
+            <button class="order-btn" mat-flat-button>Order Now</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>

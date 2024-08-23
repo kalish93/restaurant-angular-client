@@ -1,5 +1,40 @@
+.toolbar-menu {
+  display: flex; /* Change from grid to flex for better control */
+  justify-content: space-between; /* Space out the content */
+  align-items: center; /* Vertically center items */
+  position: fixed;
+  top: 0;
+  left: 240px; /* Account for the sidebar width */
+  right: 0;
+  z-index: 1000;
+  background-color: rgb(218 236 214);
+  height: 75px; /* Define the height of the toolbar */
+  padding: 0 16px; /* Add some padding */
+}
 .right-menu{
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  flex-direction: row; /* Align items horizontally */
+  align-items: center; /* Vertically align items */
+  gap: 16px; /* Add space between items */
+}
+
+.progress-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.notification-drawer {
+  width: 480px;
+  max-width: 100%;
+  padding: 1em;
+}
+
+.mat-drawer-container {
+  margin-top: 64px; /* Ensure content starts below the fixed toolbar */
+}
+
+.account-icon{
+  color: black;
 }

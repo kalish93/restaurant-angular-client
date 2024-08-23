@@ -5,6 +5,9 @@
   border-radius: 10px;
   padding: 16px;
   text-align: center;
+  position: fixed;
+  z-index: 1100;
+  max-height: calc(100vh - 130px);;
 }
 
 // .content {
@@ -33,4 +36,14 @@
   font-size: 1rem;
   font-weight: 100;
   padding: 1.5rem;
+}
+
+.h1{
+  font-weight: lighter;
+}
+
+@media (max-width: 768px) {
+  .left-menu {
+    display: none;
+  }
 }
