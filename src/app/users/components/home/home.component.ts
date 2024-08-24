@@ -6,6 +6,8 @@ import {
   USERS_LIST,
   ADMINS_LIST,
   RESTAURANT_LIST,
+  STOCK_LIST,
+  MENU_LIST,
 } from 'src/app/core/constants/routes';
 
 @Component({
@@ -18,7 +20,17 @@ export class HomeComponent {
     {
       link: RESTAURANT_LIST,
       label: 'Restaurants',
-      icon: '',
+      icon: 'restaurant',
+    },
+    {
+      link: STOCK_LIST,
+      label: 'Drink Stock',
+      icon: 'local_bar',
+    },
+    {
+      link: MENU_LIST,
+      label: 'Menu',
+      icon: 'menu_book',
     },
     {
       link: USERS_LIST,

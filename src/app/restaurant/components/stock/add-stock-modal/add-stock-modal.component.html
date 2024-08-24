@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Add Stock Item</h1>
+<div mat-dialog-content>
+  <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Drink Name</mat-label>
+      <input matInput formControlName="drinkName" required>
+      <mat-error *ngIf="stockForm.get('drinkName')?.hasError('required')">
+        Drink Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Price</mat-label>
+      <input matInput type="number" formControlName="price" required>
+      <mat-error *ngIf="stockForm.get('price')?.hasError('required')">
+        Price is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Quantity</mat-label>
+      <input matInput type="number" formControlName="quantity" required>
+      <mat-error *ngIf="stockForm.get('quantity')?.hasError('required')">
+        Quantity is required
+      </mat-error>
+    </mat-form-field>
+
+    <div class="file-upload">
+      <mat-label>Image</mat-label>
+      <input type="file" (change)="onFileChange($event)" required>
+      <mat-error *ngIf="!imageFile">
+        Image is required
+      </mat-error>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button color="primary" type="submit" (click)="onSubmit()">Add</button>
+</div>

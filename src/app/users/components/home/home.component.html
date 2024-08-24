@@ -1,5 +1,6 @@
 <mat-sidenav-container class="container">
   <mat-sidenav mode="side" opened class="left-menu mat-elevation-z1">
+   <h1>foody</h1>
     <div *ngFor="let link of navLinks">
       <a
         class="menu-button"
@@ -7,11 +8,11 @@
         [routerLink]="link.link"
         [routerLinkActive]="['is-active']"
       >
-        <mat-icon color="accent">{{ link.icon }}</mat-icon>
+        <mat-icon>{{ link.icon }}</mat-icon>
         <span>{{ link.label }}</span>
       </a>
-      <mat-divider class="divider"></mat-divider>
-    </div>
+
+</div>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="content mat-elevation-z1">

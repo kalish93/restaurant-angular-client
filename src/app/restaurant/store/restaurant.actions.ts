@@ -21,3 +21,9 @@ export class CreateRestaurant {
     public readonly data: any
   ) {}
 }
+export class AddRestaurantStaff {
+  static readonly type = `${AddRestaurantStaff.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}

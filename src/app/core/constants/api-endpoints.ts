@@ -20,3 +20,4 @@ export const MARK_NOTIFICATION_URL = `${API_BASE_URL}/notifications/mark-as-read
 export const VALIDATION_RULES_URL = `${API_BASE_URL}/field-validation-rules/validation-rules`;
 export const DATE_TIME_URL = `${API_BASE_URL}/date-time`;
 export const RESTAURANTS_URL = `${API_BASE_URL}/restaurants`;
+export const STOCKS_URL = `${API_BASE_URL}/stocks`;

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RESTAURANTS_URL, USERS_URL } from 'src/app/core/constants/api-endpoints';
+import { RESTAURANTS_URL } from 'src/app/core/constants/api-endpoints';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 @Injectable({
@@ -30,5 +30,9 @@ export class RestaurantService {
 
   getRestaurant(id: string): Observable<any> {
     return this.http.get<any>(`${RESTAURANTS_URL}/${id}`);
+  }
+
+  addRestaurantStaff(staff: any): Observable<any> {
+    return this.http.post<any>(`${RESTAURANTS_URL}/staff`, staff, this.httpOptions);
   }
 }
