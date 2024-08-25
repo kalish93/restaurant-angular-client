@@ -1,11 +1,22 @@
+@use '@angular/material' as mat;
+@use '../../../../assets/Theme/theme' as theme;
+
+.restaurant-container{
+  background-color: mat.get-color-from-palette(theme.$my-theme-primary, 100);
+}
+
+
 .restaurant-list-container {
   padding: 20px;
-  min-height: 100vh;
 }
 
 table {
   width: 100%;
   box-shadow: none;
+}
+
+.no-bg{
+  background-color: transparent;
 }
 
 .mat-paginator {

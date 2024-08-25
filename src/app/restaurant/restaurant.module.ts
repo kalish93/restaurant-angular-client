@@ -13,6 +13,9 @@ import { StockListComponent } from './components/stock/stock-list/stock-list.com
 import { StockState } from './store/stock/stock.state';
 import { AddStockModalComponent } from './components/stock/add-stock-modal/add-stock-modal.component';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
+import { MenuFormComponent } from './components/menu-form/menu-form.component';
+import { CategoryState } from './store/category/category.state';
+import { MenuState } from './store/menu/menu.state';
 
 @NgModule({
   declarations: [
@@ -22,12 +25,13 @@ import { MenuListComponent } from './components/menu-list/menu-list.component';
    AddRestaurantStaffComponent,
    StockListComponent,
    AddStockModalComponent,
-   MenuListComponent
+   MenuListComponent,
+   MenuFormComponent
   ],
   imports: [
     SharedModule,
     UsersRoutingModule,
-    NgxsModule.forFeature([RestaurantState, StockState]),
+    NgxsModule.forFeature([RestaurantState, StockState, CategoryState, MenuState]),
     FormsModule,
   ],
 })
