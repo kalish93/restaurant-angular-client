@@ -4,14 +4,24 @@
   align-items: center; /* Vertically center items */
   position: fixed;
   top: 0;
-  left: 240px; /* Account for the sidebar width */
-  right: 0;
   z-index: 1000;
-  background-color: rgb(218 236 214);
+  background-color: rgb(218, 236, 214);
   height: 75px; /* Define the height of the toolbar */
   padding: 0 16px; /* Add some padding */
 }
-.right-menu{
+
+.toolbar-menu.full-width {
+  left: 0;
+  right: 0;
+  width: 100%; /* Make the toolbar span the full width */
+}
+
+.toolbar-menu.offset {
+  left: 240px; /* Offset by the sidebar width */
+  right: 0;
+}
+
+.right-menu {
   display: flex;
   flex-direction: row; /* Align items horizontally */
   align-items: center; /* Vertically align items */
@@ -32,9 +42,9 @@
 }
 
 .mat-drawer-container {
-  margin-top: 64px; /* Ensure content starts below the fixed toolbar */
+  margin-top: 75px; /* Ensure content starts below the fixed toolbar */
 }
 
-.account-icon{
+.account-icon {
   color: black;
 }

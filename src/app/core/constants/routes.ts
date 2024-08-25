@@ -21,3 +21,4 @@ export const EMPLOYEES_LIST = `employees-list`;
 export const RESTAURANT_LIST = `restaurants`;
 export const STOCK_LIST = `stock`;
 export const MENU_LIST = `menu`;
+export const TABLE_LIST = `tables`;

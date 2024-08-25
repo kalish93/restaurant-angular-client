@@ -1,6 +1,9 @@
-<mat-toolbar color="primary" class="toolbar-menu">
+<mat-toolbar
+  [ngClass]="{'toolbar-menu': true, 'full-width': !isAuthenticated, 'offset': isAuthenticated}"
+  color="primary"
+>
   <div class="progress-status">
-    <app-progress-status />
+    <app-progress-status></app-progress-status>
   </div>
   <div class="right-menu">
     <app-notification-button
@@ -16,24 +19,22 @@
         mat-menu-item
         [routerLink]="loginRoute.link"
         [routerLinkActive]="['is-active']"
-        >Login</a
-      >
-      <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()"
-        >Logout</a
-      >
+      >Login</a>
+      <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()">
+        Logout
+      </a>
       <a
         *ngIf="isAuthenticated$ | async"
         mat-menu-item
         [routerLink]="changePasswordRoute.link"
         [routerLinkActive]="['is-active']"
-        >Change Password</a
-      >
+      >Change Password</a>
     </mat-menu>
   </div>
 </mat-toolbar>
 <mat-drawer-container>
   <mat-drawer #drawer position="end" class="notification-drawer">
-    <app-notification-menu />
+    <app-notification-menu></app-notification-menu>
   </mat-drawer>
   <mat-drawer-content>
     <router-outlet></router-outlet>

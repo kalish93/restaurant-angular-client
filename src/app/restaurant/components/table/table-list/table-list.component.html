@@ -1,0 +1,21 @@
+<div class="container">
+  <button (click)="openAddTableDialog()" class="order-btn" mat-flat-button>Add Table</button>
+  <div class="menu-section">
+    <h2>Our Tables</h2>
+    <div class="menu-grid">
+      <div class="menu-item" *ngFor="let table of tables">
+        <img [src]="table.qrCodeImage" alt='QR Code'>
+        <div class="menu-info">
+         <div class="no-and-status">
+          <h3>Table number: {{ table.number }}</h3>
+          <mat-chip>{{table.status}}</mat-chip>
+         </div>
+          <div class="order-btn-container">
+            <button (click)="downloadQRCode(table.id, table.number)" class="order-btn" mat-flat-button>Download Qr Code</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

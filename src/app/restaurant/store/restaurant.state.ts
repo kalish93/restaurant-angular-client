@@ -15,12 +15,13 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateRestaurant, GetRestaurant, GetRestaurants } from './restaurant.actions';
+import { AddRestaurantStaff, CreateRestaurant, CreateTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTables } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface RestaurantStateModel {
   restaurants: PaginatedList<any>;
   selectedRestaurant: any;
+  tables: any[]
 }
 
 const RESTAURANT_STATE_TOKEN = new StateToken<RestaurantStateModel>(
@@ -34,7 +35,8 @@ const defaults = {
     totalPages: 0,
     totalCount: 0,
   },
-  selectedRestaurant: null
+  selectedRestaurant: null,
+  tables: []
 };
 
 @State<RestaurantStateModel>({
@@ -143,4 +145,70 @@ addRestaurantStaff(
       })
   );
 }
+
+@Action(GetTables)
+getTables(
+  { setState }: StateContext<RestaurantStateModel>,
+  {  }: GetTables
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.getTables().pipe(
+    tap((result) => {
+      setState(
+        patch({
+          tables: result,
+        })
+      );
+      this.store.dispatch(new SetProgressOff());
+    })
+  );
+}
+
+@Action(DowloadQrCode)
+dowloadQr(
+  { setState }: StateContext<RestaurantStateModel>,
+  {tableId, tableNumber}: DowloadQrCode
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.downloadQRCode(tableId).pipe(
+    tap(blob => {
+      if (blob) {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `table-${tableNumber}-qrcode.png`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }
+      this.store.dispatch(new SetProgressOff());
+    })
+  );
+}
+
+@Action(CreateTable)
+createTable(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data }: CreateTable
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.createTable(data).pipe(
+    tap((result) => {
+      const state = getState();
+
+      setState(
+        patch({
+          tables: [...state.tables, result]
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+      this.store.dispatch(new GetTables())
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Table Added successfully!',
+        successStyle,);
+    })
+  );
+}
+
 }
