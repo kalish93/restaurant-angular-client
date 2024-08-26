@@ -49,7 +49,7 @@ export class MenuState {
       );
     }
 
-    @Action(CreateMenu)
+  @Action(CreateMenu)
   createMenu(
     { setState, patchState}: StateContext<MenuStateModel>,
     {data}: CreateMenu
@@ -63,6 +63,6 @@ export class MenuState {
             })
           }));
         })
-      );
+      ).subscribe();
     }
 }

@@ -6,5 +6,6 @@ export interface Menu {
   price : number,
   ingredients: string,
   category : Category,
+  image: string
 }
 
