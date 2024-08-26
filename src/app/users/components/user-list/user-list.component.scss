@@ -1,5 +1,4 @@
-@use '@angular/material' as mat;
-@use '../../../../../src/assets/Theme/theme' as theme;
 .container{
-  background-color: mat.get-color-from-palette(theme.$my-theme-primary, 900);
+  background-color: rgb(218 236 214);
+  height: 100vh;
 }

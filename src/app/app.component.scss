@@ -1,5 +1,0 @@
-@use '@angular/material' as mat;
-@use '../assets/Theme/theme' as theme;
-body{
-    background-color: mat.get-color-from-palette(theme.$my-theme-primary, 100);
-}

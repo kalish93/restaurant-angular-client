@@ -1,15 +1,15 @@
-<div class="restaurant-container restaurant-list-container">
+<div class="restaurant-list-container">
   <div class="header">
     <h1>All Restaurants</h1>
-    <button (click)="openAddRestaurantDialog()" color="primary" mat-flat-button>
+    <button (click)="openAddRestaurantDialog()" class="add-btn" mat-flat-button>
       <mat-icon>add</mat-icon>
       <span>Add Restaurant</span>
     </button>
   </div>
-  <mat-paginator class="no-bg" [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize"
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize"
   showFirstLastButtons (page)="pageChanged($event)">
 </mat-paginator>
-  <table mat-table [dataSource]="restaurants" class="no-bg mat-elevation-z8" matSort>
+  <table mat-table [dataSource]="restaurants" class="mat-elevation-z8" matSort>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
