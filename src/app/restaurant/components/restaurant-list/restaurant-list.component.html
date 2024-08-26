@@ -1,11 +1,12 @@
 <div class="restaurant-list-container">
   <div class="header">
-    <h1>All Restaurants</h1>
+    <h1>Restaurants</h1>
     <button (click)="openAddRestaurantDialog()" class="add-btn" mat-flat-button>
       <mat-icon>add</mat-icon>
       <span>Add Restaurant</span>
     </button>
   </div>
+ <div class="table-and-paginator">
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize"
   showFirstLastButtons (page)="pageChanged($event)">
 </mat-paginator>
@@ -38,4 +39,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="navigateToDetail(row.id)"></tr>
 
   </table>
+ </div>
 </div>

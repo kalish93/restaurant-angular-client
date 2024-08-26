@@ -1,12 +1,13 @@
 <div class="stock-list-container">
   <div class="header">
-    <h1>All Stocks</h1>
+    <h1>Stocks</h1>
     <button (click)="openAddStockDialog()" class="add-btn" mat-flat-button>
       <mat-icon>add</mat-icon>
       <span>Add Stock</span>
     </button>
   </div>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize"
+  <div class="table-and-paginator">
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize"
   showFirstLastButtons (page)="pageChanged($event)">
 </mat-paginator>
   <table mat-table [dataSource]="stocks" class="mat-elevation-z8" matSort>
@@ -42,4 +43,6 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table>
-</div>
+
+  </div>
+  </div>

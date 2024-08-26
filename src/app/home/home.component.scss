@@ -26,6 +26,7 @@
   flex-direction: row; /* Align items horizontally */
   align-items: center; /* Vertically align items */
   gap: 16px; /* Add space between items */
+  margin-left: calc(100vw - 420px);
 }
 
 .progress-status {
@@ -47,4 +48,8 @@
 
 .account-icon {
   color: black;
+}
+
+.unauthenticated-full-width{
+  margin-left: calc(100vw - 150px);
 }

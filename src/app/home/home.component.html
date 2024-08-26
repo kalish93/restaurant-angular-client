@@ -5,7 +5,9 @@
   <div class="progress-status">
     <app-progress-status></app-progress-status>
   </div>
-  <div class="right-menu">
+  <div class="right-menu"
+  [ngClass]="{'toolbar-menu': true, 'unauthenticated-full-width': !isAuthenticated}"
+  >
     <app-notification-button
       *ngIf="(isAuthenticated$ | async)"
       (openNotificationMenu)="drawer.open()"

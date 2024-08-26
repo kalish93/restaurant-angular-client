@@ -64,6 +64,20 @@
   color: #7f7e7e;
 }
 
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.add-btn{
+  // background-color: rgb(60 80 224);
+  background-color: rgb(99, 150, 111);
+  color: white;
+  padding: 1.3rem;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .menu-grid {
@@ -91,7 +105,7 @@
 }
 
 .order-btn{
-  background-color: #333;
+  background-color: rgb(51 58 72);
   color: white;
 }
 

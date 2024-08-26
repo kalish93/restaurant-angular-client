@@ -30,7 +30,7 @@ export class HomeComponent {
     },
     {
       link: STOCK_LIST,
-      label: 'Drink Stock',
+      label: 'Stock',
       icon: 'local_bar',
     },
     {
