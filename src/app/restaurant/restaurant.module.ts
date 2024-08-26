@@ -16,6 +16,9 @@ import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { MenuFormComponent } from './components/menu-form/menu-form.component';
 import { CategoryState } from './store/category/category.state';
 import { MenuState } from './store/menu/menu.state';
+import { TableListComponent } from './components/table/table-list/table-list.component';
+import { TableFormComponent } from './components/table/table-form/table-form.component';
+import { MenuListForUsersComponent } from './components/menu/menu-list-for-users/menu-list-for-users.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { MenuState } from './store/menu/menu.state';
    StockListComponent,
    AddStockModalComponent,
    MenuListComponent,
-   MenuFormComponent
+   MenuFormComponent,
+   TableListComponent,
+   TableFormComponent,
+   MenuListForUsersComponent
   ],
   imports: [
     SharedModule,

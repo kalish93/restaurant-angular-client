@@ -8,6 +8,7 @@ import {
   RESTAURANT_LIST,
   STOCK_LIST,
   MENU_LIST,
+  TABLE_LIST,
 } from 'src/app/core/constants/routes';
 
 @Component({
@@ -21,6 +22,11 @@ export class HomeComponent {
       link: RESTAURANT_LIST,
       label: 'Restaurants',
       icon: 'restaurant',
+    },
+    {
+      link: TABLE_LIST,
+      label: 'Tables',
+      icon: 'table_chart',
     },
     {
       link: STOCK_LIST,

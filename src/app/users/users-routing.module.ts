@@ -14,6 +14,7 @@ import {
   RESTAURANT_LIST,
   STOCK_LIST,
   MENU_LIST,
+  TABLE_LIST,
 } from '../core/constants/routes';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
@@ -24,6 +25,7 @@ import { RestaurantListComponent } from '../restaurant/components/restaurant-lis
 import { RestaurantDetailComponent } from '../restaurant/components/restaurant-detail/restaurant-detail.component';
 import { StockListComponent } from '../restaurant/components/stock/stock-list/stock-list.component';
 import { MenuListComponent } from '../restaurant/components/menu-list/menu-list.component';
+import { TableListComponent } from '../restaurant/components/table/table-list/table-list.component';
 
 const routes: Routes = [
   {
@@ -43,6 +45,9 @@ const routes: Routes = [
       },
      { path: MENU_LIST,
       component: MenuListComponent
+      },
+     { path: TABLE_LIST,
+      component: TableListComponent
       },
       {
         path: USERS_LIST,

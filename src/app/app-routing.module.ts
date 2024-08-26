@@ -7,11 +7,13 @@ import {
   USERS_ROUTE,
 } from './core/constants/routes';
 import { HomeComponent } from './home/home.component';
+import { MenuListForUsersComponent } from './restaurant/components/menu/menu-list-for-users/menu-list-for-users.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: LOGIN_ROUTE, pathMatch: 'full' },
   { path: LOGIN_ROUTE, component: LoginComponent },
+  { path: 'menu/:restaurantId/:tableId', component: MenuListForUsersComponent },
 
   {
     path: USERS_ROUTE,

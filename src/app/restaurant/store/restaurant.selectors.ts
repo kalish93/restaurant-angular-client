@@ -13,4 +13,9 @@ export class RestaurantSelector {
   static selectedRestaurant(stateModel: RestaurantStateModel) {
     return stateModel.selectedRestaurant;
   }
+
+  @Selector([RestaurantState])
+  static tables(stateModel: RestaurantStateModel) {
+    return stateModel.tables;
+  }
 }

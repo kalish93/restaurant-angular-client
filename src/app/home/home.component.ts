@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
   };
 
   isAuthenticated$: Observable<boolean> = this.state.select('isAuthenticated');
-
+  isAuthenticated: any;
   constructor(
     private authFacade: AuthFacade,
     private router: Router,
@@ -72,7 +72,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAuthenticated$.subscribe((isAuthenticated) => {
-          !isAuthenticated && this.router.navigate(['/']);
+          // !isAuthenticated && this.router.navigate(['/']);
+          this.isAuthenticated = isAuthenticated
     });
     // this.isAuthenticated$
     //   .pipe(first())
@@ -90,6 +91,7 @@ export class HomeComponent implements OnInit {
 
   logout() {
     this.authFacade.dispatchLogout();
+    this.router.navigate([LOGIN_ROUTE]);
   }
 
   manageAccounts() {}

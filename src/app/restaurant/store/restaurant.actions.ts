@@ -27,3 +27,22 @@ export class AddRestaurantStaff {
     public readonly data: any
   ) {}
 }
+
+export class GetTables {
+  static readonly type = `${GetTables.name}`;
+  constructor() {}
+}
+
+export class CreateTable {
+  static readonly type = `${CreateTable.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}
+export class DowloadQrCode {
+  static readonly type = `${DowloadQrCode.name}`;
+  constructor(
+    public readonly tableId: any,
+    public readonly tableNumber: any
+  ) {}
+}
