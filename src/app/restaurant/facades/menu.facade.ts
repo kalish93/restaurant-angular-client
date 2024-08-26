@@ -16,8 +16,8 @@ export class MenuFacade {
 
   constructor(private store: Store) {}
 
-  dispatchGetMenus(pageNumber: any, pageSize: any) {
-    this.store.dispatch(new GetMenus(pageNumber, pageSize));
+  dispatchGetMenus() {
+    this.store.dispatch(new GetMenus());
   }
 
   dispatchCreateMenu(data: FormData) {

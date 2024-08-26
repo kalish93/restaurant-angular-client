@@ -1,6 +1,6 @@
 export class GetMenus {
   static readonly type = `${GetMenus.name}`;
-  constructor(public pageNumber: any, public pageSize: any) {}
+  constructor() {}
 }
 
 export class CreateMenu {

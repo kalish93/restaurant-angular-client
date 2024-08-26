@@ -33,6 +33,7 @@ menus$ = this.state.select('menus');
     this.state.connect('menus', this.menuFacade.menus$);
   }
   ngOnInit(): void {
+    this.menuFacade.dispatchGetMenus();
     this.menus$.subscribe(item=>this.menus = item);
   }
   

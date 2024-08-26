@@ -27,12 +27,7 @@ export class MenuService {
     return this.http.post<any>(`${MENU_URL}`, data);
   }
 
-  getMenus(
-    pageNumber: any,
-    pageSize: any
-  ): Observable<PaginatedList<any>> {
-    return this.http.get<PaginatedList<any>>(
-      `${MENU_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`
-    );
+  getMenus() {
+    return this.http.get<Menu[]>( MENU_URL);
   }
 }

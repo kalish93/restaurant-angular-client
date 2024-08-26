@@ -11,7 +11,7 @@ import { insertItem, patch, updateItem } from '@ngxs/store/operators';
 import { MenuService } from '../../services/menu.service';
 
 export interface MenuStateModel {
-  menus: PaginatedList<Menu> | undefined;
+  menus: Menu[]
 }
 
 const MENU_STATE_TOKEN = new StateToken<MenuStateModel>(
@@ -19,7 +19,7 @@ const MENU_STATE_TOKEN = new StateToken<MenuStateModel>(
 );
 
 const defaults: MenuStateModel = {
-  menus:undefined
+  menus:[]
 };
 
 @State<MenuStateModel>({
@@ -37,10 +37,10 @@ export class MenuState {
   @Action(GetMenus)
   getMenus(
     { setState }: StateContext<MenuStateModel>,
-    {pageNumber,pageSize}: GetMenus
+    {}: GetMenus
   ) {
     
-      this.menuService.getMenus(pageNumber, pageSize).pipe(
+      this.menuService.getMenus().pipe(
         tap((result) => {
             setState({
               menus:result
@@ -58,9 +58,7 @@ export class MenuState {
         tap((result) => {
           setState(
             patch({
-            menus: patch({
-              items:insertItem(result)
-            })
+            menus:insertItem(result)  
           }));
         })
       ).subscribe();
