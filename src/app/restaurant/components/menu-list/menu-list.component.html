@@ -1,19 +1,54 @@
 <div class="container">
   <div class="menu-section">
-    <h2>Discover Our Menus</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id at mauris dis tincidunt ipsum faucibus ipsum.</p>
+    <div class="menu-title">
+      <h2>Discover Our Menus</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id at mauris dis tincidunt ipsum faucibus ipsum.</p>
+    </div>
+    <button (click)="openMenuModal()" mat-flat-button extended color="primary">
+      <mat-icon>add</mat-icon>
+      Add menu item
+    </button>
+    </div>
     <div class="menu-grid">
-      <div class="menu-item" *ngFor="let item of menuItems">
-        <img [src]="item.imageUrl" alt="{{ item.name }}">
-        <div class="menu-info">
-          <h3>{{ item.name }} <span class="price">${{ item.price }}</span></h3>
-          <p>{{ item.description }}</p>
-          <div class="order-btn-container">
-            <button class="order-btn" mat-flat-button>Order Now</button>
-          </div>
-        </div>
-
-      </div>
+      <mat-card class="card-container mat-elevation-z16" >
+        <img mat-card-image src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?w=400" alt="Photo of a menu item">
+        <mat-card-header class="card-title">
+          
+            <mat-card-title>Italian Motzerini</mat-card-title>
+            <mat-card-subtitle>Classic Italian pasta with creamy sauce and pancetta</mat-card-subtitle>
+         
+          <h2 class="price">{{ 12.99 | currency }}</h2>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+            bred for hunting.
+          </p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-flat-button color="primary">Order</button>
+        </mat-card-actions>
+      </mat-card>
+      <mat-card class="card-container mat-elevation-z12" >
+        <img mat-card-image src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?w=900" alt="Photo of a Shiba Inu">
+        <mat-card-header class="card-title">
+          
+            <mat-card-title>Italian Motzerini</mat-card-title>
+            <mat-card-subtitle>Classic Italian pasta with creamy sauce and pancetta</mat-card-subtitle>
+         
+          <h2>{{ 12.99 | currency }}</h2>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+            bred for hunting.
+          </p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-flat-button color="primary">Order</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </div>
-</div>

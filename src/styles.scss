@@ -1,13 +1,36 @@
-// import material icons
+@use '@angular/material' as mat;
+@use '../src/assets/Theme/theme' as theme;
 @import "material-icons/iconfont/material-icons.css";
 
-// slick-grid theme
-@import "@slickgrid-universal/common/dist/styles/sass/slickgrid-theme-material.scss";
+
+
+@include mat.core();
+
+$my-app-light-primary: mat.define-palette(theme.$my-theme-primary, 900);
+$my-app-light-secondary: mat.define-palette(theme.$my-theme-secondary, 900);
+
+$my-app-light-accent: mat.define-palette(theme.$my-theme-primary , A200, A100, A400);
+
+$my-app-light-warn: mat.define-palette(theme.$my-theme-secondary, A100, A200, A400, A700);
+
+$my-app-light-theme: mat.define-light-theme(
+  $my-app-light-primary,
+  $my-app-light-accent,
+  $my-app-light-warn
+);
+
+$my-app-light-success: mat.define-palette(theme.$my-theme-primary, 600, 700, 800, 900);
+$my-app-light-info: mat.define-palette(mat.$blue-palette);
+
+@include mat.all-component-themes($my-app-light-theme);
+im
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  
 }
+
 
 .mat-elevation-z0 .mat-expansion-panel-body {
   padding: 0 0 0 16px;
@@ -15,12 +38,6 @@ body {
 
 .mat-expansion-panel-header.mat-expanded {
   height: 48px;
-}
+} 
 
-.timepicker-overlay {
-  z-index: 10000000 !important;
-}
 
-.timepicker-backdrop-overlay {
-  z-index: 10000000 !important;
-}
