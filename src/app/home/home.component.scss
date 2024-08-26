@@ -1,12 +1,31 @@
-@use '@angular/material' as mat;
-@use '../../assets/Theme/theme' as theme;
-
-.outlet-container{
-  background-color: mat.get-color-from-palette(theme.$my-theme-primary, 50);
+.toolbar-menu {
+  display: flex; /* Change from grid to flex for better control */
+  justify-content: space-between; /* Space out the content */
+  align-items: center; /* Vertically center items */
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background-color: rgb(218, 236, 214);
+  height: 75px; /* Define the height of the toolbar */
+  padding: 0 16px; /* Add some padding */
 }
 
-.example-spacer {
-  flex: 1 1 auto;
+.toolbar-menu.full-width {
+  left: 0;
+  right: 0;
+  width: 100%; /* Make the toolbar span the full width */
+}
+
+.toolbar-menu.offset {
+  left: 240px; /* Offset by the sidebar width */
+  right: 0;
+}
+
+.right-menu {
+  display: flex;
+  flex-direction: row; /* Align items horizontally */
+  align-items: center; /* Vertically align items */
+  gap: 16px; /* Add space between items */
 }
 
 .progress-status {
@@ -29,7 +48,3 @@
 .account-icon {
   color: black;
 }
-.toolbar-menu{
-  background-color: transparent;
-}
-
