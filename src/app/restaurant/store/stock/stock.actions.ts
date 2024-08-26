@@ -12,3 +12,18 @@ export class CreateStock {
     public readonly data: any
   ) {}
 }
+
+export class UpdateStock {
+  static readonly type = `${UpdateStock.name}`;
+  constructor(
+    public readonly id: any,
+    public readonly data: any
+  ) {}
+}
+
+export class DeleteStock {
+  static readonly type = `${DeleteStock.name}`;
+  constructor(
+    public readonly id: any
+  ) {}
+}

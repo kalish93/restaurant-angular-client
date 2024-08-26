@@ -46,3 +46,30 @@ export class DowloadQrCode {
     public readonly tableNumber: any
   ) {}
 }
+
+export class UpdateRestaurant {
+  static readonly type = `${UpdateRestaurant.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}
+
+export class DeleteRestaurant {
+  static readonly type = `${DeleteRestaurant.name}`;
+  constructor(
+    public readonly id: any
+  ) {}
+}
+export class UpdateTable {
+  static readonly type = `${UpdateTable.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}
+
+export class DeleteTable {
+  static readonly type = `${DeleteTable.name}`;
+  constructor(
+    public readonly id: any
+  ) {}
+}

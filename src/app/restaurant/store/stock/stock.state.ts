@@ -16,11 +16,11 @@ import {
 } from 'src/app/core/store/progress-status.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 import { StockService } from '../../services/stock.service';
-import { CreateStock, GetStocks } from './stock.actions';
+import { CreateStock, DeleteStock, GetStocks, UpdateStock } from './stock.actions';
 
 export interface StockStateModel {
   stocks: PaginatedList<any>;
-  // selectedRestaurant: any;
+  // selectedStock: any;
 }
 
 const STOCK_STATE_TOKEN = new StateToken<StockStateModel>(
@@ -34,7 +34,7 @@ const defaults = {
     totalPages: 0,
     totalCount: 0,
   },
-  // selectedRestaurant: null
+  // selectedStock: null
 };
 
 @State<StockStateModel>({
@@ -97,4 +97,73 @@ createStock(
   );
 }
 
+@Action(UpdateStock)
+updateStock(
+  { setState, getState }: StateContext<StockStateModel>,
+  { id, data }: UpdateStock
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.stockService.updateStock(id,data).pipe(
+    tap((updatedStock) => {
+      const state = getState();
+
+      const updatedItems = state.stocks.items.map((item) =>
+        item.id === id ? updatedStock : item
+      );
+
+      setState(
+        patch({
+          stocks: {
+            ...state.stocks,
+            items: updatedItems, // Update the specific Stock in the list
+          },
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Stock updated successfully!',
+        successStyle,
+      );
+    })
+  );
 }
+
+@Action(DeleteStock)
+deleteStock(
+  { setState, getState }: StateContext<StockStateModel>,
+  { id }: DeleteStock
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.stockService.deleteStock(id).pipe(
+    tap(() => {
+      const state = getState();
+
+      const filteredItems = state.stocks.items.filter(
+        (item) => item.id !== id
+      );
+
+      setState(
+        patch({
+          stocks: {
+            ...state.stocks,
+            items: filteredItems, // Remove the Stock from the list
+            totalCount: state.stocks.totalCount - 1, // Update the total count
+          },
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Stock deleted successfully!',
+        successStyle,
+      );
+    })
+  );
+}
+
+}
+

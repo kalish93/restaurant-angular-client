@@ -20,16 +20,30 @@ export class TableFormComponent {
     this.addTableForm = this.fb.group({
       number: ['', [Validators.required]]
     });
+
+    if(data.table){
+      this.addTableForm.get('number')?.setValue(data.table.number);
+    }
   }
 
   onSubmit(): void {
     if (this.addTableForm.valid) {
+
+      if(this.data.table){
+        const updatedTable = {
+          id: this.data.table.id,
+          number: this.addTableForm.value.number,
+        }
+        this.restaurantFacade.dispatchUpdateTable(updatedTable);
+
+      }else{
       const newTable = {
         number: this.addTableForm.value.number,
       };
 
       this.restaurantFacade.dispatchCreateTable(newTable);
-      this.dialogRef.close(newTable);
+    }
+      this.dialogRef.close();
     }
   }
 
