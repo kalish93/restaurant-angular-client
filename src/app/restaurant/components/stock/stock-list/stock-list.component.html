@@ -1,15 +1,16 @@
 <div class="stock-list-container">
   <div class="header">
-    <h1>All Stocks</h1>
-    <button (click)="openAddStockDialog()" color="primary" mat-flat-button>
+    <h1>Stocks</h1>
+    <button (click)="openAddStockDialog()" class="add-btn" mat-flat-button>
       <mat-icon>add</mat-icon>
       <span>Add Stock</span>
     </button>
   </div>
-  <mat-paginator class = "no-bg" [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize"
+  <div class="table-and-paginator">
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize"
   showFirstLastButtons (page)="pageChanged($event)">
 </mat-paginator>
-  <table  mat-table [dataSource]="stocks" class=" no-bg mat-elevation-z8" matSort>
+  <table mat-table [dataSource]="stocks" class="  mat-elevation-z8" matSort>
 
     <ng-container matColumnDef="image">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
@@ -42,4 +43,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table>
+  </div>
 </div>

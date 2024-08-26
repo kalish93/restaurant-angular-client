@@ -1,9 +1,3 @@
-@use '@angular/material' as mat;
-@use '../../../../../src/assets/Theme/theme' as theme;
-
-.login-container{
-  background-color: mat.get-color-from-palette(theme.$my-theme-primary, 100);
-}
 
 .login-form {
   margin: 5rem auto;
@@ -18,4 +12,11 @@
 }
 .forget {
   margin-left: 5px;
+}
+
+
+.add-btn{
+  // background-color: rgb(60 80 224);
+  background-color: rgb(99, 150, 111);
+  color: white;
 }
