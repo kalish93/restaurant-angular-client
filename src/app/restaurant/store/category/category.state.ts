@@ -35,19 +35,14 @@ export class CategoryState {
     { setState }: StateContext<CategoryStateModel>,
     {}: GetCategories
   ) {
-    console.log("the state");
-    try{
+
       this.categoryService.getCategories().pipe(
         tap((result) => {
             setState({
               categories:result
             })
         })
-      );
+      ).subscribe();
     }
-    catch(error){
-      console.error(error);
-    }
-  }
 
 }

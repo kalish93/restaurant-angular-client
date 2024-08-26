@@ -43,9 +43,16 @@
     <textarea matInput placeholder="Add ingredients here."></textarea>
   </mat-form-field>
     </form>
+    <div class="file-upload">
+      <mat-label>Image</mat-label>
+      <input type="file" (change)="onFileChange($event)" required>
+      <mat-error *ngIf="!imageFile">
+        Image is required
+      </mat-error>
+    </div>
   
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button >No Thanks</button>
-  <button mat-flat-button (click)="submitForm()" color="primary" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()" >Cancel</button>
+  <button mat-flat-button (click)="submitForm()" color="primary" cdkFocusInitial>Add</button>
 </mat-dialog-actions>

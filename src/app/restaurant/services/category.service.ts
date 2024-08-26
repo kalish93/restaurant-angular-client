@@ -8,14 +8,15 @@ import { Category } from '../models/category.model';
 })
 export class CategoryService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
+  // httpOptions = {
+  //   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  // };
 
   constructor(private http: HttpClient) { }
 
   getCategories(){
     console.log("inside service", CATEGORY_URL);
+    console.log(this.http)
     return this.http.get<any>(CATEGORY_URL);
   }
 }
