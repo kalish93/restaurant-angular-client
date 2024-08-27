@@ -4,7 +4,7 @@ export interface Menu {
   id : string,
   name : string,
   price : number,
-  ingredients: string,
+  ingredient: string,
   category : Category,
   image: string
 }

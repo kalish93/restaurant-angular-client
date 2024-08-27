@@ -5,6 +5,7 @@ import { RxState } from '@rx-angular/state';
 import { MenuFacade } from '../../facades/menu.facade';
 import { Menu } from '../../models/menu.model';
 import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 
 
 interface MenuState{
@@ -49,5 +50,23 @@ menus$ = this.state.select('menus');
     this.dialog.open(MenuFormComponent,{
       width: "60%"
     })
+  }
+  deleteMenuItem(item:Menu){
+   const dialogRef = this.dialog.open(ConfirmDialogComponent,{
+      data:{
+        message: "Are you sure? "
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'confirm') {
+        this.menuFacade.dispatchDeleteMenu(item.id);
+      } 
+    this.dialog.closeAll();
+    });
+  }
+  editMenuItem(item:Menu){
+    this.dialog.open(MenuFormComponent,{
+      data: item
+    });
   }
 }

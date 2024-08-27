@@ -11,10 +11,7 @@ import { Menu } from '../models/menu.model';
 export class MenuService {
 
 
-  // httpOptions = {
-  //   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  // };
-
+  
   constructor(private http: HttpClient) {}
 
   createMenu(data: FormData): Observable<Menu> {
@@ -27,7 +24,21 @@ export class MenuService {
     return this.http.post<any>(`${MENU_URL}`, data);
   }
 
+  updateMenu(menuId: string, data: FormData): Observable<Menu> {
+    const entries = (data as any).entries();
+
+    for (let [key, value] of entries) {
+      console.log(`${key}:`, value);
+}
+
+    return this.http.put<any>(`${MENU_URL}/${menuId}`, data);
+  }
+
+  deleteMenu(id: string): Observable<Menu> {
+    return this.http.delete<any>(`${MENU_URL}/${id}`);
+  }
+
   getMenus() {
-    return this.http.get<Menu[]>( MENU_URL);
+    return this.http.get<any>( MENU_URL);
   }
 }

@@ -18,11 +18,12 @@
         </mat-card-header>
         <mat-card-content>
           <p>
-           {{item.ingredients}}
+           {{item.ingredient}}
           </p>
         </mat-card-content>
         <mat-card-actions align="end">
-          <button mat-flat-button (click)="order(item)" color="primary">Order</button>
+          <button mat-flat-button (click)="editMenuItem(item)" class="add-btn">Edit</button>
+          <button mat-flat-button (click)="deleteMenuItem(item)" color="warn">Delete</button>
         </mat-card-actions>
       </mat-card>
     </div>

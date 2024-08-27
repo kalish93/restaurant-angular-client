@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from '../../models/category.model';
 import { CategoryFacade } from '../../facades/category.facade';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MenuFacade } from '../../facades/menu.facade';
+import { Menu } from '../../models/menu.model';
 
 
 interface MenuFormState{
@@ -36,6 +37,7 @@ export class MenuFormComponent implements OnInit {
   categories$: Observable<Category[]> = this.state.select('categories');
 
     constructor(private fb: FormBuilder, 
+      @Inject(MAT_DIALOG_DATA) public data: Menu,
       private categoryFacade: CategoryFacade,
       private menuFacade:MenuFacade,
     public dialogRef: MatDialogRef<MenuFormComponent>,
@@ -47,20 +49,26 @@ export class MenuFormComponent implements OnInit {
       category: [
         '',
         [
-          // Validators.required,
+          Validators.required,
         ],
       ],
       name: [
         '',
         [Validators.required],
       ],
-      ingredients: [
+      ingredient: [
         '',
         [],
       ],
       price: ['', [Validators.required, Validators.min(0)]],
       quantity:['']
     });
+    console.log(data);
+    if(data){
+      this.addMenuForm.patchValue({
+        ...data
+      });
+    }
   }
 
 ngOnInit(): void {
@@ -71,7 +79,6 @@ ngOnInit(): void {
 onMenuTypeChange(event:MatSelectChange){
   this.menuType = event.value;
 }
-
 onFileChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
@@ -87,13 +94,17 @@ submitForm(){
   if (this.addMenuForm.valid && this.imageFile) {
     const formData = new FormData();
     formData.append('name', this.addMenuForm.get('name')?.value);
-    formData.append('ingredients', this.addMenuForm.get('ingredients')?.value);
-    formData.append('category', this.addMenuForm.get('category')?.value);
+    formData.append('ingredient', this.addMenuForm.get('ingredient')?.value);
+    formData.append('categoryId', this.addMenuForm.get('category')?.value);
     formData.append('price', this.addMenuForm.get('price')?.value);
     formData.append('quantity', this.addMenuForm.get('quantity')?.value);
     formData.append('image', this.imageFile);
-
-    this.menuFacade.dispatchCreateMenu(formData);
+    if(this.data){
+      this.menuFacade.dispatchUpdateMenu(this.data.id, formData);
+    }
+    else{
+      this.menuFacade.dispatchCreateMenu(formData);
+    }
 
     this.dialogRef.close(formData);
   }

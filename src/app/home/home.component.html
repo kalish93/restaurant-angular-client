@@ -1,40 +1,44 @@
-<div class="progress-status">
-  <app-progress-status />
-</div>
-<mat-toolbar class="toolbar-menu">
-  <span class="example-spacer"></span>
-  <app-notification-button
-  *ngIf="(isAuthenticated$ | async)"
-  (openNotificationMenu)="drawer.open()"
-></app-notification-button>
-<button class="account-icon" mat-icon-button [matMenuTriggerFor]="accountMenu">
-  <mat-icon>{{ accountManagement.icon }}</mat-icon>
-</button>
+<mat-toolbar
+  [ngClass]="{'toolbar-menu': true, 'full-width': !isAuthenticated, 'offset': isAuthenticated}"
+  color="primary"
+>
+  <div class="progress-status">
+    <app-progress-status></app-progress-status>
+  </div>
+  <div class="right-menu"
+  [ngClass]="{'toolbar-menu': true, 'unauthenticated-full-width': !isAuthenticated}"
+  >
+    <app-notification-button
+      *ngIf="(isAuthenticated$ | async)"
+      (openNotificationMenu)="drawer.open()"
+    ></app-notification-button>
+    <button class="account-icon" mat-icon-button [matMenuTriggerFor]="accountMenu">
+      <mat-icon>{{ accountManagement.icon }}</mat-icon>
+    </button>
+    <mat-menu #accountMenu="matMenu">
+      <a
+        *ngIf="!(isAuthenticated$ | async)"
+        mat-menu-item
+        [routerLink]="loginRoute.link"
+        [routerLinkActive]="['is-active']"
+      >Login</a>
+      <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()">
+        Logout
+      </a>
+      <a
+        *ngIf="isAuthenticated$ | async"
+        mat-menu-item
+        [routerLink]="changePasswordRoute.link"
+        [routerLinkActive]="['is-active']"
+      >Change Password</a>
+    </mat-menu>
+  </div>
 </mat-toolbar>
-<mat-menu #accountMenu="matMenu">
-  <a
-    *ngIf="!(isAuthenticated$ | async)"
-    mat-menu-item
-    [routerLink]="loginRoute.link"
-    [routerLinkActive]="['is-active']"
-    >Login</a
-  >
-  <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()"
-    >Logout</a
-  >
-  <a
-    *ngIf="isAuthenticated$ | async"
-    mat-menu-item
-    [routerLink]="changePasswordRoute.link"
-    [routerLinkActive]="['is-active']"
-    >Change Password</a
-  >
-</mat-menu>
 <mat-drawer-container>
   <mat-drawer #drawer position="end" class="notification-drawer">
     <app-notification-menu></app-notification-menu>
   </mat-drawer>
-  <mat-drawer-content class="outlet-container">
+  <mat-drawer-content>
     <router-outlet></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>

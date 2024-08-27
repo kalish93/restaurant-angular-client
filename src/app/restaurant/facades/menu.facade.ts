@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { StockSelector } from '../store/stock/stock.selectors';
-import { CreateStock, GetStocks } from '../store/stock/stock.actions';
-import { GetMenus, CreateMenu } from '../store/menu/menu.actions';
+import { GetMenus, CreateMenu, DeleteMenu, UpdateMenu } from '../store/menu/menu.actions';
 import { MenuSelector } from '../store/menu/menu.selectors';
 
 
@@ -22,5 +20,11 @@ export class MenuFacade {
 
   dispatchCreateMenu(data: FormData) {
     this.store.dispatch(new CreateMenu(data));
+  }
+  dispatchDeleteMenu(id: string){
+    this.store.dispatch(new DeleteMenu(id));
+  }
+  dispatchUpdateMenu(menuId:string, data:FormData){
+    this.store.dispatch(new UpdateMenu(menuId,data));
   }
 }

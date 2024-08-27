@@ -6,8 +6,8 @@ import { Category } from '../../models/category.model';
 import { CategoryService } from '../../services/category.service';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 import { Menu } from '../../models/menu.model';
-import { CreateMenu, GetMenus } from './menu.actions';
-import { insertItem, patch, updateItem } from '@ngxs/store/operators';
+import { CreateMenu, DeleteMenu, GetMenus, UpdateMenu } from './menu.actions';
+import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { MenuService } from '../../services/menu.service';
 
 export interface MenuStateModel {
@@ -43,10 +43,10 @@ export class MenuState {
       this.menuService.getMenus().pipe(
         tap((result) => {
             setState({
-              menus:result
+              menus:result.menuItems
             })
         })
-      );
+      ).subscribe();
     }
 
   @Action(CreateMenu)
@@ -63,4 +63,35 @@ export class MenuState {
         })
       ).subscribe();
     }
+
+    @Action(UpdateMenu)
+  updateMenu(
+    { setState, patchState}: StateContext<MenuStateModel>,
+    {menuId, data}: UpdateMenu
+  ) {
+      this.menuService.updateMenu(menuId, data).pipe(
+        tap((result) => {
+          setState(
+            patch({
+            menus:updateItem(item=>item.id === result.id, result )  
+          }));
+        })
+      ).subscribe();
+    }
+
+    @Action(DeleteMenu)
+    deleteMenu(
+      { setState, patchState}: StateContext<MenuStateModel>,
+      {id}: DeleteMenu
+    ) {
+      
+        this.menuService.deleteMenu(id).pipe(
+          tap((result) => {
+            setState(
+              patch({
+              menus:removeItem(item=>item.id === id)
+            }));
+          })
+        ).subscribe();
+      }
 }
