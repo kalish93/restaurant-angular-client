@@ -17,21 +17,20 @@ export class StockService {
   constructor(private http: HttpClient) {}
 
   createStock(data: FormData): Observable<any> {
-    const entries = (data as any).entries();
-
-    for (let [key, value] of entries) {
-      console.log(`${key}:`, value);
-}
-
+    
     return this.http.post<any>(`${STOCKS_URL}`, data);
   }
 
   getStocks(
-    pageNumber: number,
-    pageSize: number
+    pageNumber?: number,
+    pageSize?: number
   ): Observable<PaginatedList<any>> {
+    let url = STOCKS_URL;
+    if(pageNumber && pageSize){
+      url += `?pageNumber=${pageNumber}&pageSize=${pageSize}`
+    }
     return this.http.get<PaginatedList<any>>(
-      `${STOCKS_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`
+      url
     );
   }
 

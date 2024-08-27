@@ -30,7 +30,7 @@ export class MobileNavigationComponent {
       icon: 'menu_book',
     },
     {
-      link: USERS_LIST,
+      link: `home/${USERS_LIST}`,
       label: 'Users',
       icon: 'person',
     },

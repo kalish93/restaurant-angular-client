@@ -15,8 +15,6 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   getCategories(){
-    console.log("inside service", CATEGORY_URL);
-    console.log(this.http)
     return this.http.get<any>(CATEGORY_URL);
   }
 }

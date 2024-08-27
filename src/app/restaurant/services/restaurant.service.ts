@@ -9,12 +9,15 @@ import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 })
 export class RestaurantService {
 
+
+
+  constructor(private http: HttpClient) {}
+  getRestaurant(id: string): Observable<any> {
+    return this.http.get<any>(`${RESTAURANTS_URL}/${id}`);
+  }
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
-
-  constructor(private http: HttpClient) {}
-
   createRestaurant(restaurant: any): Observable<any> {
     return this.http.post<any>(`${RESTAURANTS_URL}`, restaurant, this.httpOptions);
   }
@@ -28,9 +31,7 @@ export class RestaurantService {
     );
   }
 
-  getRestaurant(id: string): Observable<any> {
-    return this.http.get<any>(`${RESTAURANTS_URL}/${id}`);
-  }
+
 
   addRestaurantStaff(staff: any): Observable<any> {
     return this.http.post<any>(`${RESTAURANTS_URL}/staff`, staff, this.httpOptions);

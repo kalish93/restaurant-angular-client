@@ -17,6 +17,10 @@ import { TableListComponent } from './components/table/table-list/table-list.com
 import { TableFormComponent } from './components/table/table-form/table-form.component';
 import { MenuListForUsersComponent } from './components/menu/menu-list-for-users/menu-list-for-users.component';
 import { RestaurantHomeComponent } from './components/home/restaurant-home.component';
+import { MenuFormComponent } from './components/menu-form/menu-form.component';
+import { CategoryState } from './store/category/category.state';
+import { MenuState } from './store/menu/menu.state';
+import { StockSelectionComponent } from './components/menu/stock-selection/stock-selection.component';
 
 @NgModule({
   declarations: [
@@ -31,11 +35,13 @@ import { RestaurantHomeComponent } from './components/home/restaurant-home.compo
    TableFormComponent,
    MenuListForUsersComponent,
    RestaurantHomeComponent,
+   MenuFormComponent,
+   StockSelectionComponent
   ],
   imports: [
     SharedModule,
     UsersRoutingModule,
-    NgxsModule.forFeature([RestaurantState, StockState]),
+    NgxsModule.forFeature([RestaurantState, StockState, CategoryState, MenuState]),
     FormsModule,
   ],
 })

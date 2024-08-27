@@ -5,7 +5,7 @@ export class MenuSelector {
   static slices = createPropertySelectors<MenuStateModel>(MenuState);
 
   @Selector([MenuState])
-  static categories(stateModel: MenuStateModel) {
+  static menus(stateModel: MenuStateModel) {
     return stateModel.menus;
   }
 

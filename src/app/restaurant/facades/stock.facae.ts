@@ -14,7 +14,7 @@ export class StockFacade {
 
   constructor(private store: Store) {}
 
-  dispatchGetStocks(pageNumber: any, pageSize: any) {
+  dispatchGetStocks(pageNumber?: any, pageSize?: any) {
     this.store.dispatch(new GetStocks(pageNumber, pageSize));
   }
 

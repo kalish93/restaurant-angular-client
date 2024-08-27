@@ -19,14 +19,12 @@ export class AddStockModalComponent {
     private stockFacade: StockFacade
   ) {
     this.stockForm = this.fb.group({
-      drinkName: ['', Validators.required],
-      price: [null, Validators.required],
+      name: ['', Validators.required],
       quantity: [null, Validators.required],
     });
 
     if(data.stock){
-      this.stockForm.get('drinkName')?.setValue(data.stock.drinkName);
-      this.stockForm.get('price')?.setValue(data.stock.price);
+      this.stockForm.get('name')?.setValue(data.stock.name);
       this.stockForm.get('quantity')?.setValue(data.stock.quantity);
       this.imageFile = data.stock.image;
     }
@@ -46,8 +44,7 @@ export class AddStockModalComponent {
   onSubmit(): void {
     if (this.stockForm.valid && this.imageFile) {
       const formData = new FormData();
-      formData.append('drinkName', this.stockForm.get('drinkName')?.value);
-      formData.append('price', this.stockForm.get('price')?.value);
+      formData.append('name', this.stockForm.get('name')?.value);
       formData.append('quantity', this.stockForm.get('quantity')?.value);
       formData.append('image', this.imageFile);
 

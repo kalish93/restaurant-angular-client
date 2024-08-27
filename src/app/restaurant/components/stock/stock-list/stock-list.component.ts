@@ -23,7 +23,7 @@ const initStockListComponentState: Partial<StockListComponentState> = {
 })
 export class StockListComponent implements OnInit{
 
-  displayedColumns: string[] = ['image', 'name', 'price', 'quantity', 'actions'];
+  displayedColumns: string[] = ['image', 'name', 'quantity', 'actions'];
 
   $stocks = this.state.select('stocks');
   stocks : any[] = [];

@@ -1,4 +1,5 @@
 <div class="container">
+  <h1 class="restaurant-name" *ngIf="restaurant?.name">Welcome to {{restaurant?.name}}</h1>
   <div class="menu-section">
     <div class="menu-title">
       <h2>Discover Our Menus</h2>
@@ -6,20 +7,25 @@
     </div>
   </div>
 
+  <div *ngFor="let category of categorizedMenus | keyvalue">
+    <h3 class="category-title">{{ category.key }}</h3>
   <div class="menu-grid">
-    <mat-card class="card-container mat-elevation-z16" *ngFor="let item of menuItems">
-      <img mat-card-image [src]="item.imageUrl" alt="Photo of a menu item">
+    <mat-card class="card-container mat-elevation-z16" *ngFor="let item of category.value">
+      <img mat-card-image [src]="getImageUrl(item.image)" alt="Photo of a menu item">
       <mat-card-header class="card-title">
         <mat-card-title>{{ item.name }}</mat-card-title>
-        <mat-card-subtitle>{{ item.description }}</mat-card-subtitle>
-        <h2 class="price">{{ item.price | currency }}</h2>
-      </mat-card-header>
+        <span><h3 class="price">{{ item.price | currency }}</h3></span>
+    </mat-card-header>
+
       <mat-card-content>
-        <!-- Add any additional content here -->
+        <mat-card-subtitle>{{ item.ingredients }}</mat-card-subtitle>
+
       </mat-card-content>
       <mat-card-actions align="end">
-        <button class="order-btn" mat-flat-button color="primary">Order</button>
+        <button class="order-btn" mat-flat-button color="primary" (click)="order(item)">Order</button>
       </mat-card-actions>
     </mat-card>
   </div>
+
+</div>
 </div>

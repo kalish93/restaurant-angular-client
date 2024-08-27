@@ -16,3 +16,7 @@ export class UpdateMenu {
   static readonly type = `${UpdateMenu.name}`;
   constructor(public menuId:string, public data: FormData) {}
 }
+export class GetMenuByRestaurant {
+  static readonly type = `${GetMenuByRestaurant.name}`;
+  constructor(public restaurantId:any) {}
+}

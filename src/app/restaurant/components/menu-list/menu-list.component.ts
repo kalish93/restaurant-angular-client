@@ -6,15 +6,15 @@ import { MenuFacade } from '../../facades/menu.facade';
 import { Menu } from '../../models/menu.model';
 import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
+import { StockSelectionComponent } from '../menu/stock-selection/stock-selection.component';
 
-
-interface MenuState{
-  menus: Menu[]
+interface MenuState {
+  menus: Menu[];
 }
 
-const initMenuState:MenuState = {
-  menus:[]
-}
+const initMenuState: MenuState = {
+  menus: []
+};
 
 @Component({
   selector: 'app-menu-list',
@@ -22,50 +22,73 @@ const initMenuState:MenuState = {
   styleUrl: './menu-list.component.scss'
 })
 export class MenuListComponent implements OnInit {
-
   menus: Menu[] = [];
+  menus$ = this.state.select('menus');
 
-menus$ = this.state.select('menus');
-  constructor(private dialog: MatDialog, 
+  constructor(
+    private dialog: MatDialog,
     private menuFacade: MenuFacade,
-    private state: RxState<MenuState>){
+    private state: RxState<MenuState>
+  ) {
     this.state.set(initMenuState);
     this.state.connect('menus', this.menuFacade.menus$);
   }
+
   ngOnInit(): void {
     this.menuFacade.dispatchGetMenus();
-    this.menus$.subscribe(item=>this.menus = item);
+    this.menus$.subscribe((item) => {
+      this.menus = item;
+    });
   }
-  
+
   getImageUrl(imagePath: string): string {
     return `${API_BASE_URL}/uploads/${imagePath}`;
   }
 
-  order(item: Menu): void {
-    // Handle the order logic
-    console.log(`Ordered: ${item.name}`);
-  }
-  openMenuModal(){
-    this.dialog.open(MenuFormComponent,{
-      width: "60%"
-    })
-  }
-  deleteMenuItem(item:Menu){
-   const dialogRef = this.dialog.open(ConfirmDialogComponent,{
-      data:{
-        message: "Are you sure? "
+  openMenuModal(): void {
+    const dialogRef = this.dialog.open(StockSelectionComponent, {
+      width: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.type === 'stock') {
+        this.openStockBasedMenuForm(result.stockItem);
+      } else if (result?.type === 'new') {
+        this.openNewMenuItemForm();
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'confirm') {
-        this.menuFacade.dispatchDeleteMenu(item.id);
-      } 
-    this.dialog.closeAll();
+  }
+
+  openStockBasedMenuForm(stockItem: any): void {
+    this.dialog.open(MenuFormComponent, {
+      width: '500px',
+      data: { stockItem }
     });
   }
-  editMenuItem(item:Menu){
-    this.dialog.open(MenuFormComponent,{
-      data: item
+
+  openNewMenuItemForm(): void {
+    this.dialog.open(MenuFormComponent, {
+      width: '500px'
+    });
+  }
+
+  deleteMenuItem(item: Menu): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Are you sure?'
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirm') {
+        this.menuFacade.dispatchDeleteMenu(item.id);
+      }
+      this.dialog.closeAll();
+    });
+  }
+
+  editMenuItem(editableItem: Menu): void {
+    this.dialog.open(MenuFormComponent, {
+      data: {editableItem}
     });
   }
 }

@@ -23,3 +23,4 @@ export const RESTAURANTS_URL = `${API_BASE_URL}/restaurants`;
 export const STOCKS_URL = `${API_BASE_URL}/stocks`;
 export const MENU_URL = `${API_BASE_URL}/menus`;
 export const TABLES_URL = `${API_BASE_URL}/tables`;
+export const CATEGORY_URL = `${API_BASE_URL}/categories`;

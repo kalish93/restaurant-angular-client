@@ -6,7 +6,7 @@
 }"
   color="primary"
 >
-<button class="burger-menu" mat-icon-button (click)="openMobileNavigation()"> <mat-icon>menu</mat-icon> </button>
+<button *ngIf="(isAuthenticated$ | async)" class="burger-menu" mat-icon-button (click)="openMobileNavigation()"> <mat-icon>menu</mat-icon> </button>
 
   <div class="progress-status">
     <app-progress-status></app-progress-status>

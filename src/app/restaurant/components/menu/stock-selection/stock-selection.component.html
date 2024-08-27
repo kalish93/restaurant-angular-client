@@ -1,0 +1,17 @@
+<div class="container">
+  <h2>Select how to create the menu item</h2>
+<div class="action-buttons">
+  <button mat-flat-button class="from-stock-btn" (click)="selectFromStock()" [disabled]="!selectedStockItem">Select from Stock</button>
+  <button mat-flat-button class="new-item-btn" (click)="createNewItem()">Create New Menu Item</button>
+</div>
+<ng-container *ngIf="stockItems">
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Select Stock Item</mat-label>
+    <mat-select [(value)]="selectedStockItem">
+      <mat-option *ngFor="let stock of stockItems" [value]="stock">
+        {{ stock.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>
+</div>
