@@ -1,7 +1,9 @@
 <div class="restaurant-detail-container" *ngIf="restaurant">
+ <div>
   <h1 class="name">{{restaurant.name}}</h1>
   <span> <mat-chip>{{restaurant.isActive? 'Active' : 'Inactive'}}</mat-chip></span>
 
+ </div>
   <div class="users-list-container">
     <div class="header">
       <h2>Restaurant Staff</h2>

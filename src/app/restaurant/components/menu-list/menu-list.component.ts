@@ -19,8 +19,7 @@ const initMenuState:MenuState = {
 @Component({
   selector: 'app-menu-list',
   templateUrl: './menu-list.component.html',
-  styleUrl: './menu-list.component.scss',
-  providers:[RxState]
+  styleUrl: './menu-list.component.scss'
 })
 export class MenuListComponent implements OnInit {
 

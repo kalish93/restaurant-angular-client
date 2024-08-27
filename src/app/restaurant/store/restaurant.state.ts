@@ -15,7 +15,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateRestaurant, CreateTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTables } from './restaurant.actions';
+import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTables, UpdateRestaurant, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface RestaurantStateModel {
@@ -207,6 +207,137 @@ createTable(
       this.operationStatus.displayStatus(
         'Table Added successfully!',
         successStyle,);
+    })
+  );
+}
+
+@Action(UpdateRestaurant)
+updateRestaurant(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data }: UpdateRestaurant
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.updateRestaurant(data).pipe(
+    tap((updatedRestaurant) => {
+      const state = getState();
+
+      const updatedItems = state.restaurants.items.map((item) =>
+        item.id === data.id ? updatedRestaurant : item
+      );
+
+      setState(
+        patch({
+          restaurants: {
+            ...state.restaurants,
+            items: updatedItems, // Update the specific restaurant in the list
+          },
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Restaurant updated successfully!',
+        successStyle,
+      );
+    })
+  );
+}
+
+@Action(DeleteRestaurant)
+deleteRestaurant(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { id }: DeleteRestaurant
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.deleteRestaurant(id).pipe(
+    tap(() => {
+      const state = getState();
+
+      const filteredItems = state.restaurants.items.filter(
+        (item) => item.id !== id
+      );
+
+      setState(
+        patch({
+          restaurants: {
+            ...state.restaurants,
+            items: filteredItems, // Remove the restaurant from the list
+            totalCount: state.restaurants.totalCount - 1, // Update the total count
+          },
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Restaurant deleted successfully!',
+        successStyle,
+      );
+    })
+  );
+}
+
+@Action(UpdateTable)
+updateTable(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data }: UpdateTable
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.updateTable(data).pipe(
+    tap((updatedTable) => {
+      const state = getState();
+
+      // Update the specific table in the list
+      const updatedTables = state.tables.map((table) =>
+        table.id === data.id ? updatedTable : table
+      );
+
+      setState(
+        patch({
+          tables: updatedTables,
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+      this.store.dispatch(new GetTables());
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Table updated successfully!',
+        successStyle,
+      );
+    })
+  );
+}
+
+@Action(DeleteTable)
+deleteTable(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { id }: DeleteTable
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.deleteTable(id).pipe(
+    tap(() => {
+      const state = getState();
+
+      // Filter out the deleted table
+      const filteredTables = state.tables.filter((table) => table.id !== id);
+
+      setState(
+        patch({
+          tables: filteredTables,
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+      this.store.dispatch(new GetTables());
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Table deleted successfully!',
+        successStyle,
+      );
     })
   );
 }

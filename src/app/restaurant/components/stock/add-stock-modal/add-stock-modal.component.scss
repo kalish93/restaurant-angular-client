@@ -21,6 +21,17 @@ mat-form-field {
   }
 
   mat-error {
-    color: #f44336;
+    color: red;
+    font-size: 13px;
   }
+}
+
+.cancel{
+  color: white;
+  background-color: black;
+}
+
+.confirm{
+  color: white;
+  background-color: green;
 }

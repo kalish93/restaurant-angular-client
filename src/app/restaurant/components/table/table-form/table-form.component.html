@@ -1,8 +1,9 @@
-<h2 mat-dialog-title>Add New Table</h2>
+<h2 mat-dialog-title *ngIf="!data.table" >Add New Table</h2>
+<h2 mat-dialog-title *ngIf="data.table" >Update Table</h2>
 
 <form [formGroup]="addTableForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
-    <mat-form-field appearance="fill" class="full-width">
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Table Number</mat-label>
       <input matInput formControlName="number" placeholder="Enter Table number">
       <mat-error *ngIf="addTableForm.get('number')?.hasError('required')">
@@ -12,9 +13,10 @@
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" type="submit" [disabled]="addTableForm.invalid">
-      Add
+    <button mat-button class="cancel" type="button" (click)="onCancel()"> <mat-icon>cancel</mat-icon> Cancel</button>
+    <button mat-raised-button class="confirm" color="primary" type="submit" [disabled]="addTableForm.invalid">
+      <mat-icon>save</mat-icon>
+      Submit
     </button>
   </mat-dialog-actions>
 </form>

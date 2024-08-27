@@ -6,6 +6,7 @@ import { RxState } from '@rx-angular/state';
 import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 import { StockFacade } from 'src/app/restaurant/facades/stock.facae';
 import { AddStockModalComponent } from '../add-stock-modal/add-stock-modal.component';
+import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 
 interface StockListComponentState {
   stocks: any;
@@ -22,7 +23,7 @@ const initStockListComponentState: Partial<StockListComponentState> = {
 })
 export class StockListComponent implements OnInit{
 
-  displayedColumns: string[] = ['image', 'name', 'price', 'quantity'];
+  displayedColumns: string[] = ['image', 'name', 'price', 'quantity', 'actions'];
 
   $stocks = this.state.select('stocks');
   stocks : any[] = [];
@@ -72,4 +73,34 @@ export class StockListComponent implements OnInit{
       }
     });
   }
+
+  openEditStockDialog(stock: any, event: Event): void {
+    event.stopPropagation(); // Prevent navigation to detail
+    const dialogRef = this.dialog.open(AddStockModalComponent, {
+      width: '400px',
+      data: { stock }  // Pass the restaurant data for editing
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+      }
+    });
+  }
+
+  deleteStock(stockId: string, event: Event): void {
+    event.stopPropagation(); // Prevent navigation to detail
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this stock?'
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'confirm') {
+        this.stockFacade.dispatchDeleteStock(stockId);
+      }
+    });
+  }
+
 }

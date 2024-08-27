@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RESTAURANTS_URL, STOCKS_URL } from 'src/app/core/constants/api-endpoints';
+import {  STOCKS_URL } from 'src/app/core/constants/api-endpoints';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 @Injectable({
@@ -33,5 +33,14 @@ export class StockService {
     return this.http.get<PaginatedList<any>>(
       `${STOCKS_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`
     );
+  }
+
+  updateStock(id: any, data: FormData): Observable<any> {
+
+    return this.http.put<any>(`${STOCKS_URL}/${id}`, data);
+  }
+
+  deleteStock(stockId: any): Observable<any> {
+    return this.http.delete<any>(`${STOCKS_URL}/${stockId}`);
   }
 }

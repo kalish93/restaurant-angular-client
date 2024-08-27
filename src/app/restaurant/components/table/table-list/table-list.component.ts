@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RxState } from '@rx-angular/state';
 import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 import { TableFormComponent } from '../table-form/table-form.component';
+import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 
 interface TableListComponentState {
   tables: any[];
@@ -52,5 +53,35 @@ export class TableListComponent implements OnInit{
 
   downloadQRCode(tableId: string, tableNumber: any): void {
     this.restaurantFacade.dispatchDowloadQrCode(tableId, tableNumber);
+  }
+
+
+  openEditRestaurantDialog(table: any, event: Event): void {
+    event.stopPropagation(); // Prevent navigation to detail
+    const dialogRef = this.dialog.open(TableFormComponent, {
+      width: '400px',
+      data: { table }  // Pass the restaurant data for editing
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+      }
+    });
+  }
+
+  deleteRestaurant(tableId: string, event: Event): void {
+    event.stopPropagation(); // Prevent navigation to detail
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this table?'
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'confirm') {
+        this.restaurantFacade.dispatchDeleteTable(tableId);
+      }
+    });
   }
 }

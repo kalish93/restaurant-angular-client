@@ -11,11 +11,23 @@
         <div class="menu-info">
          <div class="no-and-status">
           <h3>Table number: {{ table.number }}</h3>
-          <mat-chip>{{table.status}}</mat-chip>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
          </div>
-          <div class="order-btn-container">
-            <button (click)="downloadQRCode(table.id, table.number)" class="order-btn" mat-flat-button><mat-icon>download</mat-icon> Qr Code</button>
-          </div>
+         <mat-chip>{{table.status}}</mat-chip>
+
+          <mat-menu #menu>
+            <button mat-menu-item color="primary" (click)="openEditRestaurantDialog(table,  $event)">
+              <mat-icon>edit</mat-icon>
+              Update
+            </button>
+            <button mat-menu-item color="warn" (click)="deleteRestaurant(table.id,  $event)">
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+            <button (click)="downloadQRCode(table.id, table.number)" mat-menu-item><mat-icon>download</mat-icon>Qr Code</button>
+          </mat-menu>
         </div>
 
       </div>

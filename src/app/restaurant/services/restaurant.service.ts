@@ -54,4 +54,20 @@ export class RestaurantService {
     const downloadUrl = `${TABLES_URL}/${tableId}/download-qr`;
     return this.http.get<any>(downloadUrl, options);
   }
+
+  updateRestaurant(restaurant: any): Observable<any> {
+    return this.http.put<any>(`${RESTAURANTS_URL}/${restaurant.id}`, restaurant, this.httpOptions);
+  }
+
+  deleteRestaurant(restaurantId: any): Observable<any> {
+    return this.http.delete<any>(`${RESTAURANTS_URL}/${restaurantId}`, this.httpOptions);
+  }
+
+  updateTable(table: any): Observable<any> {
+    return this.http.put<any>(`${TABLES_URL}/${table.id}`, table, this.httpOptions);
+  }
+
+  deleteTable(tableId: any): Observable<any> {
+    return this.http.delete<any>(`${TABLES_URL}/${tableId}`, this.httpOptions);
+  }
 }

@@ -1,9 +1,17 @@
+@use '@angular/material' as mat;
+@use '../../../../assets/Theme/theme' as theme;
+
+.restaurant-container{
+  background-color: mat.get-color-from-palette(theme.$my-theme-primary, 100);
+}
+
 
 .restaurant-list-container {
   padding: 20px;
   min-height: 100vh;
   background-color: rgb(218 236 214);
 }
+
 
 // .restaurant-list-container {
 //   padding: 3rem;
@@ -21,7 +29,6 @@ table {
   background-color: white;
   border-radius: 1rem;
 }
-
 .mat-paginator {
   align-self: flex-end;
 }
@@ -40,8 +47,14 @@ table {
   padding: 1.3rem;
 }
 
+.add-btn{
+  background-color: rgb(99, 150, 111);
+  // background-color: rgb(28 36 52);
+  color: white;
+  padding: 1.3rem;
+}
 
-.active-status {
+.active-status{
   color: green;
 }
 

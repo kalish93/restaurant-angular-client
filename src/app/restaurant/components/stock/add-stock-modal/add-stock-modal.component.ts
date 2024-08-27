@@ -23,6 +23,13 @@ export class AddStockModalComponent {
       price: [null, Validators.required],
       quantity: [null, Validators.required],
     });
+
+    if(data.stock){
+      this.stockForm.get('drinkName')?.setValue(data.stock.drinkName);
+      this.stockForm.get('price')?.setValue(data.stock.price);
+      this.stockForm.get('quantity')?.setValue(data.stock.quantity);
+      this.imageFile = data.stock.image;
+    }
   }
 
   onNoClick(): void {
@@ -44,14 +51,12 @@ export class AddStockModalComponent {
       formData.append('quantity', this.stockForm.get('quantity')?.value);
       formData.append('image', this.imageFile);
 
-//       const entries = (formData as any).entries();
+      if(this.data.stock){
+        this.stockFacade.dispatchUpdateStock(this.data.stock.id, formData);
 
-//     for (let [key, value] of entries) {
-//       console.log(`${key}:`, value);
-// }
-
-      this.stockFacade.dispatchCreateStock(formData);
-
+      }else{
+        this.stockFacade.dispatchCreateStock(formData);
+      }
       this.dialogRef.close(formData);
     }
   }

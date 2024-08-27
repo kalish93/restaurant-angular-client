@@ -6,6 +6,7 @@ import { RestaurantFacade } from '../../facades/restaurant.facade';
 import { RestaurantFormComponent } from '../restaurant-form/restaurant-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 
 interface RestaurantListComponentState {
   restaurants: any;
@@ -25,7 +26,7 @@ export class RestaurantListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  displayedColumns: string[] = ['name', 'isActive', 'createdDate'];
+  displayedColumns: string[] = ['name', 'isActive', 'createdDate', 'actions'];
   restaurants: any[] = [];
   pageSize = 10;
   pageNumber = 1;
@@ -66,6 +67,35 @@ export class RestaurantListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+      }
+    });
+  }
+
+  openEditRestaurantDialog(restaurant: any, event: Event): void {
+    event.stopPropagation(); // Prevent navigation to detail
+    const dialogRef = this.dialog.open(RestaurantFormComponent, {
+      width: '400px',
+      data: { restaurant }  // Pass the restaurant data for editing
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+      }
+    });
+  }
+
+  deleteRestaurant(restaurantId: string, event: Event): void {
+    event.stopPropagation(); // Prevent navigation to detail
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this restaurant?'
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'confirm') {
+        this.restaurantFacade.dispatchDeleteRestaurant(restaurantId);
       }
     });
   }
