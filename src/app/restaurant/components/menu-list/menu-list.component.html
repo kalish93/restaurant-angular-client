@@ -1,19 +1,30 @@
 <div class="container">
   <div class="menu-section">
-    <h2>Discover Our Menus</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id at mauris dis tincidunt ipsum faucibus ipsum.</p>
-    <div class="menu-grid">
-      <div class="menu-item" *ngFor="let item of menuItems">
-        <img [src]="item.imageUrl" alt="{{ item.name }}">
-        <div class="menu-info">
-          <h3>{{ item.name }} <span class="price">${{ item.price }}</span></h3>
-          <p>{{ item.description }}</p>
-          <div class="order-btn-container">
-            <button class="order-btn" mat-flat-button>Add</button>
-          </div>
-        </div>
-
-      </div>
+    <div class="menu-title">
+      <h2>Discover Our Menus</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id at mauris dis tincidunt ipsum faucibus ipsum.</p>
+    </div>
+    <button (click)="openMenuModal()" mat-flat-button extended class="add-btn">
+      <mat-icon>add</mat-icon>
+      Add menu item
+    </button>
+    </div>
+    <div class="card-container">
+      <mat-card *ngFor="let item of menus" class=" mat-elevation-z12" >
+        <img mat-card-image src={{getImageUrl(item.image)}} alt="Photo of a Shiba Inu">
+        <mat-card-header class="card-title">
+            <mat-card-title>{{item.name}}</mat-card-title>
+          <h2>{{ item.price | currency }}</h2>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+           {{item.ingredient}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-flat-button (click)="editMenuItem(item)" class="add-btn">Edit</button>
+          <button mat-flat-button (click)="deleteMenuItem(item)" color="warn">Delete</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </div>
-</div>

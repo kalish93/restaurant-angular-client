@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>Add Menu Form</h2>
+<mat-dialog-content class="form-container">
+    <p>select menu Option</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Select menu Item</mat-label>
+        <mat-select (selectionChange)="onMenuTypeChange($event)">
+              <mat-option value="menuOnly" > Menu Item only</mat-option>
+              <mat-option value="menuWithStock" > Menu Item with stock</mat-option>
+          </mat-select>
+      </mat-form-field>
+    <form [formGroup]="addMenuForm" class="form-fields" >
+        <mat-form-field appearance="fill">
+            <mat-label>Item Name</mat-label>
+            <input id="name" formControlName="name" matInput />
+            <mat-error *ngIf="addMenuForm.get('name')?.hasError('required')"
+              >Item name is required</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Item category</mat-label>
+            <mat-select formControlName="category" name="food">
+                @for (item of categories; track item) {
+                  <mat-option [value]="item.id">{{item.name}}</mat-option>
+                }
+              </mat-select>
+            <mat-error *ngIf="addMenuForm.get('category')?.hasError('required')"
+              >Item category is required.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Item Price</mat-label>
+            <input id="price" formControlName="price" matInput />
+            <mat-error *ngIf="addMenuForm.get('price')?.hasError('required')"
+              >Item price is required</mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="menuType == 'menuWithStock'" appearance="fill">
+            <mat-label>Item quanitity</mat-label>
+            <input id="quantity" formControlName="quantity" matInput />
+            <mat-error *ngIf="addMenuForm.get('quantity')?.hasError('required')"
+              >Quantity is required</mat-error>
+          </mat-form-field>
+           <mat-form-field *ngIf="menuType == 'menuOnly'" appearance = "fill">
+    <mat-label>Ingredients</mat-label>
+    <textarea matInput placeholder="Add ingredients here."></textarea>
+  </mat-form-field>
+    </form>
+    <div class="file-upload">
+      <mat-label>Image</mat-label>
+      <input type="file" (change)="onFileChange($event)" required>
+      <mat-error *ngIf="!imageFile">
+        Image is required
+      </mat-error>
+    </div>
+  
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()" >Cancel</button>
+  <button mat-flat-button (click)="submitForm()" color="primary" cdkFocusInitial>Save</button>
+</mat-dialog-actions>
