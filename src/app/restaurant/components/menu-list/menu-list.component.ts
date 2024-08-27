@@ -88,6 +88,7 @@ export class MenuListComponent implements OnInit {
 
   editMenuItem(editableItem: Menu): void {
     this.dialog.open(MenuFormComponent, {
+      width: '500px',
       data: {editableItem}
     });
   }

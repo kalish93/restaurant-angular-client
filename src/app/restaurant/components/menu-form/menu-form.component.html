@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add Menu Form</h2>
+<h2 mat-dialog-title>Menu Item Form</h2>
 <form [formGroup]="addMenuForm" class="form-fields">
   <div mat-dialog-content class="form-container">
     <mat-form-field appearance="outline">
@@ -41,7 +41,7 @@
     <div class="file-upload">
       <mat-label>Image</mat-label>
       <input type="file" (change)="onFileChange($event)" required />
-      <mat-error *ngIf="!imageFile">Image is required</mat-error>
+      <mat-error class="error" *ngIf="!imageFile">Image is required</mat-error>
     </div>
 
     <!-- Radio button group for Kitchen or Bar item -->
@@ -51,7 +51,7 @@
         <mat-radio-button value="KITCHEN">Kitchen Item</mat-radio-button>
         <mat-radio-button value="BAR">Bar Item</mat-radio-button>
       </mat-radio-group>
-      <mat-error *ngIf="addMenuForm.get('itemType')?.hasError('required')">
+      <mat-error class="error" *ngIf="addMenuForm.get('itemType')?.hasError('required')">
         Please select the item type.
       </mat-error>
     </div>
@@ -59,13 +59,9 @@
 </form>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button
-    mat-flat-button
-    (click)="submitForm()"
-    color="primary"
-    cdkFocusInitial
-  >
-    Save
+  <button mat-button type="button" class="cancel" (click)="onNoClick()"> <mat-icon>cancel</mat-icon> Cancel</button>
+  <button mat-raised-button class="confirm" color="primary" (click)="submitForm()" [disabled]="addMenuForm.invalid">
+    Submit
+    <mat-icon>save</mat-icon>
   </button>
 </mat-dialog-actions>
