@@ -1,7 +1,9 @@
 <div class="restaurant-detail-container" *ngIf="restaurant">
  <div>
   <h1 class="name">{{restaurant.name}}</h1>
-  <span> <mat-chip>{{restaurant.isActive? 'Active' : 'Inactive'}}</mat-chip></span>
+  <span [ngClass]="restaurant.isActive ? 'active' : 'inactive'">
+    {{ restaurant.isActive ? 'Active' : 'Inactive' }}
+  </span>
 
  </div>
   <div class="users-list-container">
@@ -12,8 +14,8 @@
         <span>Add Staff</span>
       </button>
     </div>
-
-    <table mat-table [dataSource]="restaurant?.users!" class="mat-elevation-z8">
+    <div class="table-and-paginator">
+    <table mat-table [dataSource]="restaurant.users!" class="mat-elevation-z8">
       <!-- First Name Column -->
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef> First Name </th>
@@ -42,6 +44,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    </div>
   </div>
 
 </div>

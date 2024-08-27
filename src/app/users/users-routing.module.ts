@@ -33,23 +33,6 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: RESTAURANT_LIST,
-        component: RestaurantListComponent,
-      },
-      {
-        path: `${RESTAURANT_LIST}/:id`,
-        component: RestaurantDetailComponent,
-      },
-     { path: STOCK_LIST,
-      component: StockListComponent
-      },
-     { path: MENU_LIST,
-      component: MenuListComponent
-      },
-     { path: TABLE_LIST,
-      component: TableListComponent
-      },
-      {
         path: USERS_LIST,
         component: UserListComponent,
         data: { registrationType: RegistrationType.ADMIN },

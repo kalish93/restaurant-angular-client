@@ -1,12 +1,18 @@
 <mat-toolbar
-  [ngClass]="{'toolbar-menu': true, 'full-width': !isAuthenticated, 'offset': isAuthenticated}"
+[ngClass]="{
+  'toolbar-menu': true,
+  'full-width': !isAuthenticated || isOnSpecificPage,
+  'offset': isAuthenticated && !isOnSpecificPage
+}"
   color="primary"
 >
+<button class="burger-menu" mat-icon-button (click)="openMobileNavigation()"> <mat-icon>menu</mat-icon> </button>
+
   <div class="progress-status">
     <app-progress-status></app-progress-status>
   </div>
   <div class="right-menu"
-  [ngClass]="{'toolbar-menu': true, 'unauthenticated-full-width': !isAuthenticated}"
+  [ngClass]="{'unauthenticated-full-width': !isAuthenticated || isOnSpecificPage}"
   >
     <app-notification-button
       *ngIf="(isAuthenticated$ | async)"
@@ -34,6 +40,9 @@
     </mat-menu>
   </div>
 </mat-toolbar>
+
+<app-mobile-navigation #mobileNav (closeDrawer)="onDrawerClose()"></app-mobile-navigation>
+
 <mat-drawer-container>
   <mat-drawer #drawer position="end" class="notification-drawer">
     <app-notification-menu></app-notification-menu>
@@ -42,3 +51,4 @@
     <router-outlet></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>
+

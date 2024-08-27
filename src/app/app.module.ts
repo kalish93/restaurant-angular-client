@@ -19,9 +19,10 @@ import { ProgressStatusState } from './core/store/progress-status.state';
 import { ProgressStatusComponent } from './shared/shared-components/progress-status/progress-status.component';
 import { NotificationState } from './core/store/notification.state';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { MobileNavigationComponent } from './mobile-navigation/mobile-navigation.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, MobileNavigationComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

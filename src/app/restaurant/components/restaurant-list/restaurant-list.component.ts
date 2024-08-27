@@ -101,6 +101,6 @@ export class RestaurantListComponent implements OnInit {
   }
 
   navigateToDetail(restaurantId: string): void {
-    this.router.navigate(['/restaurants', restaurantId]);
+    this.router.navigate(['/home/restaurants', restaurantId]);
   }
 }

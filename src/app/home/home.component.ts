@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -25,6 +25,7 @@ import {
   RegistrationType,
   UserFormComponent,
 } from '../users/components/user-form/user-form.component';
+import { MobileNavigationComponent } from '../mobile-navigation/mobile-navigation.component';
 
 @Component({
   selector: 'app-home',
@@ -57,6 +58,7 @@ export class HomeComponent implements OnInit {
     label: 'Change Password',
     icon: '',
   };
+  isOnSpecificPage: boolean = false;
 
   isAuthenticated$: Observable<boolean> = this.state.select('isAuthenticated');
   isAuthenticated: any;
@@ -87,6 +89,23 @@ export class HomeComponent implements OnInit {
     //       this.router.navigate([STAFF_ROUTE]);
     //     }
     //   });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkUrl();
+      }
+    });
+
+    // Check the URL when the component initializes
+    this.checkUrl();
+  }
+
+  checkUrl(): void {
+    const currentUrl = this.router.url;
+
+    // Regular expression to match URLs like /menu/<menuId>/<itemId>
+    const pattern = /^\/menu\/[a-z0-9-]+\/[a-z0-9-]+$/i;
+    this.isOnSpecificPage = pattern.test(currentUrl);
   }
 
   logout() {
@@ -101,5 +120,19 @@ export class HomeComponent implements OnInit {
       data: { update: false, registrationType: RegistrationType.USER },
       disableClose: true,
     });
+  }
+
+  @ViewChild('mobileNav') mobileNav!: MobileNavigationComponent;
+
+  openMobileNavigation() {
+    if (this.mobileNav) {
+      this.mobileNav.open();
+    }
+  }
+
+  onDrawerClose() {
+    if (this.mobileNav) {
+      this.mobileNav.close();
+    }
   }
 }

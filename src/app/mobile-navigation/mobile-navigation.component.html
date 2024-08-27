@@ -1,0 +1,17 @@
+<div class="mobile-navigation" [ngClass]="{ 'open': isOpen, 'close': !isOpen }">
+  <button class="close-btn" (click)="close()">&#10005;</button>
+
+  <div class="drawer-content">
+    <h1>Digital Dine</h1>
+    <div *ngFor="let link of navLinks">
+      <a
+        class="menu-button"
+        mat-button
+        [routerLink]="link.link"
+        [routerLinkActive]="['is-active']"
+      >
+        <mat-icon>{{ link.icon }}</mat-icon>
+        <span>{{ link.label }}</span>
+      </a>
+  </div>
+</div>

@@ -14,6 +14,10 @@
   left: 0;
   right: 0;
   width: 100%; /* Make the toolbar span the full width */
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .toolbar-menu.offset {
@@ -51,5 +55,24 @@
 }
 
 .unauthenticated-full-width{
-  margin-left: calc(100vw - 150px);
+  margin-left: calc(100vw - 200px);
+}
+
+@media (min-width: 800px) {
+  .burger-menu{
+    display: none;
+  }
+
+}
+@media (max-width: 768px) {
+  .toolbar-menu.offset{
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .burger-menu{
+    color: black;
+  }
 }

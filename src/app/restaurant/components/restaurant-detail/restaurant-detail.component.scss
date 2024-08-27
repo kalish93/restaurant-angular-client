@@ -1,29 +1,138 @@
-.restaurant-detail-container{
+// .restaurant-detail-container{
+//   padding: 2rem;
+//   background-color: rgb(218 236 214);
+//   min-height: 100vh;
+// }
+
+// .name{
+//   text-transform: capitalize;
+// }
+
+
+// table {
+//   width: 100%;
+//   box-shadow: none;
+// }
+
+// .header{
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   align-items: center;
+// }
+
+// .add-btn{
+//   // background-color: rgb(60 80 224);
+//   background-color: rgb(99, 150, 111);
+//   color: white;
+//   padding: 1.3rem;
+// }
+
+// .table-and-paginator{
+//   padding: 2rem;
+//   background-color: white;
+//   border-radius: 1rem;
+// }
+
+/* Base styles */
+.restaurant-detail-container {
   padding: 2rem;
-  background-color: rgb(218 236 214);
+  background-color: rgb(218, 236, 214);
   min-height: 100vh;
 }
 
-.name{
+.name {
   text-transform: capitalize;
 }
-
 
 table {
   width: 100%;
   box-shadow: none;
 }
 
-.header{
+.header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.add-btn{
-  // background-color: rgb(60 80 224);
+.add-btn {
   background-color: rgb(99, 150, 111);
   color: white;
   padding: 1.3rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.table-and-paginator {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+}
+
+/* Status chip styles */
+.active {
+  background-color: green;
+  color: white;
+  padding: 0.2rem .7rem;
+  border-radius: 1rem;
+  font-size: small;
+}
+
+.inactive {
+  background-color: red;
+  color: white;
+  padding: 1rem;
+  padding: 0.2rem .7rem;
+  border-radius: 1rem;
+  font-size: small;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-btn {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+
+  .table-and-paginator {
+    padding: 1rem;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .add-btn {
+    font-size: 0.8rem;
+    padding: 0.8rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  .table-and-paginator {
+    padding: 0.5rem;
+  }
+
+  /* Allow horizontal scrolling for the table */
+  .table-and-paginator {
+    overflow-x: auto;
+  }
 }

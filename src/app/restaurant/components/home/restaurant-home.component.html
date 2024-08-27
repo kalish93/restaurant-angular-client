@@ -1,0 +1,22 @@
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="side" opened class="left-menu mat-elevation-z1">
+   <h1>Digital Dine</h1>
+    <div *ngFor="let link of navLinks">
+      <a
+        class="menu-button"
+        mat-button
+        [routerLink]="link.link"
+        [routerLinkActive]="['is-active']"
+      >
+        <mat-icon>{{ link.icon }}</mat-icon>
+        <span>{{ link.label }}</span>
+      </a>
+
+</div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z1">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,67 @@
+.mobile-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px; /* Width of the drawer */
+  background-color: white;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000; /* Ensure it is above other content */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+}
+
+.mobile-navigation.open {
+  transform: translateX(0); /* Show the drawer */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  z-index: 999; /* Below the drawer but above other content */
+}
+
+.drawer-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  // box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close{
+  display: none;
+}
+
+
+.is-active {
+  background-color: rgb(218 236 214);
+  transition: 100ms;
+}
+
+.menu-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  font-weight: 100;
+  padding: 1.5rem;
+}
+
+.h1{
+  font-weight: lighter;
+}

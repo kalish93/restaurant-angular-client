@@ -50,7 +50,7 @@ export class RestaurantDetailComponent implements OnInit{
 
   openAddStaffDialog(): void {
     const dialogRef = this.dialog.open(AddRestaurantStaffComponent, {
-      width: '40vw',
+      width: '400px',
       data: { restaurantId: this.restaurant?.id }
     });
 
