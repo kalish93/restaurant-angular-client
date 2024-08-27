@@ -1,8 +1,11 @@
+
+
 .restaurant-list-container {
   padding: 20px;
   min-height: 100vh;
   background-color: rgb(218 236 214);
 }
+
 
 // .restaurant-list-container {
 //   padding: 3rem;
@@ -29,6 +32,13 @@ table {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.add-btn{
+  background-color: rgb(99, 150, 111);
+  // background-color: rgb(28 36 52);
+  color: white;
+  padding: 1.3rem;
 }
 
 .add-btn{

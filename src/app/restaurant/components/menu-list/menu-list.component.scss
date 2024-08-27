@@ -52,13 +52,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.menu-section p {
+  font-size: 1em;
+  margin-bottom: 20px;
+  color: #848181;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
+
+.add-btn{
+  // background-color: rgb(60 80 224);
+  background-color: rgb(99, 150, 111);
+  color: white;
   font-size: 1.2em;
   color: #444;
   margin: 0;
 }
 
-.menu-info .price {
-  color: #ffcc00;
+.menu-grid{
+  display: flex;
+  gap:24px;
+  flex-wrap: wrap;
 }
 
 .menu-info p {
