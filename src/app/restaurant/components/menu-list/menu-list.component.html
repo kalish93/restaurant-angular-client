@@ -26,4 +26,8 @@
       </mat-card-actions>
     </mat-card>
   </div>
+
+  <div class="empty container" *ngIf="menus.length === 0">
+    You don't have any menu items yet.
+  </div>
 </div>

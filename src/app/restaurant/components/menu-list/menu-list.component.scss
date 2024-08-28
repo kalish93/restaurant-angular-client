@@ -15,8 +15,6 @@
 .add-btn {
   background-color: rgb(99, 150, 111);
   color: white;
-  padding: 1rem 2rem;
-  font-size: 1rem;
   display: flex;
   align-items: center;
   margin: 1rem 0;
@@ -81,4 +79,10 @@ mat-card-title{
   .menu-grid {
     grid-template-columns: repeat(3, 1fr); /* Three columns for larger screens */
   }
+}
+
+.empty{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
