@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { Role } from '../../models/role.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RestaurantFacade } from '../../facades/restaurant.facade';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RxState } from '@rx-angular/state';
-import { RoleFacade } from 'src/app/users/facade/role.facade';
-import { Role } from 'src/app/users/models/role.model';
+import { RoleFacade } from '../../facade/role.facade';
+import { UserFacade } from '../../facade/user.facade';
+
 interface AddRestaurantStaffComponentState {
   roles: Role[];
 }
@@ -12,25 +13,27 @@ interface AddRestaurantStaffComponentState {
 const initAddRestaurantStaffComponentState: Partial<AddRestaurantStaffComponentState> = {
   roles: [],
 };
+
 @Component({
-  selector: 'app-add-restaurant-staff',
-  templateUrl: './add-restaurant-staff.component.html',
-  styleUrls: ['./add-restaurant-staff.component.scss'],
-  providers:[RxState]
+  selector: 'app-add-admin-form',
+  templateUrl: './add-admin-form.component.html',
+  styleUrl: './add-admin-form.component.scss',
+  providers: [RxState]
 })
-export class AddRestaurantStaffComponent implements OnInit {
+export class AddAdminFormComponent {
   staffForm: FormGroup;
 
   $roles = this.state.select('roles');
   roles: Role[] = [];
+  adminRole: any;
 
   constructor(
-    public dialogRef: MatDialogRef<AddRestaurantStaffComponent>,
+    public dialogRef: MatDialogRef<AddAdminFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private restaurantFacade: RestaurantFacade,
     private state: RxState<AddRestaurantStaffComponentState>,
-    private roleFacade: RoleFacade
+    private roleFacade: RoleFacade,
+    private userFacade: UserFacade
   ) {
     this.state.set(initAddRestaurantStaffComponentState);
     this.state.connect('roles', this.roleFacade.roles$)
@@ -40,14 +43,13 @@ export class AddRestaurantStaffComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       passwordConfirmation: ['', Validators.required],
-      roleId: ['', Validators.required]
     }, { validators: this.passwordMatchValidator });
   }
 
   ngOnInit(): void {
     this.roleFacade.dispatchGetRoles();
     this.$roles.subscribe((data)=>{
-      this.roles = data.filter((role) => role.name !== 'Admin')
+      this.adminRole = data.find((role) => role.name === 'Admin')
     })
   }
 
@@ -63,11 +65,12 @@ export class AddRestaurantStaffComponent implements OnInit {
 
   onSubmit(): void {
     if (this.staffForm.valid) {
-      this.restaurantFacade.dispatchAddRestaurantStaff({
+      this.userFacade.dispatchRegisterUser({
         ...this.staffForm.value,
-        restaurantId: this.data.restaurantId
+        roleId: this.adminRole.id
       });
       this.dialogRef.close();
     }
   }
+
 }

@@ -40,9 +40,10 @@ import {
   SetProgressOff,
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
+import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface UserStateModel {
-  users: User[];
+  users: PaginatedList<User>;
   selectedUser: User | null;
   isForgetPasswordSuccessful: boolean;
   isResetPasswordSuccessful: boolean;
@@ -56,7 +57,12 @@ export interface UserStateModel {
 const USER_STATE_TOKEN = new StateToken<UserStateModel>('usersState');
 
 const defaults = {
-  users: [],
+  users: {
+    items: [],
+    pageNumber: 0,
+    totalPages: 0,
+    totalCount: 0,
+  },
   selectedUser: null,
   isForgetPasswordSuccessful: false,
   isResetPasswordSuccessful: false,
@@ -89,7 +95,7 @@ export class UserState {
       tap((users) => {
         setState(
           patch({
-            users: users.items,
+            users: users,
           })
         );
         this.store.dispatch(new SetProgressOff());
@@ -109,7 +115,7 @@ export class UserState {
         tap((users) => {
           setState(
             patch({
-              users: users.items,
+              users: users,
             })
           );
           this.store.dispatch(new SetProgressOff());
@@ -129,7 +135,7 @@ export class UserState {
         tap((users) => {
           setState(
             patch({
-              users: users.items,
+              users: users,
             })
           );
           this.store.dispatch(new SetProgressOff());
@@ -139,19 +145,25 @@ export class UserState {
 
   @Action(RegisterUser)
   registerUser(
-    { setState }: StateContext<UserStateModel>,
+    { setState, getState }: StateContext<UserStateModel>,
     { user }: RegisterUser
   ) {
     this.store.dispatch(new SetProgressOn());
     return this.usersService.registerUser(user).pipe(
       tap((u) => {
+        const state = getState();
+
         setState(
           patch({
-            users: insertItem<User>(u),
+            users: {
+              ...state.users,
+              items: [...state.users.items, u], // Insert the new restaurant
+              totalCount: state.users.totalCount + 1, // Update the total count
+            },
           })
         );
         this.operationStatus.displayStatus(
-          'User has been registered',
+          'User registered Successfully!',
           successStyle
         );
         this.store.dispatch(new SetProgressOff());
@@ -159,76 +171,76 @@ export class UserState {
     );
   }
 
-  @Action(SelectUser)
-  selectUser(
-    { patchState }: StateContext<UserStateModel>,
-    { user }: SelectUser
-  ) {
-    patchState({ selectedUser: user });
-  }
+  // @Action(SelectUser)
+  // selectUser(
+  //   { patchState }: StateContext<UserStateModel>,
+  //   { user }: SelectUser
+  // ) {
+  //   patchState({ selectedUser: user });
+  // }
 
-  @Action(UpdateUser)
-  updateUser(
-    { setState }: StateContext<UserStateModel>,
-    { id, user }: UpdateUser
-  ) {
-    this.store.dispatch(new SetProgressOn());
-    return this.usersService.updateUser(id, user).pipe(
-      tap((updatedUser) => {
-        setState(
-          patch({
-            users: updateItem<User>((u) => u?.id === id, { ...updatedUser }),
-          })
-        );
-        this.operationStatus.displayStatus(
-          'User has been updated',
-          successStyle
-        );
-        this.store.dispatch(new SetProgressOff());
-      })
-    );
-  }
+  // @Action(UpdateUser)
+  // updateUser(
+  //   { setState }: StateContext<UserStateModel>,
+  //   { id, user }: UpdateUser
+  // ) {
+  //   this.store.dispatch(new SetProgressOn());
+  //   return this.usersService.updateUser(id, user).pipe(
+  //     tap((updatedUser) => {
+  //       setState(
+  //         patch({
+  //           users: updateItem<User>((u) => u?.id === id, { ...updatedUser }),
+  //         })
+  //       );
+  //       this.operationStatus.displayStatus(
+  //         'User has been updated',
+  //         successStyle
+  //       );
+  //       this.store.dispatch(new SetProgressOff());
+  //     })
+  //   );
+  // }
 
-  @Action(UpdateUserRole)
-  updateUserRole(
-    { setState }: StateContext<UserStateModel>,
-    { id, roleId }: UpdateUserRole
-  ) {
-    this.store.dispatch(new SetProgressOn());
-    return this.usersService.updateUserRole(id, roleId).pipe(
-      tap((updatedUser) => {
-        setState(
-          patch({
-            users: removeItem<User>((u) => u?.id === id),
-          })
-        );
-        this.operationStatus.displayStatus(
-          'User role has been updated',
-          successStyle
-        );
-        this.store.dispatch(new SetProgressOff());
-      })
-    );
-  }
+  // @Action(UpdateUserRole)
+  // updateUserRole(
+  //   { setState }: StateContext<UserStateModel>,
+  //   { id, roleId }: UpdateUserRole
+  // ) {
+  //   this.store.dispatch(new SetProgressOn());
+  //   return this.usersService.updateUserRole(id, roleId).pipe(
+  //     tap((updatedUser) => {
+  //       setState(
+  //         patch({
+  //           users: removeItem<User>((u) => u?.id === id),
+  //         })
+  //       );
+  //       this.operationStatus.displayStatus(
+  //         'User role has been updated',
+  //         successStyle
+  //       );
+  //       this.store.dispatch(new SetProgressOff());
+  //     })
+  //   );
+  // }
 
-  @Action(DeleteUser)
-  deleteUser({ setState }: StateContext<UserStateModel>, { id }: DeleteUser) {
-    this.store.dispatch(new SetProgressOn());
-    return this.usersService.deleteUser(id).pipe(
-      tap((_) => {
-        setState(
-          patch({
-            users: removeItem<User>((u) => u?.id === id),
-          })
-        );
-        this.operationStatus.displayStatus(
-          'User has been deleted',
-          successStyle
-        );
-        this.store.dispatch(new SetProgressOff());
-      })
-    );
-  }
+  // @Action(DeleteUser)
+  // deleteUser({ setState }: StateContext<UserStateModel>, { id }: DeleteUser) {
+  //   this.store.dispatch(new SetProgressOn());
+  //   return this.usersService.deleteUser(id).pipe(
+  //     tap((_) => {
+  //       setState(
+  //         patch({
+  //           users: removeItem<User>((u) => u?.id === id),
+  //         })
+  //       );
+  //       this.operationStatus.displayStatus(
+  //         'User has been deleted',
+  //         successStyle
+  //       );
+  //       this.store.dispatch(new SetProgressOff());
+  //     })
+  //   );
+  // }
 
   @Action(ForgetPassword)
   forgotPassword(
@@ -279,48 +291,48 @@ export class UserState {
     );
   }
 
-  @Action(ResetResetPasswordStatus)
-  resetResetPasswordStatus({ setState }: StateContext<UserStateModel>) {
-    setState(
-      patch({
-        isResetPasswordSuccessful: false,
-      })
-    );
-  }
-  @Action(GetAdmins)
-  getAdmins(
-    { setState }: StateContext<UserStateModel>,
-    { pageNumber, pageSize }: GetAdmins
-  ) {
-    return this.usersService.getAdmins(pageNumber, pageSize).pipe(
-      tap((users) => {
-        setState(
-          patch({
-            users: users.items,
-          })
-        );
-      })
-    );
-  }
-  @Action(ToggleStatus)
-  toggleStatus(
-    { setState }: StateContext<UserStateModel>,
-    { id }: ToggleStatus
-  ) {
-    return this.usersService.toggleStatus(id).pipe(
-      tap((user) => {
-        setState(
-          patch({
-            users: updateItem<User>((u) => u?.id === id, { ...user }),
-          })
-        );
-        this.operationStatus.displayStatus(
-          'User status has been updated',
-          successStyle
-        );
-      })
-    );
-  }
+  // @Action(ResetResetPasswordStatus)
+  // resetResetPasswordStatus({ setState }: StateContext<UserStateModel>) {
+  //   setState(
+  //     patch({
+  //       isResetPasswordSuccessful: false,
+  //     })
+  //   );
+  // }
+  // @Action(GetAdmins)
+  // getAdmins(
+  //   { setState }: StateContext<UserStateModel>,
+  //   { pageNumber, pageSize }: GetAdmins
+  // ) {
+  //   return this.usersService.getAdmins(pageNumber, pageSize).pipe(
+  //     tap((users) => {
+  //       setState(
+  //         patch({
+  //           users: users.items,
+  //         })
+  //       );
+  //     })
+  //   );
+  // }
+  // @Action(ToggleStatus)
+  // toggleStatus(
+  //   { setState }: StateContext<UserStateModel>,
+  //   { id }: ToggleStatus
+  // ) {
+  //   return this.usersService.toggleStatus(id).pipe(
+  //     tap((user) => {
+  //       setState(
+  //         patch({
+  //           users: updateItem<User>((u) => u?.id === id, { ...user }),
+  //         })
+  //       );
+  //       this.operationStatus.displayStatus(
+  //         'User status has been updated',
+  //         successStyle
+  //       );
+  //     })
+  //   );
+  // }
 
   @Action(ChangePassword)
   changePassword(

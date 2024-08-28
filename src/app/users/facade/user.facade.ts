@@ -30,12 +30,13 @@ import {
 } from '../store/user.actions';
 import { UserSelector } from '../store/user.selector';
 import { ChangePasswordRequest } from '../models/change-password-request.model';
+import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserFacade {
-  users$: Observable<User[]> = this.store.select(UserSelector.slices.users);
+  users$: Observable<PaginatedList<User>> = this.store.select(UserSelector.slices.users);
   selectedUser$: Observable<User | null> = this.store.select(
     UserSelector.slices.selectedUser
   );

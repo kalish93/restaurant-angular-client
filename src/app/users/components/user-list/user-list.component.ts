@@ -20,9 +20,11 @@ import {
 } from '../user-form/user-form.component';
 import { RoleFacade } from '../../facade/role.facade';
 import { ChangeRoleComponent } from '../change-role/change-role.component';
+import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
+import { AddAdminFormComponent } from '../add-admin-form/add-admin-form.component';
 
 interface UserListComponentState {
-  users: User[];
+  users: any;
 }
 
 interface RoleListComponentState {
@@ -35,7 +37,7 @@ interface Role {
 }
 
 const initUserListComponentState: Partial<UserListComponentState> = {
-  users: [],
+  users: undefined,
 };
 
 const initRoleListComponentState: Partial<RoleListComponentState> = {
@@ -52,14 +54,16 @@ export class UserListComponent implements OnInit {
   columnDefinitions: Column[] = [];
   gridOptions!: GridOption;
   angularGrid!: AngularGridInstance;
-  dataset!: User[];
+  dataset: any[] = [];
+
   registrationType?: RegistrationType = RegistrationType.ADMIN;
 
-  users$: Observable<User[]> = this.state.select('users');
+  users$ = this.state.select('users');
   roles$: Observable<Role[]> = this.roleState.select('roles');
 
   roles: Role[] = [];
   selectedRoleId: string = '';
+  displayedColumns: string[] = ['name', 'email', 'restaurant', 'role'];
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
@@ -91,142 +95,17 @@ export class UserListComponent implements OnInit {
 
     this.roleFacade.dispatchGetRoles();
 
-    this.prepareGrid();
 
-    this.users$.subscribe((users) => (this.dataset = users));
+    this.users$.subscribe((users) => {
+      this.dataset = users?.items;
+      // this.pageNumber = users?.pageNumber;
+      this.paginator.length = users?.totalCount as any;
+
+    });
     this.roles$.subscribe((roles) => (this.roles = roles));
 
     this.route.data.subscribe((data) => {
       this.registrationType = data['registrationType'];
-    });
-  }
-
-  prepareGrid() {
-    this.columnDefinitions = [
-      {
-        id: 'edit',
-        field: 'id',
-        excludeFromHeaderMenu: true,
-        formatter: Formatters['editIcon'],
-        minWidth: 30,
-        maxWidth: 30,
-        onCellClick: (e: Event, args: OnEventArgs) => {
-          this.editUser(args.dataContext);
-        },
-      },
-      {
-        id: 'delete',
-        field: 'id',
-        excludeFromColumnPicker: true,
-        excludeFromGridMenu: true,
-        excludeFromHeaderMenu: true,
-        formatter: Formatters['deleteIcon'],
-        minWidth: 30,
-        maxWidth: 30,
-        onCellClick: (e: Event, args: OnEventArgs) => {
-          this.deleteUser(args.dataContext);
-        },
-      },
-      {
-        id: 'userName',
-        name: 'User Name',
-        field: 'userName',
-        sortable: true,
-      },
-      {
-        id: 'email',
-        name: 'Email',
-        field: 'email',
-        sortable: true,
-      },
-
-      {
-        id: 'phoneNumber',
-        name: 'Phone Number',
-        field: 'phoneNumber',
-        sortable: true,
-      },
-      {
-        id: 'role',
-        name: 'Role',
-        field: 'role',
-        sortable: true,
-      },
-      {
-        id: 'action',
-        name: 'Action',
-        field: 'action',
-        formatter: () =>
-          this.selectedRoleId
-            ? `<button>Invoke | Revoke</button>`
-            : `<button disabled>Invoke | Revoke</button>`,
-        sortable: true,
-        onCellClick: (e: Event, args: OnEventArgs) => {
-          this.changeRole(args.dataContext);
-        },
-      },
-    ];
-
-    this.gridOptions = {
-      enableAutoResize: true,
-      enableSorting: true,
-      enableGrouping: true,
-      gridHeight: 450,
-      gridWidth: '100%',
-      enableCellNavigation: true,
-      enableRowSelection: true,
-      editable: false,
-      multiSelect: false,
-      rowSelectionOptions: {
-        selectActiveRow: true,
-      },
-      enableGridMenu: false,
-      enableHeaderMenu: false,
-      enableContextMenu: false,
-      enableCellMenu: false,
-
-      // disable the default resizing option
-      autoFitColumnsOnFirstLoad: false,
-      enableAutoSizeColumns: false,
-
-      // enable resize by content
-      autosizeColumnsByCellContentOnFirstLoad: true,
-      enableAutoResizeColumnsByCellContent: true,
-
-      resizeByContentOptions: {
-        cellCharWidthInPx: 11,
-      },
-
-      enableFiltering: true,
-    };
-  }
-
-  buttonTitle() {
-    return this.registrationType === RegistrationType.ADMIN
-      ? 'Add User'
-      : this.registrationType === RegistrationType.EMPLOYEE
-      ? 'Add Employee'
-      : 'Add User';
-  }
-
-  onRoleChange(event: any) {
-    this.selectedRoleId = event.value;
-    this.userFacade.dispatchGetUsersByRoleId(
-      this.selectedRoleId,
-      this.paginator.pageIndex + 1,
-      this.paginator.pageSize || 10
-    );
-  }
-
-  changeRole(user: User) {
-    this.userFacade.dispatchSelectUser(user);
-    this.matDialog.open(ChangeRoleComponent, {
-      data: {
-        update: true,
-        roleId: this.selectedRoleId,
-        roles: this.roles,
-      },
-      disableClose: true,
     });
   }
 
@@ -246,9 +125,9 @@ export class UserListComponent implements OnInit {
   }
 
   addUser() {
-    this.matDialog.open(UserFormComponent, {
-      data: { update: false, registrationType: this.registrationType },
-      disableClose: true,
+    this.matDialog.open(AddAdminFormComponent, {
+          width: '400px',
+          disableClose: true,
     });
   }
 

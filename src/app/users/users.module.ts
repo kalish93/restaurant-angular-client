@@ -16,6 +16,7 @@ import { AdminListComponent } from './components/admin-list/admin-list.component
 import { RoleState } from './store/role.state';
 import { ChangeRoleComponent } from './components/change-role/change-role.component';
 import { FormsModule } from '@angular/forms';
+import { AddAdminFormComponent } from './components/add-admin-form/add-admin-form.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { FormsModule } from '@angular/forms';
     AdminListComponent,
     ChangeRoleComponent,
     ChangePasswordComponent,
+    AddAdminFormComponent
   ],
   imports: [
     SharedModule,
