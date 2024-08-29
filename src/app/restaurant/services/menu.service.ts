@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MENU_URL } from 'src/app/core/constants/api-endpoints';
+import { MENU_URL, ORDER_URL } from 'src/app/core/constants/api-endpoints';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
-import { Menu } from '../models/menu.model';
+import { Menu, Order } from '../models/menu.model';
 
 @Injectable({
   providedIn: 'root'

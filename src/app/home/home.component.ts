@@ -9,6 +9,7 @@ import {
   CHANGE_PASSWORD_ROUTE,
   BEFORE_LOGIN_ROUTE,
   STAFF_ROUTE,
+  CART_ROUTE,
 } from 'src/app/core/constants/routes';
 import { AuthFacade } from '../auth/facade/auth.facade';
 import { first } from 'rxjs/operators';
@@ -102,10 +103,11 @@ export class HomeComponent implements OnInit {
 
   checkUrl(): void {
     const currentUrl = this.router.url;
+    const menuPattern = /^\/menu\/[a-z0-9-]+\/[a-z0-9-]+$/i;
+    const cartPattern = /^\/cart\/[a-z0-9-]+\/[a-z0-9-]+$/i;
+    const orderPattern = /^\/orders\/[a-z0-9-]+\/[a-z0-9-]+$/i;
 
-    // Regular expression to match URLs like /menu/<menuId>/<itemId>
-    const pattern = /^\/menu\/[a-z0-9-]+\/[a-z0-9-]+$/i;
-    this.isOnSpecificPage = pattern.test(currentUrl);
+    this.isOnSpecificPage = menuPattern.test(currentUrl) || cartPattern.test(currentUrl) || orderPattern.test(currentUrl);
   }
 
   logout() {

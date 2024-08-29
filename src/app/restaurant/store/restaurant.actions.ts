@@ -73,3 +73,9 @@ export class DeleteTable {
     public readonly id: any
   ) {}
 }
+export class GetTable {
+  static readonly type = `${GetTable.name}`;
+  constructor(
+    public readonly id: any
+  ) {}
+}

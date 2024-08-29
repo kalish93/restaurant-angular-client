@@ -21,6 +21,9 @@ import { MenuFormComponent } from './components/menu-form/menu-form.component';
 import { CategoryState } from './store/category/category.state';
 import { MenuState } from './store/menu/menu.state';
 import { StockSelectionComponent } from './components/menu/stock-selection/stock-selection.component';
+import { CartComponent } from './components/menu/cart/cart.component';
+import { OrderState } from './store/order/order.state';
+import { OrdersComponent } from './components/menu/orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -36,12 +39,14 @@ import { StockSelectionComponent } from './components/menu/stock-selection/stock
    MenuListForUsersComponent,
    RestaurantHomeComponent,
    MenuFormComponent,
-   StockSelectionComponent
+   StockSelectionComponent,
+   CartComponent,
+   OrdersComponent
   ],
   imports: [
     SharedModule,
     UsersRoutingModule,
-    NgxsModule.forFeature([RestaurantState, StockState, CategoryState, MenuState]),
+    NgxsModule.forFeature([RestaurantState, StockState, CategoryState, MenuState, OrderState]),
     FormsModule,
   ],
 })

@@ -10,3 +10,15 @@ export interface Menu {
   destination: any;
 }
 
+export interface Cart {
+  menuItem: Menu,
+  quantity: number,
+  specialInstructions?: string;
+  showInstructions: boolean;
+}
+
+export interface Order{
+  restaurantId: string;
+  tableId: string;
+  items: Cart[]
+}

@@ -71,4 +71,8 @@ export class RestaurantService {
   deleteTable(tableId: any): Observable<any> {
     return this.http.delete<any>(`${TABLES_URL}/${tableId}`, this.httpOptions);
   }
+
+  getTable(tableId: any): Observable<any> {
+    return this.http.get<any>(`${TABLES_URL}/${tableId}`);
+  }
 }

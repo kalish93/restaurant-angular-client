@@ -15,13 +15,14 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTables, UpdateRestaurant, UpdateTable } from './restaurant.actions';
+import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTable, GetTables, UpdateRestaurant, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface RestaurantStateModel {
   restaurants: PaginatedList<any>;
   selectedRestaurant: any;
-  tables: any[]
+  tables: any[];
+  selectedTable: any;
 }
 
 const RESTAURANT_STATE_TOKEN = new StateToken<RestaurantStateModel>(
@@ -36,7 +37,8 @@ const defaults = {
     totalCount: 0,
   },
   selectedRestaurant: null,
-  tables: []
+  tables: [],
+  selectedTable: {}
 };
 
 @State<RestaurantStateModel>({
@@ -338,6 +340,24 @@ deleteTable(
         'Table deleted successfully!',
         successStyle,
       );
+    })
+  );
+}
+
+@Action(GetTable)
+getTable(
+  { setState }: StateContext<RestaurantStateModel>,
+  { id }: GetTable
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.getTable(id).pipe(
+    tap((result) => {
+      setState(
+        patch({
+          selectedTable: result,
+        })
+      );
+      this.store.dispatch(new SetProgressOff());
     })
   );
 }

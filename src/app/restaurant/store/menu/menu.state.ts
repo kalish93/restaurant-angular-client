@@ -16,8 +16,14 @@ import {
 } from 'src/app/core/store/progress-status.actions';
 
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
-import { Menu } from '../../models/menu.model';
-import { CreateMenu, DeleteMenu, GetMenuByRestaurant, GetMenus, UpdateMenu } from './menu.actions';
+import { Cart, Menu } from '../../models/menu.model';
+import {
+  CreateMenu,
+  DeleteMenu,
+  GetMenuByRestaurant,
+  GetMenus,
+  UpdateMenu,
+} from './menu.actions';
 import { MenuService } from '../../services/menu.service';
 
 export interface MenuStateModel {
@@ -130,7 +136,10 @@ export class MenuState {
   }
 
   @Action(GetMenuByRestaurant)
-  getMenuByRestaurant({ setState }: StateContext<MenuStateModel>, {restaurantId}: GetMenuByRestaurant) {
+  getMenuByRestaurant(
+    { setState }: StateContext<MenuStateModel>,
+    { restaurantId }: GetMenuByRestaurant
+  ) {
     this.store.dispatch(new SetProgressOn());
     return this.menuService.getMenuByRestaurant(restaurantId).pipe(
       tap((result) => {
@@ -143,5 +152,4 @@ export class MenuState {
       })
     );
   }
-
 }

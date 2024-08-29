@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { RestaurantSelector } from '../store/restaurant.selectors';
-import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTables, UpdateRestaurant, UpdateTable } from '../store/restaurant.actions';
+import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTable, GetTables, UpdateRestaurant, UpdateTable } from '../store/restaurant.actions';
 
 
 @Injectable({
@@ -12,6 +12,7 @@ export class RestaurantFacade {
   restaurants$: Observable<any> = this.store.select(RestaurantSelector.slices.restaurants);
   selectedRestaurant$: Observable<any> = this.store.select(RestaurantSelector.slices.selectedRestaurant);
   tables$: Observable<any> = this.store.select(RestaurantSelector.slices.tables);
+  selectedTable$: Observable<any> = this.store.select(RestaurantSelector.slices.selectedTable);
 
   constructor(private store: Store) {}
 
@@ -57,5 +58,9 @@ export class RestaurantFacade {
 
   dispatchDeleteTable(id: any) {
     this.store.dispatch(new DeleteTable(id));
+  }
+
+  dispatchGetTable(id: any) {
+    this.store.dispatch(new GetTable(id));
   }
 }

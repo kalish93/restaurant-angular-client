@@ -1,5 +1,5 @@
-// export const API_BASE_URL = 'http://127.0.0.1:4000/api';
-export const API_BASE_URL = 'https://inventory-backend-p142.onrender.com/api';
+export const API_BASE_URL = 'http://127.0.0.1:4000/api';
+// export const API_BASE_URL = 'https://inventory-backend-p142.onrender.com/api';
 export const IS_DEVELOPMENT = true;
 
 export const USERS_URL = `${API_BASE_URL}/users`;
@@ -25,3 +25,4 @@ export const STOCKS_URL = `${API_BASE_URL}/stocks`;
 export const MENU_URL = `${API_BASE_URL}/menus`;
 export const TABLES_URL = `${API_BASE_URL}/tables`;
 export const CATEGORY_URL = `${API_BASE_URL}/categories`;
+export const ORDER_URL = `${API_BASE_URL}/orders`;
