@@ -4,10 +4,13 @@ import { Observable } from 'rxjs';
 import { InAppNotification } from '../models/notification.model';
 import { PaginatedList } from '../models/paginated-list.interface';
 import {
-  GetNotification,
-  GetNotificationStatus,
+
+  CallWaiter,
+  GetNotifications,
+  GetUnreadCount,
+  MarkNotificationAsRead,
   MarkNotificationsAsRead,
-  SyncUnreadNotifications,
+  OnNotification,
 } from '../store/notifcaction.actions';
 import { NotificationSelector } from '../store/notification.selector';
 
@@ -17,24 +20,29 @@ import { NotificationSelector } from '../store/notification.selector';
 export class NotificationFacade {
   constructor(private store: Store) {}
 
-  dispatchSyncUnreadNotifications(userId: string) {
-    this.store.dispatch(new SyncUnreadNotifications(userId));
-  }
 
-  dispatchGetNotificationStatus() {
-    this.store.dispatch(new GetNotificationStatus());
-  }
-
-  dispatchGetNotifications(pageNumber: number, pageSize: number) {
-    this.store.dispatch(new GetNotification(pageNumber, pageSize));
+  dispatchGetNotifications() {
+    this.store.dispatch(new GetNotifications());
   }
 
   dispatchMarkAllNotificationsRead() {
-    this.store.dispatch(new MarkNotificationsAsRead([], true));
+    this.store.dispatch(new MarkNotificationsAsRead());
   }
 
-  dispatchMarkSomeNotificationsAsRead(ids: string[]) {
-    this.store.dispatch(new MarkNotificationsAsRead(ids));
+  dispatchOnNotification() {
+    this.store.dispatch(new OnNotification());
+  }
+
+  dispatchUnreadNotificationsCount() {
+    this.store.dispatch(new GetUnreadCount());
+  }
+
+  dispatchMarkNotificationAsRead(id:any) {
+    this.store.dispatch(new MarkNotificationAsRead(id));
+  }
+
+  dispatchCallWaiter(data:any) {
+    this.store.dispatch(new CallWaiter(data));
   }
 
   unreadNotifications$: Observable<number> = this.store.select(
@@ -45,6 +53,6 @@ export class NotificationFacade {
     NotificationSelector.slices.handle
   );
 
-  notifications$: Observable<PaginatedList<InAppNotification>> =
-    this.store.select(NotificationSelector.slices.notifications);
+  myNotifications$: Observable<any[]> =
+    this.store.select(NotificationSelector.slices.myNotifications);
 }

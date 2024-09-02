@@ -40,6 +40,18 @@
         <td mat-cell *matCellDef="let user"> {{ user.role.name }} </td>
       </ng-container>
 
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let user">
+          <button color="primary" mat-icon-button (click)="openEditStaffDialog(user)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteStaff(user)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
       <!-- Header and Row Declarations -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

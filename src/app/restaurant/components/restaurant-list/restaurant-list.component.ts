@@ -24,7 +24,6 @@ const initRestaurantListComponentState: Partial<RestaurantListComponentState> = 
 })
 export class RestaurantListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
 
   displayedColumns: string[] = ['name', 'isActive', 'createdDate', 'actions'];
   restaurants: any[] = [];

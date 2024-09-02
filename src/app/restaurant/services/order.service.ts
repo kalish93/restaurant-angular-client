@@ -19,4 +19,17 @@ export class OrderService {
    getActiveTableOrder(tableId: string): Observable<any> {
     return this.http.get<any>(`${ORDER_URL}/active/${tableId}`);
   }
+
+   getActiveOrders(): Observable<any[]> {
+    return this.http.get<any[]>(`${ORDER_URL}/active`);
+  }
+
+   getOrderHistory(pageNumber: number,
+    pageSize: number): Observable<any[]> {
+    return this.http.get<any[]>(`${ORDER_URL}/history?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  }
+
+   upateOrderStatus(data: any): Observable<any> {
+    return this.http.put<any>(`${ORDER_URL}/status`, data);
+  }
 }

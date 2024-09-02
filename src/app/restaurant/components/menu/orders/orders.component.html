@@ -5,7 +5,7 @@
     <div class="order-card" *ngFor="let order of myOrders">
       <mat-card>
         <mat-card-header>
-          <mat-card-subtitle>Status: <span class="status-chip" [ngClass]="order?.status">{{ order?.status }}</span></mat-card-subtitle>
+          <mat-card-subtitle>Status: <span class="status-chip" [ngClass]="order?.status">{{ getOrderStatusName(order.status) }}</span></mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <h3>Items:</h3>

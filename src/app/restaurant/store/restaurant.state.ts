@@ -15,7 +15,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTable, GetTables, UpdateRestaurant, UpdateTable } from './restaurant.actions';
+import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTable, GetTables, UpdateRestaurant, UpdateRestaurantStaff, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface RestaurantStateModel {
@@ -358,6 +358,72 @@ getTable(
         })
       );
       this.store.dispatch(new SetProgressOff());
+    })
+  );
+}
+
+
+@Action(UpdateRestaurantStaff)
+updateRestaurantStaff(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data, id }: UpdateRestaurantStaff
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.updateRestaurantStaff(data, id).pipe(
+    tap((updatedStaff) => {
+      const state = getState();
+
+      setState(
+        patch({
+          selectedRestaurant: {
+            ...state.selectedRestaurant,
+            users: state.selectedRestaurant.users.map((staff: any) =>
+              staff.id === updatedStaff.id ? updatedStaff : staff
+            ),
+          },
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Staff updated successfully!',
+        successStyle
+      );
+    })
+  );
+}
+
+
+@Action(DeleteRestaurantStaff)
+deleteRestaurantStaff(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { id }: DeleteRestaurantStaff
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.deleteRestaurantStaff(id).pipe(
+    tap(() => {
+      const state = getState();
+
+      setState(
+        patch({
+          selectedRestaurant: {
+            ...state.selectedRestaurant,
+            users: state.selectedRestaurant.users.filter(
+              (staff: any) => staff.id !== id
+            ),
+          },
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Staff deleted successfully!',
+        successStyle
+      );
     })
   );
 }

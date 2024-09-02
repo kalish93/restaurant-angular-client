@@ -43,11 +43,11 @@ export class NotificationButtonComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   ngOnInit(): void {
-    this.notificationFacade.dispatchGetNotificationStatus();
+    this.notificationFacade.dispatchUnreadNotificationsCount();
 
-    this.state.select('handle').subscribe((handle) => {
-      if (handle)
-        this.notificationFacade.dispatchSyncUnreadNotifications(handle);
-    });
+    // this.state.select('handle').subscribe((handle) => {
+    //   if (handle)
+    //     this.notificationFacade.dispatchSyncUnreadNotifications(handle);
+    // });
   }
 }

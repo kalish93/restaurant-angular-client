@@ -1,13 +1,23 @@
 <div class="container">
+<div class="header">
   <div class="cart-container" (click)="navigateToCart()">
     <mat-icon class="cart-icon" >
       shopping_cart
     </mat-icon>
     <span class="cart-count">{{ cartCount }}</span>
   </div>
-  <button (click)="viewOrders()" *ngIf="selectedTable.status === 'OCCUPIED'" mat-raised-button >View Orders</button>
-  <button *ngIf="selectedTable.status === 'OCCUPIED'" mat-raised-button >Request Payment</button>
-  <button *ngIf="selectedTable.status === 'OCCUPIED'" mat-raised-button >Call Waiter</button>
+  <mat-menu #menu="matMenu">
+  <button (click)="viewOrders()" *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >View Orders</button>
+  <button *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >Request Payment</button>
+  <button (click)="callWaiter()" *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >Call Waiter</button>
+</mat-menu>
+
+<button mat-raised-button [matMenuTriggerFor]="menu">
+  Actions
+  <mat-icon>arrow_drop_down</mat-icon>
+</button>
+</div>
+
   <h1 class="restaurant-name" *ngIf="restaurant?.name">Welcome to {{restaurant?.name}}</h1>
   <div class="menu-section">
     <div class="menu-title">

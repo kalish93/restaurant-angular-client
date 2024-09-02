@@ -51,4 +51,25 @@ export class OrdersComponent implements OnInit {
       this.myOrders = data;
     });
   }
+
+  getOrderStatusName(status: string): string {
+    switch (status) {
+      case 'PENDING':
+        return 'Pending';
+      case 'IN_PROGRESS':
+        return 'In Progress';
+      case 'READY':
+        return 'Ready';
+      case 'SERVED':
+        return 'Served';
+      case 'CANCELLED':
+        return 'Cancelled';
+      case 'PAID':
+        return 'Paid';
+      case 'PAYMENT_REQUESTED':
+        return 'Payment Requested';
+      default:
+        return 'Unknown Status'; // Handle any unexpected status values
+    }
+  }
 }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { NotificationFacade } from 'src/app/core/facades/notification.facade';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { MenuFacade } from 'src/app/restaurant/facades/menu.facade';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
 import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
@@ -50,7 +52,8 @@ export class MenuListForUsersComponent implements OnInit {
     private menuFacade: MenuFacade,
     private route: ActivatedRoute,
     private router: Router,
-    private orderFacade: OrderFacade
+    private orderFacade: OrderFacade,
+    private notificationFacade: NotificationFacade
   ) {
     this.state.set(initMenuListForUsersComponentState);
     this.state.connect('restaurant', this.restaurantFacade.selectedRestaurant$)
@@ -121,6 +124,14 @@ export class MenuListForUsersComponent implements OnInit {
 
   viewOrders(){
     this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
+  }
+
+  callWaiter(){
+    const dataToSend = {
+      restaurantId: this.restaurantId,
+      tableId: this.tableId
+    }
+    this.notificationFacade.dispatchCallWaiter(dataToSend);
   }
 }
 

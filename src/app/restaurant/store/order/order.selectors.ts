@@ -18,5 +18,13 @@ export class OrderSelector {
   static myTableOrders(stateModel: OrderStateModel) {
     return stateModel.myTableOrders;
   }
+  @Selector([OrderState])
+  static activeOrders(stateModel: OrderStateModel) {
+    return stateModel.activeOrders;
+  }
+  @Selector([OrderState])
+  static orderHistory(stateModel: OrderStateModel) {
+    return stateModel.orderHistory;
+  }
 
 }

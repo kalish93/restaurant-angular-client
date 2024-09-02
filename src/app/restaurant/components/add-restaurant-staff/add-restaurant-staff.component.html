@@ -28,21 +28,23 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password">
-      <mat-error *ngIf="staffForm.get('password')?.hasError('required')">
-        Password is required
-      </mat-error>
-    </mat-form-field>
+    <div *ngIf="!data.user">
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+        <mat-error *ngIf="staffForm.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Confirm Password</mat-label>
-      <input matInput type="password" formControlName="passwordConfirmation">
-      <mat-error *ngIf="staffForm.hasError('mismatch')">
-        Passwords must match
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" formControlName="passwordConfirmation">
+        <mat-error *ngIf="staffForm.hasError('mismatch')">
+          Passwords must match
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     <mat-form-field appearance="outline">
       <mat-label>Role</mat-label>

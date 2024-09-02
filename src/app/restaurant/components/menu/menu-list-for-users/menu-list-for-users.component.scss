@@ -60,6 +60,14 @@
   }
 }
 
+@media (max-width: 350px) {
+  .card-container {
+    width: 100%;
+    max-width: 250px; /* Reduced max-width to fit four cards */
+    margin-bottom: 1rem; /* Keep margin 0 to ensure even spacing */
+  }
+}
+
 @media (min-width: 769px) and (max-width: 1024px) {
   .menu-grid {
     grid-template-columns: repeat(3, 1fr); /* Three columns for medium screens */
@@ -108,6 +116,7 @@ mat-card-title{
   display: flex;
   align-items: center;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .cart-icon {
@@ -121,4 +130,11 @@ mat-card-title{
   border-radius: 50%;
   padding: 2px 8px;
   margin-left: 8px;
+}
+
+.header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }

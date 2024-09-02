@@ -24,6 +24,9 @@ import { StockSelectionComponent } from './components/menu/stock-selection/stock
 import { CartComponent } from './components/menu/cart/cart.component';
 import { OrderState } from './store/order/order.state';
 import { OrdersComponent } from './components/menu/orders/orders.component';
+import { ActiveOrderListComponent } from './components/order/active-order-list/active-order-list.component';
+import { OrderHistoryComponent } from './components/order/order-history/order-history.component';
+import { RestaurantStaffComponent } from './components/restaurant-staff/restaurant-staff.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { OrdersComponent } from './components/menu/orders/orders.component';
    MenuFormComponent,
    StockSelectionComponent,
    CartComponent,
-   OrdersComponent
+   OrdersComponent,
+   ActiveOrderListComponent,
+   OrderHistoryComponent,
+   RestaurantStaffComponent
   ],
   imports: [
     SharedModule,

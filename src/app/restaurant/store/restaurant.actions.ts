@@ -79,3 +79,17 @@ export class GetTable {
     public readonly id: any
   ) {}
 }
+
+export class UpdateRestaurantStaff {
+  static readonly type = `${UpdateRestaurantStaff.name}`;
+  constructor(
+    public readonly data: any,
+    public readonly id: any,
+  ) {}
+}
+export class DeleteRestaurantStaff {
+  static readonly type = `${DeleteRestaurantStaff.name}`;
+  constructor(
+    public readonly id: any,
+  ) {}
+}

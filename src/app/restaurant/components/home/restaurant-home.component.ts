@@ -11,6 +11,8 @@ import {
   STOCK_LIST,
   MENU_LIST,
   TABLE_LIST,
+  HOME_ROUTE,
+  ORDER_HISTORY_ROUTE,
 } from 'src/app/core/constants/routes';
 
 import{ jwtDecode} from 'jwt-decode';
@@ -94,6 +96,11 @@ export class RestaurantHomeComponent {
     if (roleName === 'Admin') {
       this.navLinks = [
         {
+          link: 'dashboard',
+          label: 'Dashboard',
+          icon: 'dashboard',
+        },
+        {
           link: RESTAURANT_LIST,
           label: 'Restaurants',
           icon: 'restaurant',
@@ -106,6 +113,11 @@ export class RestaurantHomeComponent {
       ];
     } else {
       this.navLinks = [
+        {
+          link: 'dashboard',
+          label: 'Dashboard',
+          icon: 'dashboard',
+        },
         {
           link: TABLE_LIST,
           label: 'Tables',
@@ -120,6 +132,16 @@ export class RestaurantHomeComponent {
           link: MENU_LIST,
           label: 'Menu',
           icon: 'menu_book',
+        },
+        {
+          link:  ORDER_HISTORY_ROUTE,
+          label: 'Order History',
+          icon: 'list',
+        },
+        {
+          link:  'staff',
+          label: 'My Staff',
+          icon: 'persons',
         },
       ];
     }

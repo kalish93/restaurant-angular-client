@@ -13,14 +13,16 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 
-import { AddToCart, GetActiveTableOrder, PlaceOrder, UpdateCart } from './order.actions';
+import { AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, PlaceOrder, UpdateCart, UpdateOrderStatus } from './order.actions';
 import { OrderService } from '../../services/order.service';
 import { Cart } from '../../models/menu.model';
 
 export interface OrderStateModel {
   order: any;
   cart: Cart[];
-  myTableOrders: any[]
+  myTableOrders: any[];
+  activeOrders: any[];
+  orderHistory: any[];
 }
 
 const ORDER_STATE_TOKEN = new StateToken<OrderStateModel>('orderState');
@@ -28,7 +30,9 @@ const ORDER_STATE_TOKEN = new StateToken<OrderStateModel>('orderState');
 const defaults = {
   order: {},
   cart: [],
-  myTableOrders: []
+  myTableOrders: [],
+  activeOrders: [],
+  orderHistory: []
 };
 
 @State<OrderStateModel>({
@@ -148,4 +152,66 @@ getTable(
 }
 
 
+@Action(GetActiveOrders)
+  getActiveOrders(
+    { setState }: StateContext<OrderStateModel>,
+    {  }: GetActiveOrders
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.getActiveOrders().pipe(
+      tap((result) => {
+        setState(
+          patch({
+            activeOrders: result,
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
+
+@Action(GetOrderHistory)
+  getOrderHistory(
+    { setState }: StateContext<OrderStateModel>,
+    { pageNumber, pageSize }: GetOrderHistory
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.getOrderHistory(pageNumber, pageSize).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            orderHistory: result,
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
+
+  @Action(UpdateOrderStatus)
+  updataOrderStatus(
+    { setState, patchState }: StateContext<OrderStateModel>,
+    { data }: UpdateOrderStatus
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.upateOrderStatus(data).pipe(
+      tap((result) => {
+        setState(
+          patch({
+
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+        this.store.dispatch(new GetActiveOrders())
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Status updated successfully!',
+          successStyle
+        );
+      })
+    );
+  }
 }

@@ -10,16 +10,8 @@
   </button>
 </div>
 <div class="notifications">
-  <mat-paginator
-    aria-label="Select page"
-    class="paginator"
-    (page)="paginateNotifications($event)"
-    [pageSizeOptions]="[10, 15, 20]"
-    [length]="(notifications$ | async)?.totalCount"
-  >
-  </mat-paginator>
 
-  <ng-container *ngFor="let notfication of (notifications$ | async)?.items">
+  <ng-container *ngFor="let notfication of (notifications$ | async)">
     <app-notification-card
       [notification]="notfication"
       (visible)="markNotificationAsRead(notfication)"

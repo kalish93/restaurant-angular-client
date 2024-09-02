@@ -5,16 +5,21 @@ import { RxState } from '@rx-angular/state';
 import { NotificationFacade } from '../../facades/notification.facade';
 import { InAppNotification } from '../../models/notification.model';
 import { PaginatedList } from '../../models/paginated-list.interface';
+import { NotificationService } from '../../services/notification.service';
+import { AuthFacade } from 'src/app/auth/facade/auth.facade';
+import{ jwtDecode} from 'jwt-decode';
 
 interface NotificationsState {
   handle?: string;
   unreadNotifications: number;
-  notifications: PaginatedList<InAppNotification>;
+  notifications: any[];
+  accessToken: any;
 }
 
 const initalState: NotificationsState = {
-  notifications: { items: [], pageNumber: 1, totalPages: 0, totalCount: 0 },
+  notifications: [],
   unreadNotifications: 0,
+  accessToken: {}
 };
 
 @Component({
@@ -25,33 +30,48 @@ const initalState: NotificationsState = {
 export class NotificationMenuComponent implements OnInit {
   notifications$ = this.state.select('notifications');
   unreadNotifications$ = this.state.select('unreadNotifications');
-
+  accessToken$ = this.state.select('accessToken');
+  decoded :any;
+  notifications: any[]= []
+userId: any;
   constructor(
     private notificationFacade: NotificationFacade,
     public state: RxState<NotificationsState>,
-    private destoryRef: DestroyRef
+    private destoryRef: DestroyRef,
+    private notificationService: NotificationService,
+    private authFacade: AuthFacade
   ) {
     this.state.set(initalState);
-    this.state.connect('notifications', this.notificationFacade.notifications$);
+    this.state.connect('notifications', this.notificationFacade.myNotifications$);
     this.state.connect(
       'unreadNotifications',
       this.notificationFacade.unreadNotifications$
     );
+
+
+    this.state.connect('accessToken', this.authFacade.accessToken$);
+    this.accessToken$.subscribe((token)=>{
+       this.decoded = jwtDecode(token);
+       this.userId = this.decoded?.use?.id;
+       this.notificationService.registerUser(this.userId);
+
+    })
   }
 
   ngOnInit(): void {
-    this.notificationFacade.dispatchGetNotifications(1, 10);
+
+    this.notificationService.registerUser(this.userId);
+
+    this.notificationFacade.dispatchOnNotification()
+    this.notificationFacade.dispatchGetNotifications();
     this.state
       .select('unreadNotifications')
       .pipe(takeUntilDestroyed(this.destoryRef))
-      .subscribe(() => this.notificationFacade.dispatchGetNotifications(1, 10));
-  }
+      .subscribe(() => this.notificationFacade.dispatchGetNotifications());
 
-  paginateNotifications(event: PageEvent) {
-    this.notificationFacade.dispatchGetNotifications(
-      event.pageIndex + 1,
-      event.pageSize
-    );
+    this.notifications$.subscribe((data)=>{
+      console.log(data)
+    })
   }
 
   markAllNotificationAsRead() {
@@ -59,7 +79,8 @@ export class NotificationMenuComponent implements OnInit {
   }
 
   markNotificationAsRead(notification: InAppNotification) {
-    this.notificationFacade.dispatchMarkSomeNotificationsAsRead([
+    console.log(notification.id)
+    this.notificationFacade.dispatchMarkNotificationAsRead([
       notification.id,
     ]);
   }

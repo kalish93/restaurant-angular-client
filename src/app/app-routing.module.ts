@@ -6,6 +6,7 @@ import {
   HOME_ROUTE,
   LOGIN_ROUTE,
   MENU_LIST,
+  ORDER_HISTORY_ROUTE,
   RESTAURANT_LIST,
   STOCK_LIST,
   TABLE_LIST,
@@ -23,6 +24,9 @@ import { TableListComponent } from './restaurant/components/table/table-list/tab
 import { UserListComponent } from './users/components/user-list/user-list.component';
 import { CartComponent } from './restaurant/components/menu/cart/cart.component';
 import { OrdersComponent } from './restaurant/components/menu/orders/orders.component';
+import { ActiveOrderListComponent } from './restaurant/components/order/active-order-list/active-order-list.component';
+import { OrderHistoryComponent } from './restaurant/components/order/order-history/order-history.component';
+import { RestaurantStaffComponent } from './restaurant/components/restaurant-staff/restaurant-staff.component';
 
 
 const routes: Routes = [
@@ -36,6 +40,9 @@ const routes: Routes = [
     component: OrdersComponent
     },
 
+
+  // { path: 'home', component: ActiveOrderListComponent},
+
   { path: 'home', component: RestaurantHomeComponent,
     children:[
       {
@@ -46,6 +53,8 @@ const routes: Routes = [
         path: `${RESTAURANT_LIST}/:id`,
         component: RestaurantDetailComponent,
       },
+      { path: ORDER_HISTORY_ROUTE, component: OrderHistoryComponent},
+
      { path: STOCK_LIST,
       component: StockListComponent
       },
@@ -58,6 +67,11 @@ const routes: Routes = [
      { path: USERS_LIST,
       component: UserListComponent
       },
+     { path: 'staff',
+      component: RestaurantStaffComponent
+      },
+      { path: 'dashboard', component: ActiveOrderListComponent},
+
     ]
    },
 

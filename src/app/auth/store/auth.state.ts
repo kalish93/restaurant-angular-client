@@ -8,6 +8,7 @@ import {
   SetProgressOff,
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
+import { GetNotifications } from 'src/app/core/store/notifcaction.actions';
 
 export interface AuthStateModel {
   accessToken: string | null;
@@ -52,7 +53,12 @@ export class AuthState {
           permissions: result.permissions,
           expiresAt: expiresAt,
         });
+
+        localStorage.setItem('accessToken', result.accessToken);
+        localStorage.setItem('refreshToken', result.refreshToken);
+
         this.store.dispatch(new SetProgressOff());
+        this.store.dispatch(new GetNotifications());
       })
     );
   }

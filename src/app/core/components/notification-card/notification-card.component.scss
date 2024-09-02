@@ -1,17 +1,13 @@
-// @import "@angular/material/theming";
 
-// $app-primary: mat-palette($mat-indigo);
+.notification-card {
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
 
-// $primary: mat-color($app-primary, 50);
+  &.unread {
+    background-color: rgb(218 236 214);
 
-// .notification-card {
-//   .actions {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: baseline;
-//   }
-
-//   &.unread {
-//     background-color: $primary;
-//   }
-// }
+  }
+}

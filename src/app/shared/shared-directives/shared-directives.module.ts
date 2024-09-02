@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HasPermissionsDirective } from './has-permissions.directive';
+import { HasRoleDirective } from './has-role.directive';
 
 @NgModule({
-  declarations: [HasPermissionsDirective],
+  declarations: [HasRoleDirective],
   imports: [CommonModule],
-  exports: [HasPermissionsDirective]
+  exports: [HasRoleDirective]
 })
 export class SharedDirectivesModule {}

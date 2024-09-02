@@ -1,19 +1,25 @@
-export class SyncUnreadNotifications {
-  static readonly type = `[Notification] ${SyncUnreadNotifications.name}`;
-  constructor(public userId: string) {}
-}
-
-export class GetNotificationStatus {
-  static readonly type = `[Notification] ${GetNotificationStatus.name}`;
+export class GetNotifications {
+  static readonly type = '[Notification] Get Notifications';
   constructor() {}
 }
 
-export class GetNotification {
-  static readonly type = `[Notification] ${GetNotificationStatus.name}`;
-  constructor(public pageNumber: number, public pageSize: number) {}
-}
-
 export class MarkNotificationsAsRead {
-  static readonly type = `[Notification] ${MarkNotificationsAsRead.name}`;
-  constructor(public notificationIds: string[], public all: boolean = false) {}
+  static readonly type = '[Notification] Mark Notifications As Read';
+  constructor() {}
+}
+export class MarkNotificationAsRead {
+  static readonly type = '[Notification] Mark Notification As Read';
+  constructor(public notificationId: string) {}
+}
+export class GetUnreadCount {
+  static readonly type = '[Notification] Get Unread Count';
+  constructor() {}
+}
+export class OnNotification{
+  static readonly type = `[Notification] ${OnNotification.name}`;
+  constructor() {}
+}
+export class CallWaiter{
+  static readonly type = `[Notification] ${CallWaiter.name}`;
+  constructor(public data: any) {}
 }

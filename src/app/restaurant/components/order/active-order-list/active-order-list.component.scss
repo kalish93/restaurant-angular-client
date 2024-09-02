@@ -1,0 +1,88 @@
+.container {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: rgb(218, 236, 214);
+}
+
+.status-chip {
+  padding: 4px 8px;
+  border-radius: 16px;
+  color: white;
+  font-weight: bold;
+
+  &.PENDING {
+    background-color: #ff9800;
+  }
+  &.IN_PROGRESS {
+    background-color: #2196f3;
+  }
+  &.PAYMENT_REQUESTED {
+    background-color: #f44336;
+  }
+  &.READY {
+    background-color: #4caf50;
+  }
+  &.SERVED {
+    background-color: #9c27b0;
+  }
+}
+.order-card {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+
+.order-items {
+  mat-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    mat-list-item {
+      margin: 4px 0; // Adjust margin as needed
+    }
+  }
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+
+mat-list-item {
+  display: flex;
+  align-items: center;
+}
+
+.order{
+  padding: 1rem;
+  background-color: rgb(241, 250, 239);
+}
+
+.status {
+  margin-left: 5px;
+  background-color: #ffffff;
+  color: #4caf50;
+  border: 2px solid #4caf50;
+}
+
+.status:hover {
+  background-color: #f0f0f0;
+}
+
+.cancel {
+  margin-left: 5px;
+  background-color: #ffffff;
+  color: #eb2626;
+  border: 2px solid #eb2626;
+}
+
+.cancel:hover {
+  background-color: #f0f0f0;
+}

@@ -23,3 +23,4 @@ export const STOCK_LIST = `stock`;
 export const MENU_LIST = `menu`;
 export const TABLE_LIST = `tables`;
 export const CART_ROUTE = `cart`;
+export const ORDER_HISTORY_ROUTE = `orders/history`;
