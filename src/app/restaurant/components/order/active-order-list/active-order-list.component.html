@@ -60,7 +60,7 @@
       <mat-card-actions>
         <ng-container *appHasRole="[hasBartenderRole(), hasKitchenRole()]">
           <button
-            *ngIf="canChangeStatus(order.status, 'IN_PROGRESS')"
+            *ngIf="order.status === 'PENDING'"
             mat-button
             color="primary"
             (click)="changeStatus(order.id, 'IN_PROGRESS')"
@@ -69,7 +69,7 @@
             Start Preparation
           </button>
           <button
-            *ngIf="canChangeStatus(order.status, 'READY')"
+          *ngIf="order.status === 'IN_PROGRESS'"
             mat-button
             color="primary"
             (click)="changeStatus(order.id, 'READY')"
