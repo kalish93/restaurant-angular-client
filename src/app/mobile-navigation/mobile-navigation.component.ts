@@ -44,11 +44,11 @@ export class MobileNavigationComponent  {
   setNavLinks(roleName: string): void {
     if (roleName === 'Admin') {
       this.navLinks = [
-        // {
-        //   link: 'dashboard',
-        //   label: 'Dashboard',
-        //   icon: 'dashboard',
-        // },
+        {
+          link: 'dashboard',
+          label: 'Dashboard',
+          icon: 'dashboard',
+        },
         {
           link: RESTAURANT_LIST,
           label: 'Restaurants',

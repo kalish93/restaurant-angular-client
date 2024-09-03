@@ -2,7 +2,7 @@
 // export const BASE_URL = 'http://127.0.0.1:4000';
 export const BASE_URL = 'https://inventory-backend-p142.onrender.com';
 export const API_BASE_URL = 'https://inventory-backend-p142.onrender.com/api';
-export const IS_DEVELOPMENT = true;
+export const IS_DEVELOPMENT = false;
 
 export const USERS_URL = `${API_BASE_URL}/users`;
 

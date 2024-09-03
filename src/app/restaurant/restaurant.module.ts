@@ -29,6 +29,7 @@ import { OrderHistoryComponent } from './components/order/order-history/order-hi
 import { RestaurantStaffComponent } from './components/restaurant-staff/restaurant-staff.component';
 import { ActiveTableOrdersComponent } from './components/table/active-table-orders/active-table-orders.component';
 import { AddItemToOrderComponent } from './components/table/add-item-to-order/add-item-to-order.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { AddItemToOrderComponent } from './components/table/add-item-to-order/ad
    OrderHistoryComponent,
    RestaurantStaffComponent,
    ActiveTableOrdersComponent,
-   AddItemToOrderComponent
+   AddItemToOrderComponent,
+   DashboardComponent
   ],
   imports: [
     SharedModule,
