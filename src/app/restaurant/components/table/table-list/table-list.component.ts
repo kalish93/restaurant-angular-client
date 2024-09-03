@@ -4,6 +4,9 @@ import { RxState } from '@rx-angular/state';
 import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 import { TableFormComponent } from '../table-form/table-form.component';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
+import { Roles } from 'src/app/core/constants/roles';
+import { Router } from '@angular/router';
+import { TABLE_LIST } from 'src/app/core/constants/routes';
 
 interface TableListComponentState {
   tables: any[];
@@ -26,6 +29,7 @@ export class TableListComponent implements OnInit{
     private state: RxState<TableListComponentState>,
     private restaurantFacade: RestaurantFacade,
     private dialog: MatDialog,
+    private router: Router
   ){
     this.state.set(initTableListComponentState);
     this.state.connect('tables', this.restaurantFacade.tables$);
@@ -83,5 +87,12 @@ export class TableListComponent implements OnInit{
         this.restaurantFacade.dispatchDeleteTable(tableId);
       }
     });
+  }
+
+  viewTableOrders(id: string){
+    this.router.navigate([`/home/${TABLE_LIST}/${id}`])
+  }
+  hasManagerRole(){
+    return Roles.RestaurantManager
   }
 }

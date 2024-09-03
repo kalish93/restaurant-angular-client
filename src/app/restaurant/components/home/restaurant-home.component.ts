@@ -16,6 +16,7 @@ import {
 } from 'src/app/core/constants/routes';
 
 import{ jwtDecode} from 'jwt-decode';
+import { Roles } from 'src/app/core/constants/roles';
 
 interface RestaurantHomeComponentState {
   accessToken: any;
@@ -95,11 +96,11 @@ export class RestaurantHomeComponent {
   setNavLinks(roleName: string): void {
     if (roleName === 'Admin') {
       this.navLinks = [
-        {
-          link: 'dashboard',
-          label: 'Dashboard',
-          icon: 'dashboard',
-        },
+        // {
+        //   link: 'dashboard',
+        //   label: 'Dashboard',
+        //   icon: 'dashboard',
+        // },
         {
           link: RESTAURANT_LIST,
           label: 'Restaurants',
@@ -111,7 +112,7 @@ export class RestaurantHomeComponent {
           icon: 'person',
         },
       ];
-    } else {
+    }else if (roleName === Roles.RestaurantManager){
       this.navLinks = [
         {
           link: 'dashboard',
@@ -144,6 +145,36 @@ export class RestaurantHomeComponent {
           icon: 'persons',
         },
       ];
+
+    }else{
+      this.navLinks = [
+        {
+          link: 'dashboard',
+          label: 'Dashboard',
+          icon: 'dashboard',
+        },
+        {
+          link: TABLE_LIST,
+          label: 'Tables',
+          icon: 'table_chart',
+        },
+        {
+          link: STOCK_LIST,
+          label: 'Stock',
+          icon: 'local_bar',
+        },
+        {
+          link: MENU_LIST,
+          label: 'Menu',
+          icon: 'menu_book',
+        },
+        {
+          link:  ORDER_HISTORY_ROUTE,
+          label: 'Order History',
+          icon: 'list',
+        },
+      ];
     }
+
   }
 }

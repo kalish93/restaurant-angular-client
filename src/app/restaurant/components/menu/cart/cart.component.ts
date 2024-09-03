@@ -81,11 +81,11 @@ export class CartComponent implements OnInit {
         items: this.cart
       }
 
-      this.orderFacade.dispatchPlaceOrder(dataToSend);
+      this.orderFacade.dispatchPlaceOrder(dataToSend, this.tableId);
     }
-    this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
+    // this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
     this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
-    this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
+    // this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
 
   }
 }

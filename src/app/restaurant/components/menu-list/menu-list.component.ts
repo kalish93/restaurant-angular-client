@@ -7,6 +7,7 @@ import { Menu } from '../../models/menu.model';
 import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { StockSelectionComponent } from '../menu/stock-selection/stock-selection.component';
+import { Roles } from 'src/app/core/constants/roles';
 
 interface MenuState {
   menus: Menu[];
@@ -75,7 +76,7 @@ export class MenuListComponent implements OnInit {
   deleteMenuItem(item: Menu): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        message: 'Are you sure?'
+        message: 'Are you sure you want to delete this menu item?'
       }
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -91,5 +92,9 @@ export class MenuListComponent implements OnInit {
       width: '500px',
       data: {editableItem}
     });
+  }
+
+  hasManagerRole(){
+    return Roles.RestaurantManager
   }
 }

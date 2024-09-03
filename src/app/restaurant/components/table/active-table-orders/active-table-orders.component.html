@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="cart-container">
+    <h1>Table Order</h1>
+    <div class="cart-items" *ngIf="myOrders.length > 0; else emptyCart">
+      <div *ngFor="let order of myOrders"  class="orders">
+
+       <h3> Order Status : <span class="status-chip" [ngClass]="order?.status">{{getOrderStatusName(order.status)}} </span></h3>
+      <!-- <mat-list> -->
+
+        <mat-list-item *ngFor="let item of order.items">
+          <div class="item-details">
+            <img mat-list-avatar [src]="getImageUrl(item.menuItem.image)" alt="Item Image">
+            <div class="item-info">
+              <h3 class="name">{{ item.menuItem.name }}</h3>
+              <p class="ingredients">{{ item.menuItem.ingredients }}</p>
+              <div class="item-meta">
+                <span class="price">{{ item.menuItem.price | currency }}</span>
+                <div class="quantity-edit">
+                  <label class="lable" for="quantity-{{item.menuItem.id}}">Qty:</label>
+                  <input
+                  [disabled]="!editQuantity"
+                    id="quantity-{{item.menuItem.id}}"
+                    type="number"
+                    [(ngModel)]="item.quantity"
+                    (change)="updateQuantity(item, $event)"
+                    min="1" />
+                    <button *ngIf="!editQuantity" (click)="toggleEdit(item)" mat-icon-button> <mat-icon>edit</mat-icon> </button>
+                    <button *ngIf="editQuantity" (click)="confirmUpdateQuantity(item)" mat-icon-button> <mat-icon>check</mat-icon> </button>
+                </div>
+
+              <button class="small-remove" mat-icon-button (click)="removeItem(item)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+              </div>
+
+              <!-- Add Special Instructions Button -->
+              <button class="add-instruction" mat-button (click)="item.showInstructions = !item.showInstructions">
+                {{ item.showInstructions ? 'Hide Special Instructions' : 'Add Special Instructions' }}
+              </button>
+
+
+              <!-- Special Instructions Text Area -->
+              <div class="order-notes" *ngIf="item.showInstructions">
+                <mat-form-field appearance="fill">
+                  <mat-label>Special Instructions</mat-label>
+                  <textarea matInput [(ngModel)]="item.specialInstructions" placeholder="Add any special instructions here"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <button class="remove" mat-icon-button (click)="removeItem(item)">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      <!-- </mat-list> -->
+      <div class="cart-summary">
+        <h3>Total: {{ getTotal(order.items) | currency }}</h3>
+       <div>
+        <button (click)="openAddMenuItemModal(order.id)" mat-raised-button class="add-btn" color="primary" >Add New Item</button>
+       </div>
+      </div>
+    </div>
+  </div>
+    <ng-template #emptyCart>
+      <p>The table does not have any active orders right now.</p>
+    </ng-template>
+  </div>
+</div>

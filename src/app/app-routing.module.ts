@@ -27,6 +27,7 @@ import { OrdersComponent } from './restaurant/components/menu/orders/orders.comp
 import { ActiveOrderListComponent } from './restaurant/components/order/active-order-list/active-order-list.component';
 import { OrderHistoryComponent } from './restaurant/components/order/order-history/order-history.component';
 import { RestaurantStaffComponent } from './restaurant/components/restaurant-staff/restaurant-staff.component';
+import { ActiveTableOrdersComponent } from './restaurant/components/table/active-table-orders/active-table-orders.component';
 
 
 const routes: Routes = [
@@ -63,6 +64,9 @@ const routes: Routes = [
       },
      { path: TABLE_LIST,
       component: TableListComponent
+      },
+     { path: `${TABLE_LIST}/:id`,
+      component: ActiveTableOrdersComponent
       },
      { path: USERS_LIST,
       component: UserListComponent

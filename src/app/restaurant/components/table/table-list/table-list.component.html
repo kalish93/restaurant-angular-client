@@ -1,7 +1,7 @@
 <div class="container">
   <div class="header">
     <h1>Our Tables</h1>
-  <button (click)="openAddTableDialog()" class="add-btn" mat-flat-button><mat-icon>add</mat-icon>
+  <button *appHasRole="[hasManagerRole()]" (click)="openAddTableDialog()" class="add-btn" mat-flat-button><mat-icon>add</mat-icon>
     Add Table</button>
   </div>
   <div class="menu-section">
@@ -18,14 +18,15 @@
          <mat-chip>{{table.status}}</mat-chip>
 
           <mat-menu #menu>
-            <button mat-menu-item color="primary" (click)="openEditRestaurantDialog(table,  $event)">
+            <button *appHasRole="[hasManagerRole()]" mat-menu-item color="primary" (click)="openEditRestaurantDialog(table,  $event)">
               <mat-icon>edit</mat-icon>
               Update
             </button>
-            <button mat-menu-item color="warn" (click)="deleteRestaurant(table.id,  $event)">
+            <button *appHasRole="[hasManagerRole()]" mat-menu-item color="warn" (click)="deleteRestaurant(table.id,  $event)">
               <mat-icon>delete</mat-icon>
               Delete
             </button>
+            <button (click)="viewTableOrders(table.id)" mat-menu-item><mat-icon>receipt</mat-icon>View Orders</button>
             <button (click)="downloadQRCode(table.id, table.number)" mat-menu-item><mat-icon>download</mat-icon>Qr Code</button>
           </mat-menu>
         </div>

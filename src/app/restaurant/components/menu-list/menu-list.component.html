@@ -3,7 +3,7 @@
     <div class="menu-title">
       <h2>Our Menus</h2>
     </div>
-    <button (click)="openMenuModal()" mat-flat-button extended class="add-btn">
+    <button *appHasRole="[hasManagerRole()]" (click)="openMenuModal()" mat-flat-button extended class="add-btn">
       <mat-icon>add</mat-icon>
       Add menu item
     </button>
@@ -21,8 +21,8 @@
 
       </mat-card-content>
       <mat-card-actions align="end">
-        <button mat-flat-button (click)="editMenuItem(item)" class="action-btn">Edit</button>
-        <button mat-flat-button (click)="deleteMenuItem(item)" color="warn">Delete</button>
+        <button *appHasRole="[hasManagerRole()]" mat-flat-button (click)="editMenuItem(item)" class="action-btn">Edit</button>
+        <button *appHasRole="[hasManagerRole()]" mat-flat-button (click)="deleteMenuItem(item)" color="warn">Delete</button>
       </mat-card-actions>
     </mat-card>
   </div>

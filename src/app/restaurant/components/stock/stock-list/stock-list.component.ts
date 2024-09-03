@@ -7,6 +7,7 @@ import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 import { StockFacade } from 'src/app/restaurant/facades/stock.facae';
 import { AddStockModalComponent } from '../add-stock-modal/add-stock-modal.component';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
+import { Roles } from 'src/app/core/constants/roles';
 
 interface StockListComponentState {
   stocks: any;
@@ -103,4 +104,7 @@ export class StockListComponent implements OnInit{
     });
   }
 
+  hasManagerRole(){
+    return Roles.RestaurantManager
+  }
 }

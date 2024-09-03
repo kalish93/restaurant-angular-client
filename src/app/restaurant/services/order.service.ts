@@ -32,4 +32,14 @@ export class OrderService {
    upateOrderStatus(data: any): Observable<any> {
     return this.http.put<any>(`${ORDER_URL}/status`, data);
   }
+
+   removeOrderItem(itemId: any): Observable<any> {
+    return this.http.delete<any>(`${ORDER_URL}/items/${itemId}`);
+  }
+   addOrderItem(data: any): Observable<any> {
+    return this.http.post<any>(`${ORDER_URL}/items`, data);
+  }
+   updateOrderItem(data: any): Observable<any> {
+    return this.http.put<any>(`${ORDER_URL}/items`, data);
+  }
 }

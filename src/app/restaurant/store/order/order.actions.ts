@@ -1,6 +1,6 @@
 export class PlaceOrder {
   static readonly type = `${PlaceOrder.name}`;
-  constructor(public order:any) {}
+  constructor(public order:any, public tableId: any) {}
 }
 
 export class AddToCart {
@@ -29,4 +29,17 @@ export class GetActiveTableOrder {
 export class UpdateOrderStatus {
   static readonly type = `${UpdateOrderStatus.name}`;
   constructor(public data:any) {}
+}
+
+export class RemoveOrderItem {
+  static readonly type = `${RemoveOrderItem.name}`;
+  constructor(public itemId:any,public tableId: any) {}
+}
+export class UpdateOrderItem {
+  static readonly type = `${UpdateOrderItem.name}`;
+  constructor(public data:any, public tableId: any) {}
+}
+export class AddOrderItem {
+  static readonly type = `${AddOrderItem.name}`;
+  constructor(public data:any, public tableId: any) {}
 }

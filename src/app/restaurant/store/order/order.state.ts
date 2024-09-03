@@ -13,7 +13,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 
-import { AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, PlaceOrder, UpdateCart, UpdateOrderStatus } from './order.actions';
+import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, PlaceOrder, RemoveOrderItem, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from './order.actions';
 import { OrderService } from '../../services/order.service';
 import { Cart } from '../../models/menu.model';
 
@@ -110,7 +110,7 @@ export class OrderState {
   @Action(PlaceOrder)
   createOrder(
     { setState, patchState }: StateContext<OrderStateModel>,
-    { order }: PlaceOrder
+    { order, tableId }: PlaceOrder
   ) {
     this.store.dispatch(new SetProgressOn());
     return this.orderService.placeOrder(order).pipe(
@@ -123,6 +123,8 @@ export class OrderState {
         );
 
         this.store.dispatch(new SetProgressOff());
+
+        this.store.dispatch( new GetActiveTableOrder(tableId))
         // Display a success message
         this.operationStatus.displayStatus(
           'Order sent successfully!',
@@ -209,6 +211,81 @@ getTable(
         // Display a success message
         this.operationStatus.displayStatus(
           'Status updated successfully!',
+          successStyle
+        );
+      })
+    );
+  }
+
+  @Action(UpdateOrderItem)
+  updateOrderItem(
+    { setState, patchState }: StateContext<OrderStateModel>,
+    { data, tableId }: UpdateOrderItem
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.updateOrderItem(data).pipe(
+      tap((result) => {
+        setState(
+          patch({
+
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+        this.store.dispatch(new GetActiveTableOrder(tableId))
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Order updated successfully!',
+          successStyle
+        );
+      })
+    );
+  }
+
+  @Action(RemoveOrderItem)
+  removeOrderItem(
+    { setState, patchState }: StateContext<OrderStateModel>,
+    { itemId, tableId }: RemoveOrderItem
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.removeOrderItem(itemId).pipe(
+      tap((result) => {
+        setState(
+          patch({
+
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+        this.store.dispatch(new GetActiveTableOrder(tableId))
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Item removed successfully!',
+          successStyle
+        );
+      })
+    );
+  }
+
+  @Action(AddOrderItem)
+  addOrderItem(
+    { setState, patchState }: StateContext<OrderStateModel>,
+    { data, tableId }: AddOrderItem
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.addOrderItem(data).pipe(
+      tap((result) => {
+        setState(
+          patch({
+
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+        this.store.dispatch(new GetActiveTableOrder(tableId))
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Item removed successfully!',
           successStyle
         );
       })

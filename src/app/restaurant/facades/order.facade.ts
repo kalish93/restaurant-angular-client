@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { OrderSelector } from '../store/order/order.selectors';
-import { AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, PlaceOrder, UpdateCart, UpdateOrderStatus } from '../store/order/order.actions';
+import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, PlaceOrder, RemoveOrderItem, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from '../store/order/order.actions';
 
 
 
@@ -18,8 +18,8 @@ export class OrderFacade {
 
   constructor(private store: Store) {}
 
-  dispatchPlaceOrder(data: any) {
-    this.store.dispatch(new PlaceOrder(data));
+  dispatchPlaceOrder(data: any, tableId: any) {
+    this.store.dispatch(new PlaceOrder(data, tableId));
   }
 
   dispatchAddToCart(data:any){
@@ -44,5 +44,14 @@ export class OrderFacade {
 
   dispatchUpdateOrderStatus(data: any){
     this.store.dispatch(new UpdateOrderStatus(data));
+  }
+  dispatchUpdateOrderItem(data: any, tableId: any){
+    this.store.dispatch(new UpdateOrderItem(data, tableId));
+  }
+  dispatchRemoveOrderItem(itemId: any, tableId: any){
+    this.store.dispatch(new RemoveOrderItem(itemId, tableId));
+  }
+  dispatchAddOrderItem(data: any, tableId: any){
+    this.store.dispatch(new AddOrderItem(data, tableId));
   }
 }
