@@ -42,4 +42,12 @@ export class OrderService {
    updateOrderItem(data: any): Observable<any> {
     return this.http.put<any>(`${ORDER_URL}/items`, data);
   }
+
+   requestPayment(tableId: any): Observable<any> {
+    return this.http.post<any>(`${ORDER_URL}/${tableId}/request-payment`, {});
+  }
+
+   markAsPaid(orderIds: any): Observable<any> {
+    return this.http.post<any>(`${ORDER_URL}/bill`, orderIds);
+  }
 }

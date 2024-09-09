@@ -43,3 +43,12 @@ export class AddOrderItem {
   static readonly type = `${AddOrderItem.name}`;
   constructor(public data:any, public tableId: any) {}
 }
+
+export class RequestPayment {
+  static readonly type = `${RequestPayment.name}`;
+  constructor(public tableId: any) {}
+}
+export class MarkAsPaid {
+  static readonly type = `${MarkAsPaid.name}`;
+  constructor(public orderIds: any) {}
+}

@@ -1,6 +1,10 @@
 <div class="container">
   <div class="cart-container">
     <h1>Table Order</h1>
+    <div class="action-btns">
+      <button class="status" mat-button (click)="printBill()">Print bill</button>
+    <button class="status" mat-button (click)="markAsPaid()">Mark as paid</button>
+    </div>
     <div class="cart-items" *ngIf="myOrders.length > 0; else emptyCart">
       <div *ngFor="let order of myOrders"  class="orders">
 
@@ -66,3 +70,5 @@
     </ng-template>
   </div>
 </div>
+
+

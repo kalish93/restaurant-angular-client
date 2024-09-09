@@ -45,6 +45,9 @@ export class ErrorInterceptor implements HttpInterceptor {
               `Something went wrong, ${error.error.title}`,
               errorStyle
             );
+          } else if (error.status == 401 && error.error.error == 'Unauthorized - Missing token') {
+            return of();
+
           } else if (error.status == 401 || error.status == 403) {
             // dispatch logout action
             this.operationStatusService.displayStatus(

@@ -11,12 +11,15 @@
   <div class="progress-status">
     <app-progress-status></app-progress-status>
   </div>
+  <!-- <div id="google_translate_element" style="margin-left: auto; margin-right: 15px;"></div> -->
+
   <div class="right-menu"
   [ngClass]="{'unauthenticated-full-width': !isAuthenticated || isOnSpecificPage}"
   >
     <app-notification-button
       *ngIf="(isAuthenticated$ | async)"
       (openNotificationMenu)="drawer.open()"
+
     ></app-notification-button>
     <button class="account-icon" mat-icon-button [matMenuTriggerFor]="accountMenu">
       <mat-icon>{{ accountManagement.icon }}</mat-icon>
@@ -38,7 +41,10 @@
         [routerLinkActive]="['is-active']"
       >Change Password</a>
     </mat-menu>
+    <div id="google_translate_element" style="margin-right: 15px;"></div>
   </div>
+  <!-- <div id="google_translate_element" style="margin-left: auto; margin-right: 15px;"></div> -->
+
 </mat-toolbar>
 
 <app-mobile-navigation #mobileNav (closeDrawer)="onDrawerClose()"></app-mobile-navigation>

@@ -22,12 +22,6 @@ import { GetActiveOrders } from 'src/app/restaurant/store/order/order.actions';
 export class NotificationService {
   private socket: Socket;
 
-  private audio = new Audio('assets/notification.m4a');
-
-  playNotificationSound() {
-    this.audio.play().catch(error => console.error('Error playing notification sound', error));
-  }
-
   constructor(private http: HttpClient, private store: Store,
   ) {
     const token = localStorage.getItem('accessToken');

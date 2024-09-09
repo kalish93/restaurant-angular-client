@@ -8,8 +8,8 @@
   </div>
   <mat-menu #menu="matMenu">
   <button (click)="viewOrders()" *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >View Orders</button>
-  <button *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >Request Payment</button>
-  <button (click)="callWaiter()" *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >Call Waiter</button>
+  <button (click)="requestPayment()" *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >Request Payment</button>
+  <button (click)="callWaiter()" mat-menu-item >Call Waiter</button>
 </mat-menu>
 
 <button mat-raised-button [matMenuTriggerFor]="menu">

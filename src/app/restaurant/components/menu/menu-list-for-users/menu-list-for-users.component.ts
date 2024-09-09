@@ -133,5 +133,9 @@ export class MenuListForUsersComponent implements OnInit {
     }
     this.notificationFacade.dispatchCallWaiter(dataToSend);
   }
+
+  requestPayment(){
+    this.orderFacade.dispatchRequestPayment(this.tableId);
+  }
 }
 

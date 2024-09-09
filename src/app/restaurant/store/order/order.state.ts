@@ -13,7 +13,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 
-import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, PlaceOrder, RemoveOrderItem, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from './order.actions';
+import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, MarkAsPaid, PlaceOrder, RemoveOrderItem, RequestPayment, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from './order.actions';
 import { OrderService } from '../../services/order.service';
 import { Cart } from '../../models/menu.model';
 
@@ -286,6 +286,54 @@ getTable(
         // Display a success message
         this.operationStatus.displayStatus(
           'Item removed successfully!',
+          successStyle
+        );
+      })
+    );
+  }
+
+  @Action(RequestPayment)
+  requestPayment(
+    { setState, patchState }: StateContext<OrderStateModel>,
+    { tableId }: RequestPayment
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.requestPayment(tableId).pipe(
+      tap((result) => {
+        setState(
+          patch({
+
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Payment requested successfully!',
+          successStyle
+        );
+      })
+    );
+  }
+
+  @Action(MarkAsPaid)
+  markAsPaid(
+    { setState, patchState }: StateContext<OrderStateModel>,
+    { orderIds }: MarkAsPaid
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.markAsPaid(orderIds).pipe(
+      tap((result) => {
+        setState(
+          patch({
+
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Table Reset successfully!',
           successStyle
         );
       })

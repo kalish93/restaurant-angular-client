@@ -25,6 +25,7 @@ export class ActiveTableOrdersComponent implements OnInit {
   myOrders: any[] = [];
   tableId: any;
   editQuantity: boolean = false;
+  combinedItems: any[] = []
 
   constructor(
     private state: RxState<OrdersComponentState>,
@@ -45,7 +46,13 @@ export class ActiveTableOrdersComponent implements OnInit {
     this.$myOrders.subscribe((data) => {
       this.myOrders = data;
       console.log(data[0].items)
+      this.combineItemsForReceipt();
     });
+  }
+
+  combineItemsForReceipt() {
+    // Combine all items from the orders into a single array
+    this.combinedItems = this.myOrders.flatMap(order => order.items);
   }
 
   getOrderStatusName(status: string): string {
@@ -119,6 +126,10 @@ export class ActiveTableOrdersComponent implements OnInit {
     return item.reduce((total: number, item: { menuItem: { price: number; }; quantity: number; }) => total + (item.menuItem.price * item.quantity), 0);
   }
 
+  getTotalForInvoice() {
+    return this.combinedItems.reduce((total: number, item: { menuItem: { price: number; }; quantity: number; }) => total + (item.menuItem.price * item.quantity), 0);
+  }
+
   openAddMenuItemModal(orderId: any) {
     const dialogRef = this.dialog.open(AddItemToOrderComponent, {
       width: '400px',
@@ -133,4 +144,66 @@ export class ActiveTableOrdersComponent implements OnInit {
     });
   }
 
+
+
+  // printBill() {
+  //   const printContent = document.getElementById('printableArea')?.innerHTML;
+  //   const originalContent = document.body.innerHTML;
+
+  //   if (printContent) {
+  //     document.body.innerHTML = printContent;
+  //     window.print();
+  //     document.body.innerHTML = originalContent;
+  //   }
+  // }
+
+  getCurrentDate(): string {
+    const now = new Date();
+    return now.toLocaleDateString(); // Format the date
+  }
+
+  getCurrentTime(): string {
+    const now = new Date();
+    return now.toLocaleTimeString(); // Format the time
+  }
+
+  markAsPaid(){
+    const dataToSend = {
+      orderIds: this.myOrders.flatMap(order => order.id)
+    }
+    this.orderFacade.dispatchMarkAsPaid(dataToSend);
+  }
+
+  printBill() {
+    const printableContent = `
+      <div style="font-family: 'Courier New', Courier, monospace; width: 100%; padding: 10px; max-width: 80mm">
+        <div style="text-align: center;">${this.myOrders[0].restaurant.name}</div>
+        <hr/>
+        <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
+        <span>${this.getCurrentDate()}</span>
+        <span>${this.getCurrentTime()}</span>
+        </div>
+        <hr/>
+        ${this.combinedItems.map(item => `
+          <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
+            <span>${item.menuItem.name}</span>
+            <span>${item.quantity} x ${item.menuItem.price }</span>
+            <span>= ${(item.quantity * item.menuItem.price)}</span>
+          </div>
+        `).join('')}
+        <hr/>
+        <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;"><span style="text-align: center;">Total:</span><span> ${this.getTotalForInvoice()}</span></div>
+        <hr/>
+        <p style="text-align: center; margin-top: 25px;">
+        Thank you for dining with us!<br/>
+        Please visit us again.
+      </p>
+      </div>
+    `;
+
+    const originalContent = document.body.innerHTML;
+    document.body.innerHTML = printableContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+  }
 }

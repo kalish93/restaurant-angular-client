@@ -114,6 +114,7 @@ export class HomeComponent implements OnInit {
     this.authFacade.dispatchLogout();
     this.router.navigate([LOGIN_ROUTE]);
   }
+  
 
   manageAccounts() {}
 
