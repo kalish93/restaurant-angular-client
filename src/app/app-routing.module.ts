@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/components/login/login.component';
 import {
   CART_ROUTE,
+  CHANGE_PASSWORD_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
   MENU_LIST,
@@ -29,6 +30,7 @@ import { OrderHistoryComponent } from './restaurant/components/order/order-histo
 import { RestaurantStaffComponent } from './restaurant/components/restaurant-staff/restaurant-staff.component';
 import { ActiveTableOrdersComponent } from './restaurant/components/table/active-table-orders/active-table-orders.component';
 import { DashboardComponent } from './restaurant/components/dashboard/dashboard.component';
+import { ChangePasswordComponent } from './users/components/change-password/change-password.component';
 
 
 const routes: Routes = [
@@ -76,7 +78,10 @@ const routes: Routes = [
       component: RestaurantStaffComponent
       },
       { path: 'dashboard', component: DashboardComponent},
-
+      {
+        path: CHANGE_PASSWORD_ROUTE,
+        component: ChangePasswordComponent,
+      },
     ]
    },
 

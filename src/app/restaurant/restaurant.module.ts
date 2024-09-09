@@ -30,6 +30,7 @@ import { RestaurantStaffComponent } from './components/restaurant-staff/restaura
 import { ActiveTableOrdersComponent } from './components/table/active-table-orders/active-table-orders.component';
 import { AddItemToOrderComponent } from './components/table/add-item-to-order/add-item-to-order.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardState } from './store/dashboard/dashboard.state';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   imports: [
     SharedModule,
     UsersRoutingModule,
-    NgxsModule.forFeature([RestaurantState, StockState, CategoryState, MenuState, OrderState]),
+    NgxsModule.forFeature([RestaurantState, StockState, CategoryState, MenuState, OrderState, DashboardState]),
     FormsModule,
   ],
 })

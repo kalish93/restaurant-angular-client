@@ -139,7 +139,7 @@ export class UserFacade {
     this.store.dispatch(new ToggleStatus(id));
   }
 
-  dispatchChangePassword(changePassword: ChangePasswordRequest) {
+  dispatchChangePassword(changePassword: any) {
     this.store.dispatch(new ChangePassword(changePassword));
   }
 

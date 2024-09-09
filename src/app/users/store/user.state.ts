@@ -340,7 +340,7 @@ export class UserState {
     { changePassword }: ChangePassword
   ) {
     return this.usersService.changePassword(changePassword).pipe(
-      tap((_) => {
+      tap((result) => {
         setState(
           patch({
             isChangePasswordSuccessful: true,

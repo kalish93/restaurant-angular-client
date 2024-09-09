@@ -7,6 +7,7 @@ import {
   RESET_PASSWORD_URL,
   ROLES_URL,
   CHANGE_PASSWORD_URL,
+  API_BASE_URL,
 } from 'src/app/core/constants/api-endpoints';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 import { User } from '../models/user.model';
@@ -122,8 +123,8 @@ export class UsersService {
   }
 
   changePassword(changePassword: ChangePasswordRequest): Observable<any> {
-    return this.http.post<any>(
-      `${CHANGE_PASSWORD_URL}`,
+    return this.http.put<any>(
+      `${API_BASE_URL}/change-password`,
       changePassword,
       this.httpOptions
     );

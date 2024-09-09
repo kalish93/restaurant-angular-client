@@ -22,10 +22,6 @@ const initHomeComponentState: Partial<HomeComponentState> = {
   isAuthenticated: true,
 };
 
-import {
-  RegistrationType,
-  UserFormComponent,
-} from '../users/components/user-form/user-form.component';
 import { MobileNavigationComponent } from '../mobile-navigation/mobile-navigation.component';
 
 @Component({
@@ -55,7 +51,7 @@ export class HomeComponent implements OnInit {
   };
 
   changePasswordRoute = {
-    link: CHANGE_PASSWORD_ROUTE,
+    link: `home/${CHANGE_PASSWORD_ROUTE}`,
     label: 'Change Password',
     icon: '',
   };
@@ -72,6 +68,7 @@ export class HomeComponent implements OnInit {
     this.state.set(initHomeComponentState);
     this.state.connect('isAuthenticated', authFacade.isAuthenticated$);
   }
+  @ViewChild('mobileNav') mobileNav!: MobileNavigationComponent;
 
   ngOnInit(): void {
     this.isAuthenticated$.subscribe((isAuthenticated) => {
@@ -114,18 +111,7 @@ export class HomeComponent implements OnInit {
     this.authFacade.dispatchLogout();
     this.router.navigate([LOGIN_ROUTE]);
   }
-  
 
-  manageAccounts() {}
-
-  addUser() {
-    this.matDialog.open(UserFormComponent, {
-      data: { update: false, registrationType: RegistrationType.USER },
-      disableClose: true,
-    });
-  }
-
-  @ViewChild('mobileNav') mobileNav!: MobileNavigationComponent;
 
   openMobileNavigation() {
     if (this.mobileNav) {

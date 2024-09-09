@@ -1,4 +1,45 @@
 <div  class="container">
+
+  <div class="dashboard-container">
+    <h1 class="dashboard-title">Dashboard</h1>
+
+    <div class="dashboard-cards">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-icon class="card-icon">store</mat-icon>
+          <mat-card-title>Number of Restaurants</mat-card-title>
+          <mat-card-subtitle>Total registered restaurants</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ numberOfRestaurants }}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-icon class="card-icon">people</mat-icon>
+          <mat-card-title>Number of Restaurant Staff</mat-card-title>
+          <mat-card-subtitle>Total staff members</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ numberOfRestaurantStaff }}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-icon class="card-icon">admin_panel_settings</mat-icon>
+          <mat-card-title>Number of Admins</mat-card-title>
+          <mat-card-subtitle>Platform administrators</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ numberOfAdmins }}</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+
 <div *appHasRole="[hasManagerRole(), hasKitchenRole(), hasWaiterRole(), hasBartenderRole()]">
   <app-active-order-list></app-active-order-list>
 </div>

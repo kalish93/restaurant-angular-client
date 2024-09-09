@@ -14,13 +14,7 @@ import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { UserFacade } from '../../facade/user.facade';
 import { User } from '../../models/user.model';
-import {
-  RegistrationType,
-  UserFormComponent,
-} from '../user-form/user-form.component';
 import { RoleFacade } from '../../facade/role.facade';
-import { ChangeRoleComponent } from '../change-role/change-role.component';
-import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 import { AddAdminFormComponent } from '../add-admin-form/add-admin-form.component';
 
 interface UserListComponentState {
@@ -55,8 +49,6 @@ export class UserListComponent implements OnInit {
   gridOptions!: GridOption;
   angularGrid!: AngularGridInstance;
   dataset: any[] = [];
-
-  registrationType?: RegistrationType = RegistrationType.ADMIN;
 
   users$ = this.state.select('users');
   roles$: Observable<Role[]> = this.roleState.select('roles');
@@ -104,9 +96,6 @@ export class UserListComponent implements OnInit {
     });
     this.roles$.subscribe((roles) => (this.roles = roles));
 
-    this.route.data.subscribe((data) => {
-      this.registrationType = data['registrationType'];
-    });
   }
 
   getUsersBySearch() {
@@ -131,13 +120,13 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  editUser(user: User) {
-    this.userFacade.dispatchSelectUser(user);
-    this.matDialog.open(UserFormComponent, {
-      data: { update: true, registrationType: this.registrationType },
-      disableClose: true,
-    });
-  }
+  // editUser(user: User) {
+  //   this.userFacade.dispatchSelectUser(user);
+  //   this.matDialog.open(UserFormComponent, {
+  //     data: { update: true, registrationType: this.registrationType },
+  //     disableClose: true,
+  //   });
+  // }
 
   deleteUser(user: User) {
     this.matDialog.open(ConfirmDialogComponent, {

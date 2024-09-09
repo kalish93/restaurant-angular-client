@@ -27,20 +27,24 @@ const initChangePasswordComponentState: Partial<ChangePasswordComponentState> =
   providers: [RxState],
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
-  passwordPattern =
-    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  // passwordPattern =
+  //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   changePasswordForm = this.fb.group({
-    currentPassword: ['', [Validators.required, Validators.minLength(8)]],
+    email: ['', Validators.required],
+    currentPassword: ['', [Validators.required]],
     newPassword: [
       '',
       [
         Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(this.passwordPattern),
+        Validators.minLength(6),
         this.currentAndNewPasswordEqualityValidator,
       ],
     ],
-    currentUsername: ['', [Validators.required]],
+    confirmNewPassword: [
+      '',
+      [Validators.required, this.confirmNewPasswordValidator()],
+    ],
   });
 
   changePasswordSuccess$: Observable<boolean> = this.state.select(
@@ -48,6 +52,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   );
   hideCurrentPassword = true;
   hideNewPassword = true;
+  hideConfirmNewPassword = true;
 
   constructor(
     private fb: NonNullableFormBuilder,
@@ -69,6 +74,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   ngOnDestroy(): void {
     this.userFacade.dispatchResetChangePasswordStatus();
   }
@@ -78,8 +84,11 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       this.hideCurrentPassword = !this.hideCurrentPassword;
     } else if (field === 'newPassword') {
       this.hideNewPassword = !this.hideNewPassword;
+    } else if (field === 'confirmNewPassword') {
+      this.hideConfirmNewPassword = !this.hideConfirmNewPassword; // Added toggle for confirm password
     }
   }
+
   currentAndNewPasswordEqualityValidator(control: AbstractControl) {
     if (!control.parent) {
       return null;
@@ -94,21 +103,39 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  changePassword() {
-    const { valid, touched, dirty } = this.changePasswordForm;
+  passwordsMatchValidator(control: AbstractControl) {
+    const newPassword = control.parent?.get('newPassword')?.value;
+    const confirmNewPassword = control.value;
 
-    if (
-      valid &&
-      (touched || dirty) &&
-      this.changePasswordForm.value.currentPassword &&
-      this.changePasswordForm.value.newPassword &&
-      this.changePasswordForm.value.currentUsername
-    ) {
-      this.userFacade.dispatchChangePassword({
-        currentPassword: this.changePasswordForm.value.currentPassword,
+    if (newPassword !== confirmNewPassword) {
+      return { passwordMismatch: true };
+    }
+
+    return null;
+  }
+
+  confirmNewPasswordValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const newPassword = this.changePasswordForm?.get('newPassword')?.value;
+      const confirmPassword = control.value;
+
+      if (newPassword !== confirmPassword) {
+        return { passwordMismatch: true };
+      }
+      return null;
+    };
+  }
+
+  changePassword() {
+    if (this.changePasswordForm.valid) {
+      const dataToSend = {
+        email:  this.changePasswordForm.value.email,
+        oldPassword: this.changePasswordForm.value.currentPassword,
         newPassword: this.changePasswordForm.value.newPassword,
-        currentUsername: this.changePasswordForm.value.currentUsername,
-      });
+        newPasswordConfirmation: this.changePasswordForm.value.confirmNewPassword
+      }
+      this.userFacade.dispatchChangePassword(dataToSend);
+      this.router.navigate([LOGIN_ROUTE]);
     }
   }
 }
