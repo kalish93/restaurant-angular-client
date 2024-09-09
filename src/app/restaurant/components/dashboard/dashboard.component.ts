@@ -71,4 +71,7 @@ export class DashboardComponent implements OnInit{
   hasWaiterRole() {
     return Roles.Waiter;
   }
+  hasAdminRole() {
+    return Roles.Admin;
+  }
 }
