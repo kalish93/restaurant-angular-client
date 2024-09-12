@@ -37,7 +37,7 @@
         </mat-card-header>
 
         <mat-card-content>
-          <mat-card-subtitle>{{ item.ingredients }}</mat-card-subtitle>
+          <mat-card-subtitle>{{ item?.ingredients }}</mat-card-subtitle>
         </mat-card-content>
         <mat-card-actions align="end">
           <button class="order-btn" mat-flat-button color="primary" (click)="order(item)">Order</button>

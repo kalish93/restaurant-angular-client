@@ -16,7 +16,7 @@
             <img mat-list-avatar [src]="getImageUrl(item.menuItem.image)" alt="Item Image">
             <div class="item-info">
               <h3 class="name">{{ item.menuItem.name }}</h3>
-              <p class="ingredients">{{ item.menuItem.ingredients }}</p>
+              <p class="ingredients">{{ item.menuItem?.ingredients }}</p>
               <div class="item-meta">
                 <span class="price">{{ item.menuItem.price }} {{item.menuItem?.currency}}</span>
                 <div class="quantity-edit">
