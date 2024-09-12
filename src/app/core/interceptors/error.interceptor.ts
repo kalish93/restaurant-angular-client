@@ -11,6 +11,9 @@ import { NGXLogger } from 'ngx-logger';
 import { errorStyle } from '../services/operation-status/status-style-names';
 import { AuthFacade } from 'src/app/auth/facade/auth.facade';
 import { ProgressStatusFacade } from '../facades/progress-status.facade';
+import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { Logout } from 'src/app/auth/store/auth.actions';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -18,7 +21,9 @@ export class ErrorInterceptor implements HttpInterceptor {
     private operationStatusService: OperationStatusService,
     private logger: NGXLogger,
     private authFacade: AuthFacade,
-    private progressStatusFacade: ProgressStatusFacade
+    private progressStatusFacade: ProgressStatusFacade,
+    private router: Router,
+    private store: Store
   ) {}
 
   shouldRetry(error: any, retryCount: number) {
@@ -47,6 +52,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             );
           } else if (error.status == 401 && error.error.error == 'Unauthorized - Missing token') {
             return of();
+          } else if (error.status == 401 && error.error.error == 'jwt expired') {
+            this.router.navigate(['/login']);
+            this.store.dispatch(new Logout());
 
           } else if (error.status == 401 || error.status == 403) {
             // dispatch logout action
