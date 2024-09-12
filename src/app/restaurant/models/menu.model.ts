@@ -8,6 +8,7 @@ export interface Menu {
   category : Category,
   image: string,
   destination: any;
+  currency: string;
 }
 
 export interface Cart {

@@ -145,3 +145,20 @@
   align-items: center;
   justify-content: center;
 }
+
+.active {
+  background-color: green;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: small;
+}
+
+.inactive {
+  background-color: red;
+  color: white;
+  padding: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: small;
+}

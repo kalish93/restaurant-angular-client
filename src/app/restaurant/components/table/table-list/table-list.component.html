@@ -15,7 +15,10 @@
             <mat-icon>more_vert</mat-icon>
           </button>
          </div>
-         <mat-chip>{{table.status}}</mat-chip>
+         <!-- <mat-chip>{{table.status}}</mat-chip> -->
+         <span [ngClass]="table.status === 'AVAILABLE' ? 'active' : 'inactive'">
+          {{ table.status }}
+        </span>
 
           <mat-menu #menu>
             <button *appHasRole="[hasManagerRole()]" mat-menu-item color="primary" (click)="openEditRestaurantDialog(table,  $event)">

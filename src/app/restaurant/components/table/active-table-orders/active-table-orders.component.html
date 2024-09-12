@@ -18,7 +18,7 @@
               <h3 class="name">{{ item.menuItem.name }}</h3>
               <p class="ingredients">{{ item.menuItem.ingredients }}</p>
               <div class="item-meta">
-                <span class="price">{{ item.menuItem.price | currency }}</span>
+                <span class="price">{{ item.menuItem.price }} {{item.menuItem?.currency}}</span>
                 <div class="quantity-edit">
                   <label class="lable" for="quantity-{{item.menuItem.id}}">Qty:</label>
                   <input
@@ -58,7 +58,7 @@
         </mat-list-item>
       <!-- </mat-list> -->
       <div class="cart-summary">
-        <h3>Total: {{ getTotal(order.items) | currency }}</h3>
+        <h3>Total: {{ getTotal(order.items)}} {{order.items[0].menuItem?.currency}}</h3>
        <div>
         <button (click)="openAddMenuItemModal(order.id)" mat-raised-button class="add-btn" color="primary" >Add New Item</button>
        </div>

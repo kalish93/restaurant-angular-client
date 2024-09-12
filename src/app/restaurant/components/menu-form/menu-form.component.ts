@@ -46,7 +46,8 @@ export class MenuFormComponent implements OnInit {
       name: ['', [Validators.required]],
       ingredients: ['', []],
       price: ['', [Validators.required, Validators.min(0)]],
-      itemType: ['', Validators.required],  // New form control for item type
+      itemType: ['', Validators.required],
+      currency: ['', Validators.required],
     });
     if (data) {
       this.addMenuForm.patchValue({
@@ -83,7 +84,8 @@ export class MenuFormComponent implements OnInit {
       ingredients: menuItem.ingredients,
       price: menuItem.price,
       category: menuItem.category.id,
-      itemType: menuItem.destination
+      itemType: menuItem.destination,
+      currency: menuItem.currency
     });
 
     this.imageFile = menuItem.image as any;
@@ -105,15 +107,18 @@ export class MenuFormComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.addMenuForm.valid && this.imageFile) {
+    if (this.addMenuForm.valid) {
       const formData = new FormData();
+      if(this.imageFile){
+        formData.append('image', this.imageFile);
+      }
       formData.append('name', this.addMenuForm.get('name')?.value);
       formData.append('ingredients', this.addMenuForm.get('ingredients')?.value);
       formData.append('categoryId', this.addMenuForm.get('category')?.value);
       formData.append('price', this.addMenuForm.get('price')?.value);
       formData.append('quantity', this.addMenuForm.get('quantity')?.value);
-      formData.append('image', this.imageFile);
       formData.append('destination',  this.addMenuForm.get('itemType')?.value);
+      formData.append('currency',  this.addMenuForm.get('currency')?.value);
 
       if(this.data?.editableItem){
         formData.append('id', this.data?.editableItem?.id);
