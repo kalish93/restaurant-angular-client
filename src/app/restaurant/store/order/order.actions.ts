@@ -50,5 +50,5 @@ export class RequestPayment {
 }
 export class MarkAsPaid {
   static readonly type = `${MarkAsPaid.name}`;
-  constructor(public orderIds: any) {}
+  constructor(public orderIds: any, public tableId: any) {}
 }

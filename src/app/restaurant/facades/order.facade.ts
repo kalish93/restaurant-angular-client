@@ -58,7 +58,7 @@ export class OrderFacade {
     this.store.dispatch(new RequestPayment(tableId));
   }
 
-  dispatchMarkAsPaid(orderIds: any){
-    this.store.dispatch(new MarkAsPaid(orderIds));
+  dispatchMarkAsPaid(orderIds: any, tableId: any){
+    this.store.dispatch(new MarkAsPaid(orderIds, tableId));
   }
 }

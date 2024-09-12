@@ -319,7 +319,7 @@ getTable(
   @Action(MarkAsPaid)
   markAsPaid(
     { setState, patchState }: StateContext<OrderStateModel>,
-    { orderIds }: MarkAsPaid
+    { orderIds, tableId }: MarkAsPaid
   ) {
     this.store.dispatch(new SetProgressOn());
     return this.orderService.markAsPaid(orderIds).pipe(
@@ -331,6 +331,7 @@ getTable(
         );
 
         this.store.dispatch(new SetProgressOff());
+        this.store.dispatch(new GetActiveTableOrder(tableId))
         // Display a success message
         this.operationStatus.displayStatus(
           'Table Reset successfully!',

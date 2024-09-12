@@ -171,7 +171,7 @@ export class ActiveTableOrdersComponent implements OnInit {
     const dataToSend = {
       orderIds: this.myOrders.flatMap(order => order.id)
     }
-    this.orderFacade.dispatchMarkAsPaid(dataToSend);
+    this.orderFacade.dispatchMarkAsPaid(dataToSend, this.tableId);
   }
 
   printBill() {
