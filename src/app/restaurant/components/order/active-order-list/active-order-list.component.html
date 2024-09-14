@@ -1,5 +1,6 @@
 <div class="container" *appHasRole="[hasManagerRole(), hasKitchenRole(), hasWaiterRole(), hasBartenderRole()]">
   <h1>Active Orders</h1>
+  <div class="card-grid">
 
   <div *ngFor="let order of orders">
     <mat-card class="order-card">
@@ -57,7 +58,7 @@
         </mat-list-item>
       </mat-card-content>
 
-      <mat-card-actions>
+      <mat-card-actions class="btns">
         <ng-container *appHasRole="[hasBartenderRole(), hasKitchenRole()]">
           <button
             *ngIf="order.status === 'PENDING'"
@@ -133,5 +134,6 @@
         </ng-container>
       </mat-card-actions>
     </mat-card>
+  </div>
   </div>
 </div>

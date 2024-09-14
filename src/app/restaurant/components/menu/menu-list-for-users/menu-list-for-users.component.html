@@ -31,9 +31,10 @@
     <div class="menu-grid">
       <mat-card class="card-container mat-elevation-z16" *ngFor="let item of category.value">
         <img mat-card-image [src]="getImageUrl(item.image)" alt="Photo of a menu item">
+       <div class="card-content">
         <mat-card-header class="card-title">
           <mat-card-title>{{ item.name }}</mat-card-title>
-          <span><h3 class="price">{{ item.price }} {{item?.currency}}</h3></span>
+          <h3 class="price">{{ item.price }} {{ item?.currency }}</h3>
         </mat-card-header>
 
         <mat-card-content>
@@ -42,6 +43,7 @@
         <mat-card-actions align="end">
           <button class="order-btn" mat-flat-button color="primary" (click)="order(item)">Order</button>
         </mat-card-actions>
+       </div>
       </mat-card>
     </div>
   </div>

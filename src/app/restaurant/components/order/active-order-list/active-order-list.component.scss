@@ -4,28 +4,12 @@
   background-color: rgb(218, 236, 214);
 }
 
-.status-chip {
-  padding: 4px 8px;
-  border-radius: 16px;
-  color: white;
-  font-weight: bold;
-
-  &.PENDING {
-    background-color: #ff9800;
-  }
-  &.IN_PROGRESS {
-    background-color: #2196f3;
-  }
-  &.PAYMENT_REQUESTED {
-    background-color: #f44336;
-  }
-  &.READY {
-    background-color: #4caf50;
-  }
-  &.SERVED {
-    background-color: #9c27b0;
-  }
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid layout */
+  gap: 16px; /* Space between the cards */
 }
+
 .order-card {
   margin-bottom: 1rem;
   border-radius: 8px;
@@ -33,19 +17,46 @@
   display: flex;
   flex-direction: column;
   min-height: 200px;
+  padding: 16px;
+  background-color: white;
+  height: 100%;
 }
 
+.status-chip {
+  padding: 4px 8px;
+  border-radius: 16px;
+  color: white;
+  font-weight: bold;
+}
 
-.order-items {
-  mat-list {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+.status-chip.PENDING {
+  background-color: #ff9800;
+}
 
-    mat-list-item {
-      margin: 4px 0; // Adjust margin as needed
-    }
-  }
+.status-chip.IN_PROGRESS {
+  background-color: #2196f3;
+}
+
+.status-chip.PAYMENT_REQUESTED {
+  background-color: #f44336;
+}
+
+.status-chip.READY {
+  background-color: #4caf50;
+}
+
+.status-chip.SERVED {
+  background-color: #9c27b0;
+}
+
+.order-items mat-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.order-items mat-list-item {
+  margin: 4px 0; /* Adjust margin as needed */
 }
 
 mat-card-actions {
@@ -53,14 +64,12 @@ mat-card-actions {
   justify-content: flex-end;
 }
 
-
-
 mat-list-item {
   display: flex;
   align-items: center;
 }
 
-.order{
+.order {
   padding: 1rem;
   background-color: rgb(241, 250, 239);
 }
@@ -85,4 +94,20 @@ mat-list-item {
 
 .cancel:hover {
   background-color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: 1fr; 
+  }
+}
+
+.btns{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+button{
+  margin: 3px;
 }
