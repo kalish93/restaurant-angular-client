@@ -15,7 +15,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTable, GetTables, UpdateRestaurant, UpdateRestaurantStaff, UpdateTable } from './restaurant.actions';
+import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTable, GetTables, UpdateRestaurant, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface RestaurantStateModel {
@@ -423,6 +423,58 @@ deleteRestaurantStaff(
       this.operationStatus.displayStatus(
         'Staff deleted successfully!',
         successStyle
+      );
+    })
+  );
+}
+
+@Action(UpdateRestaurantStatus)
+updateRestaurantStatus(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data }: UpdateRestaurantStatus
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.updateRestaurantStatus(data).pipe(
+    tap((updatedRestaurant) => {
+
+      setState(
+        patch({
+         selectedRestaurant: updatedRestaurant
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Restaurant status updated successfully!',
+        successStyle,
+      );
+    })
+  );
+}
+
+@Action(UpdateRestaurantTaxRate)
+updateRestaurantTaxRate(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data }: UpdateRestaurantTaxRate
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.updateRestaurantTaxRate(data).pipe(
+    tap((updatedRestaurant) => {
+
+      setState(
+        patch({
+         selectedRestaurant: updatedRestaurant
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Restaurant tax rate updated successfully!',
+        successStyle,
       );
     })
   );

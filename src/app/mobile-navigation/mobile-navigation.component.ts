@@ -92,6 +92,11 @@ export class MobileNavigationComponent  {
           label: 'My Staff',
           icon: 'persons',
         },
+        {
+          link:  'settings',
+          label: 'Settings',
+          icon: 'settings',
+        },
       ];
 
     }else{

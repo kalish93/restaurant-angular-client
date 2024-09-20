@@ -31,6 +31,7 @@ import { ActiveTableOrdersComponent } from './components/table/active-table-orde
 import { AddItemToOrderComponent } from './components/table/add-item-to-order/add-item-to-order.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardState } from './store/dashboard/dashboard.state';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { DashboardState } from './store/dashboard/dashboard.state';
    RestaurantStaffComponent,
    ActiveTableOrdersComponent,
    AddItemToOrderComponent,
-   DashboardComponent
+   DashboardComponent,
+   SettingsComponent
   ],
   imports: [
     SharedModule,

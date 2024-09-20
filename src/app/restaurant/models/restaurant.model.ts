@@ -13,5 +13,7 @@ export interface Restaurant {
   orders: string[];
   users: User[];
   isActive: boolean;
+  isOpen: boolean;
+  taxRate: number;
   createdAt: string;
 }

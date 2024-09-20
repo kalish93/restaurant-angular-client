@@ -93,3 +93,16 @@ export class DeleteRestaurantStaff {
     public readonly id: any,
   ) {}
 }
+
+export class UpdateRestaurantStatus {
+  static readonly type = `${UpdateRestaurantStatus.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}
+export class UpdateRestaurantTaxRate {
+  static readonly type = `${UpdateRestaurantTaxRate.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}

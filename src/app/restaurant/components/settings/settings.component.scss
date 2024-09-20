@@ -1,0 +1,55 @@
+.container {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: rgb(218, 236, 214);
+}
+
+.settings-card {
+  margin-bottom: 20px;
+  width: 400px;
+  background-color: #e6f5e9; /* Light green background for the card */
+  border-radius: 10px;
+  box-shadow: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1{
+  text-align: center;
+}
+
+.cards{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 3rem;
+}
+
+.switch-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+mat-card-title{
+  text-align: center;
+  margin: 1rem;
+}
+
+.tax-setting-container{
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.btn{
+  background-color: rgb(99, 150, 111);
+  color: white;
+}
+
+@media (max-width: 430px) {
+  .settings-card{
+    width: 90vw;
+  }
+}

@@ -82,4 +82,12 @@ export class RestaurantService {
   getTable(tableId: any): Observable<any> {
     return this.http.get<any>(`${TABLES_URL}/${tableId}`);
   }
+
+  updateRestaurantStatus(data: any): Observable<any> {
+    return this.http.put<any>(`${RESTAURANTS_URL}/${data.restaurantId}/status`, data, this.httpOptions);
+  }
+
+  updateRestaurantTaxRate(data: any): Observable<any> {
+    return this.http.put<any>(`${RESTAURANTS_URL}/${data.restaurantId}/tax-rate`, data, this.httpOptions);
+  }
 }

@@ -31,6 +31,7 @@ import { RestaurantStaffComponent } from './restaurant/components/restaurant-sta
 import { ActiveTableOrdersComponent } from './restaurant/components/table/active-table-orders/active-table-orders.component';
 import { DashboardComponent } from './restaurant/components/dashboard/dashboard.component';
 import { ChangePasswordComponent } from './users/components/change-password/change-password.component';
+import { SettingsComponent } from './restaurant/components/settings/settings.component';
 
 
 const routes: Routes = [
@@ -78,6 +79,7 @@ const routes: Routes = [
       component: RestaurantStaffComponent
       },
       { path: 'dashboard', component: DashboardComponent},
+      { path: 'settings', component: SettingsComponent},
       {
         path: CHANGE_PASSWORD_ROUTE,
         component: ChangePasswordComponent,

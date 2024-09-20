@@ -1,0 +1,53 @@
+<div class="container">
+  <h1>Settings</h1>
+  <div class="cards">
+    <mat-card class="settings-card">
+      <mat-card-title>Restaurant Status</mat-card-title>
+      <mat-card-content class="switch-container">
+        <mat-slide-toggle
+          formControlName="restaurantStatus"
+          color="primary"
+          (change)="onOpenOrClose()"
+          [checked]="restaurant.isOpen"
+        >
+          {{ settingsForm.get("restaurantStatus")?.value ? "Open" : "Closed" }}
+        </mat-slide-toggle>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="settings-card">
+      <mat-card-title>Tax Settings</mat-card-title>
+
+      <mat-card-content>
+        <form
+          [formGroup]="settingsForm"
+          (ngSubmit)="onSubmit()"
+          class="tax-setting-container"
+        >
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Tax Rate (%)</mat-label>
+            <input matInput type="number" formControlName="taxRate" />
+            <mat-error
+              *ngIf="settingsForm.get('taxRate')?.hasError('required')"
+            >
+              Tax rate is required
+            </mat-error>
+            <mat-error *ngIf="settingsForm.get('taxRate')?.hasError('min')">
+              Tax rate must be positive
+            </mat-error>
+          </mat-form-field>
+
+          <button
+            class="btn"
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="settingsForm.invalid"
+          >
+            Save Tax Rate
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

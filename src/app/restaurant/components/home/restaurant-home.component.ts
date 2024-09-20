@@ -144,6 +144,11 @@ export class RestaurantHomeComponent {
           label: 'My Staff',
           icon: 'persons',
         },
+        {
+          link:  'settings',
+          label: 'Settings',
+          icon: 'settings',
+        },
       ];
 
     }else{
