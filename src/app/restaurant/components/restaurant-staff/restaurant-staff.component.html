@@ -2,7 +2,7 @@
    <div class="users-list-container">
      <div class="header">
        <h2>Restaurant Staff</h2>
-       <button (click)="openAddStaffDialog()" class="add-btn" mat-flat-button>
+       <button *appHasRole="[hasManagerRole()]" (click)="openAddStaffDialog()" class="add-btn" mat-flat-button>
          <mat-icon>add</mat-icon>
          <span>Add Staff</span>
        </button>

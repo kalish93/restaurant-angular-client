@@ -1,5 +1,5 @@
 <div class="container">
-<div class="header">
+<div class="header" *ngIf="restaurant.isOpen">
   <div class="cart-container" (click)="navigateToCart()">
     <mat-icon class="cart-icon" >
       shopping_cart
@@ -12,7 +12,7 @@
   <button (click)="callWaiter()" mat-menu-item >Call Waiter</button>
 </mat-menu>
 
-<button mat-raised-button [matMenuTriggerFor]="menu">
+<button mat-raised-button [matMenuTriggerFor]="menu" *ngIf="restaurant.isOpen">
   Actions
   <mat-icon>arrow_drop_down</mat-icon>
 </button>
@@ -22,10 +22,12 @@
   <div class="menu-section">
     <div class="menu-title">
       <h2>Discover Our Menus</h2>
-      <p class="menu-sub-title">Indulge in a curated selection of culinary delights, crafted to satisfy every palate. Whether you're in the mood for a comforting classic or an adventurous new flavor, our menu has something special for everyone. Explore our offerings and savor the best of what we have to offer.</p>
+      <p *ngIf="restaurant.isOpen" class="menu-sub-title">Indulge in a curated selection of culinary delights, crafted to satisfy every palate. Whether you're in the mood for a comforting classic or an adventurous new flavor, our menu has something special for everyone. Explore our offerings and savor the best of what we have to offer.</p>
+      <p *ngIf="!restaurant.isOpen" class="menu-sub-title">Sorry, the restaurant is currently closed.</p>
     </div>
   </div>
 
+<ng-container *ngIf="restaurant.isOpen" >
   <div *ngFor="let category of categorizedMenus | keyvalue">
     <h3 class="category-title">{{ category.key }}</h3>
     <div class="menu-grid">
@@ -47,4 +49,5 @@
       </mat-card>
     </div>
   </div>
+</ng-container >
 </div>

@@ -95,4 +95,8 @@ export class TableListComponent implements OnInit{
   hasManagerRole(){
     return Roles.RestaurantManager
   }
+  
+  hasWaiterRole(){
+    return Roles.Waiter
+  }
 }

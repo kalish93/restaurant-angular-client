@@ -7,6 +7,7 @@ import { AddRestaurantStaffComponent } from '../add-restaurant-staff/add-restaur
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { AuthFacade } from 'src/app/auth/facade/auth.facade';
 import{ jwtDecode} from 'jwt-decode';
+import { Roles } from 'src/app/core/constants/roles';
 
 interface RestaurantDetailComponentState {
   restaurant: Restaurant | null;
@@ -97,4 +98,7 @@ export class RestaurantStaffComponent implements OnInit{
     });
   }
 
+  hasManagerRole(){
+    return Roles.RestaurantManager
+  }
 }
