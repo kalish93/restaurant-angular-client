@@ -106,3 +106,46 @@ export class UpdateRestaurantTaxRate {
     public readonly data: any
   ) {}
 }
+export class CreateCreditCard {
+  static readonly type = `${CreateCreditCard.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}
+export class DeleteCreditCard {
+  static readonly type = `${DeleteCreditCard.name}`;
+  constructor(
+    public readonly id: any
+  ) {}
+}
+export class GetCreditCards {
+  static readonly type = `${GetCreditCards.name}`;
+  constructor(
+    public readonly restaurantId: any
+  ) {}
+}
+
+export class CreateDiscount {
+  static readonly type = `${CreateDiscount.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}
+export class DeleteDiscount {
+  static readonly type = `${DeleteDiscount.name}`;
+  constructor(
+    public readonly id: any
+  ) {}
+}
+export class GetDiscounts {
+  static readonly type = `${GetDiscounts.name}`;
+  constructor(
+    public readonly restaurantId: any
+  ) {}
+}
+export class GetZreportData {
+  static readonly type = `${GetZreportData.name}`;
+  constructor(
+    public readonly restaurantId: any
+  ) {}
+}

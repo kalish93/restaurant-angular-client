@@ -1,0 +1,52 @@
+.credit-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 1rem 0rem 1rem;
+  margin-bottom: 5px;
+}
+
+.credit-card mat-form-field {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.form-field{
+  width: 100%;
+}
+
+.total{
+  color: black;
+}
+
+.cancel{
+  color: white;
+  background-color: black;
+}
+
+.confirm{
+  color: white;
+  background-color: green;
+}
+
+.dialog-content{
+  margin-top: 1rem;
+}
+
+.add-credit-card-btn{
+  align-self: center;
+  margin: 1rem 0;
+}
+
+.add-credit-card{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.error-message{
+  text-align: center;
+  color: red;
+}

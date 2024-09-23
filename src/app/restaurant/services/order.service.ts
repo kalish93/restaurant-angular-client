@@ -50,4 +50,8 @@ export class OrderService {
    markAsPaid(orderIds: any): Observable<any> {
     return this.http.post<any>(`${ORDER_URL}/bill`, orderIds);
   }
+
+   saveTipAndDiscount(data: any): Observable<any> {
+    return this.http.post<any>(`${ORDER_URL}/print-bill`, data);
+  }
 }

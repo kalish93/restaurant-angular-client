@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { RestaurantSelector } from '../store/restaurant.selectors';
-import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTable, GetTables, UpdateRestaurant, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from '../store/restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from '../store/restaurant.actions';
 
 
 @Injectable({
@@ -13,6 +13,9 @@ export class RestaurantFacade {
   selectedRestaurant$: Observable<any> = this.store.select(RestaurantSelector.slices.selectedRestaurant);
   tables$: Observable<any> = this.store.select(RestaurantSelector.slices.tables);
   selectedTable$: Observable<any> = this.store.select(RestaurantSelector.slices.selectedTable);
+  creditCards$: Observable<any> = this.store.select(RestaurantSelector.slices.creditCards);
+  discounts$: Observable<any> = this.store.select(RestaurantSelector.slices.discounts);
+  zReportData$: Observable<any> = this.store.select(RestaurantSelector.slices.zReportData);
 
   constructor(private store: Store) {}
 
@@ -78,5 +81,33 @@ export class RestaurantFacade {
 
   dispatchUpdateRestaurantTaxRate(data: any) {
     this.store.dispatch(new UpdateRestaurantTaxRate(data));
+  }
+
+  dispatchCreateCreditCard(data: any) {
+    this.store.dispatch(new CreateCreditCard(data));
+  }
+
+  dispatchDeleteCreditCard(id: any) {
+    this.store.dispatch(new DeleteCreditCard(id));
+  }
+
+  dispatchGetCreditCards(restaurantId: any) {
+    this.store.dispatch(new GetCreditCards(restaurantId));
+  }
+
+  dispatchCreateDiscount(data: any) {
+    this.store.dispatch(new CreateDiscount(data));
+  }
+
+  dispatchDeleteDiscount(id: any) {
+    this.store.dispatch(new DeleteDiscount(id));
+  }
+
+  dispatchGetDiscounts(restaurantId: any) {
+    this.store.dispatch(new GetDiscounts(restaurantId));
+  }
+
+  dispatchGetZreportData(restaurantId: any) {
+    this.store.dispatch(new GetZreportData(restaurantId));
   }
 }

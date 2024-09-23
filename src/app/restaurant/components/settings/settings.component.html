@@ -16,38 +16,85 @@
     </mat-card>
 
     <mat-card class="settings-card">
-      <mat-card-title>Tax Settings</mat-card-title>
-
-      <mat-card-content>
-        <form
-          [formGroup]="settingsForm"
-          (ngSubmit)="onSubmit()"
-          class="tax-setting-container"
-        >
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Tax Rate (%)</mat-label>
-            <input matInput type="number" formControlName="taxRate" />
-            <mat-error
-              *ngIf="settingsForm.get('taxRate')?.hasError('required')"
-            >
-              Tax rate is required
-            </mat-error>
-            <mat-error *ngIf="settingsForm.get('taxRate')?.hasError('min')">
-              Tax rate must be positive
-            </mat-error>
-          </mat-form-field>
-
-          <button
-            class="btn"
-            mat-raised-button
-            color="primary"
-            type="submit"
-            [disabled]="settingsForm.invalid"
-          >
-            Save Tax Rate
-          </button>
-        </form>
+      <div class="card-header">
+        <mat-card-title>Z Report</mat-card-title>
+      </div>
+      <mat-card-content class="switch-container" >
+        <button (click)="pritntZreport()" class="print-btn" mat-button> Print Z Report </button>
       </mat-card-content>
-    </mat-card>
+
+      </mat-card>
+
+      <mat-card class="settings-card">
+        <mat-card-title>Tax Settings</mat-card-title>
+
+        <mat-card-content>
+          <form
+            [formGroup]="settingsForm"
+            (ngSubmit)="onSubmit()"
+            class="tax-setting-container"
+          >
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Tax Rate (%)</mat-label>
+              <input matInput type="number" formControlName="taxRate" />
+              <mat-error
+                *ngIf="settingsForm.get('taxRate')?.hasError('required')"
+              >
+                Tax rate is required
+              </mat-error>
+              <mat-error *ngIf="settingsForm.get('taxRate')?.hasError('min')">
+                Tax rate must be positive
+              </mat-error>
+            </mat-form-field>
+
+            <button
+              class="btn"
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="settingsForm.invalid"
+            >
+              Save Tax Rate
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+    <mat-card class="settings-card">
+      <div class="card-header">
+        <mat-card-title>Acceptable Cards</mat-card-title>
+      <button (click)="addCard()" class="add-btn" mat-icon-button> <mat-icon>add</mat-icon> </button>
+      </div>
+      <mat-card-content >
+        <div>
+          <mat-chip *ngFor="let card of creditCards; let i = index" removable="true" (removed)="removeCard(card.id)">
+            {{card.name}}
+            <button mat-icon-button matChipRemove>
+              <mat-icon>cancel</mat-icon> <!-- 'cancel' icon to remove the chip -->
+            </button>
+          </mat-chip>
+        </div>
+      </mat-card-content>
+
+      </mat-card>
+
+    <mat-card class="settings-card">
+      <div class="card-header">
+        <mat-card-title>Discounts</mat-card-title>
+      <button (click)="addDiscount()" class="add-btn" mat-icon-button> <mat-icon>add</mat-icon> </button>
+      </div>
+      <mat-card-content >
+        <div>
+          <mat-chip *ngFor="let discount of discounts; let i = index" removable="true" (removed)="removeDiscount(discount.id)">
+            {{discount.name}} - {{discount.percentage}}%
+            <button mat-icon-button matChipRemove>
+              <mat-icon>cancel</mat-icon> <!-- 'cancel' icon to remove the chip -->
+            </button>
+          </mat-chip>
+        </div>
+      </mat-card-content>
+
+      </mat-card>
+
   </div>
 </div>

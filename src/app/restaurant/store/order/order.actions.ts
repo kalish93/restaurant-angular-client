@@ -52,3 +52,7 @@ export class MarkAsPaid {
   static readonly type = `${MarkAsPaid.name}`;
   constructor(public orderIds: any, public tableId: any) {}
 }
+export class SaveTipAndDiscount {
+  static readonly type = `${SaveTipAndDiscount.name}`;
+  constructor(public data: any) {}
+}

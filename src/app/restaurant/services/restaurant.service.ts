@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RESTAURANTS_URL, TABLES_URL, USERS_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, RESTAURANTS_URL, TABLES_URL, USERS_URL } from 'src/app/core/constants/api-endpoints';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 @Injectable({
@@ -89,5 +89,33 @@ export class RestaurantService {
 
   updateRestaurantTaxRate(data: any): Observable<any> {
     return this.http.put<any>(`${RESTAURANTS_URL}/${data.restaurantId}/tax-rate`, data, this.httpOptions);
+  }
+
+  createCreditCard(data: any): Observable<any> {
+    return this.http.post<any>(`${API_BASE_URL}/credit-cards`, data, this.httpOptions);
+  }
+
+  deleteCreditCard(id: any): Observable<any> {
+    return this.http.delete<any>(`${API_BASE_URL}/credit-cards/${id}`, this.httpOptions);
+  }
+
+  getCreditCards(restaurantId: any): Observable<any> {
+    return this.http.get<any>(`${RESTAURANTS_URL}/${restaurantId}/credit-cards`, this.httpOptions);
+  }
+
+  createDiscounts(data: any): Observable<any> {
+    return this.http.post<any>(`${API_BASE_URL}/discounts`, data, this.httpOptions);
+  }
+
+  deleteDiscount(id: any): Observable<any> {
+    return this.http.delete<any>(`${API_BASE_URL}/discounts/${id}`, this.httpOptions);
+  }
+
+  getDiscounts(restaurantId: any): Observable<any> {
+    return this.http.get<any>(`${RESTAURANTS_URL}/${restaurantId}/discounts`, this.httpOptions);
+  }
+
+  getZreportData(restaurantId: any): Observable<any> {
+    return this.http.get<any>(`${RESTAURANTS_URL}/${restaurantId}/z-report`, this.httpOptions);
   }
 }

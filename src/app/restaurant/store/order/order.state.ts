@@ -13,7 +13,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 
-import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, MarkAsPaid, PlaceOrder, RemoveOrderItem, RequestPayment, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from './order.actions';
+import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, MarkAsPaid, PlaceOrder, RemoveOrderItem, RequestPayment, SaveTipAndDiscount, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from './order.actions';
 import { OrderService } from '../../services/order.service';
 import { Cart } from '../../models/menu.model';
 
@@ -337,6 +337,25 @@ getTable(
           'Table Reset successfully!',
           successStyle
         );
+      })
+    );
+  }
+
+  @Action(SaveTipAndDiscount)
+  saveDiscountAndTip(
+    { setState, patchState }: StateContext<OrderStateModel>,
+    { data }: SaveTipAndDiscount
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.saveTipAndDiscount(data).pipe(
+      tap((result) => {
+        setState(
+          patch({
+
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
       })
     );
   }

@@ -15,7 +15,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateRestaurant, CreateTable, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetRestaurant, GetRestaurants, GetTable, GetTables, UpdateRestaurant, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface RestaurantStateModel {
@@ -23,6 +23,9 @@ export interface RestaurantStateModel {
   selectedRestaurant: any;
   tables: any[];
   selectedTable: any;
+  creditCards: any[];
+  discounts: any[];
+  zReportData: any;
 }
 
 const RESTAURANT_STATE_TOKEN = new StateToken<RestaurantStateModel>(
@@ -38,7 +41,10 @@ const defaults = {
   },
   selectedRestaurant: null,
   tables: [],
-  selectedTable: {}
+  selectedTable: {},
+  creditCards: [],
+  discounts: [],
+  zReportData: null
 };
 
 @State<RestaurantStateModel>({
@@ -479,5 +485,165 @@ updateRestaurantTaxRate(
     })
   );
 }
+
+@Action(GetCreditCards)
+  getCreditCards(
+    { setState }: StateContext<RestaurantStateModel>,
+    { restaurantId }: GetCreditCards
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.restaurantService.getCreditCards(restaurantId).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            creditCards: result,
+          })
+        );
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
+
+  @Action(CreateCreditCard)
+  createCreditCard(
+    { setState, getState }: StateContext<RestaurantStateModel>,
+    { data }: CreateCreditCard
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.restaurantService.createCreditCard(data).pipe(
+      tap((result) => {
+        const state = getState();
+        setState(
+          patch({
+            creditCards: [result, ...state.creditCards],
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Card added successfully!',
+          successStyle,);
+      })
+    );
+  }
+
+
+  @Action(DeleteCreditCard)
+deleteCreditCard(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { id }: DeleteCreditCard
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.deleteCreditCard(id).pipe(
+    tap(() => {
+      const state = getState();
+
+      setState(
+        patch({
+          creditCards: state.creditCards.filter((card: any) => card.id !== id),
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Card removed successfully!',
+        successStyle
+      );
+    })
+  );
+}
+
+@Action(GetDiscounts)
+  getDiscounts(
+    { setState }: StateContext<RestaurantStateModel>,
+    { restaurantId }: GetDiscounts
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.restaurantService.getDiscounts(restaurantId).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            discounts: result,
+          })
+        );
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
+
+  @Action(CreateDiscount)
+  createDiscount(
+    { setState, getState }: StateContext<RestaurantStateModel>,
+    { data }: CreateDiscount
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.restaurantService.createDiscounts(data).pipe(
+      tap((result) => {
+        const state = getState();
+        setState(
+          patch({
+            discounts: [result, ...state.discounts],
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Discount added successfully!',
+          successStyle,);
+      })
+    );
+  }
+
+
+  @Action(DeleteDiscount)
+deleteDiscount(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { id }: DeleteDiscount
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.deleteDiscount(id).pipe(
+    tap(() => {
+      const state = getState();
+
+      setState(
+        patch({
+          discounts: state.discounts.filter((discount: any) => discount.id !== id),
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Discount removed successfully!',
+        successStyle
+      );
+    })
+  );
+}
+
+@Action(GetZreportData)
+getZreportData(
+    { setState }: StateContext<RestaurantStateModel>,
+    { restaurantId }: GetZreportData
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.restaurantService.getZreportData(restaurantId).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            zReportData: result,
+          })
+        );
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
 
 }

@@ -23,4 +23,19 @@ export class RestaurantSelector {
   static selectedTable(stateModel: RestaurantStateModel) {
     return stateModel.selectedTable;
   }
+
+  @Selector([RestaurantState])
+  static creditCards(stateModel: RestaurantStateModel) {
+    return stateModel.creditCards;
+  }
+
+  @Selector([RestaurantState])
+  static discounts(stateModel: RestaurantStateModel) {
+    return stateModel.discounts;
+  }
+
+  @Selector([RestaurantState])
+  static zReportData(stateModel: RestaurantStateModel) {
+    return stateModel.zReportData;
+  }
 }

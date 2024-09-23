@@ -32,6 +32,10 @@ import { AddItemToOrderComponent } from './components/table/add-item-to-order/ad
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardState } from './store/dashboard/dashboard.state';
 import { SettingsComponent } from './components/settings/settings.component';
+import { DiscountTipDialogComponent } from './components/table/discount-tip-dialog/discount-tip-dialog.component';
+import { CreditCardFormComponent } from './components/payment/credit-card-form/credit-card-form.component';
+import { PaymentOptionFormComponent } from './components/payment/payment-option-form/payment-option-form.component';
+import { DiscountFormComponent } from './components/payment/discount-form/discount-form.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,11 @@ import { SettingsComponent } from './components/settings/settings.component';
    ActiveTableOrdersComponent,
    AddItemToOrderComponent,
    DashboardComponent,
-   SettingsComponent
+   SettingsComponent,
+   DiscountTipDialogComponent,
+   CreditCardFormComponent,
+   PaymentOptionFormComponent,
+   DiscountFormComponent
   ],
   imports: [
     SharedModule,

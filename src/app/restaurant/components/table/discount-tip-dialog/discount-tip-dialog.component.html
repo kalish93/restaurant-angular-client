@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Set Tip and Discount</h1>
+
+<div mat-dialog-content>
+  <div class="dialog-content">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Select Tip Type</mat-label>
+      <mat-select [(value)]="tipType">
+        <mat-option value="percentage">Percentage</mat-option>
+        <mat-option value="fixed">Fixed Amount</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>{{ tipType === 'percentage' ? 'Tip Percentage (%)' : 'Tip Amount' }}</mat-label>
+      <input matInput type="number" [(ngModel)]="tipValue" min="0" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Select Discount</mat-label>
+      <mat-select [(ngModel)]="discount">
+        <mat-option *ngFor="let discountOption of discounts" [value]="discountOption">
+          {{ discountOption.name }} ({{ discountOption.percentage }}%)
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button class="cancel" (click)="onCancel()"><span>Cancel</span> <mat-icon>close</mat-icon> </button>
+  <button mat-button class="confirm" color="primary" (click)="onConfirm()"><span>Confirm</span> <mat-icon>check</mat-icon> </button>
+</div>

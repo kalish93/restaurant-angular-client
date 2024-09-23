@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>Payment Options</h1>
+<div mat-dialog-content>
+  <form [formGroup]="paymentForm" class="dialog-content">
+    <!-- Cash Payment -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Cash Payment</mat-label>
+      <input matInput formControlName="cashPayment" type="number" min="0" placeholder="Enter cash payment">
+    </mat-form-field>
+
+    <!-- Gift Card Payment -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Gift Card Payment</mat-label>
+      <input matInput formControlName="giftCardPayment" type="number" min="0" placeholder="Enter gift card payment">
+    </mat-form-field>
+
+    <!-- Credit Card Payments -->
+    <div formArrayName="creditCards">
+      <div *ngFor="let card of creditCards().controls; let i = index" [formGroupName]="i">
+        <mat-card class="credit-card">
+         <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Credit Card Payment</mat-label>
+            <input matInput formControlName="creditPayment" type="number" min="0" placeholder="Enter credit payment">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Credit Card Type</mat-label>
+            <mat-select formControlName="creditCardType">
+              <mat-option *ngFor="let cardType of applicableCards" [value]="cardType.id">{{ cardType.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+         </div>
+
+          <button mat-icon-button color="warn" (click)="removeCreditCard(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="add-credit-card">
+      <button class="add-credit-card-btn" mat-button (click)="addCreditCard()">Add Credit Card</button>
+    </div>
+
+    <mat-form-field class="total" appearance="outline">
+      <mat-label>Total Payment</mat-label>
+      <input class="total" matInput formControlName="totalPayment" type="number" placeholder="Total Payment" readonly [ngStyle]="{ 'color': isTotalMismatch ? 'red' : 'green' }">
+    </mat-form-field>
+  </form>
+</div>
+
+<div *ngIf="isTotalMismatch" class="error-message">
+  Total payments must equal {{ data.total }}.
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="cancel"> <span>Cancel</span> <mat-icon>close</mat-icon> </button>
+  <button (click)="closeModal()" mat-button [mat-dialog-close]="paymentForm.value" [disabled]="isTotalMismatch" class="confirm">
+    <span>Submit</span> <mat-icon>check</mat-icon>
+  </button>
+</div>

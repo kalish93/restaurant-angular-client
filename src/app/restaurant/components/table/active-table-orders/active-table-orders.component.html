@@ -1,7 +1,7 @@
 <div class="container">
   <div class="cart-container">
     <h1>Table Order</h1>
-    <div class="action-btns">
+    <div class="action-btns" *ngIf="myOrders.length > 0" >
       <button class="status" mat-button (click)="printBill()">Print bill</button>
     <button class="status" mat-button (click)="markAsPaid()">Mark as paid</button>
     </div>

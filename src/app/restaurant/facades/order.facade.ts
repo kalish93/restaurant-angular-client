@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { OrderSelector } from '../store/order/order.selectors';
-import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, MarkAsPaid, PlaceOrder, RemoveOrderItem, RequestPayment, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from '../store/order/order.actions';
+import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, MarkAsPaid, PlaceOrder, RemoveOrderItem, RequestPayment, SaveTipAndDiscount, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from '../store/order/order.actions';
 
 
 
@@ -60,5 +60,9 @@ export class OrderFacade {
 
   dispatchMarkAsPaid(orderIds: any, tableId: any){
     this.store.dispatch(new MarkAsPaid(orderIds, tableId));
+  }
+
+  dispatchSaveTipAndDiscount(data: any){
+    this.store.dispatch(new SaveTipAndDiscount(data));
   }
 }
