@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>Menu Item Form</h2>
+<div class="container">
+  <h2 mat-dialog-title>Menu Item Form</h2>
 <form [formGroup]="addMenuForm" class="form-fields">
   <div class="form-container">
     <mat-form-field appearance="outline">
@@ -26,6 +27,14 @@
       <input id="price" formControlName="price" matInput />
       <mat-error *ngIf="addMenuForm.get('price')?.hasError('required')">
         Item price is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tax Rate(%)</mat-label>
+      <input id="taxRate" formControlName="taxRate" matInput />
+      <mat-error *ngIf="addMenuForm.get('taxRate')?.hasError('required')">
+        Tax rate is required
       </mat-error>
     </mat-form-field>
 
@@ -76,3 +85,5 @@
     <mat-icon>save</mat-icon>
   </button>
 </mat-dialog-actions>
+
+</div>

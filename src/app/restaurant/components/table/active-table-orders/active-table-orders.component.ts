@@ -47,7 +47,6 @@ export class ActiveTableOrdersComponent implements OnInit {
 
     this.$myOrders.subscribe((data) => {
       this.myOrders = data;
-      console.log(data[0].items)
       this.combineItemsForReceipt();
     });
   }
@@ -141,7 +140,6 @@ export class ActiveTableOrdersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Handle the result here (e.g., add the item to a list or submit to server)
-        console.log('Menu item added:', result);
       }
     });
   }
@@ -162,21 +160,15 @@ export class ActiveTableOrdersComponent implements OnInit {
     // }
     // this.orderFacade.dispatchMarkAsPaid(dataToSend, this.tableId);
     this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
-    const taxPercentage = this.myOrders[0].restaurant.taxRate;
 
-    const tipAmount = this.myOrders[0].tipAmount;
+    const taxAmount = this.combinedItems.reduce((taxTotal, item) => {
+      return taxTotal + ((item.menuItem.price * item.quantity) * (item.menuItem.taxRate / 100));
+    }, 0);
 
-    const discountAmount = this.myOrders[0].discountAmount;
-    const totalBeforeDiscount = this.getTotalForInvoice();
-    const totalAfterDiscount = totalBeforeDiscount - discountAmount;
-
-    const taxAmount = totalAfterDiscount * (taxPercentage / 100);
-
-    const total = totalBeforeDiscount - discountAmount + tipAmount + taxAmount;
 
     const dialogRef = this.dialog.open(PaymentOptionFormComponent, {
       width: '400px',
-      data: { restaurantId: this.myOrders[0].restaurant.id, total: total }
+      data: { restaurantId: this.myOrders[0].restaurant.id }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -184,46 +176,13 @@ export class ActiveTableOrdersComponent implements OnInit {
         orderIds: this.myOrders.flatMap(order => order.id),
         cashPayment: result.cashPayment,
         giftCardPayment: result.giftCardPayment,
-        creditCards: result.creditCards
+        creditCards: result.creditCards,
+        taxAmount: taxAmount
       }
-      console.log(dataToSend,'pppppppppppppppppppppppp');
 
     this.orderFacade.dispatchMarkAsPaid(dataToSend, this.tableId);
   }})
   }
-
-  // printBill() {
-  //   const printableContent = `
-  //     <div style="font-family: 'Courier New', Courier, monospace; width: 100%; padding: 10px; max-width: 80mm">
-  //       <div style="text-align: center;">${this.myOrders[0].restaurant.name}</div>
-  //       <hr/>
-  //       <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-  //       <span>${this.getCurrentDate()}</span>
-  //       <span>${this.getCurrentTime()}</span>
-  //       </div>
-  //       <hr/>
-  //       ${this.combinedItems.map(item => `
-  //         <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-  //           <span>${item.menuItem.name}</span>
-  //           <span>${item.quantity} x ${item.menuItem.price }</span>
-  //           <span>= ${(item.quantity * item.menuItem.price)}</span>
-  //         </div>
-  //       `).join('')}
-  //       <hr/>
-  //       <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;"><span style="text-align: center;">Total:</span><span> ${this.getTotalForInvoice()}</span></div>
-  //       <hr/>
-  //       <p style="text-align: center; margin-top: 25px;">
-  //       Thank you for dining with us!<br/>
-  //       Please visit us again.
-  //     </p>
-  //     </div>
-  //   `;
-
-  //   const originalContent = document.body.innerHTML;
-  //   document.body.innerHTML = printableContent;
-  //   window.print();
-  //   document.body.innerHTML = originalContent;
-  // }
 
   printBill() {
     const dialogRef = this.dialog.open(DiscountTipDialogComponent, {
@@ -233,28 +192,20 @@ export class ActiveTableOrdersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const { tipType, tipValue, discount, discountId } = result;
+        const { tipValue, discount, discountId } = result;
 
-        const taxPercentage = this.myOrders[0].restaurant.taxRate;
-        // Calculate the tip
-        let tipAmount = 0;
+        // Calculate tip based on total amount before discount
         const totalBeforeDiscount = this.getTotalForInvoice();
-        if (tipType === 'percentage') {
-          tipAmount = totalBeforeDiscount * (tipValue / 100);
-        } else {
-          tipAmount = tipValue;
-        }
+        const tipAmount = totalBeforeDiscount * (tipValue / 100);
 
-        // const discountAmount = totalBeforeDiscount * (discount / 100);
-
-        // const totalAfterDiscount = totalBeforeDiscount - discountAmount;
-
-        // const finalTotal = totalAfterDiscount + tipAmount;
-
+        // Calculate discount amount
         const discountAmount = totalBeforeDiscount * (discount / 100);
         const totalAfterDiscount = totalBeforeDiscount - discountAmount;
 
-        const taxAmount = totalAfterDiscount * (taxPercentage / 100);
+        // Calculate tax for each item based on its individual tax rate
+        const taxAmount = this.combinedItems.reduce((taxTotal, item) => {
+          return taxTotal + ((item.menuItem.price * item.quantity) * (item.menuItem.taxRate / 100));
+        }, 0);
 
         const finalTotal = totalAfterDiscount + taxAmount + tipAmount;
 
@@ -263,48 +214,52 @@ export class ActiveTableOrdersComponent implements OnInit {
           discount: discountAmount,
           tipAmount: tipAmount,
           discountId: discountId
-        }
+        };
 
         this.orderFacade.dispatchSaveTipAndDiscount(dataToSend);
-        this.generatePrintableBill(finalTotal, tipAmount, discountAmount, taxAmount);
+        this.generatePrintableBill(finalTotal, tipAmount, discountAmount, taxAmount, tipValue);
       }
     });
   }
 
-  generatePrintableBill(finalTotal: number, tipAmount: number, discount: number, taxAmount: number) {
+  generatePrintableBill(finalTotal: number, tipAmount: number, discount: number, taxAmount: number, tipPercentage: number) {
     const printableContent = `
-    <div style="font-family: 'Courier New', Courier, monospace; width: 100%; padding: 10px; max-width: 80mm">
-      <div style="text-align: center;">${this.myOrders[0].restaurant.name}</div>
-      <hr/>
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>${this.getCurrentDate()}</span>
-        <span>${this.getCurrentTime()}</span>
-      </div>
-      <hr/>
-      ${this.combinedItems.map(item => `
+      <div style="font-family: 'Courier New', Courier, monospace; width: 100%; padding: 10px; max-width: 80mm">
+        <div style="text-align: center;">${this.myOrders[0].restaurant.name}</div>
+        <hr/>
         <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-          <span>${item.menuItem.name}</span>
-          <span>${item.quantity} x ${item.menuItem.price}</span>
-          <span>= ${(item.quantity * item.menuItem.price)}</span>
+          <span>${this.getCurrentDate()}</span>
+          <span>${this.getCurrentTime()}</span>
         </div>
-      `).join('')}
-      <hr/>
-      <div style="display: flex; justify-content: space-between;"><span>Total Before Discount:</span><span>${this.getTotalForInvoice()}</span></div>
-      <div style="display: flex; justify-content: space-between;"><span>Discount:</span><span>-${discount}</span></div>
-      <div style="display: flex; justify-content: space-between;"><span>Tax:</span><span>${taxAmount}</span></div>
-      <div style="display: flex; justify-content: space-between;"><span>Tip:</span><span>${tipAmount}</span></div>
-      <div style="display: flex; justify-content: space-between;"><span>Final Total:</span><span>${finalTotal}</span></div>
-      <hr/>
-      <p style="text-align: center; margin-top: 25px;">
-        Thank you for dining with us!<br/>
-        Please visit us again.
-      </p>
-    </div>
-  `;
+        <hr/>
+        ${this.combinedItems.map(item => `
+          <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
+            <span>${item.menuItem.name}</span>
+            <span>${item.quantity} x ${item.menuItem.price}</span>
+            <span>= ${(item.quantity * item.menuItem.price).toFixed(2)}</span>
+          </div>
+        `).join('')}
+        <hr/>
+        <div style="display: flex; justify-content: space-between;"><span>Total:</span><span>${this.getTotalForInvoice().toFixed(2)}</span></div>
+        ${discount > 0 ? `
+          <div style="display: flex; justify-content: space-between;"><span>Discount:</span><span>-${discount.toFixed(2)}</span></div>
+        ` : ''}
+        <div style="display: flex; justify-content: space-between;"><span>Tax:</span><span>${taxAmount.toFixed(2)}</span></div>
+        <div style="display: flex; justify-content: space-between;"><span>Tip:</span><span>${this.getTotalForInvoice().toFixed(2)} x ${tipPercentage}%</span><span>${tipAmount.toFixed(2)}</span></div>
+        <div style="display: flex; justify-content: space-between;"><span>Final Total:</span><span>${finalTotal.toFixed(2)}</span></div>
+        <hr/>
+        <p style="text-align: center; margin-top: 25px;">
+          Thank you for dining with us!<br/>
+          Please visit us again.
+        </p>
+      </div>
+    `;
 
     const originalContent = document.body.innerHTML;
     document.body.innerHTML = printableContent;
     window.print();
     document.body.innerHTML = originalContent;
+    window.location.reload()
   }
+
 }

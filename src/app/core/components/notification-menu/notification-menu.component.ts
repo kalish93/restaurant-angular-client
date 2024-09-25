@@ -70,7 +70,6 @@ userId: any;
       .subscribe(() => this.notificationFacade.dispatchGetNotifications());
 
     this.notifications$.subscribe((data)=>{
-      console.log(data)
     })
   }
 
@@ -79,7 +78,6 @@ userId: any;
   }
 
   markNotificationAsRead(notification: InAppNotification) {
-    console.log(notification.id)
     this.notificationFacade.dispatchMarkNotificationAsRead([
       notification.id,
     ]);

@@ -48,6 +48,7 @@ export class MenuFormComponent implements OnInit {
       price: ['', [Validators.required, Validators.min(0)]],
       itemType: ['', Validators.required],
       currency: ['', Validators.required],
+      taxRate: [0, Validators.required],
     });
     if (data) {
       this.addMenuForm.patchValue({
@@ -85,7 +86,8 @@ export class MenuFormComponent implements OnInit {
       price: menuItem.price,
       category: menuItem.category.id,
       itemType: menuItem.destination,
-      currency: menuItem.currency
+      currency: menuItem.currency,
+      taxRate: menuItem.taxRate
     });
 
     this.imageFile = menuItem.image as any;
@@ -119,6 +121,7 @@ export class MenuFormComponent implements OnInit {
       formData.append('quantity', this.addMenuForm.get('quantity')?.value);
       formData.append('destination',  this.addMenuForm.get('itemType')?.value);
       formData.append('currency',  this.addMenuForm.get('currency')?.value);
+      formData.append('taxRate',  this.addMenuForm.get('taxRate')?.value);
 
       if(this.data?.editableItem){
         formData.append('id', this.data?.editableItem?.id);

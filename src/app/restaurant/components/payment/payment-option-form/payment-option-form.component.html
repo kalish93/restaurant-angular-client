@@ -44,18 +44,15 @@
 
     <mat-form-field class="total" appearance="outline">
       <mat-label>Total Payment</mat-label>
-      <input class="total" matInput formControlName="totalPayment" type="number" placeholder="Total Payment" readonly [ngStyle]="{ 'color': isTotalMismatch ? 'red' : 'green' }">
+      <input class="total" matInput formControlName="totalPayment" type="number" placeholder="Total Payment" readonly [ngStyle]="{ 'color': 'black'  }">
     </mat-form-field>
   </form>
 </div>
 
-<div *ngIf="isTotalMismatch" class="error-message">
-  Total payments must equal {{ data.total }}.
-</div>
 
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close class="cancel"> <span>Cancel</span> <mat-icon>close</mat-icon> </button>
-  <button (click)="closeModal()" mat-button [mat-dialog-close]="paymentForm.value" [disabled]="isTotalMismatch" class="confirm">
+  <button (click)="closeModal()" mat-button [mat-dialog-close]="paymentForm.value" class="confirm">
     <span>Submit</span> <mat-icon>check</mat-icon>
   </button>
 </div>

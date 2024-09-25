@@ -98,7 +98,6 @@ onNotification(
     .pipe(
       tap((data) => {
         const currentNotifications = getState().myNotifications || []; // Ensure it's an array
-        console.log('Current Notifications:', currentNotifications);
 
         setState(
           patch({

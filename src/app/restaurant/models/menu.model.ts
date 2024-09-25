@@ -9,6 +9,7 @@ export interface Menu {
   image: string,
   destination: any;
   currency: string;
+  taxRate: number;
 }
 
 export interface Cart {

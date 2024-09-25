@@ -27,10 +27,21 @@ export class NotificationService {
     const token = localStorage.getItem('accessToken');
 
     this.socket = io(BASE_URL, {
-      query: { token }
+      query: { token },
+      transports: ['websocket'], // Use WebSocket transport only
+      reconnection: true, // Enable automatic reconnection
+      reconnectionAttempts: 10, // Max reconnection attempts
+      reconnectionDelay: 2000, // Delay between reconnections
+      timeout: 20000,
     });
+
     this.socket.on('connect', () => {
       console.log('Connected to server');
+
+
+      setInterval(() => {
+        this.socket.emit('heartbeat'); // Emit heartbeat to the server every 15 seconds
+      }, 15000); // 15000 milliseconds = 15 seconds
     });
 
     this.socket.on('connect_error', (error) => {
@@ -45,7 +56,6 @@ export class NotificationService {
   onNotification() {
     return new Observable((observer) => {
       this.socket.on('notification', (data) => {
-        console.log('Notification received:', data);
         this.store.dispatch( new GetActiveOrders())
         observer.next(data);
       });

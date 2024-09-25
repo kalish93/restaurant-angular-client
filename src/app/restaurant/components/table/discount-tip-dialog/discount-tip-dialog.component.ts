@@ -17,13 +17,13 @@ const initDiscountTipDialogComponentState: Partial<DiscountTipDialogComponentSta
   styleUrl: './discount-tip-dialog.component.scss',
   providers: [RxState]
 })
-export class DiscountTipDialogComponent implements OnInit{
-  tipType: 'percentage' | 'fixed' = 'percentage'; // Default to percentage tip
-  tipValue: number = 0;
+export class DiscountTipDialogComponent implements OnInit {
+  tipValue: number = 0;  // Percentage tip only
   discount: any;
 
   discounts$ = this.state.select('discounts');
   discounts: any[] = [];
+
   constructor(
     public dialogRef: MatDialogRef<DiscountTipDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -36,15 +36,14 @@ export class DiscountTipDialogComponent implements OnInit{
 
   ngOnInit(): void {
     this.restaurantFacade.dispatchGetDiscounts(this.data.restaurantId);
-    this.discounts$.subscribe((data)=>{
+    this.discounts$.subscribe((data) => {
       this.discounts = data;
-    })
+    });
   }
 
   onConfirm(): void {
-    // Pass back the tip type and value, and discount
+    // Pass back the tip value and discount
     this.dialogRef.close({
-      tipType: this.tipType,
       tipValue: this.tipValue,
       discount: this.discount ? this.discount.percentage : 0,
       discountId: this.discount?.id

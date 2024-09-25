@@ -336,5 +336,6 @@ export class SettingsComponent implements OnInit {
     document.body.innerHTML = printableContent;
     window.print();
     document.body.innerHTML = originalContent;
+    window.location.reload()
   }
 }
