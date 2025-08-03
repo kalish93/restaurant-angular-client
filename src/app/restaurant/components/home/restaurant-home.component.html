@@ -1,18 +1,19 @@
 <mat-sidenav-container class="container">
   <mat-sidenav mode="side" opened class="left-menu mat-elevation-z1">
-   <img class="logo" src="assets/logo2.jpeg" alt="Digital Dine Logo">
-    <div *ngFor="let link of navLinks">
-      <a
-        class="menu-button"
-        mat-button
-        [routerLink]="link.link"
-        [routerLinkActive]="['is-active']"
-      >
-        <mat-icon>{{ link.icon }}</mat-icon>
-        <span>{{ link.label }}</span>
-      </a>
-
-</div>
+    <img class="logo" src="assets/logo2.jpeg" alt="Digital Dine Logo">
+    @for (link of navLinks; track link) {
+      <div>
+        <a
+          class="menu-button"
+          mat-button
+          [routerLink]="link.link"
+          [routerLinkActive]="['is-active']"
+          >
+          <mat-icon>{{ link.icon }}</mat-icon>
+          <span>{{ link.label }}</span>
+        </a>
+      </div>
+    }
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="content mat-elevation-z1">

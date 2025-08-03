@@ -1,54 +1,66 @@
 <h1 mat-dialog-title>Add Admin Form</h1>
-  <form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
-    <div mat-dialog-content>
+<form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
+  <div mat-dialog-content>
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput formControlName="firstName">
-      <mat-error *ngIf="staffForm.get('firstName')?.hasError('required')">
-        First Name is required
-      </mat-error>
+      @if (staffForm.get('firstName')?.hasError('required')) {
+        <mat-error>
+          First Name is required
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Last Name</mat-label>
       <input matInput formControlName="lastName">
-      <mat-error *ngIf="staffForm.get('lastName')?.hasError('required')">
-        Last Name is required
-      </mat-error>
+      @if (staffForm.get('lastName')?.hasError('required')) {
+        <mat-error>
+          Last Name is required
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email">
-      <mat-error *ngIf="staffForm.get('email')?.hasError('required')">
-        Email is required
-      </mat-error>
-      <mat-error *ngIf="staffForm.get('email')?.hasError('email')">
-        Invalid email address
-      </mat-error>
+      @if (staffForm.get('email')?.hasError('required')) {
+        <mat-error>
+          Email is required
+        </mat-error>
+      }
+      @if (staffForm.get('email')?.hasError('email')) {
+        <mat-error>
+          Invalid email address
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password">
-      <mat-error *ngIf="staffForm.get('password')?.hasError('required')">
-        Password is required
-      </mat-error>
+      @if (staffForm.get('password')?.hasError('required')) {
+        <mat-error>
+          Password is required
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Confirm Password</mat-label>
       <input matInput type="password" formControlName="passwordConfirmation">
-      <mat-error *ngIf="staffForm.hasError('mismatch')">
-        Passwords must match
-      </mat-error>
+      @if (staffForm.hasError('mismatch')) {
+        <mat-error>
+          Passwords must match
+        </mat-error>
+      }
     </mat-form-field>
 
   </div>
-  </form>
+</form>
 <div mat-dialog-actions align="end">
   <button mat-button class="cancel" (click)="onNoClick()"> <mat-icon>cancel</mat-icon> Cancel</button>
   <button mat-button class="confirm" color="primary" type="submit" [disabled]="staffForm.invalid" (click)="onSubmit()">
     Submit
     <mat-icon>save</mat-icon></button>
-</div>
+  </div>

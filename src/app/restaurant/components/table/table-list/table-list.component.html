@@ -1,25 +1,25 @@
 <div class="container">
   <div class="header">
     <h1>Our Tables</h1>
-  <button *appHasRole="[hasManagerRole()]" (click)="openAddTableDialog()" class="add-btn" mat-flat-button><mat-icon>add</mat-icon>
-    Add Table</button>
-  </div>
-  <div class="menu-section">
-    <div class="menu-grid">
-      <div class="menu-item" *ngFor="let table of tables">
+    <button *appHasRole="[hasManagerRole()]" (click)="openAddTableDialog()" class="add-btn" mat-flat-button><mat-icon>add</mat-icon>
+  Add Table</button>
+</div>
+<div class="menu-section">
+  <div class="menu-grid">
+    @for (table of tables; track table) {
+      <div class="menu-item">
         <img [src]="table.qrCodeImage" alt='QR Code'>
         <div class="menu-info">
-         <div class="no-and-status">
-          <h3>Table number: {{ table.number }}</h3>
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-         </div>
-         <!-- <mat-chip>{{table.status}}</mat-chip> -->
-         <span [ngClass]="table.status === 'AVAILABLE' ? 'active' : 'inactive'">
-          {{ table.status }}
-        </span>
-
+          <div class="no-and-status">
+            <h3>Table number: {{ table.number }}</h3>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+          <!-- <mat-chip>{{table.status}}</mat-chip> -->
+          <span [ngClass]="table.status === 'AVAILABLE' ? 'active' : 'inactive'">
+            {{ table.status }}
+          </span>
           <mat-menu #menu>
             <button *appHasRole="[hasManagerRole()]" mat-menu-item color="primary" (click)="openEditRestaurantDialog(table,  $event)">
               <mat-icon>edit</mat-icon>
@@ -33,12 +33,14 @@
             <button *appHasRole="[hasManagerRole()]" (click)="downloadQRCode(table.id, table.number)" mat-menu-item><mat-icon>download</mat-icon>Qr Code</button>
           </mat-menu>
         </div>
-
       </div>
-    </div>
+    }
   </div>
+</div>
 
-  <div class="empty container" *ngIf="tables.length === 0">
+@if (tables.length === 0) {
+  <div class="empty container">
     You don't have any tables yet.
   </div>
+}
 </div>

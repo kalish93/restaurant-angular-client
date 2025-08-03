@@ -9,7 +9,7 @@
           color="primary"
           (change)="onOpenOrClose()"
           [checked]="restaurant.isOpen"
-        >
+          >
           {{ settingsForm.get("restaurantStatus")?.value ? "Open" : "Closed" }}
         </mat-slide-toggle>
       </mat-card-content>
@@ -23,43 +23,47 @@
         <button (click)="pritntZreport()" class="print-btn" mat-button> Print Z Report </button>
       </mat-card-content>
 
-      </mat-card>
+    </mat-card>
 
     <mat-card class="settings-card">
       <div class="card-header">
         <mat-card-title>Acceptable Cards</mat-card-title>
-      <button (click)="addCard()" class="add-btn" mat-icon-button> <mat-icon>add</mat-icon> </button>
+        <button (click)="addCard()" class="add-btn" mat-icon-button> <mat-icon>add</mat-icon> </button>
       </div>
       <mat-card-content >
         <div>
-          <mat-chip *ngFor="let card of creditCards; let i = index" removable="true" (removed)="removeCard(card.id)">
-            {{card.name}}
-            <button mat-icon-button matChipRemove>
-              <mat-icon>cancel</mat-icon> <!-- 'cancel' icon to remove the chip -->
-            </button>
-          </mat-chip>
+          @for (card of creditCards; track card; let i = $index) {
+            <mat-chip removable="true" (removed)="removeCard(card.id)">
+              {{card.name}}
+              <button mat-icon-button matChipRemove>
+                <mat-icon>cancel</mat-icon> <!-- 'cancel' icon to remove the chip -->
+              </button>
+            </mat-chip>
+          }
         </div>
       </mat-card-content>
 
-      </mat-card>
+    </mat-card>
 
     <mat-card class="settings-card">
       <div class="card-header">
         <mat-card-title>Discounts</mat-card-title>
-      <button (click)="addDiscount()" class="add-btn" mat-icon-button> <mat-icon>add</mat-icon> </button>
+        <button (click)="addDiscount()" class="add-btn" mat-icon-button> <mat-icon>add</mat-icon> </button>
       </div>
       <mat-card-content >
         <div>
-          <mat-chip *ngFor="let discount of discounts; let i = index" removable="true" (removed)="removeDiscount(discount.id)">
-            {{discount.name}} - {{discount.percentage}}%
-            <button mat-icon-button matChipRemove>
-              <mat-icon>cancel</mat-icon> <!-- 'cancel' icon to remove the chip -->
-            </button>
-          </mat-chip>
+          @for (discount of discounts; track discount; let i = $index) {
+            <mat-chip removable="true" (removed)="removeDiscount(discount.id)">
+              {{discount.name}} - {{discount.percentage}}%
+              <button mat-icon-button matChipRemove>
+                <mat-icon>cancel</mat-icon> <!-- 'cancel' icon to remove the chip -->
+              </button>
+            </mat-chip>
+          }
         </div>
       </mat-card-content>
 
-      </mat-card>
+    </mat-card>
 
   </div>
 </div>

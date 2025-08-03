@@ -1,5 +1,6 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="inprogress$ | async"
-  color="accent"
-></mat-progress-bar>
+@if (inprogress$ | async) {
+  <mat-progress-bar
+    mode="indeterminate"
+    color="accent"
+  ></mat-progress-bar>
+}

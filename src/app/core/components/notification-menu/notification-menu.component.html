@@ -5,16 +5,16 @@
     color="warn"
     (click)="markAllNotificationAsRead()"
     [disabled]="(unreadNotifications$ | async) == 0"
-  >
+    >
     Mark all as read
   </button>
 </div>
 <div class="notifications">
 
-  <ng-container *ngFor="let notfication of (notifications$ | async)">
+  @for (notfication of (notifications$ | async); track notfication) {
     <app-notification-card
       [notification]="notfication"
       (visible)="markNotificationAsRead(notfication)"
     ></app-notification-card>
-  </ng-container>
+  }
 </div>

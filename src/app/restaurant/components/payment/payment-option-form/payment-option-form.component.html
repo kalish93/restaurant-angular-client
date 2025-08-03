@@ -15,27 +15,29 @@
 
     <!-- Credit Card Payments -->
     <div formArrayName="creditCards">
-      <div *ngFor="let card of creditCards().controls; let i = index" [formGroupName]="i">
-        <mat-card class="credit-card">
-         <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Credit Card Payment</mat-label>
-            <input matInput formControlName="creditPayment" type="number" min="0" placeholder="Enter credit payment">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Credit Card Type</mat-label>
-            <mat-select formControlName="creditCardType">
-              <mat-option *ngFor="let cardType of applicableCards" [value]="cardType.id">{{ cardType.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-         </div>
-
-          <button mat-icon-button color="warn" (click)="removeCreditCard(i)">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-card>
-      </div>
+      @for (card of creditCards().controls; track card; let i = $index) {
+        <div [formGroupName]="i">
+          <mat-card class="credit-card">
+            <div>
+              <mat-form-field appearance="outline">
+                <mat-label>Credit Card Payment</mat-label>
+                <input matInput formControlName="creditPayment" type="number" min="0" placeholder="Enter credit payment">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Credit Card Type</mat-label>
+                <mat-select formControlName="creditCardType">
+                  @for (cardType of applicableCards; track cardType) {
+                    <mat-option [value]="cardType.id">{{ cardType.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <button mat-icon-button color="warn" (click)="removeCreditCard(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-card>
+        </div>
+      }
     </div>
 
     <div class="add-credit-card">

@@ -1,14 +1,20 @@
-<h2 mat-dialog-title *ngIf="!data.table" >Add New Table</h2>
-<h2 mat-dialog-title *ngIf="data.table" >Update Table</h2>
+@if (!data.table) {
+  <h2 mat-dialog-title >Add New Table</h2>
+}
+@if (data.table) {
+  <h2 mat-dialog-title >Update Table</h2>
+}
 
 <form [formGroup]="addTableForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Table Number</mat-label>
       <input matInput formControlName="number" placeholder="Enter Table number">
-      <mat-error *ngIf="addTableForm.get('number')?.hasError('required')">
-        Number is required
-      </mat-error>
+      @if (addTableForm.get('number')?.hasError('required')) {
+        <mat-error>
+          Number is required
+        </mat-error>
+      }
     </mat-form-field>
   </mat-dialog-content>
 

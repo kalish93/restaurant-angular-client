@@ -9,25 +9,27 @@
     </button>
   </div>
   <div class="menu-grid">
-    <mat-card class="card-container mat-elevation-z16" *ngFor="let item of menus">
-      <img mat-card-image [src]="getImageUrl(item.image)" alt="Photo of a menu item">
-      <mat-card-header class="card-title">
-        <mat-card-title>{{ item.name }}</mat-card-title>
-        <span><h3 class="price">{{ item.price }} {{item?.currency}}</h3></span>
-    </mat-card-header>
-
-      <mat-card-content>
-        <mat-card-subtitle>{{ item.ingredients }}</mat-card-subtitle>
-
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button *appHasRole="[hasManagerRole()]" mat-flat-button (click)="editMenuItem(item)" class="action-btn">Edit</button>
-        <button *appHasRole="[hasManagerRole()]" mat-flat-button (click)="deleteMenuItem(item)" color="warn">Delete</button>
-      </mat-card-actions>
-    </mat-card>
+    @for (item of menus; track item) {
+      <mat-card class="card-container mat-elevation-z16">
+        <img mat-card-image [src]="getImageUrl(item.image)" alt="Photo of a menu item">
+        <mat-card-header class="card-title">
+          <mat-card-title>{{ item.name }}</mat-card-title>
+          <span><h3 class="price">{{ item.price }} {{item?.currency}}</h3></span>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-card-subtitle>{{ item.ingredients }}</mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button *appHasRole="[hasManagerRole()]" mat-flat-button (click)="editMenuItem(item)" class="action-btn">Edit</button>
+          <button *appHasRole="[hasManagerRole()]" mat-flat-button (click)="deleteMenuItem(item)" color="warn">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    }
   </div>
 
-  <div class="empty container" *ngIf="menus.length === 0">
-    You don't have any menu items yet.
-  </div>
+  @if (menus.length === 0) {
+    <div class="empty container">
+      You don't have any menu items yet.
+    </div>
+  }
 </div>

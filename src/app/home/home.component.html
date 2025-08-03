@@ -5,8 +5,10 @@
   'offset': isAuthenticated && !isOnSpecificPage
 }"
   color="primary"
->
-<button *ngIf="(isAuthenticated$ | async)" class="burger-menu" mat-icon-button (click)="openMobileNavigation()"> <mat-icon>menu</mat-icon> </button>
+  >
+  @if ((isAuthenticated$ | async)) {
+    <button class="burger-menu" mat-icon-button (click)="openMobileNavigation()"> <mat-icon>menu</mat-icon> </button>
+  }
 
   <div class="progress-status">
     <app-progress-status></app-progress-status>
@@ -14,32 +16,36 @@
   <!-- <div id="google_translate_element" style="margin-left: auto; margin-right: 15px;"></div> -->
 
   <div class="right-menu"
-  [ngClass]="{'unauthenticated-full-width': !isAuthenticated || isOnSpecificPage}"
-  >
-    <app-notification-button
-      *ngIf="(isAuthenticated$ | async)"
-      (openNotificationMenu)="drawer.open()"
-
-    ></app-notification-button>
+    [ngClass]="{'unauthenticated-full-width': !isAuthenticated || isOnSpecificPage}"
+    >
+    @if ((isAuthenticated$ | async)) {
+      <app-notification-button
+        (openNotificationMenu)="drawer.open()"
+      ></app-notification-button>
+    }
     <button class="account-icon" mat-icon-button [matMenuTriggerFor]="accountMenu">
       <mat-icon>{{ accountManagement.icon }}</mat-icon>
     </button>
     <mat-menu #accountMenu="matMenu">
-      <a
-        *ngIf="!(isAuthenticated$ | async)"
-        mat-menu-item
-        [routerLink]="loginRoute.link"
-        [routerLinkActive]="['is-active']"
-      >Login</a>
-      <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()">
-        Logout
-      </a>
-      <a
-        *ngIf="isAuthenticated$ | async"
-        mat-menu-item
-        [routerLink]="changePasswordRoute.link"
-        [routerLinkActive]="['is-active']"
-      >Change Password</a>
+      @if (!(isAuthenticated$ | async)) {
+        <a
+          mat-menu-item
+          [routerLink]="loginRoute.link"
+          [routerLinkActive]="['is-active']"
+        >Login</a>
+      }
+      @if (isAuthenticated$ | async) {
+        <a mat-menu-item (click)="logout()">
+          Logout
+        </a>
+      }
+      @if (isAuthenticated$ | async) {
+        <a
+          mat-menu-item
+          [routerLink]="changePasswordRoute.link"
+          [routerLinkActive]="['is-active']"
+        >Change Password</a>
+      }
     </mat-menu>
     <div id="google_translate_element" style="margin-right: 15px;"></div>
   </div>

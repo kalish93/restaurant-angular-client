@@ -11,9 +11,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <input id="email" formControlName="email" matInput />
-          <mat-error *ngIf="emailValidationError.errors?.['required']">
-            Please provide a valid email address
-          </mat-error>
+          @if (emailValidationError.errors?.['required']) {
+            <mat-error>
+              Please provide a valid email address
+            </mat-error>
+          }
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
@@ -22,22 +24,22 @@
             [type]="isPasswordVisible ? 'password' : 'text'"
             formControlName="password"
             matInput
-          />
-          <mat-icon class="visibility" matSuffix (click)="togglePasswordVisibility()">
-            {{ isPasswordVisible ? "visibility" : "visibility_off" }}
-          </mat-icon>
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button class="submit" mat-flat-button color="primary" (click)="login()">
-          Login
-        </button>
-        <!-- <button
+            />
+            <mat-icon class="visibility" matSuffix (click)="togglePasswordVisibility()">
+              {{ isPasswordVisible ? "visibility" : "visibility_off" }}
+            </mat-icon>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button class="submit" mat-flat-button color="primary" (click)="login()">
+            Login
+          </button>
+          <!-- <button
           class="forget"
           mat-flat-button
           color="primary"
           (click)="forgetPasswoerd()"
-        >
+          >
           Forgot password
         </button> -->
       </mat-card-actions>

@@ -1,89 +1,103 @@
 <div class="container">
   <h2 mat-dialog-title>Menu Item Form</h2>
-<form [formGroup]="addMenuForm" class="form-fields">
-  <div class="form-container">
-    <mat-form-field appearance="outline">
-      <mat-label>Item Name</mat-label>
-      <input id="name" formControlName="name" matInput />
-      <mat-error *ngIf="addMenuForm.get('name')?.hasError('required')">
-        Item name is required
-      </mat-error>
-    </mat-form-field>
+  <form [formGroup]="addMenuForm" class="form-fields">
+    <div class="form-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Item Name</mat-label>
+        <input id="name" formControlName="name" matInput />
+        @if (addMenuForm.get('name')?.hasError('required')) {
+          <mat-error>
+            Item name is required
+          </mat-error>
+        }
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Item Category</mat-label>
-      <mat-select formControlName="category">
-        <mat-option *ngFor="let item of categories" [value]="item.id">
-          {{ item.name }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="addMenuForm.get('category')?.hasError('required')">
-        Item category is required.
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Item Category</mat-label>
+        <mat-select formControlName="category">
+          @for (item of categories; track item) {
+            <mat-option [value]="item.id">
+              {{ item.name }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (addMenuForm.get('category')?.hasError('required')) {
+          <mat-error>
+            Item category is required.
+          </mat-error>
+        }
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Item Price</mat-label>
-      <input id="price" formControlName="price" matInput />
-      <mat-error *ngIf="addMenuForm.get('price')?.hasError('required')">
-        Item price is required
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Item Price</mat-label>
+        <input id="price" formControlName="price" matInput />
+        @if (addMenuForm.get('price')?.hasError('required')) {
+          <mat-error>
+            Item price is required
+          </mat-error>
+        }
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Tax Rate(%)</mat-label>
-      <input id="taxRate" formControlName="taxRate" matInput />
-      <mat-error *ngIf="addMenuForm.get('taxRate')?.hasError('required')">
-        Tax rate is required
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tax Rate(%)</mat-label>
+        <input id="taxRate" formControlName="taxRate" matInput />
+        @if (addMenuForm.get('taxRate')?.hasError('required')) {
+          <mat-error>
+            Tax rate is required
+          </mat-error>
+        }
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Currency</mat-label>
-      <mat-select formControlName="currency">
-        <mat-option value="USD">Dollar</mat-option>
-        <mat-option value="EUR">Euro</mat-option>
-        <mat-option value="RON">RON</mat-option>
-      </mat-select>
-      <mat-error *ngIf="addMenuForm.get('currency')?.hasError('required')">
-        Currency is required.
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Currency</mat-label>
+        <mat-select formControlName="currency">
+          <mat-option value="USD">Dollar</mat-option>
+          <mat-option value="EUR">Euro</mat-option>
+          <mat-option value="RON">RON</mat-option>
+        </mat-select>
+        @if (addMenuForm.get('currency')?.hasError('required')) {
+          <mat-error>
+            Currency is required.
+          </mat-error>
+        }
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Ingredients or Description</mat-label>
-      <textarea
-        formControlName="ingredients"
-        matInput
-        placeholder="Add ingredients here."
-      ></textarea>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ingredients or Description</mat-label>
+        <textarea
+          formControlName="ingredients"
+          matInput
+          placeholder="Add ingredients here."
+        ></textarea>
+      </mat-form-field>
 
-    <div class="file-upload">
-      <mat-label>Image</mat-label>
-      <input type="file" (change)="onFileChange($event)" />
+      <div class="file-upload">
+        <mat-label>Image</mat-label>
+        <input type="file" (change)="onFileChange($event)" />
+      </div>
+
+      <!-- Radio button group for Kitchen or Bar item -->
+      <div class="item-type">
+        <mat-label>Item Type</mat-label>
+        <mat-radio-group formControlName="itemType">
+          <mat-radio-button value="KITCHEN">Kitchen Item</mat-radio-button>
+          <mat-radio-button value="BAR">Bar Item</mat-radio-button>
+        </mat-radio-group>
+        @if (addMenuForm.get('itemType')?.hasError('required')) {
+          <mat-error class="error">
+            Please select the item type.
+          </mat-error>
+        }
+      </div>
     </div>
+  </form>
 
-    <!-- Radio button group for Kitchen or Bar item -->
-    <div class="item-type">
-      <mat-label>Item Type</mat-label>
-      <mat-radio-group formControlName="itemType">
-        <mat-radio-button value="KITCHEN">Kitchen Item</mat-radio-button>
-        <mat-radio-button value="BAR">Bar Item</mat-radio-button>
-      </mat-radio-group>
-      <mat-error class="error" *ngIf="addMenuForm.get('itemType')?.hasError('required')">
-        Please select the item type.
-      </mat-error>
-    </div>
-  </div>
-</form>
-
-<mat-dialog-actions align="end">
-  <button mat-button type="button" class="cancel" (click)="onNoClick()"> <mat-icon>cancel</mat-icon> Cancel</button>
-  <button mat-raised-button class="confirm" color="primary" (click)="submitForm()" [disabled]="addMenuForm.invalid">
-    Submit
-    <mat-icon>save</mat-icon>
-  </button>
-</mat-dialog-actions>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" class="cancel" (click)="onNoClick()"> <mat-icon>cancel</mat-icon> Cancel</button>
+    <button mat-raised-button class="confirm" color="primary" (click)="submitForm()" [disabled]="addMenuForm.invalid">
+      Submit
+      <mat-icon>save</mat-icon>
+    </button>
+  </mat-dialog-actions>
 
 </div>

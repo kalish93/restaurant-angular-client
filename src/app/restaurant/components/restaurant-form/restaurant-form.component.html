@@ -1,17 +1,25 @@
-<h2 mat-dialog-title *ngIf="!data.restaurant">Add New Restaurant</h2>
-<h2 mat-dialog-title *ngIf="data.restaurant">Update Restaurant</h2>
+@if (!data.restaurant) {
+  <h2 mat-dialog-title>Add New Restaurant</h2>
+}
+@if (data.restaurant) {
+  <h2 mat-dialog-title>Update Restaurant</h2>
+}
 
 <form [formGroup]="addRestaurantForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Restaurant Name</mat-label>
       <input matInput formControlName="name" placeholder="Enter restaurant name">
-      <mat-error *ngIf="addRestaurantForm.get('name')?.hasError('required')">
-        Name is required
-      </mat-error>
-      <mat-error *ngIf="addRestaurantForm.get('name')?.hasError('maxLength')">
-        Name cannot exceed 100 characters
-      </mat-error>
+      @if (addRestaurantForm.get('name')?.hasError('required')) {
+        <mat-error>
+          Name is required
+        </mat-error>
+      }
+      @if (addRestaurantForm.get('name')?.hasError('maxLength')) {
+        <mat-error>
+          Name cannot exceed 100 characters
+        </mat-error>
+      }
     </mat-form-field>
   </mat-dialog-content>
 

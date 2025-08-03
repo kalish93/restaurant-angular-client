@@ -2,7 +2,7 @@
   <mat-card
     class="mat-elevation-z0 notification-card"
     [class.unread]="notification.status === 'unread'"
-  >
+    >
     <mat-card-content>
       <p class="mat-body-2">
         {{ notification.message }}
@@ -11,14 +11,15 @@
         <p class="mat-caption">
           {{ notification.createdAt | date : "medium" }}
         </p>
-        <button
-          mat-flat-button
-          color="primary"
-          (click)="visible.emit()"
-          *ngIf="notification.status === 'unread'"
-        >
-          Mark as read
-        </button>
+        @if (notification.status === 'unread') {
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="visible.emit()"
+            >
+            Mark as read
+          </button>
+        }
       </div>
     </mat-card-content>
   </mat-card>

@@ -1,35 +1,45 @@
-<h1 mat-dialog-title *ngIf="!data.stock">Add Stock Item</h1>
-<h1 mat-dialog-title *ngIf="data.stock">Update Stock Item</h1>
+@if (!data.stock) {
+  <h1 mat-dialog-title>Add Stock Item</h1>
+}
+@if (data.stock) {
+  <h1 mat-dialog-title>Update Stock Item</h1>
+}
 <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
 
-<div mat-dialog-content>
+  <div mat-dialog-content>
     <mat-form-field appearance="outline">
       <mat-label>Drink Name</mat-label>
       <input matInput formControlName="name" required>
-      <mat-error *ngIf="stockForm.get('name')?.hasError('required')">
-        Drink Name is required
-      </mat-error>
+      @if (stockForm.get('name')?.hasError('required')) {
+        <mat-error>
+          Drink Name is required
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Quantity</mat-label>
       <input matInput type="number" formControlName="quantity" required>
-      <mat-error *ngIf="stockForm.get('quantity')?.hasError('required')">
-        Quantity is required
-      </mat-error>
+      @if (stockForm.get('quantity')?.hasError('required')) {
+        <mat-error>
+          Quantity is required
+        </mat-error>
+      }
     </mat-form-field>
 
     <div class="file-upload">
       <mat-label>Image</mat-label>
       <input type="file" (change)="onFileChange($event)" required>
-      <mat-error *ngIf="!imageFile">
-        Image is required
-      </mat-error>
+      @if (!imageFile) {
+        <mat-error>
+          Image is required
+        </mat-error>
+      }
     </div>
-</div>
+  </div>
 </form>
 <div mat-dialog-actions align="end">
   <button mat-button class="cancel" (click)="onNoClick()">  <mat-icon>cancel</mat-icon> Cancel</button>
   <button mat-button class="confirm" color="primary" type="submit" (click)="onSubmit()"> Submit
     <mat-icon>save</mat-icon></button>
-</div>
+  </div>

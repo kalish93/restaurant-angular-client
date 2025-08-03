@@ -11,9 +11,11 @@
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Select Discount</mat-label>
       <mat-select [(ngModel)]="discount">
-        <mat-option *ngFor="let discountOption of discounts" [value]="discountOption">
-          {{ discountOption.name }} ({{ discountOption.percentage }}%)
-        </mat-option>
+        @for (discountOption of discounts; track discountOption) {
+          <mat-option [value]="discountOption">
+            {{ discountOption.name }} ({{ discountOption.percentage }}%)
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
   </div>

@@ -1,25 +1,33 @@
 <div class="orders-container">
   <h1>Table Orders</h1>
 
-  <div class="orders-grid" *ngIf="myOrders.length">
-    <div class="order-card" *ngFor="let order of myOrders">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-subtitle>Status: <span class="status-chip" [ngClass]="order?.status">{{ getOrderStatusName(order.status) }}</span></mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <h3>Items:</h3>
-          <div class="chip-container">
-            <div class="chip" *ngFor="let item of order?.items">
-              {{ item?.menuItem?.name }} ({{ item?.quantity }})
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+  @if (myOrders.length) {
+    <div class="orders-grid">
+      @for (order of myOrders; track order) {
+        <div class="order-card">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-subtitle>Status: <span class="status-chip" [ngClass]="order?.status">{{ getOrderStatusName(order.status) }}</span></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <h3>Items:</h3>
+              <div class="chip-container">
+                @for (item of order?.items; track item) {
+                  <div class="chip">
+                    {{ item?.menuItem?.name }} ({{ item?.quantity }})
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      }
     </div>
-  </div>
+  }
 
-  <div *ngIf="!myOrders.length" class="empty-orders">
-    <p>No active orders for this table.</p>
-  </div>
+  @if (!myOrders.length) {
+    <div class="empty-orders">
+      <p>No active orders for this table.</p>
+    </div>
+  }
 </div>

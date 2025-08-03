@@ -1,53 +1,69 @@
 <div class="container">
-<div class="header" *ngIf="restaurant.isOpen">
-  <div class="cart-container" (click)="navigateToCart()">
-    <mat-icon class="cart-icon" >
-      shopping_cart
-    </mat-icon>
-    <span class="cart-count">{{ cartCount }}</span>
-  </div>
-  <mat-menu #menu="matMenu">
-  <button (click)="viewOrders()" *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >View Orders</button>
-  <button (click)="requestPayment()" *ngIf="selectedTable.status === 'OCCUPIED'" mat-menu-item >Request Payment</button>
-  <button (click)="callWaiter()" mat-menu-item >Call Waiter</button>
-</mat-menu>
+  @if (restaurant.isOpen) {
+    <div class="header">
+      <div class="cart-container" (click)="navigateToCart()">
+        <mat-icon class="cart-icon" >
+          shopping_cart
+        </mat-icon>
+        <span class="cart-count">{{ cartCount }}</span>
+      </div>
+      <mat-menu #menu="matMenu">
+        @if (selectedTable.status === 'OCCUPIED') {
+          <button (click)="viewOrders()" mat-menu-item >View Orders</button>
+        }
+        @if (selectedTable.status === 'OCCUPIED') {
+          <button (click)="requestPayment()" mat-menu-item >Request Payment</button>
+        }
+        <button (click)="callWaiter()" mat-menu-item >Call Waiter</button>
+      </mat-menu>
+      @if (restaurant.isOpen) {
+        <button mat-raised-button [matMenuTriggerFor]="menu">
+          Actions
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+      }
+    </div>
+  }
 
-<button mat-raised-button [matMenuTriggerFor]="menu" *ngIf="restaurant.isOpen">
-  Actions
-  <mat-icon>arrow_drop_down</mat-icon>
-</button>
-</div>
-
-  <h1 class="restaurant-name" *ngIf="restaurant?.name">Welcome to {{restaurant?.name}}</h1>
+  @if (restaurant?.name) {
+    <h1 class="restaurant-name">Welcome to {{restaurant?.name}}</h1>
+  }
   <div class="menu-section">
     <div class="menu-title">
       <h2>Discover Our Menus</h2>
-      <p *ngIf="restaurant.isOpen" class="menu-sub-title">Indulge in a curated selection of culinary delights, crafted to satisfy every palate. Whether you're in the mood for a comforting classic or an adventurous new flavor, our menu has something special for everyone. Explore our offerings and savor the best of what we have to offer.</p>
-      <p *ngIf="!restaurant.isOpen" class="menu-sub-title">Sorry, the restaurant is currently closed.</p>
+      @if (restaurant.isOpen) {
+        <p class="menu-sub-title">Indulge in a curated selection of culinary delights, crafted to satisfy every palate. Whether you're in the mood for a comforting classic or an adventurous new flavor, our menu has something special for everyone. Explore our offerings and savor the best of what we have to offer.</p>
+      }
+      @if (!restaurant.isOpen) {
+        <p class="menu-sub-title">Sorry, the restaurant is currently closed.</p>
+      }
     </div>
   </div>
 
-<ng-container *ngIf="restaurant.isOpen" >
-  <div *ngFor="let category of categorizedMenus | keyvalue">
-    <h3 class="category-title">{{ category.key }}</h3>
-    <div class="menu-grid">
-      <mat-card class="card-container mat-elevation-z16" *ngFor="let item of category.value">
-        <img mat-card-image [src]="getImageUrl(item.image)" alt="Photo of a menu item">
-       <div class="card-content">
-        <mat-card-header class="card-title">
-          <mat-card-title>{{ item.name }}</mat-card-title>
-          <h3 class="price">{{ item.price }} {{ item?.currency }}</h3>
-        </mat-card-header>
-
-        <mat-card-content>
-          <mat-card-subtitle>{{ item?.ingredients }}</mat-card-subtitle>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button class="order-btn" mat-flat-button color="primary" (click)="order(item)">Order</button>
-        </mat-card-actions>
-       </div>
-      </mat-card>
-    </div>
-  </div>
-</ng-container >
+  @if (restaurant.isOpen) {
+    @for (category of categorizedMenus | keyvalue; track category) {
+      <div>
+        <h3 class="category-title">{{ category.key }}</h3>
+        <div class="menu-grid">
+          @for (item of category.value; track item) {
+            <mat-card class="card-container mat-elevation-z16">
+              <img mat-card-image [src]="getImageUrl(item.image)" alt="Photo of a menu item">
+              <div class="card-content">
+                <mat-card-header class="card-title">
+                  <mat-card-title>{{ item.name }}</mat-card-title>
+                  <h3 class="price">{{ item.price }} {{ item?.currency }}</h3>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-card-subtitle>{{ item?.ingredients }}</mat-card-subtitle>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                  <button class="order-btn" mat-flat-button color="primary" (click)="order(item)">Order</button>
+                </mat-card-actions>
+              </div>
+            </mat-card>
+          }
+        </div>
+      </div>
+    }
+  }
 </div>

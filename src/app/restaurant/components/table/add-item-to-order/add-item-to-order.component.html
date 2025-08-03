@@ -4,9 +4,11 @@
     <mat-form-field appearance="outline">
       <mat-label>Menu Item</mat-label>
       <mat-select formControlName="menuItemId" placeholder="Select a menu item">
-        <mat-option *ngFor="let item of menuItems" [value]="item.id">
-          {{ item.name }}
-        </mat-option>
+        @for (item of menuItems; track item) {
+          <mat-option [value]="item.id">
+            {{ item.name }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
