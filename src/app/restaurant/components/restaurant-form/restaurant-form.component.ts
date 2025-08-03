@@ -4,9 +4,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RestaurantFacade } from '../../facades/restaurant.facade';
 
 @Component({
-  selector: 'app-restaurant-form',
-  templateUrl: './restaurant-form.component.html',
-  styleUrl: './restaurant-form.component.scss'
+    selector: 'app-restaurant-form',
+    templateUrl: './restaurant-form.component.html',
+    styleUrl: './restaurant-form.component.scss',
+    standalone: false
 })
 export class RestaurantFormComponent {
   addRestaurantForm: FormGroup;

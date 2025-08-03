@@ -24,10 +24,11 @@ const initMenuListForUsersComponentState: MenuListForUsersComponentState = {
 };
 
 @Component({
-  selector: 'app-menu-list-for-users',
-  templateUrl: './menu-list-for-users.component.html',
-  styleUrls: ['./menu-list-for-users.component.scss'],
-  providers: [RxState]
+    selector: 'app-menu-list-for-users',
+    templateUrl: './menu-list-for-users.component.html',
+    styleUrls: ['./menu-list-for-users.component.scss'],
+    providers: [RxState],
+    standalone: false
 })
 export class MenuListForUsersComponent implements OnInit {
 

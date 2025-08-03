@@ -15,10 +15,11 @@ const initAddRestaurantStaffComponentState: Partial<AddRestaurantStaffComponentS
 };
 
 @Component({
-  selector: 'app-add-admin-form',
-  templateUrl: './add-admin-form.component.html',
-  styleUrl: './add-admin-form.component.scss',
-  providers: [RxState]
+    selector: 'app-add-admin-form',
+    templateUrl: './add-admin-form.component.html',
+    styleUrl: './add-admin-form.component.scss',
+    providers: [RxState],
+    standalone: false
 })
 export class AddAdminFormComponent {
   staffForm: FormGroup;

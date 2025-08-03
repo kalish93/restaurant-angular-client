@@ -14,10 +14,11 @@ const initAddItemToOrderComponentState: AddItemToOrderComponentState = {
 };
 
 @Component({
-  selector: 'app-add-item-to-order',
-  templateUrl: './add-item-to-order.component.html',
-  styleUrl: './add-item-to-order.component.scss',
-  providers: [RxState]
+    selector: 'app-add-item-to-order',
+    templateUrl: './add-item-to-order.component.html',
+    styleUrl: './add-item-to-order.component.scss',
+    providers: [RxState],
+    standalone: false
 })
 export class AddItemToOrderComponent implements OnInit{
 

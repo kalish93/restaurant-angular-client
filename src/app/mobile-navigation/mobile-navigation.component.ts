@@ -14,9 +14,10 @@ const initRestaurantHomeComponentState: Partial<RestaurantHomeComponentState> = 
 };
 
 @Component({
-  selector: 'app-mobile-navigation',
-  templateUrl: './mobile-navigation.component.html',
-  styleUrls: ['./mobile-navigation.component.scss']
+    selector: 'app-mobile-navigation',
+    templateUrl: './mobile-navigation.component.html',
+    styleUrls: ['./mobile-navigation.component.scss'],
+    standalone: false
 })
 export class MobileNavigationComponent  {
   navLinks: Array<{ link: string; label: string; icon: string }> = [];

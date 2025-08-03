@@ -112,10 +112,11 @@ const initPaymentOptionFormComponentState: Partial<PaymentOptionFormComponentSta
 };
 
 @Component({
-  selector: 'app-payment-option-form',
-  templateUrl: './payment-option-form.component.html',
-  styleUrl: './payment-option-form.component.scss',
-  providers: [RxState]
+    selector: 'app-payment-option-form',
+    templateUrl: './payment-option-form.component.html',
+    styleUrl: './payment-option-form.component.scss',
+    providers: [RxState],
+    standalone: false
 })
 export class PaymentOptionFormComponent implements OnInit {
   paymentForm: FormGroup;

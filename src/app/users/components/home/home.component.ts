@@ -12,9 +12,10 @@ import {
 } from 'src/app/core/constants/routes';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    standalone: false
 })
 export class HomeComponent {
   navLinks: Array<{ link: string; label: string; icon: string }> = [

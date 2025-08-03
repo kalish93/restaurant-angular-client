@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 
 @Component({
-  selector: 'app-discount-form',
-  templateUrl: './discount-form.component.html',
-  styleUrl: './discount-form.component.scss'
+    selector: 'app-discount-form',
+    templateUrl: './discount-form.component.html',
+    styleUrl: './discount-form.component.scss',
+    standalone: false
 })
 export class DiscountFormComponent {
   name: string = '';

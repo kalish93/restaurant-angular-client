@@ -18,9 +18,10 @@ const initMenuState: MenuState = {
 };
 
 @Component({
-  selector: 'app-menu-list',
-  templateUrl: './menu-list.component.html',
-  styleUrl: './menu-list.component.scss'
+    selector: 'app-menu-list',
+    templateUrl: './menu-list.component.html',
+    styleUrl: './menu-list.component.scss',
+    standalone: false
 })
 export class MenuListComponent implements OnInit {
   menus: Menu[] = [];

@@ -8,11 +8,10 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-confirm-with-comment-dialog',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogModule, MatIconModule],
-  templateUrl: './confirm-with-comment-dialog.component.html',
-  styleUrls: ['./confirm-with-comment-dialog.component.scss'],
+    selector: 'app-confirm-with-comment-dialog',
+    imports: [MatButtonModule, MatDialogModule, MatIconModule],
+    templateUrl: './confirm-with-comment-dialog.component.html',
+    styleUrls: ['./confirm-with-comment-dialog.component.scss']
 })
 export class ConfirmWithCommentDialogComponent {
   name: string | undefined;

@@ -9,16 +9,15 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-confirm-with-date-dialog',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDialogModule,
-    MatIconModule,
-    MatDatepickerModule,
-  ],
-  templateUrl: './confirm-with-date-dialog.component.html',
-  styleUrls: ['./confirm-with-date-dialog.component.scss'],
+    selector: 'app-confirm-with-date-dialog',
+    imports: [
+        MatButtonModule,
+        MatDialogModule,
+        MatIconModule,
+        MatDatepickerModule,
+    ],
+    templateUrl: './confirm-with-date-dialog.component.html',
+    styleUrls: ['./confirm-with-date-dialog.component.scss']
 })
 export class ConfirmWithDateDialogComponent {
   minDate = new Date();

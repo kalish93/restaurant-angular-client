@@ -27,9 +27,10 @@ const initRestaurantHomeComponentState: Partial<RestaurantHomeComponentState> = 
 };
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './restaurant-home.component.html',
-  styleUrls: ['./restaurant-home.component.scss'],
+    selector: 'app-home',
+    templateUrl: './restaurant-home.component.html',
+    styleUrls: ['./restaurant-home.component.scss'],
+    standalone: false
 })
 export class RestaurantHomeComponent {
   navLinks: Array<{ link: string; label: string; icon: string }> = [];

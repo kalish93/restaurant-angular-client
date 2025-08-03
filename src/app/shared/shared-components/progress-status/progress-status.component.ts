@@ -15,12 +15,11 @@ const initProgressStatusComponentState: Partial<ProgressStatusComponentState> =
   };
 
 @Component({
-  selector: 'app-progress-status',
-  standalone: true,
-  imports: [CommonModule, MatProgressBarModule],
-  templateUrl: './progress-status.component.html',
-  styleUrls: ['./progress-status.component.scss'],
-  providers: [RxState],
+    selector: 'app-progress-status',
+    imports: [CommonModule, MatProgressBarModule],
+    templateUrl: './progress-status.component.html',
+    styleUrls: ['./progress-status.component.scss'],
+    providers: [RxState]
 })
 export class ProgressStatusComponent {
   inprogress$: Observable<boolean> = this.state.select('inprogress');

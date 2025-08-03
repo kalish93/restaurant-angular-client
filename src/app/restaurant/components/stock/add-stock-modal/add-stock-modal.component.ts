@@ -4,9 +4,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StockFacade } from 'src/app/restaurant/facades/stock.facae';
 
 @Component({
-  selector: 'app-add-stock-modal',
-  templateUrl: './add-stock-modal.component.html',
-  styleUrls: ['./add-stock-modal.component.scss']
+    selector: 'app-add-stock-modal',
+    templateUrl: './add-stock-modal.component.html',
+    styleUrls: ['./add-stock-modal.component.scss'],
+    standalone: false
 })
 export class AddStockModalComponent {
   stockForm: FormGroup;

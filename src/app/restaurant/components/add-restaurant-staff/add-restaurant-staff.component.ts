@@ -13,10 +13,11 @@ const initAddRestaurantStaffComponentState: Partial<AddRestaurantStaffComponentS
   roles: [],
 };
 @Component({
-  selector: 'app-add-restaurant-staff',
-  templateUrl: './add-restaurant-staff.component.html',
-  styleUrls: ['./add-restaurant-staff.component.scss'],
-  providers:[RxState]
+    selector: 'app-add-restaurant-staff',
+    templateUrl: './add-restaurant-staff.component.html',
+    styleUrls: ['./add-restaurant-staff.component.scss'],
+    providers: [RxState],
+    standalone: false
 })
 export class AddRestaurantStaffComponent implements OnInit {
   staffForm: FormGroup;

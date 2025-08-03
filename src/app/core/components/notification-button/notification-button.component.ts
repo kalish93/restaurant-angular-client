@@ -19,9 +19,10 @@ const initalState: NotificationButtonState = {
 };
 
 @Component({
-  selector: 'app-notification-button',
-  templateUrl: './notification-button.component.html',
-  styleUrls: ['./notification-button.component.scss'],
+    selector: 'app-notification-button',
+    templateUrl: './notification-button.component.html',
+    styleUrls: ['./notification-button.component.scss'],
+    standalone: false
 })
 export class NotificationButtonComponent implements OnInit, OnDestroy {
   @Output() openNotificationMenu: EventEmitter<void> = new EventEmitter<void>();

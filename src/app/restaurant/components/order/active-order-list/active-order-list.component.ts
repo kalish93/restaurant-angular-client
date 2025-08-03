@@ -13,9 +13,10 @@ const initActiveOrderListComponentState: Partial<ActiveOrderListComponentState> 
 };
 
 @Component({
-  selector: 'app-active-order-list',
-  templateUrl: './active-order-list.component.html',
-  styleUrl: './active-order-list.component.scss'
+    selector: 'app-active-order-list',
+    templateUrl: './active-order-list.component.html',
+    styleUrl: './active-order-list.component.scss',
+    standalone: false
 })
 export class ActiveOrderListComponent implements OnInit{
 

@@ -17,10 +17,11 @@ const initRestaurantListComponentState: Partial<RestaurantListComponentState> = 
 };
 
 @Component({
-  selector: 'app-restaurant-list',
-  templateUrl: './restaurant-list.component.html',
-  styleUrls: ['./restaurant-list.component.scss'],
-  providers: [RxState]
+    selector: 'app-restaurant-list',
+    templateUrl: './restaurant-list.component.html',
+    styleUrls: ['./restaurant-list.component.scss'],
+    providers: [RxState],
+    standalone: false
 })
 export class RestaurantListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -47,7 +47,8 @@ import { AuthFacade } from 'src/app/auth/facade/auth.facade';
 import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 
 @Directive({
-  selector: '[appHasRole]',
+    selector: '[appHasRole]',
+    standalone: false
 })
 export class HasRoleDirective implements OnInit, OnDestroy {
 

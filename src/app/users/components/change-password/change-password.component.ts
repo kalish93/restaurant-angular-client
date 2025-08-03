@@ -21,10 +21,11 @@ const initChangePasswordComponentState: Partial<ChangePasswordComponentState> =
   };
 
 @Component({
-  selector: 'change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
-  providers: [RxState],
+    selector: 'change-password',
+    templateUrl: './change-password.component.html',
+    styleUrls: ['./change-password.component.scss'],
+    providers: [RxState],
+    standalone: false
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
   // passwordPattern =

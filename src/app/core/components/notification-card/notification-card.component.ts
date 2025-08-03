@@ -12,9 +12,10 @@ import {
 import { InAppNotification } from '../../models/notification.model';
 
 @Component({
-  selector: 'app-notification-card',
-  templateUrl: './notification-card.component.html',
-  styleUrls: ['./notification-card.component.scss'],
+    selector: 'app-notification-card',
+    templateUrl: './notification-card.component.html',
+    styleUrls: ['./notification-card.component.scss'],
+    standalone: false
 })
 export class NotificationCardComponent {
   @Input() notification!: InAppNotification;

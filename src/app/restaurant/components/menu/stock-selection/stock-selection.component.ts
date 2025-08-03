@@ -13,10 +13,11 @@ const initStockSelectionComponentState : StockSelectionComponentState = {
 }
 
 @Component({
-  selector: 'app-stock-selection',
-  templateUrl: './stock-selection.component.html',
-  styleUrls: ['./stock-selection.component.scss'],
-  providers: [RxState]
+    selector: 'app-stock-selection',
+    templateUrl: './stock-selection.component.html',
+    styleUrls: ['./stock-selection.component.scss'],
+    providers: [RxState],
+    standalone: false
 })
 export class StockSelectionComponent implements OnInit{
   stockItems: any[] = [];

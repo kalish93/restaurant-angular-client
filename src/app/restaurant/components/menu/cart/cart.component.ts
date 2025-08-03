@@ -15,10 +15,11 @@ const initCartComponentState: CartComponentState = {
 };
 
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss'],
-  providers: [RxState]
+    selector: 'app-cart',
+    templateUrl: './cart.component.html',
+    styleUrls: ['./cart.component.scss'],
+    providers: [RxState],
+    standalone: false
 })
 export class CartComponent implements OnInit {
 

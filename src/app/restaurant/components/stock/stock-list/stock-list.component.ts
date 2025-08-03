@@ -18,9 +18,10 @@ const initStockListComponentState: Partial<StockListComponentState> = {
 }
 
 @Component({
-  selector: 'app-stock-list',
-  templateUrl: './stock-list.component.html',
-  styleUrl: './stock-list.component.scss'
+    selector: 'app-stock-list',
+    templateUrl: './stock-list.component.html',
+    styleUrl: './stock-list.component.scss',
+    standalone: false
 })
 export class StockListComponent implements OnInit{
 

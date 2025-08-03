@@ -7,11 +7,10 @@ import {
 } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-confirm-generic-dialog',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogModule],
-  templateUrl: './confirm-generic-dialog.component.html',
-  styleUrls: ['./confirm-generic-dialog.component.scss'],
+    selector: 'app-confirm-generic-dialog',
+    imports: [MatButtonModule, MatDialogModule],
+    templateUrl: './confirm-generic-dialog.component.html',
+    styleUrls: ['./confirm-generic-dialog.component.scss']
 })
 export class ConfirmGenericDialogComponent {
   message: string | undefined;

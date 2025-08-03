@@ -8,11 +8,10 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-confirm-deliberate-dialog',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogModule, MatIconModule],
-  templateUrl: './confirm-deliberate-dialog.component.html',
-  styleUrls: ['./confirm-deliberate-dialog.component.scss'],
+    selector: 'app-confirm-deliberate-dialog',
+    imports: [MatButtonModule, MatDialogModule, MatIconModule],
+    templateUrl: './confirm-deliberate-dialog.component.html',
+    styleUrls: ['./confirm-deliberate-dialog.component.scss']
 })
 export class ConfirmDeliberateDialogComponent {
   name: string | undefined;

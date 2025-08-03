@@ -8,11 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-confirm-dialog',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogModule, MatIcon],
-  templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.scss'],
+    selector: 'app-confirm-dialog',
+    imports: [MatButtonModule, MatDialogModule, MatIcon],
+    templateUrl: './confirm-dialog.component.html',
+    styleUrls: ['./confirm-dialog.component.scss']
 })
 export class ConfirmDialogComponent {
   message: string | undefined;

@@ -22,10 +22,11 @@ const initLoginComponentState: Partial<LoginComponentState> = {
 };
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  providers: [RxState],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    providers: [RxState],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   loginForm = this.fb.group({

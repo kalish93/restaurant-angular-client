@@ -17,9 +17,10 @@ const initTableListComponentState: Partial<TableListComponentState> = {
 };
 
 @Component({
-  selector: 'app-table-list',
-  templateUrl: './table-list.component.html',
-  styleUrl: './table-list.component.scss'
+    selector: 'app-table-list',
+    templateUrl: './table-list.component.html',
+    styleUrl: './table-list.component.scss',
+    standalone: false
 })
 export class TableListComponent implements OnInit{
 

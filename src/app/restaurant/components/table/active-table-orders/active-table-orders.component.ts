@@ -18,9 +18,10 @@ const initOrdersComponentState: OrdersComponentState = {
 };
 
 @Component({
-  selector: 'app-active-table-orders',
-  templateUrl: './active-table-orders.component.html',
-  styleUrl: './active-table-orders.component.scss'
+    selector: 'app-active-table-orders',
+    templateUrl: './active-table-orders.component.html',
+    styleUrl: './active-table-orders.component.scss',
+    standalone: false
 })
 export class ActiveTableOrdersComponent implements OnInit {
   $myOrders = this.state.select('myOrders');

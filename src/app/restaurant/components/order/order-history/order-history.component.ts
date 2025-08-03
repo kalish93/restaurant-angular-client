@@ -13,9 +13,10 @@ const initOrderHistoryComponentState: Partial<OrderHistoryComponentState> = {
 };
 
 @Component({
-  selector: 'app-order-history',
-  templateUrl: './order-history.component.html',
-  styleUrl: './order-history.component.scss'
+    selector: 'app-order-history',
+    templateUrl: './order-history.component.html',
+    styleUrl: './order-history.component.scss',
+    standalone: false
 })
 export class OrderHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

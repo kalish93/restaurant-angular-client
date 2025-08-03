@@ -18,10 +18,11 @@ const initMenuFormState: MenuFormState = {
 };
 
 @Component({
-  selector: 'app-menu-form',
-  templateUrl: './menu-form.component.html',
-  styleUrl: './menu-form.component.scss',
-  providers: [RxState],
+    selector: 'app-menu-form',
+    templateUrl: './menu-form.component.html',
+    styleUrl: './menu-form.component.scss',
+    providers: [RxState],
+    standalone: false
 })
 export class MenuFormComponent implements OnInit {
   addMenuForm!: FormGroup;

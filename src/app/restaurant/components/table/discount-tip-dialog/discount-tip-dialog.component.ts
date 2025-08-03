@@ -12,10 +12,11 @@ const initDiscountTipDialogComponentState: Partial<DiscountTipDialogComponentSta
 };
 
 @Component({
-  selector: 'app-discount-tip-dialog',
-  templateUrl: './discount-tip-dialog.component.html',
-  styleUrl: './discount-tip-dialog.component.scss',
-  providers: [RxState]
+    selector: 'app-discount-tip-dialog',
+    templateUrl: './discount-tip-dialog.component.html',
+    styleUrl: './discount-tip-dialog.component.scss',
+    providers: [RxState],
+    standalone: false
 })
 export class DiscountTipDialogComponent implements OnInit {
   tipValue: number = 0;  // Percentage tip only

@@ -23,9 +23,10 @@ const initalState: NotificationsState = {
 };
 
 @Component({
-  selector: 'app-notification-menu',
-  templateUrl: './notification-menu.component.html',
-  styleUrls: ['./notification-menu.component.scss'],
+    selector: 'app-notification-menu',
+    templateUrl: './notification-menu.component.html',
+    styleUrls: ['./notification-menu.component.scss'],
+    standalone: false
 })
 export class NotificationMenuComponent implements OnInit {
   notifications$ = this.state.select('notifications');

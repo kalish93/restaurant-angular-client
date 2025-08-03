@@ -16,9 +16,10 @@ const initRestaurantDetailComponentState: Partial<RestaurantDetailComponentState
 };
 
 @Component({
-  selector: 'app-restaurant-detail',
-  templateUrl: './restaurant-detail.component.html',
-  styleUrl: './restaurant-detail.component.scss'
+    selector: 'app-restaurant-detail',
+    templateUrl: './restaurant-detail.component.html',
+    styleUrl: './restaurant-detail.component.scss',
+    standalone: false
 })
 export class RestaurantDetailComponent implements OnInit{
 
