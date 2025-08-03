@@ -1,6 +1,6 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxsModule } from '@ngxs/store';
@@ -10,26 +10,20 @@ import { SharedModule } from '../shared/shared.module';
 import { NotificationMenuComponent } from './components/notification-menu/notification-menu.component';
 import { NotificationButtonComponent } from './components/notification-button/notification-button.component';
 
-@NgModule({
-  declarations: [
-    NotificationCardComponent,
-    NotificationMenuComponent,
-    NotificationButtonComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    SharedModule,
-    HttpClientModule,
-    NgxsModule.forFeature([DateTimeState]),
-  ],
-  exports: [
-    HttpClientModule,
-    NotificationMenuComponent,
-    NotificationButtonComponent,
-  ],
-})
+@NgModule({ declarations: [
+        NotificationCardComponent,
+        NotificationMenuComponent,
+        NotificationButtonComponent,
+    ],
+    exports: [
+        HttpClientModule,
+        NotificationMenuComponent,
+        NotificationButtonComponent,
+    ], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        SharedModule,
+        NgxsModule.forFeature([DateTimeState])], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class CoreModule {
   constructor(
     @Optional()
