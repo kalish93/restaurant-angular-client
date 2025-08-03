@@ -1,0 +1,74 @@
+// Typography Customizations
+// This file contains all typography-related customizations
+
+body {
+  margin: 0;
+  font-family: "Poppins", "Lato", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #1a1a1a; // Very dark grey, almost black but softer
+}
+
+// Global font size reduction
+* {
+  font-size: 0.875rem;
+}
+
+h1,
+.h1 {
+  font-size: 2.5rem !important;
+  font-weight: 600;
+}
+
+h2,
+.h2 {
+  font-size: 2rem !important;
+  font-weight: 600;
+}
+
+h3,
+.h3 {
+  font-size: 1.75rem !important;
+  font-weight: 600;
+}
+
+h4,
+.h4 {
+  font-size: 1.5rem !important;
+  font-weight: 500;
+}
+
+h5,
+.h5 {
+  font-size: 1.25rem !important;
+  font-weight: 500;
+}
+
+h6,
+.h6 {
+  font-size: 1.125rem !important;
+  font-weight: 500;
+}
+
+p,
+.p {
+  font-size: 0.875rem !important;
+}
+
+small,
+.small {
+  font-size: 0.8125rem !important;
+}
+
+.mat-mdc-form-field-error,
+.mat-mdc-form-field-error-wrapper,
+.mat-form-field-error,
+.mat-form-field-error-wrapper {
+  font-size: 0.7rem !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.mat-mdc-form-field-icon-suffix {
+  transform: translateY(-5px) !important;
+}

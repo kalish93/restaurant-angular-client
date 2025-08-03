@@ -1,44 +1,133 @@
-<div class="container">
-  <div class="text-red-500">anwii</div>
-  <form class="login-form" [formGroup]="loginForm">
-    <mat-card class="login-card">
-      <mat-card-header>
-        <mat-card-title>Please Login</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="login-fields">
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input id="email" formControlName="email" matInput />
-          <mat-error *ngIf="emailValidationError.errors?.['required']">
-            Please provide a valid email address
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input
-            id="password"
-            [type]="isPasswordVisible ? 'password' : 'text'"
-            formControlName="password"
-            matInput
-          />
-          <mat-icon class="visibility" matSuffix (click)="togglePasswordVisibility()">
-            {{ isPasswordVisible ? "visibility" : "visibility_off" }}
-          </mat-icon>
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button class="submit" mat-flat-button color="primary" (click)="login()">
-          Login
-        </button>
-        <!-- <button
-          class="forget"
-          mat-flat-button
-          color="primary"
-          (click)="forgetPasswoerd()"
-        >
-          Forgot password
-        </button> -->
-      </mat-card-actions>
-    </mat-card>
-  </form>
+<div class="flex w-full !h-min">
+  <!-- Left Section: Floating Cards with Sophisticated Backdrop -->
+  <div class="flex-1 relative flex items-center justify-center p-4">
+
+    <div class="relative w-full h-full grid grid-cols-3 grid-rows-2 gap-4 justify-around items-center z-10 gap-8">
+      <!-- Card 1: Digital Menu -->
+      <div
+        class="relative w-96 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl transition-all duration-300 hover:transform hover:-translate-y-2 hover:scale-105 hover:shadow-3xl overflow-hidden"
+        style="align-self: flex-start; margin-left: 1rem; background: radial-gradient(circle at 30% 20%, rgba(230, 81, 0, 0.25) 0%, rgba(216, 67, 21, 0.25) 40%, rgba(191, 54, 12, 0.25) 80%, rgba(141, 78, 55, 0.25) 100%);">
+        <!-- Background Image -->
+        <div class="absolute top-0 left-0 w-full h-full opacity-20">
+          <img src="assets/menu-image.png" alt="Digital Menu Background" class="w-full h-full object-cover" />
+        </div>
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/30 to-white/80"></div>
+
+        <div class="relative flex flex-col items-center justify-end min-h-72 text-left space-y-4 z-10">
+          <div>
+            <h3 class="!text-lg font-bold text-gray-900 mb-1">Digital Menu</h3>
+            <p class="text-gray-800 text-xs leading-relaxed">
+              Browse our extensive collection of delicious dishes with detailed descriptions and nutritional
+              information at your fingertips.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arrow 1 connecting to login form -->
+      <div class="absolute top-[51%] -left-[-120px] !-z-10 scale-[150%] transform rotate-[-15deg]">
+        <img src="assets/arrow-one.svg" alt="Connect to login"
+          class="w-24 h-auto opacity-70 brightness-110 contrast-110 transition-all duration-300 hover:opacity-100 hover:scale-110" />
+      </div>
+
+      <div
+        class="relative w-96 col-start-3 row-start-1 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl transition-all duration-300 hover:transform hover:-translate-y-2 hover:scale-105 hover:shadow-3xl overflow-hidden"
+        style="align-self: flex-end; margin-right: 1rem; background: radial-gradient(circle at 50% 50%, rgba(230, 81, 0, 0.25) 0%, rgba(216, 67, 21, 0.25) 25%, rgba(191, 54, 12, 0.25) 60%, rgba(141, 78, 55, 0.25) 100%);">
+        <!-- Background Image -->
+        <div class="absolute top-0 left-0 w-full h-full opacity-50">
+          <img src="assets/happy-user.png" alt="Customer Satisfaction Background" class="w-full h-full object-cover" />
+        </div>
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/30 to-white/80"></div>
+
+        <div
+          class="relative flex flex-col col-start-3 row-start-1 items-center justify-end text-right min-h-72 space-y-4 z-10">
+          <div>
+            <h3 class="!text-lg font-bold text-gray-900 mb-1">Happy Customers</h3>
+            <p class="text-gray-800 text-xs leading-relaxed">
+              Join thousands of satisfied customers who love our exceptional service and create memorable dining
+              experiences.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="relative col-start-2 row-start-2 w-96 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl transition-all duration-300 hover:transform hover:-translate-y-2 hover:scale-105 hover:shadow-3xl overflow-hidden"
+        style="align-self: center; background: radial-gradient(circle at 70% 80%, rgba(230, 81, 0, 0.25) 0%, rgba(216, 67, 21, 0.25) 35%, rgba(191, 54, 12, 0.25) 75%, rgba(141, 78, 55, 0.25) 100%);">
+        <!-- Background Image -->
+        <div class="absolute top-0 left-0 w-full h-full opacity-50">
+          <img src="assets/nice-dish.png" alt="Ultimate Dining Background" class="w-full h-full object-cover" />
+        </div>
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/30 to-white/80"></div>
+
+        <div class="relative flex flex-col items-center justify-end text-right min-h-72 space-y-4 z-10">
+          <div>
+            <h3 class="!text-lg font-bold text-gray-900 mb-1">Ultimate Dining</h3>
+            <p class="text-gray-800 text-xs leading-relaxed">
+              Experience culinary excellence with our chef's special creations and premium ingredients crafted to
+              perfection.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arrow 2 connecting to login form -->
+      <div
+        class="absolute top-[45%] left-[550px] -z-10  scale-[150%] transform -rotate-[45deg] transform-rotateX-[90deg]">
+        <img src="assets/arrow-two.svg" alt="Connect to login"
+          class="w-24 h-auto opacity-70 brightness-110 contrast-110 transition-all duration-300 hover:opacity-100 hover:scale-110" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Section: Login Form -->
+  <div class="flex-1 flex items-center justify-center p-8 backdrop-blur-sm border-l border-white/10">
+    <div class="w-full max-w-md flex justify-center items-center">
+      <form class="w-full" [formGroup]="loginForm">
+        <mat-card
+          class="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-orange-200/50 overflow-hidden transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-3xl">
+          <mat-card-header class="text-center p-8">
+            <mat-card-title class="!text-4xl !font-bold text-gray-800 text-center !mb-1">Welcome Back</mat-card-title>
+            <mat-card-subtitle class="text-gray-600 !text-left !text-base !mb-8">Please sign in to
+              continue</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content class="flex flex-col px-8 !pb-6 space-y-8">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Email</mat-label>
+              <input id="email" formControlName="email" matInput class="rounded-xl" />
+              <mat-error *ngIf="emailValidationError.errors?.['required']">
+                Please provide a valid email address
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Password</mat-label>
+              <input id="password" [type]="isPasswordVisible ? 'password' : 'text'" formControlName="password" matInput
+                class="rounded-xl" />
+              <mat-icon class="cursor-pointer text-gray-600 transition-colors duration-300 hover:text-amber-600"
+                matSuffix (click)="togglePasswordVisibility()">
+                {{ isPasswordVisible ? "visibility" : "visibility_off" }}
+              </mat-icon>
+            </mat-form-field>
+          </mat-card-content>
+          <mat-card-actions align="end" class="!px-4 !pb-6">
+            <button
+              class="w-full py-3 px-6 rounded-xl font-semibold text-base uppercase tracking-wider transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg"
+              mat-flat-button color="primary" (click)="login()">
+              Login
+            </button>
+          </mat-card-actions>
+
+          <!-- Copyright Section -->
+          <div class="border-t border-gray-200/50 px-8 py-4 text-center">
+            <p class="text-xs text-gray-500">
+              © 2024 Restaurant Management System. All rights reserved.
+            </p>
+          </div>
+        </mat-card>
+      </form>
+    </div>
+  </div>
 </div>

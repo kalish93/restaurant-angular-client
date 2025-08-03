@@ -1,0 +1,186 @@
+// Form Fields Customizations
+// This file contains all form field related customizations
+
+// Custom Input Field Styling
+.mat-mdc-form-field,
+.mat-form-field {
+  // Override the default container height CSS custom property
+  --mat-form-field-container-height: 32px !important;
+
+  .mat-mdc-form-field-wrapper,
+  .mat-form-field-wrapper {
+    padding-bottom: 0.5em !important;
+  }
+
+  .mat-mdc-text-field-wrapper,
+  .mat-form-field-infix {
+    height: 32px !important; // Reduced height from 40px to 32px
+    padding: 6px 10px !important; // Reduced padding proportionally
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #ff9800;
+      background-color: #fff;
+    }
+
+    &.mat-focused {
+      border-color: #ff9800;
+      background-color: #fff;
+      box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+    }
+  }
+
+  .mat-mdc-form-field-flex,
+  .mat-form-field-flex {
+    height: 32px !important; // Reduced height to match
+    align-items: center;
+  }
+
+  .mat-mdc-form-field-infix,
+  .mat-form-field-infix {
+    padding: 0 !important;
+    min-height: auto !important;
+    display: flex;
+    height: min-content !important;
+    align-items: center;
+    transform: translateY(-5px) !important;
+  }
+
+  .mat-mdc-form-field-label,
+  .mat-form-field-label {
+    color: #666 !important;
+    font-size: 0.875rem !important;
+    line-height: 32px !important; // Reduced line-height to match new height
+    position: relative !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .mat-mdc-input-element,
+  .mat-input-element {
+    color: #1a1a1a !important; // Very dark grey, almost black but softer
+    font-size: 0.875rem !important;
+    line-height: 20px !important; // Reduced line-height
+    height: 20px !important; // Reduced height
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper,
+  .mat-form-field-subscript-wrapper {
+    height: 0 !important;
+  }
+
+  // Center placeholder text
+  &.mat-form-field-appearance-outline,
+  &.mat-mdc-form-field-appearance-outline {
+    .mat-mdc-form-field-outline,
+    .mat-form-field-outline {
+      border-radius: 0 !important;
+    }
+
+    .mat-mdc-form-field-label,
+    .mat-form-field-label {
+      transform: translateY(-50%) !important;
+      top: 50% !important;
+    }
+  }
+
+  // Center placeholder for filled appearance
+  &.mat-form-field-appearance-fill,
+  &.mat-mdc-form-field-appearance-fill {
+    .mat-mdc-form-field-flex,
+    .mat-form-field-flex {
+      align-items: center !important;
+      height: min-content !important;
+    }
+
+    .mat-mdc-form-field-label,
+    .mat-form-field-label {
+      transform: translateY(-50%) !important;
+      top: 50% !important;
+    }
+  }
+
+  // Center placeholder for standard appearance
+  &.mat-form-field-appearance-standard,
+  &.mat-mdc-form-field-appearance-standard {
+    .mat-mdc-form-field-infix,
+    .mat-form-field-infix {
+      display: flex !important;
+      align-items: center !important;
+      height: 32px !important; // Reduced height to match
+    }
+
+    .mat-mdc-form-field-label,
+    .mat-form-field-label {
+      transform: translateY(-50%) !important;
+      top: 50% !important;
+    }
+  }
+
+  // Fix floating label positioning with correct calculations for 32px height
+  &.mat-focused,
+  &.mat-form-field-should-float {
+    .mat-mdc-form-field-label,
+    .mat-form-field-label {
+      transform: translateY(-16px) scale(0.75) !important; // Move up by half the field height (16px)
+      top: 0 !important;
+    }
+  }
+
+  // Floating label for outline appearance
+  &.mat-form-field-appearance-outline.mat-focused,
+  &.mat-form-field-appearance-outline.mat-form-field-should-float {
+    .mat-mdc-form-field-label,
+    .mat-form-field-label {
+      transform: translateY(-16px) scale(0.75) !important;
+      top: 0 !important;
+    }
+  }
+
+  // Floating label for fill appearance
+  &.mat-form-field-appearance-fill.mat-focused,
+  &.mat-form-field-appearance-fill.mat-form-field-should-float {
+    .mat-mdc-form-field-label,
+    .mat-form-field-label {
+      transform: translateY(-16px) scale(0.75) !important;
+      top: 0 !important;
+    }
+  }
+
+  // Floating label for standard appearance
+  &.mat-form-field-appearance-standard.mat-focused,
+  &.mat-form-field-appearance-standard.mat-form-field-should-float {
+    .mat-mdc-form-field-label,
+    .mat-form-field-label {
+      transform: translateY(-16px) scale(0.75) !important;
+      top: 0 !important;
+    }
+  }
+}
+
+.mdc-notched-outline__notch{
+  border-right: 0 !important;
+}
+
+
+// Custom Textarea Styling
+.mat-mdc-form-field textarea.mat-mdc-input-element,
+.mat-form-field textarea.mat-input-element {
+  min-height: 80px !important;
+  resize: vertical;
+  transform: translateY(-8px) !important;
+}
+
+// Custom Date/Time Picker Styling
+.mat-mdc-form-field input[type="date"],
+.mat-mdc-form-field input[type="time"],
+.mat-form-field input[type="date"],
+.mat-form-field input[type="time"] {
+  color: #424242 !important;
+}
+
+
+

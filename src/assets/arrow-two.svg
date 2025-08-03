@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="317.534 305.602 139.6212 150.48" width="139.621px" height="150.48px">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="373.218" y1="305.602" x2="317.534" y2="456.082" id="gradient-0">
+      <stop offset="0" style="stop-color: srgb(36.5% 25.9% 6.67%)"/>
+      <stop offset="0.5" style="stop-color: srgb(36.5% 25.9% 6.67%)"/>
+      <stop offset="1" style="stop-color: srgb(36.5% 25.9% 6.67%)"/>
+    </linearGradient>
+    <style>
+      @keyframes strokeAnimation {
+        0% {
+          stroke-dashoffset: -31px;
+        }
+        100% {
+          stroke-dashoffset: 0px;
+        }
+      }
+      .animated-path {
+        animation: strokeAnimation 2s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+  <path class="animated-path" style="fill: transparent; stroke: url(&quot;#gradient-0&quot;); stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; stroke-dashoffset: -31px; stroke-dasharray: 8; vector-effect: non-scaling-stroke;" d="M 373.218 305.602 C 383.642 308.208 392.056 317.029 401.06 322.175 C 409.388 326.933 420.724 332.704 426.251 340.073 C 445.033 365.116 437.1 383.75 420.948 406.364 C 413.219 417.185 401.991 423.157 390.454 429.566 C 366.041 443.129 345.611 456.082 317.534 456.082" transform="matrix(1, 0, 0, 1, 7.105427357601002e-15, -1.4210854715202004e-14)"/>
+</svg>
