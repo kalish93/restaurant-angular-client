@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
@@ -28,6 +28,7 @@ import { MobileNavigationComponent } from '../mobile-navigation/mobile-navigatio
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [RxState],
 })
 export class HomeComponent implements OnInit {
