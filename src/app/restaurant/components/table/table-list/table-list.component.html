@@ -1,44 +1,159 @@
-<div class="container">
-  <div class="header">
-    <h1>Our Tables</h1>
-  <button *appHasRole="[hasManagerRole()]" (click)="openAddTableDialog()" class="add-btn" mat-flat-button><mat-icon>add</mat-icon>
-    Add Table</button>
-  </div>
-  <div class="menu-section">
-    <div class="menu-grid">
-      <div class="menu-item" *ngFor="let table of tables">
-        <img [src]="table.qrCodeImage" alt='QR Code'>
-        <div class="menu-info">
-         <div class="no-and-status">
-          <h3>Table number: {{ table.number }}</h3>
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-         </div>
-         <!-- <mat-chip>{{table.status}}</mat-chip> -->
-         <span [ngClass]="table.status === 'AVAILABLE' ? 'active' : 'inactive'">
-          {{ table.status }}
-        </span>
-
-          <mat-menu #menu>
-            <button *appHasRole="[hasManagerRole()]" mat-menu-item color="primary" (click)="openEditRestaurantDialog(table,  $event)">
-              <mat-icon>edit</mat-icon>
-              Update
-            </button>
-            <button *appHasRole="[hasManagerRole()]" mat-menu-item color="warn" (click)="deleteRestaurant(table.id,  $event)">
-              <mat-icon>delete</mat-icon>
-              Delete
-            </button>
-            <button *appHasRole="[hasManagerRole(), hasWaiterRole()]" (click)="viewTableOrders(table.id)" mat-menu-item><mat-icon>receipt</mat-icon>View Orders</button>
-            <button *appHasRole="[hasManagerRole()]" (click)="downloadQRCode(table.id, table.number)" mat-menu-item><mat-icon>download</mat-icon>Qr Code</button>
-          </mat-menu>
-        </div>
-
+<div class="min-h-screen bg-gray-100 p-4 ">
+  <div class="mx-auto md:max-w-[90%] ">
+    <!-- Header Section -->
+    <div class="mb-8 flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Tables</h1>
+        <p class="mt-2 text-gray-600">Manage your restaurant tables</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button 
+          *appHasRole="[hasManagerRole()]" 
+          (click)="openAddTableDialog()" 
+          class="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)]">
+          <mat-icon class="!text-lg">add</mat-icon>
+          Add Table
+        </button>
       </div>
     </div>
-  </div>
 
-  <div class="empty container" *ngIf="tables.length === 0">
-    You don't have any tables yet.
+    <!-- Filter Section -->
+    <div class="mb-8 flex flex-wrap gap-3">
+      <button
+        (click)="setStatusFilter(null)"
+        [class]="getFilterButtonClass(null)"
+        class="rounded-full px-6 py-2.5 text-sm font-medium transition-all">
+        All Tables
+      </button>
+      <button
+        (click)="setStatusFilter('AVAILABLE')"
+        [class]="getFilterButtonClass('AVAILABLE')"
+        class="rounded-full px-6 py-2.5 text-sm font-medium transition-all">
+        Available
+      </button>
+      <button
+        (click)="setStatusFilter('OCCUPIED')"
+        [class]="getFilterButtonClass('OCCUPIED')"
+        class="rounded-full px-6 py-2.5 text-sm font-medium transition-all">
+        Occupied
+      </button>
+      <button
+        (click)="setStatusFilter('RESERVED')"
+        [class]="getFilterButtonClass('RESERVED')"
+        class="rounded-full px-6 py-2.5 text-sm font-medium transition-all">
+        Reserved
+      </button>
+    </div>
+
+    <!-- Tables Grid -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div 
+        *ngFor="let table of filteredTables" 
+        class="group relative overflow-hidden rounded-3xl bg-white p-6 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all duration-300 hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)]">
+        
+        <!-- Status indicator -->
+        <div class="absolute right-4 top-4">
+          <div [ngClass]="{
+            'bg-green-500': table.status === 'AVAILABLE',
+            'bg-red-500': table.status === 'OCCUPIED', 
+            'bg-amber-500': table.status === 'RESERVED',
+            'bg-gray-400': table.status !== 'AVAILABLE' && table.status !== 'OCCUPIED' && table.status !== 'RESERVED'
+          }" class="h-3 w-3 rounded-full border border-white"></div>
+        </div>
+
+        <!-- QR Code Image -->
+        <div class="mb-4 flex justify-center">
+          <div class="relative">
+            <div class="h-32 w-32 overflow-hidden rounded-full bg-gray-200 p-2 shadow-[inset_6px_6px_12px_rgba(0,0,0,0.1),inset_-6px_-6px_12px_rgba(255,255,255,0.9)]">
+              <div class="relative h-28 w-28 p-2 bg-white rounded-full object-contain">
+                <img 
+                  [src]="table.qrCodeImage" 
+                  [alt]="'QR Code for Table ' + table.number"
+                class=" h-[70px] translate-x-2 translate-y-2 w-[70px] object-contain"
+                  (error)="onImageError($event)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Info -->
+        <div class="text-center">
+          <h6 class="!text-md font-semibold text-gray-900">Table {{ table.number }}</h6>
+          <div class="mt-2">
+            <span [ngClass]="{
+              'bg-green-100 text-green-800': table.status === 'AVAILABLE',
+              'bg-red-100 text-red-800': table.status === 'OCCUPIED',
+              'bg-amber-100 text-amber-800': table.status === 'RESERVED',
+              'bg-gray-100 text-gray-800': table.status !== 'AVAILABLE' && table.status !== 'OCCUPIED' && table.status !== 'RESERVED'
+            }" class="inline-block rounded-full px-3 py-1 text-xs font-medium shadow-[2px_2px_4px_rgba(0,0,0,0.05),-2px_-2px_4px_rgba(255,255,255,0.8)]">
+              {{ table.status }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-6 grid grid-cols-2 gap-2">
+          <!-- Edit Button -->
+          <button 
+            *appHasRole="[hasManagerRole()]"
+            (click)="openEditRestaurantDialog(table, $event)"
+            class="flex items-center justify-center gap-1 rounded-full bg-white h-[30px] text-sm font-medium text-blue-600 shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)] transition-all hover:shadow-[2px_2px_4px_rgba(0,0,0,0.05),-2px_-2px_4px_rgba(255,255,255,0.8)]">
+            <mat-icon class="!text-base">edit</mat-icon>
+            <span class="hidden sm:inline">Edit</span>
+          </button>
+
+          <!-- View Orders Button -->
+          <button 
+            *appHasRole="[hasManagerRole(), hasWaiterRole()]"
+            (click)="viewTableOrders(table.id)"
+            class="flex items-center justify-center gap-1 rounded-full bg-white h-[30px] text-sm font-medium text-gray-700 shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)] transition-all hover:shadow-[2px_2px_4px_rgba(0,0,0,0.05),-2px_-2px_4px_rgba(255,255,255,0.8)]">
+            <mat-icon class="!text-base">receipt</mat-icon>
+            <span class="hidden sm:inline">Orders</span>
+          </button>
+
+          <!-- Download QR Button -->
+          <button 
+            *appHasRole="[hasManagerRole()]"
+            (click)="downloadQRCode(table.id, table.number)"
+            class="flex items-center justify-center gap-1 rounded-full bg-white h-[30px] text-sm font-medium text-green-600 shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)] transition-all hover:shadow-[2px_2px_4px_rgba(0,0,0,0.05),-2px_-2px_4px_rgba(255,255,255,0.8)]">
+            <mat-icon class="!text-base">download</mat-icon>
+            <span class="hidden sm:inline">QR</span>
+          </button>
+
+          <!-- Delete Button -->
+          <button 
+            *appHasRole="[hasManagerRole()]"
+            (click)="deleteRestaurant(table.id, $event)"
+            class="flex items-center justify-center gap-1 rounded-full bg-white h-[30px] text-sm font-medium text-red-600 shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)] transition-all hover:shadow-[2px_2px_4px_rgba(0,0,0,0.05),-2px_-2px_4px_rgba(255,255,255,0.8)]">
+            <mat-icon class="!text-base">delete</mat-icon>
+            <span class="hidden sm:inline">Delete</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Add New Table Card (if user has manager role) -->
+      <div 
+        *appHasRole="[hasManagerRole()]"
+        (click)="openAddTableDialog()"
+        class="flex h-full min-h-[280px] cursor-pointer flex-col items-center justify-center rounded-3xl bg-white p-6 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[4px_4px_8px_rgba(0,0,0,0.05),-4px_-4px_8px_rgba(255,255,255,0.8)]">
+        <div class="mb-4 rounded-full bg-white p-4 shadow-[4px_4px_8px_rgba(0,0,0,0.05),-4px_-4px_8px_rgba(255,255,255,0.8)]">
+          <mat-icon class="!text-3xl text-gray-500">add</mat-icon>
+        </div>
+        <h3 class="mb-2 text-lg font-semibold text-gray-900">Add New Table</h3>
+        <p class="text-sm text-center text-gray-500">Create a new table for your restaurant</p>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredTables.length === 0" class="flex flex-col items-center justify-center py-16">
+      <div class="mb-4 rounded-full bg-white p-6 shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)]">
+        <mat-icon class="!text-4xl text-gray-400">table_restaurant</mat-icon>
+      </div>
+      <h3 class="mb-2 text-xl font-semibold text-gray-900">No tables found</h3>
+      <p class="text-gray-500">
+        <span *ngIf="selectedStatusFilter">No tables with status "{{ selectedStatusFilter }}" found.</span>
+        <span *ngIf="!selectedStatusFilter">You don't have any tables yet.</span>
+      </p>
+    </div>
   </div>
 </div>

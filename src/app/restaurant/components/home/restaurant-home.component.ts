@@ -1,4 +1,11 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  OnDestroy,
+  OnInit,
+  HostListener,
+} from '@angular/core';
 import { RxState } from '@rx-angular/state';
 import { AuthFacade } from 'src/app/auth/facade/auth.facade';
 import {
@@ -15,40 +22,79 @@ import {
   ORDER_HISTORY_ROUTE,
 } from 'src/app/core/constants/routes';
 
-import{ jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { Roles } from 'src/app/core/constants/roles';
+import { SidenavService } from 'src/app/core/services/sidenav.service';
+import { Subscription } from 'rxjs';
 
 interface RestaurantHomeComponentState {
   accessToken: any;
 }
 
-const initRestaurantHomeComponentState: Partial<RestaurantHomeComponentState> = {
-  accessToken: undefined,
-};
+const initRestaurantHomeComponentState: Partial<RestaurantHomeComponentState> =
+  {
+    accessToken: undefined,
+  };
 
 @Component({
   selector: 'app-home',
   templateUrl: './restaurant-home.component.html',
   styleUrls: ['./restaurant-home.component.scss'],
 })
-export class RestaurantHomeComponent {
+export class RestaurantHomeComponent implements OnDestroy, OnInit {
   navLinks: Array<{ link: string; label: string; icon: string }> = [];
 
   $accessToken = this.state.select('accessToken');
-  decoded :any;
+  decoded: any;
   roleName: any;
+  isOpen = true;
+  isMobile = false;
+  @Output() closeDrawer = new EventEmitter<void>();
+  private sidenavSubscription!: Subscription;
+
   constructor(
     private authFacade: AuthFacade,
-    private state: RxState<RestaurantHomeComponentState>
-  ){
+    private state: RxState<RestaurantHomeComponentState>,
+    private sidenavService: SidenavService
+  ) {
     this.state.set(initRestaurantHomeComponentState);
     this.state.connect('accessToken', this.authFacade.accessToken$);
-    this.$accessToken.subscribe((token)=>{
-       this.decoded = jwtDecode(token);
-       this.roleName = this.decoded?.role?.name;
-       this.setNavLinks(this.roleName);
-    })
+    this.$accessToken.subscribe((token) => {
+      this.decoded = jwtDecode(token);
+      this.roleName = this.decoded?.role?.name;
+      this.setNavLinks(this.roleName);
+    });
+
+    // Check initial screen size
+    this.checkScreenSize();
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize() {
+    this.isMobile = window.innerWidth < 768;
+
+    // Auto-open sidenav on desktop, close on mobile
+    if (this.isMobile) {
+      this.isOpen = false;
+    } else {
+      this.isOpen = true;
+    }
+  }
+
+  ngOnInit(): void {
+    // Subscribe to sidenav toggle events
+    this.sidenavSubscription = this.sidenavService.toggleSidenav$.subscribe(
+      () => {
+        console.log('Toggle sidenav event received');
+        this.toggleDrawer();
+      }
+    );
+  }
+
   // navLinks: Array<{ link: string; label: string; icon: string }> = [
   //   {
   //     link: RESTAURANT_LIST,
@@ -75,23 +121,22 @@ export class RestaurantHomeComponent {
   //     label: 'Users',
   //     icon: 'person',
   //   },
-    // {
-    //   link: ROLES_LIST,
-    //   label: 'Roles',
-    //   icon: '',
-    // },
-    // {
-    //   link: EMPLOYEES_LIST,
-    //   label: 'Employees',
-    //   icon: '',
-    // },
-    // {
-    //   link: ADMINS_LIST,
-    //   label: 'Admins',
-    //   icon: '',
-    // },
+  // {
+  //   link: ROLES_LIST,
+  //   label: 'Roles',
+  //   icon: '',
+  // },
+  // {
+  //   link: EMPLOYEES_LIST,
+  //   label: 'Employees',
+  //   icon: '',
+  // },
+  // {
+  //   link: ADMINS_LIST,
+  //   label: 'Admins',
+  //   icon: '',
+  // },
   // ];
-
 
   setNavLinks(roleName: string): void {
     if (roleName === 'Admin') {
@@ -112,7 +157,7 @@ export class RestaurantHomeComponent {
           icon: 'person',
         },
       ];
-    }else if (roleName === Roles.RestaurantManager){
+    } else if (roleName === Roles.RestaurantManager) {
       this.navLinks = [
         {
           link: 'dashboard',
@@ -135,23 +180,22 @@ export class RestaurantHomeComponent {
           icon: 'menu_book',
         },
         {
-          link:  ORDER_HISTORY_ROUTE,
+          link: ORDER_HISTORY_ROUTE,
           label: 'Order History',
           icon: 'list',
         },
         {
-          link:  'staff',
+          link: 'staff',
           label: 'My Staff',
           icon: 'persons',
         },
         {
-          link:  'settings',
+          link: 'settings',
           label: 'Settings',
           icon: 'settings',
         },
       ];
-
-    }else{
+    } else {
       this.navLinks = [
         {
           link: 'dashboard',
@@ -174,12 +218,23 @@ export class RestaurantHomeComponent {
           icon: 'menu_book',
         },
         {
-          link:  ORDER_HISTORY_ROUTE,
+          link: ORDER_HISTORY_ROUTE,
           label: 'Order History',
           icon: 'list',
         },
       ];
     }
+  }
 
+  ngOnDestroy(): void {
+    if (this.sidenavSubscription) {
+      this.sidenavSubscription.unsubscribe();
+    }
+  }
+
+  toggleDrawer() {
+    console.log('Toggling drawer, current state:', this.isOpen);
+    this.isOpen = !this.isOpen;
+    console.log('New state:', this.isOpen);
   }
 }
