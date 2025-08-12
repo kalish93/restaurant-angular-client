@@ -1,41 +1,110 @@
-<div class="restaurant-list-container">
-  <div class="header">
-    <h1>Order History</h1>
+<div class="min-h-screen bg-gray-100 p-6">
+  <div class="mx-auto mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Order History</h1>
+    <p class="mt-2 text-gray-600">Manage your order</p>
   </div>
- <div class="table-and-paginator">
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize"
-  showFirstLastButtons (page)="pageChanged($event)">
-</mat-paginator>
-  <table mat-table [dataSource]="orders" class="mat-elevation-z8" matSort>
 
-    <ng-container matColumnDef="tableNumber">
-      <th mat-header-cell *matHeaderCellDef>Table</th>
-      <td mat-cell *matCellDef="let order">{{ order.table.number }}</td>
-    </ng-container>
+  <div class="bg-white rounded-xl p-6 shadow overflow-x-auto">
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [pageSize]="pageSize"
+      showFirstLastButtons
+      (page)="pageChanged($event)"
+      class="mb-4 flex justify-end"
+    ></mat-paginator>
 
-    <ng-container matColumnDef="items">
-      <th mat-header-cell *matHeaderCellDef>Items</th>
-      <td mat-cell *matCellDef="let order">
-        <div *ngFor="let item of order.items">
-          {{ item.menuItem.name }} ({{ item.quantity }})
-        </div>
-      </td>
-    </ng-container>
+    <table
+      mat-table
+      [dataSource]="orders"
+      matSort
+      class="min-w-full table-auto border-collapse table-fixed"
+    >
+      <!-- Table Number -->
+      <ng-container matColumnDef="tableNumber">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="w-1/4 py-2 px-4 border-b border-gray-200 text-left font-semibold text-gray-800"
+        >
+          Table
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let order"
+          class="w-1/4 py-2 px-4 border-b border-gray-200 text-gray-700"
+        >
+          {{ order.table.number }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let order">{{ order.status }}</td>
-    </ng-container>
+      <!-- Items -->
+      <ng-container matColumnDef="items">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="w-1/4 py-2 px-4 border-b border-gray-200 text-left font-semibold text-gray-800"
+        >
+          Items
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let order"
+          class="w-1/4 py-2 px-4 border-b border-gray-200 text-gray-700"
+        >
+          <div *ngFor="let item of order.items" class="whitespace-nowrap">
+            {{ item.menuItem.name }} ({{ item.quantity }})
+          </div>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="createdAt">
-      <th mat-header-cell *matHeaderCellDef>Ordered At</th>
-      <td mat-cell *matCellDef="let order">{{ order.createdAt | date:'medium'  }}</td>
-    </ng-container>
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="w-1/4 py-2 px-4 border-b border-gray-200 text-left font-semibold text-gray-800"
+        >
+          Status
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let order"
+          class="w-1/4 py-2 px-4 border-b border-gray-200 text-gray-700 capitalize"
+        >
+          {{ order.status }}
+        </td>
+      </ng-container>
 
-    <!-- Header and Row Declarations -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="navigateToDetail(row.id)"></tr>
+      <!-- Ordered At -->
+      <ng-container matColumnDef="createdAt">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="w-1/4 py-2 px-4 border-b border-gray-200 text-left font-semibold text-gray-800"
+        >
+          Ordered At
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let order"
+          class="w-1/4 py-2 px-4 border-b border-gray-200 text-gray-700"
+        >
+          {{ order.createdAt | date : "medium" }}
+        </td>
+      </ng-container>
 
-  </table>
- </div>
+      <!-- Header and Rows -->
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+        class="bg-gray-50"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="hover:bg-gray-100 cursor-pointer"
+        (click)="navigateToDetail(row.id)"
+      ></tr>
+    </table>
+  </div>
 </div>

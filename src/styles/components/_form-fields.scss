@@ -182,5 +182,7 @@
   color: #424242 !important;
 }
 
-
-
+.mat-mdc-form-field,
+.mat-form-field {
+  margin-bottom: 1.5rem; /* Add space between fields */
+}

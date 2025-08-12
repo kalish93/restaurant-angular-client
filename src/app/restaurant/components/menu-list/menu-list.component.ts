@@ -97,4 +97,8 @@ export class MenuListComponent implements OnInit {
   hasManagerRole(){
     return Roles.RestaurantManager
   }
+
+  onImageError(event: any) {
+    event.target.src = 'https://placehold.co/600x400?text=Menu+Image';
+  }
 }

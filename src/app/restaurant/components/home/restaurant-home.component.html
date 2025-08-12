@@ -1,9 +1,30 @@
-<mat-sidenav-container class="sidenav-container ">
-  <mat-sidenav mode="side" [opened]="isOpen" class="left-menu !bg-gray-100 overflow-hidden mat-elevation-z1">
-    <img class="ml-2 w-[60px] h-[60px] mt-4" src="https://marketplace.canva.com/MADnuO9MlIU/1/thumbnail_large/canva-burger-icon-MADnuO9MlIU.png" alt="Digital Dine Logo">
-    <hr class="my-4 border-amber-500 py-2 w-[50%] bg-amber-500 mb-8 rounded-full "/>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    mode="side"
+    [opened]="isOpen"
+    class="left-menu !bg-gray-100 overflow-hidden mat-elevation-z1"
+  >
+    <img
+      class="ml-2 w-[60px] h-[60px] mt-4"
+      src="https://marketplace.canva.com/MADnuO9MlIU/1/thumbnail_large/canva-burger-icon-MADnuO9MlIU.png"
+      alt="Digital Dine Logo"
+    />
+    <hr
+      class="my-4 border-amber-500 py-2 w-[50%] bg-amber-500 mb-8 rounded-full"
+    />
     <div *ngFor="let link of navLinks">
-      <a class="menu-button" mat-button [routerLink]="link.link" [routerLinkActive]="['!bg-gray-300']">
+      <a
+        class="menu-button"
+        mat-button
+        [routerLink]="link.link"
+        routerLinkActive="active-link"
+        #rla="routerLinkActive"
+        [ngStyle]="
+          rla.isActive
+            ? { 'background-color': 'rgb(255, 152, 0)', color: 'white' }
+            : {}
+        "
+      >
         <mat-icon>{{ link.icon }}</mat-icon>
         <span>{{ link.label }}</span>
       </a>
