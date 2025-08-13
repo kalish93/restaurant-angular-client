@@ -36,6 +36,7 @@ import { DiscountTipDialogComponent } from './components/table/discount-tip-dial
 import { CreditCardFormComponent } from './components/payment/credit-card-form/credit-card-form.component';
 import { PaymentOptionFormComponent } from './components/payment/payment-option-form/payment-option-form.component';
 import { DiscountFormComponent } from './components/payment/discount-form/discount-form.component';
+import { EditOrderModalComponent } from './components/table/edit-order-modal/edit-order-modal.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { DiscountFormComponent } from './components/payment/discount-form/discou
    DiscountTipDialogComponent,
    CreditCardFormComponent,
    PaymentOptionFormComponent,
-   DiscountFormComponent
+   DiscountFormComponent,
+   EditOrderModalComponent
   ],
   imports: [
     SharedModule,
