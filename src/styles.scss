@@ -14,3 +14,22 @@
 
 // slick-grid theme
 @import "@slickgrid-universal/common/dist/styles/sass/slickgrid-theme-material.scss";
+
+// Cart Modal Panel Styles
+.cart-modal-panel {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+  }
+
+  .mat-mdc-dialog-surface {
+    border-radius: 12px !important;
+    overflow: hidden;
+
+    @media (max-width: 640px) {
+      border-radius: 0 !important;
+      margin: 0 !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <!-- Left Section: Floating Cards with Sophisticated Backdrop -->
   <div class="flex-1 relative flex items-center justify-center p-4">
 
-    <div class="relative w-full h-full grid grid-cols-3 grid-rows-2 gap-4 justify-around items-center z-10 gap-8">
+    <div class="relative hidden w-[725px] scale-[80%] md:scale-[50%] lg:scale-[80%] h-full md:grid grid-cols-3 grid-rows-2 gap-4 justify-around items-center z-10 gap-8">
       <!-- Card 1: Digital Menu -->
       <div
         class="relative w-96 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl transition-all duration-300 hover:transform hover:-translate-y-2 hover:scale-105 hover:shadow-3xl overflow-hidden"
@@ -88,13 +88,13 @@
     <div class="w-full max-w-md flex justify-center items-center">
       <form class="w-full" [formGroup]="loginForm">
         <mat-card
-          class="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-orange-200/50 overflow-hidden transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-3xl">
+          class="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-orange-200/50 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-3xl">
           <mat-card-header class="text-center p-8">
             <mat-card-title class="!text-4xl !font-bold text-gray-800 text-center !mb-1">Welcome Back</mat-card-title>
             <mat-card-subtitle class="text-gray-600 !text-left !text-base !mb-8">Please sign in to
               continue</mat-card-subtitle>
           </mat-card-header>
-          <mat-card-content class="flex flex-col px-8 !pb-6 space-y-8">
+          <mat-card-content class="flex flex-col px-8 space-y-8">
             <mat-form-field appearance="outline" class="w-full">
               <mat-label>Email</mat-label>
               <input id="email" formControlName="email" matInput class="rounded-xl" />

@@ -1,18 +1,20 @@
 <mat-toolbar [ngClass]="{
-  ' fixed top-0 z-[1000] h-[75px]  w-full justify-between items-center': true,
-  'left-0 right-0 w-full flex items-center justify-end': !isAuthenticated || isOnSpecificPage,
-  'md:rounded-full md:top-[4px] left-[240px] right-0 max-[768px]:left-0 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-between': isAuthenticated && !isOnSpecificPage
+  '!hidden': !isAuthenticated,
+  ' fixed top-0 z-[1000] h-[75px]  w-full justify-between items-center': isAuthenticated,
+  'md:rounded-full md:top-[4px] left-[240px] right-0 max-[768px]:left-0 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-between': true
 }" color="primary">
   <button *ngIf="(isAuthenticated$ | async) && isMobile" class="text-black md:hidden" mat-icon-button
     (click)="toggleDrawer()">
     <mat-icon>menu</mat-icon>
   </button>
 
-  <div class="absolute left-0 right-0 bottom-0">
+  <div class="absolute left-[23px] right-0 bottom-0 rounded-bl-full">
     <app-progress-status></app-progress-status>
   </div>
 
-  <div class="fixed last:mr-10 right-0 flex flex-row items-center gap-4 justify-self-end max-[768px]:ml-auto max-[325px]:gap-[5px]" [ngClass]="{
+  <div
+    class="fixed last:mr-10 right-0 flex flex-row items-center gap-4 justify-self-end max-[768px]:ml-auto max-[325px]:gap-[5px]"
+    [ngClass]="{
       'ml-[calc(100vw-150px)]': !isAuthenticated || isOnSpecificPage
     }">
     <app-notification-button *ngIf="(isAuthenticated$ | async)"

@@ -169,9 +169,8 @@
 // Custom Textarea Styling
 .mat-mdc-form-field textarea.mat-mdc-input-element,
 .mat-form-field textarea.mat-input-element {
-  min-height: 80px !important;
-  resize: vertical;
-  transform: translateY(-8px) !important;
+  // min-height: 80px !important;
+  transform: translateY(32px) !important;
 }
 
 // Custom Date/Time Picker Styling

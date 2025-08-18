@@ -58,6 +58,9 @@ export class OrderState {
     // Get the current cart from the state
     const currentCart = getState().cart || [];
 
+    console.log(currentCart);
+    console.log(data);
+
     // Check if the item already exists in the cart
     const existingCartItem = currentCart.find(
       (item) => item.menuItem.id === data.menuItem.id

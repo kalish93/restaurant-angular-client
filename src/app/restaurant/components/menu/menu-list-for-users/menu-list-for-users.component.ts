@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
+import { MatDialog } from '@angular/material/dialog';
 import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 import { NotificationFacade } from 'src/app/core/facades/notification.facade';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -8,6 +9,7 @@ import { MenuFacade } from 'src/app/restaurant/facades/menu.facade';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
 import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 import { Cart, Menu } from 'src/app/restaurant/models/menu.model';
+import { CartModalComponent } from '../cart-modal/cart-modal.component';
 
 interface MenuListForUsersComponentState {
   restaurant: any;
@@ -20,17 +22,16 @@ const initMenuListForUsersComponentState: MenuListForUsersComponentState = {
   restaurant: null,
   menus: [],
   cart: [],
-  selectedTable: {}
+  selectedTable: {},
 };
 
 @Component({
   selector: 'app-menu-list-for-users',
   templateUrl: './menu-list-for-users.component.html',
   styleUrls: ['./menu-list-for-users.component.scss'],
-  providers: [RxState]
+  providers: [RxState],
 })
 export class MenuListForUsersComponent implements OnInit {
-
   $restaurant = this.state.select('restaurant');
   restaurant: any = null;
   restaurantId: string | null = null;
@@ -45,6 +46,11 @@ export class MenuListForUsersComponent implements OnInit {
   categorizedMenus: { [category: string]: Menu[] } = {};
   selectedTable$ = this.state.select('selectedTable');
   selectedTable: any = {};
+  selectedCategory: string | null = null;
+
+  // Special instructions for each menu item
+  specialInstructions: { [menuItemId: string]: string } = {};
+  showInstructionsFor: { [menuItemId: string]: boolean } = {};
 
   constructor(
     private state: RxState<MenuListForUsersComponentState>,
@@ -53,17 +59,18 @@ export class MenuListForUsersComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private orderFacade: OrderFacade,
-    private notificationFacade: NotificationFacade
+    private notificationFacade: NotificationFacade,
+    private dialog: MatDialog
   ) {
     this.state.set(initMenuListForUsersComponentState);
-    this.state.connect('restaurant', this.restaurantFacade.selectedRestaurant$)
-    this.state.connect('menus', this.menuFacade.menus$)
-    this.state.connect('cart', this.orderFacade.cart$)
-    this.state.connect('selectedTable', this.restaurantFacade.selectedTable$)
+    this.state.connect('restaurant', this.restaurantFacade.selectedRestaurant$);
+    this.state.connect('menus', this.menuFacade.menus$);
+    this.state.connect('cart', this.orderFacade.cart$);
+    this.state.connect('selectedTable', this.restaurantFacade.selectedTable$);
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.restaurantId = params.get('restaurantId');
       this.tableId = params.get('tableId');
       this.restaurantFacade.dispatchGetRestaurant(this.restaurantId);
@@ -84,27 +91,83 @@ export class MenuListForUsersComponent implements OnInit {
       this.selectedTable = data;
     });
 
-    this.cart$.subscribe((data)=>{
+    this.cart$.subscribe((data) => {
       this.cart = data;
       this.cartCount = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    });
+  }
 
-    })
+  addToCart(item: Menu) {
+    this.cartItems.push(item);
+    const specialInstructions = this.specialInstructions[item.id] || '';
+    this.orderFacade.dispatchAddToCart({
+      menuItem: item,
+      quantity: 1,
+      showInstructions: this.showInstructionsFor[item.id] || false,
+      specialInstructions: specialInstructions,
+    });
+  }
+
+  toggleSpecialInstructions(itemId: string) {
+    this.showInstructionsFor[itemId] = !this.showInstructionsFor[itemId];
+    if (!this.showInstructionsFor[itemId]) {
+      this.specialInstructions[itemId] = '';
+    }
+
+    // Force layout recalculation for masonry after DOM update
+    setTimeout(() => {
+      // This helps the browser recalculate the masonry layout
+      const container = document.querySelector('.masonry-container');
+      if (container) {
+        (container as HTMLElement).style.columns = (
+          container as HTMLElement
+        ).style.columns;
+      }
+    }, 50);
+  }
+
+  updateSpecialInstructions(itemId: string, instructions: string) {
+    this.specialInstructions[itemId] = instructions;
+  }
+
+  get subtotal(): number {
+    return this.cartItems.reduce((sum, item) => sum + item.price, 0);
+  }
+
+  get total(): number {
+    return this.subtotal;
   }
 
   getImageUrl(imagePath: string): string {
     return `${API_BASE_URL}/uploads/${imagePath}`;
   }
 
-  order(item: Menu): void {
-    const quantity = 1; // Default quantity, you may want to get this from user input
+  get availableCategories(): string[] {
+    return Object.keys(this.categorizedMenus);
+  }
 
-  // Dispatch action to add item to cart with quantity
-  this.orderFacade.dispatchAddToCart({ menuItem: item, quantity, showInstructions: false });
+  get filteredMenus() {
+    if (!this.selectedCategory) {
+      return this.menus;
+    }
+    return this.menus.filter(
+      (menu) => menu.category.name === this.selectedCategory
+    );
+  }
 
-  // Update local cart count (if needed for UI updates)
-  this.cartItems.push(item);
-  this.cartCount = this.cart.reduce((sum, item) => sum + item.quantity, 0);
-  ;
+  setCategoryFilter(category: string | null) {
+    this.selectedCategory = category;
+  }
+
+  getFilterButtonClass(category: string | null): string {
+    const baseClasses =
+      'rounded-full px-6 py-2.5 text-sm font-medium transition-all';
+
+    if (this.selectedCategory === category) {
+      return `${baseClasses} bg-white text-blue-600 shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)]`;
+    } else {
+      return `${baseClasses} bg-white text-gray-700 shadow-[2px_2px_5px_rgba(0,0,0,0.05),-2px_-2px_5px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)]`;
+    }
   }
 
   navigateToCart(): void {
@@ -122,20 +185,30 @@ export class MenuListForUsersComponent implements OnInit {
     }, {} as { [category: string]: Menu[] });
   }
 
-  viewOrders(){
+  viewOrders() {
     this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
   }
 
-  callWaiter(){
+  callWaiter() {
     const dataToSend = {
       restaurantId: this.restaurantId,
-      tableId: this.tableId
-    }
+      tableId: this.tableId,
+    };
     this.notificationFacade.dispatchCallWaiter(dataToSend);
   }
 
-  requestPayment(){
+  requestPayment() {
     this.orderFacade.dispatchRequestPayment(this.tableId);
   }
-}
 
+  openCartModal() {
+    this.dialog.open(CartModalComponent, {
+      width: '500px',
+      maxWidth: '95vw',
+      maxHeight: '90vh',
+      panelClass: 'cart-modal-panel',
+      hasBackdrop: true,
+      disableClose: false,
+    });
+  }
+}

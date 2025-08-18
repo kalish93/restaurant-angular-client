@@ -2,9 +2,22 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { OrderSelector } from '../store/order/order.selectors';
-import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, MarkAsPaid, PlaceOrder, RemoveOrderItem, RequestPayment, SaveTipAndDiscount, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from '../store/order/order.actions';
-
-
+import {
+  AddOrderItem,
+  AddToCart,
+  GetActiveOrders,
+  GetActiveTableOrder,
+  GetOrderHistory,
+  MarkAsPaid,
+  PlaceOrder,
+  RemoveOrderItem,
+  RequestPayment,
+  SaveTipAndDiscount,
+  UpdateCart,
+  UpdateOrderItem,
+  UpdateOrderStatus,
+} from '../store/order/order.actions';
+import { Cart } from '../models/menu.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +25,15 @@ import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrder
 export class OrderFacade {
   order$: Observable<any> = this.store.select(OrderSelector.slices.order);
   cart$: Observable<any> = this.store.select(OrderSelector.slices.cart);
-  myTableOrders$: Observable<any> = this.store.select(OrderSelector.slices.myTableOrders);
-  orderHistory$: Observable<any[]> = this.store.select(OrderSelector.slices.orderHistory);
-  activeOrders$: Observable<any[]> = this.store.select(OrderSelector.slices.activeOrders);
+  myTableOrders$: Observable<any> = this.store.select(
+    OrderSelector.slices.myTableOrders
+  );
+  orderHistory$: Observable<any[]> = this.store.select(
+    OrderSelector.slices.orderHistory
+  );
+  activeOrders$: Observable<any[]> = this.store.select(
+    OrderSelector.slices.activeOrders
+  );
 
   constructor(private store: Store) {}
 
@@ -22,47 +41,47 @@ export class OrderFacade {
     this.store.dispatch(new PlaceOrder(data, tableId));
   }
 
-  dispatchAddToCart(data:any){
+  dispatchAddToCart(data: Cart) {
     this.store.dispatch(new AddToCart(data));
   }
 
-  dispatchUpdateCart(data:any){
+  dispatchUpdateCart(data: any) {
     this.store.dispatch(new UpdateCart(data));
   }
 
-  dispatchGetActiveTableOrder(tableId:any){
+  dispatchGetActiveTableOrder(tableId: any) {
     this.store.dispatch(new GetActiveTableOrder(tableId));
   }
 
-  dispatchGetActiveOrders(){
+  dispatchGetActiveOrders() {
     this.store.dispatch(new GetActiveOrders());
   }
 
-  dispatchGetOrderHistory(pageNumber: any, pageSize: any){
+  dispatchGetOrderHistory(pageNumber: any, pageSize: any) {
     this.store.dispatch(new GetOrderHistory(pageNumber, pageSize));
   }
 
-  dispatchUpdateOrderStatus(data: any){
+  dispatchUpdateOrderStatus(data: any) {
     this.store.dispatch(new UpdateOrderStatus(data));
   }
-  dispatchUpdateOrderItem(data: any, tableId: any){
+  dispatchUpdateOrderItem(data: any, tableId: any) {
     this.store.dispatch(new UpdateOrderItem(data, tableId));
   }
-  dispatchRemoveOrderItem(itemId: any, tableId: any){
+  dispatchRemoveOrderItem(itemId: any, tableId: any) {
     this.store.dispatch(new RemoveOrderItem(itemId, tableId));
   }
-  dispatchAddOrderItem(data: any, tableId: any){
+  dispatchAddOrderItem(data: any, tableId: any) {
     this.store.dispatch(new AddOrderItem(data, tableId));
   }
-  dispatchRequestPayment(tableId: any){
+  dispatchRequestPayment(tableId: any) {
     this.store.dispatch(new RequestPayment(tableId));
   }
 
-  dispatchMarkAsPaid(orderIds: any, tableId: any){
+  dispatchMarkAsPaid(orderIds: any, tableId: any) {
     this.store.dispatch(new MarkAsPaid(orderIds, tableId));
   }
 
-  dispatchSaveTipAndDiscount(data: any){
+  dispatchSaveTipAndDiscount(data: any) {
     this.store.dispatch(new SaveTipAndDiscount(data));
   }
 }
