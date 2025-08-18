@@ -13,18 +13,6 @@
             {{ category }}
           </button>
         </div>
-
-        <!-- Mobile Cart Button - only visible on small screens -->
-        <button (click)="openCartModal()"
-          class="lg:hidden relative bg-orange-500 hover:bg-orange-600 text-white rounded-full p-3 shadow-lg transition-all duration-200 flex items-center gap-2"
-          [attr.aria-label]="'View cart with ' + cartCount + ' items'">
-          <mat-icon class="!text-lg">shopping_cart</mat-icon>
-          <span *ngIf="cartCount > 0"
-            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
-            {{ cartCount }}
-          </span>
-          <span class="text-sm font-medium hidden sm:inline">Cart</span>
-        </button>
       </div>
       <!-- Masonry Layout -->
       <div class="masonry-container columns-1 md:columns-2">
@@ -94,24 +82,42 @@
       <app-cart></app-cart>
     </div>
     <div class="fixed bottom-6 right-6 z-50">
-      <div class="relative group">
-        <!-- Hover Label -->
-        <div
-          class="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-          <div class="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-            Call Waiter
-            <!-- Arrow pointing down -->
-            <div
-              class="absolute top-full right-2 w-0 h-0 border-l-2 border-r-2 border-t-4 border-transparent border-t-gray-800">
+      <div class="flex flex-col gap-4">
+        <!-- Cart Button Group -->
+        <button (click)="openCartModal()"
+        class="lg:hidden relative bg-orange-500 hover:bg-orange-600 text-white rounded-full p-3 shadow-lg transition-all duration-200 flex items-center gap-2"
+        [attr.aria-label]="'View cart with ' + cartCount + ' items'">
+        <mat-icon class="!text-lg">shopping_cart</mat-icon>
+        <span *ngIf="cartCount > 0"
+          class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+          {{ cartCount }}
+        </span>
+      </button>
+        <div class="lg:hidden relative group">
+          <div class="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            <div class="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+              Open Cart
+              <div class="absolute top-full right-2 w-0 h-0 border-l-2 border-r-2 border-t-4 border-transparent border-t-gray-800">
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- FAB Button -->
-        <button (click)="callWaiter()"
-          class="w-14 h-14 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group-hover:scale-105">
-          <mat-icon class="!text-xl">restaurant_menu</mat-icon>
-        </button>
+        <!-- Waiter Button Group -->
+        <div class="relative group">
+          <div class="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            <div class="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+              Call Waiter
+              <div class="absolute top-full right-2 w-0 h-0 border-l-2 border-r-2 border-t-4 border-transparent border-t-gray-800">
+              </div>
+            </div>
+          </div>
+
+          <button (click)="callWaiter()"
+            class="w-14 h-14 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group-hover:scale-105">
+            <mat-icon class="!text-xl">restaurant_menu</mat-icon>
+          </button>
+        </div>
       </div>
     </div>
   </div>
