@@ -52,6 +52,10 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  getTotalQuantity(items: any[]): number {
+    return items.reduce((total, item) => total + item.quantity, 0);
+  }
+
   getOrderStatusName(status: string): string {
     switch (status) {
       case 'PENDING':
