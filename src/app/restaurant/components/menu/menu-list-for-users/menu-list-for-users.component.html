@@ -16,8 +16,7 @@
       </div>
       <!-- Masonry Layout -->
       <div class="masonry-container columns-1 md:columns-2">
-        <mat-card *ngFor="let item of filteredMenus" class="shadow-lg rounded-xl break-inside-avoid mb-4"
-          [class.expanding]="showInstructionsFor[item.id]">
+        <mat-card *ngFor="let item of filteredMenus" class="shadow-lg rounded-xl break-inside-avoid mb-4">
           <mat-card-content class="p-3">
             <div class="flex flex-col gap-3 last:gap-0">
               <div class="flex flex-row gap-3 items-center">
@@ -41,26 +40,6 @@
 
               <p class="text-gray-600 text-xs leading-relaxed mb-2 line-clamp-2">{{ item.ingredients }}</p>
 
-              <!-- Special Instructions Toggle -->
-              <button (click)="toggleSpecialInstructions(item.id)"
-                class="text-xs text-orange-600 hover:text-orange-700 font-medium transition-colors flex items-center gap-1 mb-1">
-                <mat-icon class="!text-xs !h-[14px] !w-[14px]">{{ showInstructionsFor[item.id] ? 'remove' : 'add'
-                  }}</mat-icon>
-                {{ showInstructionsFor[item.id] ? 'Remove' : 'Add' }} Special Instructions
-              </button>
-
-              <!-- Special Instructions Textarea -->
-              <div *ngIf="showInstructionsFor[item.id]"
-                class="special-instructions-container  rounded-lg transition-all duration-300 ease-in-out mb-2">
-                <mat-form-field appearance="outline" class="w-full !h-[100px]">
-                  <mat-label>Special instructions</mat-label>
-                  <textarea matInput class="!h-[100px]" cdkTextareaAutosize cdkAutosizeMinRows="4"
-                    placeholder="e.g., No onions, extra spicy..." [value]="specialInstructions[item.id] || ''"
-                    (input)="updateSpecialInstructions(item.id, $any($event.target).value)" class="resize-none text-xs">
-                  </textarea>
-                </mat-form-field>
-              </div>
-
               <!-- Add to Cart Button -->
               <div class="flex items-center justify-center">
                 <button mat-raised-button *ngIf="item.price" [ngClass]="{
@@ -69,8 +48,8 @@
                 }"
                   class="enhanced-add-button px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 transform hover:scale-105 flex items-center gap-1 w-full"
                   (click)="addToCart(item)">
-                  <mat-icon class="!text-sm">{{ cartItems.includes(item) ? 'check' : 'add_shopping_cart' }}</mat-icon>
-                  <span>{{ cartItems.includes(item) ? 'Added' : 'Add to Cart' }}</span>
+                  <mat-icon class="!text-sm">{{ checkIfItemInCart(item) ? 'check' : 'add_shopping_cart' }}</mat-icon>
+                  <span>{{ checkIfItemInCart(item) ? 'Added' : 'Add to Order' }}</span>
                 </button>
               </div>
             </div>
@@ -84,39 +63,45 @@
     <div class="fixed bottom-6 right-6 z-50">
       <div class="flex flex-col gap-4">
         <!-- Cart Button Group -->
-        <button (click)="openCartModal()"
-        class="lg:hidden relative bg-orange-500 hover:bg-orange-600 text-white rounded-full p-3 shadow-lg transition-all duration-200 flex items-center gap-2"
-        [attr.aria-label]="'View cart with ' + cartCount + ' items'">
-        <mat-icon class="!text-lg">shopping_cart</mat-icon>
-        <span *ngIf="cartCount > 0"
-          class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
-          {{ cartCount }}
-        </span>
-      </button>
         <div class="lg:hidden relative group">
-          <div class="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+          <div
+            class="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
             <div class="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
               Open Cart
-              <div class="absolute top-full right-2 w-0 h-0 border-l-2 border-r-2 border-t-4 border-transparent border-t-gray-800">
+              <div
+                class="absolute top-full right-2 w-0 h-0 border-l-2 border-r-2 border-t-4 border-transparent border-t-gray-800">
               </div>
             </div>
           </div>
         </div>
 
         <!-- Waiter Button Group -->
-        <div class="relative group">
-          <div class="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div class="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-              Call Waiter
-              <div class="absolute top-full right-2 w-0 h-0 border-l-2 border-r-2 border-t-4 border-transparent border-t-gray-800">
-              </div>
-            </div>
-          </div>
-
-          <button (click)="callWaiter()"
-            class="w-14 h-14 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group-hover:scale-105">
-            <mat-icon class="!text-xl">restaurant_menu</mat-icon>
+        <div class="relative">
+          <button mat-fab [matMenuTriggerFor]="menu"
+            class="w-14 h-14 bg-orange-500 hover:bg-orange-600 text-white shadow-lg hover:shadow-xl transition-all duration-200">
+            <mat-icon>more_vert</mat-icon>
           </button>
+
+          <mat-menu #menu="matMenu" yPosition="above">
+            <button mat-menu-item (click)="callWaiter()">
+              <mat-icon>restaurant_menu</mat-icon>
+              <span>Call Waiter</span>
+            </button>
+            <div class="lg:hidden">
+              <button mat-menu-item (click)="openCartModal()">
+                <mat-icon>shopping_cart</mat-icon>
+                <span>Open Cart</span>
+              </button>
+            </div>
+            <button mat-menu-item (click)="requestPayment()">
+              <mat-icon>payment</mat-icon>
+              <span>Request Payment</span>
+            </button>
+            <button mat-menu-item (click)="viewOrders()">
+              <mat-icon>receipt_long</mat-icon>
+              <span>View Orders</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
     </div>

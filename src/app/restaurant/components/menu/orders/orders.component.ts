@@ -19,13 +19,13 @@ interface OrdersComponentState {
 }
 
 const initOrdersComponentState: OrdersComponentState = {
-  myOrders: []
+  myOrders: [],
 };
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  styleUrls: ['./orders.component.scss'],
 })
 export class OrdersComponent implements OnInit {
   $myOrders = this.state.select('myOrders');
@@ -42,7 +42,7 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.tableId = params.get('tableId');
       this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
     });

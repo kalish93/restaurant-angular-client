@@ -49,6 +49,13 @@ export class CartComponent implements OnInit {
     this.cart$.subscribe((data) => {
       console.log(data);
       this.cart = data || [];
+      // Initialize special instructions and show states from existing cart items
+      this.cart.forEach((item) => {
+        if (item.specialInstructions) {
+          this.specialInstructions[item.menuItem.id] = item.specialInstructions;
+          this.showInstructionsFor[item.menuItem.id] = true;
+        }
+      });
     });
   }
 
@@ -65,11 +72,42 @@ export class CartComponent implements OnInit {
     }
   }
 
+  // Special instructions for each menu item
+  specialInstructions: { [menuItemId: string]: string } = {};
+  showInstructionsFor: { [menuItemId: string]: boolean } = {};
+
+  toggleSpecialInstructions(itemId: string) {
+    this.showInstructionsFor[itemId] = !this.showInstructionsFor[itemId];
+    if (!this.showInstructionsFor[itemId]) {
+      // When hiding instructions, clear them from both local state and cart item
+      this.specialInstructions[itemId] = '';
+      this.updateCartItemSpecialInstructions(itemId, '');
+    }
+  }
+  updateSpecialInstructions(itemId: string, instructions: string) {
+    this.specialInstructions[itemId] = instructions;
+    // Update the cart item with the new special instructions
+    this.updateCartItemSpecialInstructions(itemId, instructions);
+  }
+
+  updateCartItemSpecialInstructions(itemId: string, instructions: string) {
+    // Find the cart item and update its special instructions
+    const cartItem = this.cart.find((item) => item.menuItem.id === itemId);
+    if (cartItem) {
+      cartItem.specialInstructions = instructions.trim() || undefined;
+      // Update the cart in the global state
+      this.orderFacade.dispatchUpdateCart(this.cart);
+    }
+  }
+
   removeFromCart(item: Cart): void {
     // Logic to remove item from cart
     this.cart = this.cart.filter(
       (cartItem) => cartItem.menuItem.id !== item.menuItem.id
     );
+    // Clean up special instructions state for removed item
+    delete this.specialInstructions[item.menuItem.id];
+    delete this.showInstructionsFor[item.menuItem.id];
     this.orderFacade.dispatchUpdateCart(this.cart); // Update the cart in the global state
   }
 
@@ -125,6 +163,14 @@ export class CartComponent implements OnInit {
 
   order(): void {
     if (this.cart.length > 0) {
+      // Ensure all special instructions are properly synced before placing order
+      this.cart.forEach((item) => {
+        const instructions = this.specialInstructions[item.menuItem.id];
+        if (instructions && instructions.trim()) {
+          item.specialInstructions = instructions.trim();
+        }
+      });
+
       const dataToSend = {
         restaurantId: this.restaurantId,
         tableId: this.tableId,

@@ -48,10 +48,6 @@ export class MenuListForUsersComponent implements OnInit {
   selectedTable: any = {};
   selectedCategory: string | null = null;
 
-  // Special instructions for each menu item
-  specialInstructions: { [menuItemId: string]: string } = {};
-  showInstructionsFor: { [menuItemId: string]: boolean } = {};
-
   constructor(
     private state: RxState<MenuListForUsersComponentState>,
     private restaurantFacade: RestaurantFacade,
@@ -99,35 +95,15 @@ export class MenuListForUsersComponent implements OnInit {
 
   addToCart(item: Menu) {
     this.cartItems.push(item);
-    const specialInstructions = this.specialInstructions[item.id] || '';
     this.orderFacade.dispatchAddToCart({
       menuItem: item,
       quantity: 1,
-      showInstructions: this.showInstructionsFor[item.id] || false,
-      specialInstructions: specialInstructions,
+      showInstructions: false,
     });
   }
 
-  toggleSpecialInstructions(itemId: string) {
-    this.showInstructionsFor[itemId] = !this.showInstructionsFor[itemId];
-    if (!this.showInstructionsFor[itemId]) {
-      this.specialInstructions[itemId] = '';
-    }
-
-    // Force layout recalculation for masonry after DOM update
-    setTimeout(() => {
-      // This helps the browser recalculate the masonry layout
-      const container = document.querySelector('.masonry-container');
-      if (container) {
-        (container as HTMLElement).style.columns = (
-          container as HTMLElement
-        ).style.columns;
-      }
-    }, 50);
-  }
-
-  updateSpecialInstructions(itemId: string, instructions: string) {
-    this.specialInstructions[itemId] = instructions;
+  checkIfItemInCart(item: Menu): boolean {
+    return this.cart.some((cartItem) => cartItem.menuItem.id === item.id);
   }
 
   get subtotal(): number {

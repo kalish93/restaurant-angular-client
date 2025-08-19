@@ -1,25 +1,56 @@
-<div class="orders-container">
-  <h1>Table Orders</h1>
+<div class="fixed flex flex-col items-center justify-start w-full gap-5  mx-auto px-4 h-[calc(100vh-75px)] overflow-y-auto top-[75px] ">
+  <h1 class="text-2xl font-semibold text-center">Table Orders</h1>
 
-  <div class="orders-grid" *ngIf="myOrders.length">
-    <div class="order-card" *ngFor="let order of myOrders">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-subtitle>Status: <span class="status-chip" [ngClass]="order?.status">{{ getOrderStatusName(order.status) }}</span></mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <h3>Items:</h3>
-          <div class="chip-container">
-            <div class="chip" *ngFor="let item of order?.items">
-              {{ item?.menuItem?.name }} ({{ item?.quantity }})
-            </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3/4 mx-auto" *ngIf="myOrders.length">
+    <div *ngFor="let order of myOrders; let i = index">
+      <div class="bg-stone-600 text-white p-4 min-h-[50px] min-w-[300px] rounded-t-xl">
+      <div class="flex items-center justify-between">
+        <h3 class="!text-[16px] font-semibold text-white">Order {{i + 1}}</h3>
+        <span class="text-sm px-2 py-1 rounded-full" [ngClass]="{
+          'bg-yellow-500': order.status === 'PENDING',
+          'bg-blue-500': order.status === 'IN_PROGRESS',
+          'bg-green-500': order.status === 'READY',
+          'bg-purple-500': order.status === 'SERVED',
+          'bg-red-500': order.status === 'CANCELLED',
+          'bg-gray-500': order.status === 'PAID',
+          'bg-orange-500': order.status === 'PAYMENT_REQUESTED'
+        }">
+          {{ order.status | titlecase }}
+        </span>
+      </div>
+      </div>
+      <div class="border border-stone-600 text-white p-4 min-h-[50px] rounded-b-xl">
+
+
+    <mat-card-content class="p-4 space-y-4">
+      <!-- Order Items -->
+      <div class="space-y-3 pt-8">
+        <div *ngFor="let item of order.items; let i = index"
+          class="group relative flex flex-col p-3 rounded-lg border border-orange-200 hover:border-orange-300 transition-colors duration-200">
+
+          <div class="flex justify-between items-start pr-8 mb-3">
+              <p class="text-sm font-medium text-gray-900">{{ item.menuItem.name }}</p>
+              <p class="text-sm text-right font-medium text-gray-900">
+               Qty: {{ item.quantity }}
+              </p>
           </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
+          
+          <!-- <div *ngIf="item.specialInstructions" class="mt-3 p-2 rounded-md bg-orange-50 border border-orange-200">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-medium text-orange-800 shrink-0">Note:</span>
+              <p class="text-xs text-orange-700 leading-relaxed">
+                {{ item.specialInstructions }}
+              </p>
+            </div>
+          </div> -->
+        </div>
+        <div class="flex justify-end items-end pr-8 mb-3">
+          <p class="text-sm font-medium text-right text-gray-900">
+            Total items: {{ order.items.length }}
+          </p>
+        </div>
+      </div>
 
   <div *ngIf="!myOrders.length" class="empty-orders">
     <p>No active orders for this table.</p>
   </div>
-</div>
