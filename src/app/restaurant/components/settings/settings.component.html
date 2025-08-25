@@ -1,65 +1,107 @@
-<div class="container">
-  <h1>Settings</h1>
-  <div class="cards">
-    <mat-card class="settings-card">
-      <mat-card-title>Restaurant Status</mat-card-title>
-      <mat-card-content class="switch-container">
-        <mat-slide-toggle
-          formControlName="restaurantStatus"
-          color="primary"
-          (change)="onOpenOrClose()"
-          [checked]="restaurant.isOpen"
-        >
-          {{ settingsForm.get("restaurantStatus")?.value ? "Open" : "Closed" }}
-        </mat-slide-toggle>
-      </mat-card-content>
-    </mat-card>
+<div class="min-h-screen bg-gray-50/50 p-4 sm:p-6 lg:p-8">
+  <div class="mx-auto max-w-7xl">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Settings</h1>
+      <p class="mt-2 text-sm text-gray-600">Manage your restaurant configuration and preferences</p>
+    </div>
 
-    <mat-card class="settings-card">
-      <div class="card-header">
-        <mat-card-title>Z Report</mat-card-title>
-      </div>
-      <mat-card-content class="switch-container" >
-        <button (click)="pritntZreport()" class="print-btn" mat-button> Print Z Report </button>
-      </mat-card-content>
+    <!-- Settings Grid -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-      </mat-card>
-
-    <mat-card class="settings-card">
-      <div class="card-header">
-        <mat-card-title>Acceptable Cards</mat-card-title>
-      <button (click)="addCard()" class="add-btn" mat-icon-button> <mat-icon>add</mat-icon> </button>
-      </div>
-      <mat-card-content >
-        <div>
-          <mat-chip *ngFor="let card of creditCards; let i = index" removable="true" (removed)="removeCard(card.id)">
-            {{card.name}}
-            <button mat-icon-button matChipRemove>
-              <mat-icon>cancel</mat-icon> <!-- 'cancel' icon to remove the chip -->
-            </button>
-          </mat-chip>
+      <!-- Restaurant Status Card -->
+      <div class="rounded-lg border bg-white shadow-sm">
+        <div class="p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">Restaurant Status</h3>
+              <p class="text-sm text-gray-500">Control your restaurant's availability</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <mat-slide-toggle formControlName="restaurantStatus" color="primary" (change)="onOpenOrClose()"
+                [checked]="restaurant.isOpen" class="scale-90">
+              </mat-slide-toggle>
+              <span class="text-sm font-medium"
+                [class]="settingsForm.get('restaurantStatus')?.value ? 'text-green-600' : 'text-red-600'">
+                {{ settingsForm.get("restaurantStatus")?.value ? "Open" : "Closed" }}
+              </span>
+            </div>
+          </div>
         </div>
-      </mat-card-content>
-
-      </mat-card>
-
-    <mat-card class="settings-card">
-      <div class="card-header">
-        <mat-card-title>Discounts</mat-card-title>
-      <button (click)="addDiscount()" class="add-btn" mat-icon-button> <mat-icon>add</mat-icon> </button>
       </div>
-      <mat-card-content >
-        <div>
-          <mat-chip *ngFor="let discount of discounts; let i = index" removable="true" (removed)="removeDiscount(discount.id)">
-            {{discount.name}} - {{discount.percentage}}%
-            <button mat-icon-button matChipRemove>
-              <mat-icon>cancel</mat-icon> <!-- 'cancel' icon to remove the chip -->
-            </button>
-          </mat-chip>
+
+      <!-- Z Report Card -->
+      <div class="rounded-lg border bg-white shadow-sm">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">Z Report</h3>
+              <p class="text-sm text-gray-500">Generate and print daily sales report</p>
+            </div>
+          </div>
+          <button mat-flat-button color="accent" class="w-full mx-auto" (click)="pritntZreport()">
+            Print Z Report
+          </button>
         </div>
-      </mat-card-content>
+      </div>
 
-      </mat-card>
+      <!-- Acceptable Cards Card -->
+      <div class="rounded-lg border bg-white shadow-sm">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">Cards</h3>
+              <p class="text-sm text-gray-500">Manage accepted payment methods</p>
+            </div>
+            <button (click)="addCard()"
+              class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+              <mat-icon class="h-5 w-5">add</mat-icon>
+            </button>
+          </div>
+          <div class="space-y-2">
+            <mat-chip *ngFor="let card of creditCards; let i = index" removable="true" (removed)="removeCard(card.id)"
+              class="bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors">
+              {{card.name}}
+              <button mat-icon-button matChipRemove class="text-blue-500 hover:text-blue-700">
+                <mat-icon class="h-4 w-4">cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <div *ngIf="creditCards.length === 0" class="text-sm text-gray-500 italic">
+              No cards configured
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <!-- Discounts Card -->
+      <div class="rounded-lg border bg-white shadow-sm">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">Discounts</h3>
+              <p class="text-sm text-gray-500">Manage available discount offers</p>
+            </div>
+            <button (click)="addDiscount()"
+              class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+              <mat-icon class="h-5 w-5">add</mat-icon>
+            </button>
+          </div>
+          <div class="space-y-2">
+            <mat-chip *ngFor="let discount of discounts; let i = index" removable="true"
+              (removed)="removeDiscount(discount.id)"
+              class="bg-green-50 text-green-700 hover:bg-green-100 transition-colors">
+              {{discount.name}} - {{discount.percentage}}%
+              <button mat-icon-button matChipRemove class="text-green-500 hover:text-green-700">
+                <mat-icon class="h-4 w-4">cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <div *ngIf="discounts.length === 0" class="text-sm text-gray-500 italic">
+              No discounts configured
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>

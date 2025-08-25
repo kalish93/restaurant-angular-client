@@ -1,110 +1,30 @@
-
-
 .user-list-container {
-  padding: 20px;
+  background-color: transparent;
   min-height: 100vh;
-  background-color: rgb(218, 236, 214);
-}
-
-table {
-  width: 100%;
-  box-shadow: none;
 }
 
 .table-and-paginator {
   padding: 2rem;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.mat-paginator {
-  align-self: flex-end;
-}
-
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.add-btn {
-  background-color: rgb(99, 150, 111);
-  color: white;
-  padding: 1.3rem;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-.active-status {
-  color: green;
-}
-
-.inactive-status {
-  color: red;
+.name {
+  text-transform: capitalize;
 }
 
 tr {
   cursor: pointer;
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .add-btn {
-    // margin-top: .5rem;
-    font-size: 0.9rem;
-    padding: 1rem;
-    margin-bottom: .5rem;
-  }
-
-  .table-and-paginator {
-    padding: 1rem;
-  }
-
-  table {
-    font-size: 0.9rem;
-  }
-
-  .mat-paginator {
-    font-size: 0.8rem;
-  }
+/* Make table background transparent */
+table {
+  background-color: transparent;
 }
 
-@media (max-width: 480px) {
-  .header {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .add-btn {
-    font-size: 0.8rem;
-    padding: 0.8rem;
-  }
-
-  table {
-    font-size: 0.8rem;
-  }
-
-  .table-and-paginator {
-    padding: 0.5rem;
-  }
-
-  .mat-paginator {
-    font-size: 0.7rem;
-  }
-
-  /* Allow horizontal scrolling for the table */
-  .table-and-paginator {
-    overflow-x: auto;
-  }
-}
-
-.name{
-  text-transform: capitalize;
+/* Make paginator background transparent */
+.mat-paginator {
+  background-color: transparent;
 }
