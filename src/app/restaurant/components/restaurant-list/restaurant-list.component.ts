@@ -7,25 +7,36 @@ import { RestaurantFormComponent } from '../restaurant-form/restaurant-form.comp
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
+import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 
 interface RestaurantListComponentState {
   restaurants: any;
 }
 
-const initRestaurantListComponentState: Partial<RestaurantListComponentState> = {
-  restaurants: undefined,
-};
+const initRestaurantListComponentState: Partial<RestaurantListComponentState> =
+  {
+    restaurants: undefined,
+  };
 
 @Component({
   selector: 'app-restaurant-list',
   templateUrl: './restaurant-list.component.html',
   styleUrls: ['./restaurant-list.component.scss'],
-  providers: [RxState]
+  providers: [RxState],
 })
 export class RestaurantListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns: string[] = ['name', 'isActive', 'createdDate', 'actions'];
+  displayedColumns: string[] = [
+    'logo',
+    'name',
+    'phone',
+    'address',
+    'subscription',
+    'isActive',
+    'createdDate',
+    'actions',
+  ];
   restaurants: any[] = [];
   pageSize = 10;
   pageNumber = 1;
@@ -43,8 +54,11 @@ export class RestaurantListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.restaurantFacade.dispatchGetRestaurants(this.pageNumber, this.pageSize);
-    this.$restaurants.subscribe(data => {
+    this.restaurantFacade.dispatchGetRestaurants(
+      this.pageNumber,
+      this.pageSize
+    );
+    this.$restaurants.subscribe((data) => {
       this.restaurants = data.items;
       this.pageNumber = data.pageNumber;
       this.pageSize = data.pageSize;
@@ -55,45 +69,35 @@ export class RestaurantListComponent implements OnInit {
   pageChanged(event: PageEvent): void {
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
-    this.restaurantFacade.dispatchGetRestaurants(this.pageNumber, this.pageSize);
+    this.restaurantFacade.dispatchGetRestaurants(
+      this.pageNumber,
+      this.pageSize
+    );
   }
 
   openAddRestaurantDialog(): void {
     const dialogRef = this.dialog.open(RestaurantFormComponent, {
       width: '400px',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-      }
+      data: {},
     });
   }
 
   openEditRestaurantDialog(restaurant: any, event: Event): void {
-    event.stopPropagation(); // Prevent navigation to detail
+    event.stopPropagation(); // Prevent navigation
     const dialogRef = this.dialog.open(RestaurantFormComponent, {
       width: '400px',
-      data: { restaurant }  // Pass the restaurant data for editing
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-
-      }
+      data: { restaurant }, // Pass restaurant data
     });
   }
 
   deleteRestaurant(restaurantId: string, event: Event): void {
-    event.stopPropagation(); // Prevent navigation to detail
+    event.stopPropagation();
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        message: 'Are you sure you want to delete this restaurant?'
-      },
+      data: { message: 'Are you sure you want to delete this restaurant?' },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'confirm') {
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirm') {
         this.restaurantFacade.dispatchDeleteRestaurant(restaurantId);
       }
     });
@@ -101,5 +105,29 @@ export class RestaurantListComponent implements OnInit {
 
   navigateToDetail(restaurantId: string): void {
     this.router.navigate(['/home/restaurants', restaurantId]);
+  }
+
+  getImageUrl(imagePath: string): string {
+    return `${API_BASE_URL}/uploads/${imagePath}`;
+  }
+
+  onImageError(event: any) {
+    event.target.src = 'https://placehold.co/600x400?text=Restaurant+Logo';
+  }
+
+  toggleActiveStatus(restaurant: any, event: Event) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { message: 'Are you sure you want to update the status ofthis restaurant?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirm') {
+        this.restaurantFacade.dispatchUpdateRestaurantActiveStatus({
+          restaurantId: restaurant.id,
+          isActive: !restaurant.isActive,
+        });
+      }
+    });
   }
 }

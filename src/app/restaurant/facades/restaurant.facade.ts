@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { RestaurantSelector } from '../store/restaurant.selectors';
-import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from '../store/restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from '../store/restaurant.actions';
 
 
 @Injectable({
@@ -23,7 +23,7 @@ export class RestaurantFacade {
     this.store.dispatch(new GetRestaurants(pageNumber, pageSize));
   }
 
-  dispatchCreateRestaurant(data: any) {
+  dispatchCreateRestaurant(data: FormData) {
     this.store.dispatch(new CreateRestaurant(data));
   }
 
@@ -47,8 +47,8 @@ export class RestaurantFacade {
     this.store.dispatch(new DowloadQrCode(id, tableNumber));
   }
 
-  dispatchUpdateRestaurant(data: any) {
-    this.store.dispatch(new UpdateRestaurant(data));
+  dispatchUpdateRestaurant(restaurantId: any,data: FormData) {
+    this.store.dispatch(new UpdateRestaurant(restaurantId, data));
   }
 
   dispatchDeleteRestaurant(id: any) {
@@ -110,4 +110,9 @@ export class RestaurantFacade {
   dispatchGetZreportData(restaurantId: any) {
     this.store.dispatch(new GetZreportData(restaurantId));
   }
+
+  dispatchUpdateRestaurantActiveStatus(data: any) {
+    this.store.dispatch(new UpdateRestaurantActiveStatus(data));
+  }
+
 }

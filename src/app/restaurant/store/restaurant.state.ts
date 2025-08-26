@@ -15,7 +15,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 export interface RestaurantStateModel {
@@ -222,15 +222,15 @@ createTable(
 @Action(UpdateRestaurant)
 updateRestaurant(
   { setState, getState }: StateContext<RestaurantStateModel>,
-  { data }: UpdateRestaurant
+  { restaurantId, data }: UpdateRestaurant
 ) {
   this.store.dispatch(new SetProgressOn());
-  return this.restaurantService.updateRestaurant(data).pipe(
+  return this.restaurantService.updateRestaurant(restaurantId, data).pipe(
     tap((updatedRestaurant) => {
       const state = getState();
 
       const updatedItems = state.restaurants.items.map((item) =>
-        item.id === data.id ? updatedRestaurant : item
+        item.id === restaurantId ? updatedRestaurant : item
       );
 
       setState(
@@ -446,6 +446,40 @@ updateRestaurantStatus(
       setState(
         patch({
          selectedRestaurant: updatedRestaurant
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Restaurant status updated successfully!',
+        successStyle,
+      );
+    })
+  );
+}
+
+@Action(UpdateRestaurantActiveStatus)
+updateRestaurantActiveStatus(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data }: UpdateRestaurantActiveStatus
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.updateRestaurantActiveStatus(data).pipe(
+    tap((updatedRestaurant) => {
+      const state = getState();
+
+      const updatedItems = state.restaurants.items.map((item) =>
+        item.id === data.restaurantId ? updatedRestaurant : item
+      );
+
+      setState(
+        patch({
+          restaurants: {
+            ...state.restaurants,
+            items: updatedItems, // Update the specific restaurant in the list
+          },
         })
       );
 

@@ -1,63 +1,143 @@
 <div class="w-full md:w-[95%] mx-auto">
   <div class="flex items-center justify-between my-8">
     <h1>Restaurants</h1>
-    <button (click)="openAddRestaurantDialog()"
-      class="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)]">
+    <button
+      (click)="openAddRestaurantDialog()"
+      class="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)]"
+    >
       <mat-icon>add</mat-icon>
       <span>Add Restaurant</span>
     </button>
   </div>
-  <div class="table-and-paginator">
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="pageSize" showFirstLastButtons
-      (page)="pageChanged($event)">
-    </mat-paginator>
-    <table mat-table [dataSource]="restaurants" class="mat-elevation-z8" matSort>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let restaurant"> {{ restaurant.name }} </td>
+  <div class="table-and-paginator">
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [pageSize]="pageSize"
+      showFirstLastButtons
+      (page)="pageChanged($event)"
+    >
+    </mat-paginator>
+
+    <table
+      mat-table
+      [dataSource]="restaurants"
+      class="mat-elevation-z8"
+      matSort
+    >
+      <!-- Name -->
+      <ng-container matColumnDef="logo">
+        <th mat-header-cell *matHeaderCellDef>Logo</th>
+        <td mat-cell *matCellDef="let restaurant">
+          <img
+            [src]="getImageUrl(restaurant.logo)"
+            alt="Photo of a menu item"
+            class="h-10 w-full object-cover rounded"
+            (error)="onImageError($event)"
+          />
+        </td>
       </ng-container>
 
-      <!-- Active Status Column -->
-      <ng-container matColumnDef="isActive">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
+      <!-- Name -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let restaurant">{{ restaurant.name }}</td>
+      </ng-container>
+
+      <!-- Phone -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>Phone</th>
         <td mat-cell *matCellDef="let restaurant">
-          <span [ngClass]="restaurant.isActive ? 'active-status' : 'inactive-status'">
-            {{restaurant.isActive ? 'Active' : 'In Active'}}
+          {{ restaurant.phone || "-" }}
+        </td>
+      </ng-container>
+
+      <!-- Address -->
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef>Address</th>
+        <td mat-cell *matCellDef="let restaurant">
+          {{ restaurant.address || "-" }}
+        </td>
+      </ng-container>
+
+      <!-- Subscription -->
+      <ng-container matColumnDef="subscription">
+        <th mat-header-cell *matHeaderCellDef>Subscription</th>
+        <td mat-cell *matCellDef="let restaurant">
+          {{ restaurant.subscription }}
+        </td>
+      </ng-container>
+
+      <!-- Active Status -->
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let restaurant">
+          <span
+            [ngClass]="
+              restaurant.isActive ? 'active-status' : 'inactive-status'
+            "
+          >
+            {{ restaurant.isActive ? "Active" : "In Active" }}
           </span>
         </td>
       </ng-container>
 
-      <!-- Created Date Column -->
+      <!-- Created Date -->
       <ng-container matColumnDef="createdDate">
-        <th mat-header-cell *matHeaderCellDef> Registered Date </th>
-        <td mat-cell *matCellDef="let restaurant"> {{ restaurant.createdAt | date }} </td>
+        <th mat-header-cell *matHeaderCellDef>Registered Date</th>
+        <td mat-cell *matCellDef="let restaurant">
+          {{ restaurant.createdAt | date }}
+        </td>
       </ng-container>
 
+      <!-- Actions -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let restaurant">
-          <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            (click)="$event.stopPropagation()"
+          >
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openEditRestaurantDialog(restaurant, $event)">
+            <button
+              mat-menu-item
+              (click)="openEditRestaurantDialog(restaurant, $event)"
+            >
               <mat-icon class="small-icon !text-sm">edit</mat-icon>
               <span>Edit</span>
             </button>
-            <button mat-menu-item (click)="deleteRestaurant(restaurant.id, $event)">
+            <button
+              mat-menu-item
+              (click)="deleteRestaurant(restaurant.id, $event)"
+            >
               <mat-icon class="small-icon !text-sm !w-4 !h-4">delete</mat-icon>
               <span>Delete</span>
+            </button>
+            <button
+              mat-menu-item
+              (click)="toggleActiveStatus(restaurant, $event)"
+            >
+              <mat-icon class="small-icon !text-sm">
+                {{ restaurant.isActive ? "toggle_off" : "toggle_on" }}
+              </mat-icon>
+              <span>{{
+                restaurant.isActive ? "Make Inactive" : "Make Active"
+              }}</span>
             </button>
           </mat-menu>
         </td>
       </ng-container>
 
-      <!-- Header and Row Declarations -->
+      <!-- Table Rows -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="navigateToDetail(row.id)"></tr>
-
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (click)="navigateToDetail(row.id)"
+      ></tr>
     </table>
   </div>
 </div>

@@ -18,8 +18,8 @@ export class RestaurantService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
-  createRestaurant(restaurant: any): Observable<any> {
-    return this.http.post<any>(`${RESTAURANTS_URL}`, restaurant, this.httpOptions);
+  createRestaurant(restaurant: FormData): Observable<any> {
+    return this.http.post<any>(`${RESTAURANTS_URL}`, restaurant);
   }
 
   getRestaurants(
@@ -63,8 +63,8 @@ export class RestaurantService {
     return this.http.get<any>(downloadUrl, options);
   }
 
-  updateRestaurant(restaurant: any): Observable<any> {
-    return this.http.put<any>(`${RESTAURANTS_URL}/${restaurant.id}`, restaurant, this.httpOptions);
+  updateRestaurant(restaurantId: string, data: FormData): Observable<any> {
+    return this.http.put<any>(`${RESTAURANTS_URL}/${restaurantId}`, data);
   }
 
   deleteRestaurant(restaurantId: any): Observable<any> {
@@ -117,5 +117,9 @@ export class RestaurantService {
 
   getZreportData(restaurantId: any): Observable<any> {
     return this.http.get<any>(`${RESTAURANTS_URL}/${restaurantId}/z-report`, this.httpOptions);
+  }
+
+  updateRestaurantActiveStatus(data: any): Observable<any> {
+    return this.http.put<any>(`${RESTAURANTS_URL}/${data.restaurantId}/active`, data, this.httpOptions);
   }
 }

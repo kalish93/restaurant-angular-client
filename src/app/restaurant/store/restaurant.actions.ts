@@ -50,7 +50,8 @@ export class DowloadQrCode {
 export class UpdateRestaurant {
   static readonly type = `${UpdateRestaurant.name}`;
   constructor(
-    public readonly data: any
+    public readonly restaurantId: any,
+    public readonly data: FormData
   ) {}
 }
 
@@ -96,6 +97,12 @@ export class DeleteRestaurantStaff {
 
 export class UpdateRestaurantStatus {
   static readonly type = `${UpdateRestaurantStatus.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}
+export class UpdateRestaurantActiveStatus {
+  static readonly type = `${UpdateRestaurantActiveStatus.name}`;
   constructor(
     public readonly data: any
   ) {}
