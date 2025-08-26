@@ -21,6 +21,7 @@ import {
 import { AuthFacade } from '../auth/facade/auth.facade';
 import { first } from 'rxjs/operators';
 import { SidenavService } from '../core/services/sidenav.service';
+import { ChangePasswordComponent } from '../users/components/change-password/change-password.component';
 
 interface HomeComponentState {
   isAuthenticated: boolean;
@@ -137,11 +138,22 @@ export class HomeComponent implements OnInit {
     this.router.navigate([LOGIN_ROUTE]);
   }
 
+  openChangePasswordDialog() {
+    this.matDialog.open(ChangePasswordComponent, {
+      width: '500px',
+      disableClose: false,
+      data: {},
+    });
+  }
+
   @Input() isOpen: boolean = false;
 
   toggleNotificationDrawer(isOpen: boolean) {
-    console.log('Toggle notification drawer called from home component', isOpen,);
-    if (isOpen) { 
+    console.log(
+      'Toggle notification drawer called from home component',
+      isOpen
+    );
+    if (isOpen) {
       this.drawer.open();
     } else {
       this.drawer.close();

@@ -28,8 +28,7 @@
       <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()">
         Logout
       </a>
-      <a *ngIf="isAuthenticated$ | async" mat-menu-item [routerLink]="changePasswordRoute.link"
-        [routerLinkActive]="['is-active']">Change Password</a>
+      <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="openChangePasswordDialog()">Change Password</a>
     </mat-menu>
   </div>
 
