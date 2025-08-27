@@ -8,6 +8,10 @@ export interface User {
 export interface Restaurant {
   id: string;
   name: string;
+  logo: string;
+  address: string;
+  phone: string;
+  category: string[];
   qrCodes: string[];
   menuItems: string[];
   orders: string[];

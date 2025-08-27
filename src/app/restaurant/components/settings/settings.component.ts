@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreditCardFormComponent } from '../payment/credit-card-form/credit-card-form.component';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { DiscountFormComponent } from '../payment/discount-form/discount-form.component';
+import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 
 interface SettingsComponentState {
   restaurant: Restaurant | null;
@@ -16,6 +17,17 @@ interface SettingsComponentState {
   creditCards: any[];
   discounts: any[];
   zReportData: any;
+}
+
+interface ColorPalette {
+  id: string;
+  name: string;
+  colors: string[];
+}
+
+interface Tab {
+  id: string;
+  name: string;
 }
 
 const initSettingsComponentState: Partial<SettingsComponentState> = {
@@ -33,6 +45,60 @@ const initSettingsComponentState: Partial<SettingsComponentState> = {
 })
 export class SettingsComponent implements OnInit {
   settingsForm: FormGroup;
+  profileForm: FormGroup;
+  appearanceForm: FormGroup;
+
+  // Tab management
+  tabs: Tab[] = [
+    { id: 'profile', name: 'Profile' },
+    { id: 'appearance', name: 'Appearance' },
+    { id: 'business', name: 'Business' },
+  ];
+  activeTab: string = 'profile';
+
+  // Logo management
+  logoPreview: string | null = null;
+  selectedFile: File | null = null;
+
+  // Loading states
+  isProfileLoading = false;
+  isAppearanceLoading = false;
+  isLogoLoading = false;
+
+  // Color palette management
+  presetPalettes: ColorPalette[] = [
+    {
+      id: 'blue',
+      name: 'Ocean Blue',
+      colors: ['#3B82F6', '#10B981', '#F59E0B'],
+    },
+    {
+      id: 'green',
+      name: 'Forest Green',
+      colors: ['#059669', '#10B981', '#F59E0B'],
+    },
+    {
+      id: 'purple',
+      name: 'Royal Purple',
+      colors: ['#7C3AED', '#EC4899', '#F59E0B'],
+    },
+    {
+      id: 'red',
+      name: 'Sunset Red',
+      colors: ['#DC2626', '#F59E0B', '#10B981'],
+    },
+    {
+      id: 'gray',
+      name: 'Modern Gray',
+      colors: ['#374151', '#6B7280', '#F59E0B'],
+    },
+    {
+      id: 'teal',
+      name: 'Teal Dream',
+      colors: ['#0D9488', '#14B8A6', '#F59E0B'],
+    },
+  ];
+  selectedPalette: ColorPalette | null = null;
 
   restaurant$ = this.state.select('restaurant');
   restaurant: any;
@@ -45,6 +111,7 @@ export class SettingsComponent implements OnInit {
   discounts: any[] = [];
   zReportData$ = this.state.select('zReportData');
   zReportData: any;
+  apiUrl: string = API_BASE_URL;
 
   constructor(
     private fb: FormBuilder,
@@ -63,9 +130,35 @@ export class SettingsComponent implements OnInit {
       this.decoded = jwtDecode(token);
       this.restaurantFacade.dispatchGetRestaurant(this.decoded.restaurantId);
     });
+
+    // Initialize forms
     this.settingsForm = this.fb.group({
       taxRate: [null, [Validators.required, Validators.min(0)]],
       restaurantStatus: [false],
+    });
+
+    this.profileForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      phone: [
+        '',
+        [Validators.required, Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)],
+      ],
+      address: ['', [Validators.required, Validators.minLength(10)]],
+    });
+
+    this.appearanceForm = this.fb.group({
+      primaryColor: [
+        '#3B82F6',
+        [Validators.required, Validators.pattern(/^#[0-9A-F]{6}$/i)],
+      ],
+      secondaryColor: [
+        '#10B981',
+        [Validators.required, Validators.pattern(/^#[0-9A-F]{6}$/i)],
+      ],
+      accentColor: [
+        '#F59E0B',
+        [Validators.required, Validators.pattern(/^#[0-9A-F]{6}$/i)],
+      ],
     });
   }
 
@@ -95,6 +188,163 @@ export class SettingsComponent implements OnInit {
       taxRate: this.restaurant?.taxRate,
       restaurantStatus: this.restaurant?.isOpen,
     });
+
+    this.profileForm.patchValue({
+      name: this.restaurant?.name || '',
+      phone: this.restaurant?.phone || '',
+      address: this.restaurant?.address || '',
+    });
+
+    // Load saved appearance settings if they exist
+    const savedColors = this.getSavedColors();
+    if (savedColors) {
+      this.appearanceForm.patchValue(savedColors);
+    }
+  }
+
+  // Profile management methods
+  onProfileSubmit() {
+    if (this.profileForm.valid) {
+      this.isProfileLoading = true;
+      const profileData = this.profileForm.value;
+      const formData = new FormData();
+      formData.append('name', profileData.name);
+      formData.append('phone', profileData.phone);
+      formData.append('address', profileData.address);
+
+      this.restaurantFacade.dispatchUpdateRestaurant(
+        this.restaurant.id,
+        formData
+      );
+
+      // Simulate loading time and show success message
+      setTimeout(() => {
+        this.isProfileLoading = false;
+        this.showNotification('Profile updated successfully!', 'success');
+      }, 1000);
+    }
+  }
+
+  // Logo management methods
+  onLogoChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      // Validate file size (2MB limit)
+      if (file.size > 2 * 1024 * 1024) {
+        alert('File size must be less than 2MB');
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file');
+        return;
+      }
+
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.logoPreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeLogo() {
+    this.logoPreview = null;
+    this.selectedFile = null;
+    // Reset file input
+    const fileInput = document.getElementById(
+      'logo-upload'
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+
+  uploadLogo() {
+    if (this.selectedFile) {
+      // Here you would typically upload the file to your server
+      // For now, we'll just simulate the upload
+      const formData = new FormData();
+      formData.append('logo', this.selectedFile);
+      formData.append('restaurantId', this.restaurant.id);
+
+      // Call your service method to upload the logo
+      // this.restaurantFacade.dispatchUploadLogo(formData);
+
+      // Show success message
+      this.showNotification('Logo uploaded successfully!', 'success');
+
+      console.log('Logo upload initiated:', this.selectedFile.name);
+    }
+  }
+
+  // Notification method
+  private showNotification(
+    message: string,
+    type: 'success' | 'error' = 'success'
+  ) {
+    // Create a simple notification element
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-md shadow-lg transition-all duration-300 ${
+      type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+    }`;
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
+  }
+
+  // Appearance management methods
+  selectPresetPalette(palette: ColorPalette) {
+    this.selectedPalette = palette;
+    this.appearanceForm.patchValue({
+      primaryColor: palette.colors[0],
+      secondaryColor: palette.colors[1],
+      accentColor: palette.colors[2],
+    });
+  }
+
+  onAppearanceSubmit() {
+    if (this.appearanceForm.valid) {
+      const appearanceData = this.appearanceForm.value;
+
+      // Save colors to localStorage for persistence
+      this.saveColors(appearanceData);
+
+      // Apply colors to the application
+      this.applyColors(appearanceData);
+
+      // Show success message
+      this.showNotification(
+        'Appearance settings saved successfully!',
+        'success'
+      );
+
+      console.log('Appearance settings saved:', appearanceData);
+    }
+  }
+
+  private saveColors(colors: any) {
+    localStorage.setItem('restaurantColors', JSON.stringify(colors));
+  }
+
+  private getSavedColors() {
+    const saved = localStorage.getItem('restaurantColors');
+    return saved ? JSON.parse(saved) : null;
+  }
+
+  private applyColors(colors: any) {
+    // Apply colors to CSS custom properties
+    const root = document.documentElement;
+    root.style.setProperty('--primary-color', colors.primaryColor);
+    root.style.setProperty('--secondary-color', colors.secondaryColor);
+    root.style.setProperty('--accent-color', colors.accentColor);
   }
 
   onOpenOrClose() {
@@ -336,6 +586,6 @@ export class SettingsComponent implements OnInit {
     document.body.innerHTML = printableContent;
     window.print();
     document.body.innerHTML = originalContent;
-    window.location.reload()
+    window.location.reload();
   }
 }

@@ -26,14 +26,19 @@ import { jwtDecode } from 'jwt-decode';
 import { Roles } from 'src/app/core/constants/roles';
 import { SidenavService } from 'src/app/core/services/sidenav.service';
 import { Subscription } from 'rxjs';
+import { Restaurant } from '../../models/restaurant.model';
+import { RestaurantFacade } from '../../facades/restaurant.facade';
+import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 
 interface RestaurantHomeComponentState {
   accessToken: any;
+  currentRestaurant: Restaurant | undefined;
 }
 
 const initRestaurantHomeComponentState: Partial<RestaurantHomeComponentState> =
   {
     accessToken: undefined,
+    currentRestaurant: undefined,
   };
 
 @Component({
@@ -45,6 +50,8 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
   navLinks: Array<{ link: string; label: string; icon: string }> = [];
 
   $accessToken = this.state.select('accessToken');
+  $currentRestaurant = this.state.select('currentRestaurant');
+  currentRestaurant: Restaurant | undefined;
   decoded: any;
   roleName: any;
   isOpen = true;
@@ -54,17 +61,23 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
 
   constructor(
     private authFacade: AuthFacade,
+    private restaurantFacade: RestaurantFacade,
     private state: RxState<RestaurantHomeComponentState>,
     private sidenavService: SidenavService
   ) {
     this.state.set(initRestaurantHomeComponentState);
     this.state.connect('accessToken', this.authFacade.accessToken$);
+    this.state.connect('currentRestaurant', this.restaurantFacade.selectedRestaurant$);
     this.$accessToken.subscribe((token) => {
       this.decoded = jwtDecode(token);
       this.roleName = this.decoded?.role?.name;
       this.setNavLinks(this.roleName);
     });
 
+    this.$currentRestaurant.subscribe((restaurant) => {
+      this.currentRestaurant = restaurant;
+      console.log('Current restaurant:', this.currentRestaurant);
+    });
     // Check initial screen size
     this.checkScreenSize();
   }
@@ -236,5 +249,13 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
     console.log('Toggling drawer, current state:', this.isOpen);
     this.isOpen = !this.isOpen;
     console.log('New state:', this.isOpen);
+  }
+
+  getLogo() {
+    return API_BASE_URL + "/uploads/"  + this.currentRestaurant?.logo || 'https://marketplace.canva.com/MADnuO9MlIU/1/thumbnail_large/canva-burger-icon-MADnuO9MlIU.png';
+  }
+
+  onLogoError(event: any) {
+    event.target.src = 'https://marketplace.canva.com/MADnuO9MlIU/1/thumbnail_large/canva-burger-icon-MADnuO9MlIU.png';
   }
 }

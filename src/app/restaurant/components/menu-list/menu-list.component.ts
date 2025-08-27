@@ -47,7 +47,7 @@ export class MenuListComponent implements OnInit {
   }
 
   openMenuModal(): void {
-    const dialogRef = this.dialog.open(StockSelectionComponent, {
+    const dialogRef = this.dialog.open(MenuFormComponent, {
       width: '500px'
     });
 

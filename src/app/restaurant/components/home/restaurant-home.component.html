@@ -1,13 +1,14 @@
 <mat-sidenav-container class="!bg-transparent">
   <mat-sidenav
-    mode="side"
+    [mode]=" isMobile ? 'over' : 'side'"
     [opened]="isOpen"
     class="left-menu !bg-gray-100 overflow-hidden mat-elevation-z1"
   >
     <img
-      class="ml-2 w-[60px] h-[60px] mt-4"
-      src="https://marketplace.canva.com/MADnuO9MlIU/1/thumbnail_large/canva-burger-icon-MADnuO9MlIU.png"
+      class="ml-2 w-[60px] rounded-md shadow-md h-[60px] mt-4"
+      [src]="getLogo()"
       alt="Digital Dine Logo"
+      (error)="onLogoError($event)"
     />
     <hr
       class="my-4 border-amber-500 py-2 w-[50%] bg-amber-500 mb-8 rounded-full"
