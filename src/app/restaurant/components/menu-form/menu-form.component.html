@@ -30,32 +30,13 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Tax Rate(%)</mat-label>
-      <input id="taxRate" formControlName="taxRate" matInput />
-      <mat-error *ngIf="addMenuForm.get('taxRate')?.hasError('required')">
-        Tax rate is required
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Currency</mat-label>
-      <mat-select formControlName="currency">
-        <mat-option value="USD">Dollar</mat-option>
-        <mat-option value="EUR">Euro</mat-option>
-        <mat-option value="RON">RON</mat-option>
-      </mat-select>
-      <mat-error *ngIf="addMenuForm.get('currency')?.hasError('required')">
-        Currency is required.
-      </mat-error>
-    </mat-form-field>
     <mat-form-field class="!h-[100px]" appearance="outline">
       <mat-label>Ingredients or Description</mat-label>
-      
+
           <textarea
           class="!h-[100px] !w-full"
-          cdkTextareaAutosize 
-          cdkAutosizeMinRows="4" 
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="4"
             formControlName="ingredients"
             matInput
             placeholder="Add ingredients here."

@@ -38,6 +38,7 @@ import { PaymentOptionFormComponent } from './components/payment/payment-option-
 import { DiscountFormComponent } from './components/payment/discount-form/discount-form.component';
 import { EditOrderModalComponent } from './components/table/edit-order-modal/edit-order-modal.component';
 import { CartModalComponent } from './components/menu/cart-modal/cart-modal.component';
+import { CategoryManagerComponent } from './components/category-manager/category-manager.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { CartModalComponent } from './components/menu/cart-modal/cart-modal.comp
     DiscountFormComponent,
     EditOrderModalComponent,
     CartModalComponent,
+    CategoryManagerComponent,
   ],
   imports: [
     SharedModule,

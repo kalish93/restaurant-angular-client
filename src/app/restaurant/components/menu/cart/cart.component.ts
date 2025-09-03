@@ -125,10 +125,10 @@ export class CartComponent implements OnInit {
   }[] {
     return this.cart.map((item) => {
       const itemSubtotal = item.menuItem.price * item.quantity;
-      const taxAmount = itemSubtotal * (item.menuItem.taxRate / 100);
+      const taxAmount = itemSubtotal ;
       return {
         itemName: item.menuItem.name,
-        taxRate: parseFloat(item.menuItem.taxRate.toString()), // Convert to percentage
+        taxRate: 0, // Convert to percentage
         taxAmount: taxAmount,
       };
     });
@@ -137,8 +137,8 @@ export class CartComponent implements OnInit {
   getTotalTax(): number {
     return this.cart.reduce((totalTax, item) => {
       const itemSubtotal = item.menuItem.price * item.quantity;
-      const itemTax = itemSubtotal * (item.menuItem.taxRate / 100);
-      return totalTax + itemTax;
+      // const itemTax = itemSubtotal * (item.menuItem.taxRate / 100);
+      return 0;
     }, 0);
   }
 

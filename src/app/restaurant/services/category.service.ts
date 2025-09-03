@@ -8,13 +8,21 @@ import { Category } from '../models/category.model';
 })
 export class CategoryService {
 
-  // httpOptions = {
-  //   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  // };
-
   constructor(private http: HttpClient) { }
 
-  getCategories(){
-    return this.http.get<any>(CATEGORY_URL);
+  getCategoriesByRestaurant(restaurantId: string){
+    return this.http.get<any>(`${CATEGORY_URL}/${restaurantId}`);
+  }
+
+  createCategory(data: { name: string; restaurantId: string }){
+    return this.http.post<any>(CATEGORY_URL, data);
+  }
+
+  updateCategory(id: string, data: { name: string; restaurantId: string }){
+    return this.http.put<any>(`${CATEGORY_URL}/${id}`, data);
+  }
+
+  deleteCategory(id: string){
+    return this.http.delete<any>(`${CATEGORY_URL}/${id}`);
   }
 }

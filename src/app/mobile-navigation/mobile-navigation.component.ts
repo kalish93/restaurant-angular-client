@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { MENU_LIST, ORDER_HISTORY_ROUTE, RESTAURANT_LIST, STOCK_LIST, TABLE_LIST, USERS_LIST } from '../core/constants/routes';
+import { MENU_LIST, ORDER_HISTORY_ROUTE, RESTAURANT_LIST, TABLE_LIST, USERS_LIST } from '../core/constants/routes';
 import { AuthFacade } from '../auth/facade/auth.facade';
 import { RxState } from '@rx-angular/state';
 import{ jwtDecode} from 'jwt-decode';
@@ -73,11 +73,6 @@ export class MobileNavigationComponent  {
           icon: 'table_chart',
         },
         {
-          link: `home/${STOCK_LIST}`,
-          label: 'Stock',
-          icon: 'local_bar',
-        },
-        {
           link: `home/${MENU_LIST}`,
           label: 'Menu',
           icon: 'menu_book',
@@ -110,11 +105,6 @@ export class MobileNavigationComponent  {
           link: `home/${TABLE_LIST}`,
           label: 'Tables',
           icon: 'table_chart',
-        },
-        {
-          link: `home/${STOCK_LIST}`,
-          label: 'Stock',
-          icon: 'local_bar',
         },
         {
           link: `home/${MENU_LIST}`,

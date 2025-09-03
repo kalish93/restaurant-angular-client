@@ -8,6 +8,7 @@ import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { StockSelectionComponent } from '../menu/stock-selection/stock-selection.component';
 import { Roles } from 'src/app/core/constants/roles';
+import { CategoryManagerComponent } from '../category-manager/category-manager.component';
 
 interface MenuState {
   menus: Menu[];
@@ -28,7 +29,7 @@ export class MenuListComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private menuFacade: MenuFacade,
+    public menuFacade: MenuFacade,
     private state: RxState<MenuState>
   ) {
     this.state.set(initMenuState);
@@ -57,6 +58,12 @@ export class MenuListComponent implements OnInit {
       } else if (result?.type === 'new') {
         this.openNewMenuItemForm();
       }
+    });
+  }
+
+  openCategoryManager(): void {
+    this.dialog.open(CategoryManagerComponent, {
+      width: '480px'
     });
   }
 
@@ -101,4 +108,21 @@ export class MenuListComponent implements OnInit {
   onImageError(event: any) {
     event.target.src = 'https://placehold.co/600x400?text=Menu+Image';
   }
+
+confirmToggleAvailability(item: Menu): void {
+  const newStatus = item.status === 'AVAILABLE' ? 'SOLD_OUT' : 'AVAILABLE';
+
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    data: {
+      message: `Are you sure you want to set "${item.name}" as ${newStatus.replace('_', ' ')}?`
+    }
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result === 'confirm') {
+      this.menuFacade.dispatchUpdateMenuAvailability(item.id, newStatus);
+    }
+  });
+}
+
 }

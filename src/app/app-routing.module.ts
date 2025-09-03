@@ -9,7 +9,6 @@ import {
   MENU_LIST,
   ORDER_HISTORY_ROUTE,
   RESTAURANT_LIST,
-  STOCK_LIST,
   TABLE_LIST,
   USERS_LIST,
   USERS_ROUTE,
@@ -60,9 +59,6 @@ const routes: Routes = [
       },
       { path: ORDER_HISTORY_ROUTE, component: OrderHistoryComponent},
 
-     { path: STOCK_LIST,
-      component: StockListComponent
-      },
      { path: MENU_LIST,
       component: MenuListComponent
       },
