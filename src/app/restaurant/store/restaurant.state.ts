@@ -15,8 +15,9 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, DowloadRestaurantQrCode, GenerateMenuQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
+import { MenuService } from '../services/menu.service';
 
 export interface RestaurantStateModel {
   restaurants: PaginatedList<any>;
@@ -55,6 +56,7 @@ const defaults = {
 export class RestaurantState {
   constructor(
     private restaurantService: RestaurantService,
+    private menuService: MenuService,
     private operationStatus: OperationStatusService,
     private store: Store
   ) {}
@@ -185,6 +187,27 @@ dowloadQr(
         const a = document.createElement('a');
         a.href = url;
         a.download = `table-${tableNumber}-qrcode.png`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }
+      this.store.dispatch(new SetProgressOff());
+    })
+  );
+}
+
+@Action(DowloadRestaurantQrCode)
+dowloadMenuQr(
+  { setState }: StateContext<RestaurantStateModel>,
+  {}: DowloadRestaurantQrCode
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.menuService.downloadMenuQrCode().pipe(
+    tap(blob => {
+      if (blob) {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `menu-qrcode.png`;
         a.click();
         window.URL.revokeObjectURL(url);
       }
@@ -673,6 +696,25 @@ getZreportData(
         setState(
           patch({
             zReportData: result,
+          })
+        );
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
+
+
+  @Action(GetRestaurant)
+  generateQrCode(
+    { setState }: StateContext<RestaurantStateModel>,
+    {  }: GenerateMenuQrCode
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.menuService.generateMenuQrCode().pipe(
+      tap((result) => {
+        setState(
+          patch({
+            selectedRestaurant: result,
           })
         );
         this.store.dispatch(new SetProgressOff());

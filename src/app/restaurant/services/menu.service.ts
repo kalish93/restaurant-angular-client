@@ -39,4 +39,19 @@ export class MenuService {
   getMenuByRestaurant(id: string): Observable<Menu[]> {
     return this.http.get<any>(`${MENU_URL}/${id}`);
   }
+
+  generateMenuQrCode(): Observable<any> {
+    return this.http.post<any>(`${MENU_URL}/qr-code`, {});
+  }
+
+  downloadMenuQrCode(): Observable<any> {
+    const options = {
+      responseType: 'blob' as 'json',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    const downloadUrl = `${MENU_URL}/qr-code/download`;
+    return this.http.get<any>(downloadUrl, options);
+  }
 }

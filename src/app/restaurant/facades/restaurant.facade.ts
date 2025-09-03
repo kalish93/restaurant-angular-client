@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { RestaurantSelector } from '../store/restaurant.selectors';
-import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from '../store/restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, DowloadRestaurantQrCode, GenerateMenuQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from '../store/restaurant.actions';
 
 
 @Injectable({
@@ -113,6 +113,14 @@ export class RestaurantFacade {
 
   dispatchUpdateRestaurantActiveStatus(data: any) {
     this.store.dispatch(new UpdateRestaurantActiveStatus(data));
+  }
+
+  dispatchGenerateMenuQrCode() {
+    this.store.dispatch(new GenerateMenuQrCode());
+  }
+
+  dispatchDownloadMenuQrCode() {
+    this.store.dispatch(new DowloadRestaurantQrCode());
   }
 
 }

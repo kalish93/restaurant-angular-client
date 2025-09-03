@@ -46,6 +46,10 @@ export class DowloadQrCode {
     public readonly tableNumber: any
   ) {}
 }
+export class DowloadRestaurantQrCode {
+  static readonly type = `${DowloadRestaurantQrCode.name}`;
+  constructor() {}
+}
 
 export class UpdateRestaurant {
   static readonly type = `${UpdateRestaurant.name}`;
@@ -155,4 +159,8 @@ export class GetZreportData {
   constructor(
     public readonly restaurantId: any
   ) {}
+}
+export class GenerateMenuQrCode {
+  static readonly type = `${GenerateMenuQrCode.name}`;
+  constructor() {}
 }
