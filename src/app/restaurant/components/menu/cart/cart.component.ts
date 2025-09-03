@@ -118,43 +118,13 @@ export class CartComponent implements OnInit {
     );
   }
 
-  getTaxBreakdown(): {
-    itemName: string;
-    taxRate: number;
-    taxAmount: number;
-  }[] {
-    return this.cart.map((item) => {
-      const itemSubtotal = item.menuItem.price * item.quantity;
-      const taxAmount = itemSubtotal ;
-      return {
-        itemName: item.menuItem.name,
-        taxRate: 0, // Convert to percentage
-        taxAmount: taxAmount,
-      };
-    });
-  }
-
-  getTotalTax(): number {
-    return this.cart.reduce((totalTax, item) => {
-      const itemSubtotal = item.menuItem.price * item.quantity;
-      // const itemTax = itemSubtotal * (item.menuItem.taxRate / 100);
-      return 0;
-    }, 0);
-  }
-
-  getDiscountAmount(): number {
-    return this.getSubtotal() * (this.discountPercent / 100);
-  }
-
   hasDiscount(): boolean {
     return this.discountCode !== '' && this.discountPercent > 0;
   }
 
   getTotal(): number {
     const subtotal = this.getSubtotal();
-    const tax = this.getTotalTax();
-    const discount = this.getDiscountAmount();
-    return subtotal + tax - discount;
+    return subtotal;
   }
 
   getTotalItems(): number {
