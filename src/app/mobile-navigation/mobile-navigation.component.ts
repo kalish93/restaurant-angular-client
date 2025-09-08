@@ -4,13 +4,17 @@ import { AuthFacade } from '../auth/facade/auth.facade';
 import { RxState } from '@rx-angular/state';
 import{ jwtDecode} from 'jwt-decode';
 import { Roles } from '../core/constants/roles';
+import { RestaurantFacade } from '../restaurant/facades/restaurant.facade';
+import { Restaurant } from '../restaurant/models/restaurant.model';
 
 interface RestaurantHomeComponentState {
   accessToken: any;
+  currentRestaurant: Restaurant | undefined;
 }
 
 const initRestaurantHomeComponentState: Partial<RestaurantHomeComponentState> = {
   accessToken: undefined,
+  currentRestaurant: undefined,
 };
 
 @Component({
@@ -22,18 +26,25 @@ export class MobileNavigationComponent  {
   navLinks: Array<{ link: string; label: string; icon: string }> = [];
 
   $accessToken = this.state.select('accessToken');
+  $currentRestaurant = this.state.select('currentRestaurant');
   decoded :any;
   roleName: any;
   constructor(
     private authFacade: AuthFacade,
-    private state: RxState<RestaurantHomeComponentState>
+    private state: RxState<RestaurantHomeComponentState>,
+    private restaurantFacade: RestaurantFacade
   ){
     this.state.set(initRestaurantHomeComponentState);
     this.state.connect('accessToken', this.authFacade.accessToken$);
+    this.state.connect('currentRestaurant', this.restaurantFacade.selectedRestaurant$);
     this.$accessToken.subscribe((token)=>{
        this.decoded = jwtDecode(token);
        this.roleName = this.decoded?.role?.name;
        this.setNavLinks(this.roleName);
+    })
+
+    this.$currentRestaurant.subscribe(()=>{
+      this.setNavLinks(this.roleName);
     })
   }
 
@@ -42,6 +53,8 @@ export class MobileNavigationComponent  {
 
   @Output() closeDrawer = new EventEmitter<void>();
   setNavLinks(roleName: string): void {
+    const subscription = (this.state.get('currentRestaurant') as any)?.subscription;
+    const isBasic = subscription === 'BASIC';
     if (roleName === 'Admin') {
       this.navLinks = [
         {
@@ -67,21 +80,15 @@ export class MobileNavigationComponent  {
           label: 'Dashboard',
           icon: 'dashboard',
         },
-        {
-          link: `home/${TABLE_LIST}`,
-          label: 'Tables',
-          icon: 'table_chart',
-        },
+        // BASIC hides Tables
+        ...(!isBasic ? [{ link: `home/${TABLE_LIST}`, label: 'Tables', icon: 'table_chart' }] : []),
         {
           link: `home/${MENU_LIST}`,
           label: 'Menu',
           icon: 'menu_book',
         },
-        {
-          link:  `home/${ORDER_HISTORY_ROUTE}`,
-          label: 'Order History',
-          icon: 'list',
-        },
+        // BASIC hides Order History
+        ...(!isBasic ? [{ link: `home/${ORDER_HISTORY_ROUTE}`, label: 'Order History', icon: 'list' }] : []),
         {
           link:  'home/staff',
           label: 'My Staff',
@@ -101,21 +108,15 @@ export class MobileNavigationComponent  {
           label: 'Dashboard',
           icon: 'dashboard',
         },
-        {
-          link: `home/${TABLE_LIST}`,
-          label: 'Tables',
-          icon: 'table_chart',
-        },
+        // BASIC hides Tables
+        ...(!isBasic ? [{ link: `home/${TABLE_LIST}`, label: 'Tables', icon: 'table_chart' }] : []),
         {
           link: `home/${MENU_LIST}`,
           label: 'Menu',
           icon: 'menu_book',
         },
-        {
-          link:  `home/${ORDER_HISTORY_ROUTE}`,
-          label: 'Order History',
-          icon: 'list',
-        },
+        // BASIC hides Order History
+        ...(!isBasic ? [{ link: `home/${ORDER_HISTORY_ROUTE}`, label: 'Order History', icon: 'list' }] : []),
       ];
     }
 

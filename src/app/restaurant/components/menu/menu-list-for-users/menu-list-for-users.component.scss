@@ -37,11 +37,27 @@
   margin-bottom: 1rem; /* Keep margin 0 to ensure even spacing */
 }
 
-img {
+/* Limit generic image styling to card layout only to avoid giant header logo */
+.card-container img {
   width: 35%;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+/* Header logo sizing */
+.header-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .header-logo {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .price {
@@ -260,6 +276,15 @@ mat-card-subtitle {
   .special-instructions-container {
     animation: expandIn 0.3s ease-out;
   }
+}
+
+// Hide scrollbar for category pill row
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 @keyframes expandIn {

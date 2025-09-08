@@ -168,8 +168,8 @@ export class SettingsComponent implements OnInit {
       this.loadSettings();
     });
 
-    this.restaurantFacade.dispatchGetCreditCards(this.restaurant.id);
-    this.restaurantFacade.dispatchGetDiscounts(this.restaurant.id);
+    // this.restaurantFacade.dispatchGetCreditCards(this.restaurant.id);
+    // this.restaurantFacade.dispatchGetDiscounts(this.restaurant.id);
     this.creditCards$.subscribe((data) => {
       this.creditCards = data;
     });
@@ -177,7 +177,7 @@ export class SettingsComponent implements OnInit {
       this.discounts = data;
     });
 
-    this.restaurantFacade.dispatchGetZreportData(this.restaurant.id);
+    // this.restaurantFacade.dispatchGetZreportData(this.restaurant.id);
     this.zReportData$.subscribe((data) => {
       this.zReportData = data;
     });
