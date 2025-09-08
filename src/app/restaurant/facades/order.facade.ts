@@ -7,6 +7,7 @@ import {
   AddToCart,
   GetActiveOrders,
   GetActiveTableOrder,
+  GetActiveRestaurantOrder,
   GetOrderHistory,
   MarkAsPaid,
   PlaceOrder,
@@ -51,6 +52,10 @@ export class OrderFacade {
 
   dispatchGetActiveTableOrder(tableId: any) {
     this.store.dispatch(new GetActiveTableOrder(tableId));
+  }
+
+  dispatchGetActiveRestaurantOrder(restaurantId: any) {
+    this.store.dispatch(new GetActiveRestaurantOrder(restaurantId));
   }
 
   dispatchGetActiveOrders() {

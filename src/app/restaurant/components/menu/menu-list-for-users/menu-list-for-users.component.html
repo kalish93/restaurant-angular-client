@@ -24,7 +24,9 @@
                   <div class="w-16 h-16 rounded-full bg-gray-100 relative">
                     <img [src]="getImageUrl(item.image)" [alt]="item.name"
                       class="!w-full !h-full rounded-full object-fit shadow-lg" />
-                    <span *ngIf="item.status === 'SOLD_OUT'" class="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[10px] px-1.5 py-0.5 rounded bg-red-600 text-white">Sold Out</span>
+                    <span *ngIf="item.status === 'SOLD_OUT'"
+                      class="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[10px] px-1.5 py-0.5 rounded bg-red-600 text-white">Sold
+                      Out</span>
                   </div>
                 </div>
 
@@ -43,16 +45,17 @@
 
               <!-- Add to Cart Button -->
               <div class="flex items-center justify-center">
-                <button mat-raised-button *ngIf="item.price" [disabled]="item.status === 'SOLD_OUT'"
-                  [ngClass]="{
+                <button mat-raised-button *ngIf="item.price" [disabled]="item.status === 'SOLD_OUT'" [ngClass]="{
                   'bg-gray-300 text-gray-600 cursor-not-allowed': item.status === 'SOLD_OUT' === false,
                   'bg-green-600 hover:bg-green-700 text-white shadow-lg': item.status !== 'SOLD_OUT' && cartItems.includes(item),
                   'bg-orange-500 hover:bg-orange-600 text-white shadow-lg': item.status !== 'SOLD_OUT' && !cartItems.includes(item)
                 }"
                   class="enhanced-add-button px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 transform hover:scale-105 flex items-center gap-1 w-full"
                   (click)="addToCart(item)">
-                  <mat-icon class="!text-sm">{{ item.status === 'SOLD_OUT' ? 'block' : (checkIfItemInCart(item) ? 'check' : 'add_shopping_cart') }}</mat-icon>
-                  <span>{{ item.status === 'SOLD_OUT' ? 'Sold Out' : (checkIfItemInCart(item) ? 'Added' : 'Add to Order') }}</span>
+                  <mat-icon class="!text-sm">{{ item.status === 'SOLD_OUT' ? 'block' : (checkIfItemInCart(item) ?
+                    'check' : 'add_shopping_cart') }}</mat-icon>
+                  <span>{{ item.status === 'SOLD_OUT' ? 'Sold Out' : (checkIfItemInCart(item) ? 'Added' : 'Add to
+                    Order') }}</span>
                 </button>
               </div>
             </div>
@@ -63,7 +66,7 @@
     <div class="hidden md:block md:col-span-1">
       <app-cart></app-cart>
     </div>
-    <div class="fixed bottom-6 right-6 z-50">
+    <div *ngIf="tableId" class="fixed bottom-6 right-6 z-50">
       <div class="flex flex-col gap-4">
         <!-- Cart Button Group -->
         <div class="lg:hidden relative group">

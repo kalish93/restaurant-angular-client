@@ -150,7 +150,11 @@ export class CartComponent implements OnInit {
       this.orderFacade.dispatchPlaceOrder(dataToSend, this.tableId);
     }
     // this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
-    this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
+    if (this.tableId) {
+      this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
+    } else {
+      this.router.navigate([`/orders/${this.restaurantId}`]);
+    }
     // this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
   }
 }

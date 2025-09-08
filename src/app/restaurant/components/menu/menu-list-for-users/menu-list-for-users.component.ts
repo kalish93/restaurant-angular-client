@@ -71,7 +71,14 @@ export class MenuListForUsersComponent implements OnInit {
       this.tableId = params.get('tableId');
       this.restaurantFacade.dispatchGetRestaurant(this.restaurantId);
       this.menuFacade.dispatchGetMenuByRestaurant(this.restaurantId);
-      this.restaurantFacade.dispatchGetTable(this.tableId);
+
+      if (this.tableId) {
+        this.restaurantFacade.dispatchGetTable(this.tableId);
+        this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
+      } else {
+        // Get orders for restaurant when no table ID
+        this.orderFacade.dispatchGetActiveRestaurantOrder(this.restaurantId);
+      }
     });
 
     this.$restaurant.subscribe((data) => {
@@ -162,19 +169,27 @@ export class MenuListForUsersComponent implements OnInit {
   }
 
   viewOrders() {
-    this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
+    if (this.tableId) {
+      this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
+    } else {
+      this.router.navigate([`/orders/${this.restaurantId}`]);
+    }
   }
 
   callWaiter() {
-    const dataToSend = {
-      restaurantId: this.restaurantId,
-      tableId: this.tableId,
-    };
-    this.notificationFacade.dispatchCallWaiter(dataToSend);
+    if (this.tableId) {
+      const dataToSend = {
+        restaurantId: this.restaurantId,
+        tableId: this.tableId,
+      };
+      this.notificationFacade.dispatchCallWaiter(dataToSend);
+    }
   }
 
   requestPayment() {
-    this.orderFacade.dispatchRequestPayment(this.tableId);
+    if (this.tableId) {
+      this.orderFacade.dispatchRequestPayment(this.tableId);
+    }
   }
 
   openCartModal() {

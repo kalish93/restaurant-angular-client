@@ -44,7 +44,14 @@ export class OrdersComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.tableId = params.get('tableId');
-      this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
+      const restaurantId = params.get('restaurantId');
+
+      if (this.tableId) {
+        this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
+      } else {
+        // Get restaurant orders when no table ID
+        this.orderFacade.dispatchGetActiveRestaurantOrder(restaurantId);
+      }
     });
 
     this.$myOrders.subscribe((data) => {
