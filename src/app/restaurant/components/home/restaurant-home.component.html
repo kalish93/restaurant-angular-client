@@ -1,4 +1,4 @@
-<mat-sidenav-container class="!bg-transparent">
+<mat-sidenav-container class="relative !bg-transparent">
   <mat-sidenav
     [mode]=" isMobile ? 'over' : 'side'"
     [opened]="isOpen"
@@ -32,7 +32,7 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content !bg-transparent overflow-y-auto h-[calc(100vh-75px)] mat-elevation-z1">
+    <div class="content !bg-transparent overflow-y-auto md:h-[calc(100vh-75px)] mat-elevation-z1">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>

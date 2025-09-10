@@ -39,7 +39,7 @@
 @media (max-width: 768px) {
   .left-menu {
     position: fixed;
-    top: 74px;
+    // top: 74px;
     left: 0;
     height: 100%;
     z-index: 1000;
@@ -53,3 +53,4 @@
 .logo {
   width: 150px;
 }
+

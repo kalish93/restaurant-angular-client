@@ -160,7 +160,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  toggleDrawer() {
+  toggleDrawer(event?: boolean) {
     console.log('Toggle drawer called from home component');
     this.sidenavService.toggleSidenav();
   }

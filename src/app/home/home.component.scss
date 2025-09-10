@@ -25,18 +25,15 @@
   right: 0;
 }
 
-
 .toolbar-menu.full-width {
   left: 0;
   right: 0;
   width: 100%; /* Make the toolbar span the full width */
 }
 
-.unauthenticated-full-width{
+.unauthenticated-full-width {
   margin-left: calc(100vw - 150px);
 }
-
-
 
 .right-menu {
   display: flex;
@@ -45,7 +42,7 @@
   gap: 16px; /* Add space between items */
   margin-left: calc(100vw - 550px);
 }
-.unauthenticated-full-width{
+.unauthenticated-full-width {
   margin-left: calc(100vw - 150px);
 }
 
@@ -67,15 +64,12 @@
   padding: 1em;
 }
 
-.mat-drawer-container {
-  margin-top: 75px; /* Ensure content starts below the fixed toolbar */
-}
 
 .account-icon {
   color: black;
 }
 
-.unauthenticated-full-width{
+.unauthenticated-full-width {
   margin-left: calc(100vw - 200px);
 }
 
@@ -85,31 +79,36 @@
     max-width: 100%;
     padding: 1em;
   }
-
 }
-
 
 @media (min-width: 800px) {
-  .burger-menu{
+  .burger-menu {
     display: none;
   }
-
 }
 @media (max-width: 768px) {
-  .toolbar-menu.offset{
+  .toolbar-menu.offset {
     left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  .burger-menu{
+  .burger-menu {
     color: black;
   }
 }
 @media (max-width: 325px) {
-  .right-menu{
+  .right-menu {
     gap: 5px;
   }
 }
 
+.mat-drawer-backdrop {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
