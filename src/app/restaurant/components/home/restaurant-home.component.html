@@ -4,14 +4,20 @@
     [opened]="isOpen"
     class="left-menu !bg-gray-100 overflow-hidden mat-elevation-z1"
   >
-    <img
-      class="ml-2 w-[60px] rounded-md shadow-md h-[60px] mt-4"
-      [src]="getLogo()"
-      alt="Digital Dine Logo"
-      (error)="onLogoError($event)"
-    />
+      <div class="flex items-center gap-3 mt-4 mb-4">
+      <img
+        class="w-[50px] h-[50px]"
+        src="assets/mesob-browser-logo.png"
+        alt="Mesob"
+      />
+      <h1 class="text-2xl text-amber-600">Mesob</h1>
+    </div>
+
+    <h4 class="text-center text-black ">
+      {{ currentRestaurant?.name }}
+    </h4>
     <hr
-      class="my-4 border-amber-500 py-2 w-[50%] bg-amber-500 mb-8 rounded-full"
+      class="my-4 border-amber-500 py-0.3 w-[100%] bg-amber-500 mb-8 rounded-full"
     />
     <div *ngFor="let link of navLinks">
       <a

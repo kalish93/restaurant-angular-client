@@ -47,6 +47,7 @@ export class MenuListForUsersComponent implements OnInit {
   selectedTable$ = this.state.select('selectedTable');
   selectedTable: any = {};
   selectedCategory: string | null = null;
+  searchTerm: string = '';
 
   constructor(
     private state: RxState<MenuListForUsersComponentState>,
@@ -77,7 +78,9 @@ export class MenuListForUsersComponent implements OnInit {
         this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
       } else {
         // Get orders for restaurant when no table ID
-        this.orderFacade.dispatchGetActiveRestaurantOrder(this.restaurantId);
+        // this.orderFacade.dispatchGetActiveRestaurantOrder(this.restaurantId);
+        // Ensure cart is empty when not ordering for a specific table
+        this.orderFacade.dispatchUpdateCart([]);
       }
     });
 
@@ -130,16 +133,27 @@ export class MenuListForUsersComponent implements OnInit {
   }
 
   get filteredMenus() {
-    if (!this.selectedCategory) {
-      return this.menus;
+    let result = this.menus;
+    if (this.selectedCategory) {
+      result = result.filter((menu) => menu.category.name === this.selectedCategory);
     }
-    return this.menus.filter(
-      (menu) => menu.category.name === this.selectedCategory
-    );
+    if (this.searchTerm && this.searchTerm.trim().length > 0) {
+      const q = this.searchTerm.trim().toLowerCase();
+      result = result.filter((menu) =>
+        (menu.name?.toLowerCase().includes(q)) ||
+        (menu.ingredients?.toLowerCase().includes(q)) ||
+        (menu.category?.name?.toLowerCase().includes(q))
+      );
+    }
+    return result;
   }
 
   setCategoryFilter(category: string | null) {
     this.selectedCategory = category;
+  }
+
+  onSearchChange(value: string) {
+    this.searchTerm = value;
   }
 
   getFilterButtonClass(category: string | null): string {

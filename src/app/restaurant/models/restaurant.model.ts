@@ -19,5 +19,6 @@ export interface Restaurant {
   isActive: boolean;
   isOpen: boolean;
   taxRate: number;
+  subscription?: 'BASIC' | 'STANDARD' | 'PREMIUM' | string;
   createdAt: string;
 }

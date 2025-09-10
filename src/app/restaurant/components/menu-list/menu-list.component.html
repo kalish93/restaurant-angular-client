@@ -1,37 +1,42 @@
 <div class="min-h-screen bg-gray-100 p-4">
   <div class="mx-auto md:max-w-[90%]">
-    <div class="mb-8 flex items-center justify-between">
-      <div>
-        <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Our Menus</h1>
-        <p class="mt-2 text-gray-600">Manage your restaurant menu items</p>
-      </div>
-      <div class="flex gap-3">
+    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-0">
+  <div>
+    <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Our Menus</h1>
+    <p class="mt-2 text-gray-600">Manage your restaurant menu items</p>
+  </div>
+  <div class="flex flex-wrap gap-3 mt-4 md:mt-0">
+    <ng-container *appHasRole="[hasManagerRole()]">
+      <ng-container *appHasSubscription="['BASIC','STANDARD']">
         <button
-          *appHasRole="[hasManagerRole()]"
           (click)="viewMenuQr()"
-          class="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-green-600 shadow transition-all hover:shadow-md"
+          class="flex items-center gap-2 rounded-full bg-white px-4 sm:px-6 py-2 sm:py-3 font-medium text-green-600 shadow transition-all hover:shadow-md text-sm sm:text-base"
         >
           <mat-icon class="!text-lg">qr_code_2</mat-icon>
           Manage Menu QR
         </button>
-        <button
-          *appHasRole="[hasManagerRole()]"
-          (click)="openCategoryManager()"
-          class="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)]"
-        >
-          <mat-icon class="!text-lg">category</mat-icon>
-          Manage Categories
-        </button>
-        <button
-          *appHasRole="[hasManagerRole()]"
-          (click)="openMenuModal()"
-          class="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)]"
-        >
-          <mat-icon class="!text-lg">add</mat-icon>
-          Add Menu Item
-        </button>
-      </div>
-    </div>
+      </ng-container>
+    </ng-container>
+
+    <button
+      *appHasRole="[hasManagerRole()]"
+      (click)="openCategoryManager()"
+      class="flex items-center gap-2 rounded-full bg-white px-4 sm:px-6 py-2 sm:py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)] text-sm sm:text-base"
+    >
+      <mat-icon class="!text-lg">category</mat-icon>
+      Manage Categories
+    </button>
+
+    <button
+      *appHasRole="[hasManagerRole()]"
+      (click)="openMenuModal()"
+      class="flex items-center gap-2 rounded-full bg-white px-4 sm:px-6 py-2 sm:py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)] text-sm sm:text-base"
+    >
+      <mat-icon class="!text-lg">add</mat-icon>
+      Add Menu Item
+    </button>
+  </div>
+</div>
 
     <!-- <div  class="mb-6">
       <div class="rounded-2xl bg-white p-4 shadow">

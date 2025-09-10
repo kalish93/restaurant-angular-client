@@ -76,6 +76,8 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
     this.$currentRestaurant.subscribe((restaurant) => {
       this.currentRestaurant = restaurant;
       console.log('Current restaurant:', this.currentRestaurant);
+      // Recompute nav links when restaurant changes to apply subscription rules
+      this.setNavLinks(this.roleName);
     });
     // Check initial screen size
     this.checkScreenSize();
@@ -146,6 +148,9 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
   // ];
 
   setNavLinks(roleName: string): void {
+    const subscription = (this.currentRestaurant as any)?.subscription;
+    const isBasic = subscription === 'BASIC';
+
     if (roleName === 'Admin') {
       this.navLinks = [
         {
@@ -171,21 +176,31 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
           label: 'Dashboard',
           icon: 'dashboard',
         },
-        {
-          link: TABLE_LIST,
-          label: 'Tables',
-          icon: 'table_chart',
-        },
+        // BASIC hides Tables
+        ...(!isBasic
+          ? [
+              {
+                link: TABLE_LIST,
+                label: 'Tables',
+                icon: 'table_chart',
+              },
+            ]
+          : []),
         {
           link: MENU_LIST,
           label: 'Menu',
           icon: 'menu_book',
         },
-        {
-          link: ORDER_HISTORY_ROUTE,
-          label: 'Order History',
-          icon: 'list',
-        },
+        // BASIC hides Order History
+        ...(!isBasic
+          ? [
+              {
+                link: ORDER_HISTORY_ROUTE,
+                label: 'Order History',
+                icon: 'list',
+              },
+            ]
+          : []),
         {
           link: 'staff',
           label: 'My Staff',
@@ -204,21 +219,31 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
           label: 'Dashboard',
           icon: 'dashboard',
         },
-        {
-          link: TABLE_LIST,
-          label: 'Tables',
-          icon: 'table_chart',
-        },
+        // BASIC hides Tables
+        ...(!isBasic
+          ? [
+              {
+                link: TABLE_LIST,
+                label: 'Tables',
+                icon: 'table_chart',
+              },
+            ]
+          : []),
         {
           link: MENU_LIST,
           label: 'Menu',
           icon: 'menu_book',
         },
-        {
-          link: ORDER_HISTORY_ROUTE,
-          label: 'Order History',
-          icon: 'list',
-        },
+        // BASIC hides Order History
+        ...(!isBasic
+          ? [
+              {
+                link: ORDER_HISTORY_ROUTE,
+                label: 'Order History',
+                icon: 'list',
+              },
+            ]
+          : []),
       ];
     }
   }
@@ -235,8 +260,8 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
     console.log('New state:', this.isOpen);
   }
 
-  getLogo() {
-    return API_BASE_URL + "/uploads/"  + this.currentRestaurant?.logo || 'https://marketplace.canva.com/MADnuO9MlIU/1/thumbnail_large/canva-burger-icon-MADnuO9MlIU.png';
+  getName() {
+    this.currentRestaurant?.name;
   }
 
   onLogoError(event: any) {
