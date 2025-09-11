@@ -30,7 +30,7 @@
     >
       <ng-container *ngIf="editingCategoryId !== c.id; else editTpl">
         <span class="text-gray-800 font-medium">{{ c.name }}</span>
-        <div class="flex gap-2">
+        <div class="flex gap-2" *ngIf="c.restaurantId !== null">
           <button mat-stroked-button color="primary" (click)="startEdit(c)">
             <mat-icon>edit</mat-icon>
           </button>

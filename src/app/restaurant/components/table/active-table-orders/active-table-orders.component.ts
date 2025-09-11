@@ -181,10 +181,6 @@ onImageError(event: any) {
     // this.orderFacade.dispatchMarkAsPaid(dataToSend, this.tableId);
     this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
 
-    const taxAmount = this.combinedItems.reduce((taxTotal, item) => {
-      return taxTotal + ((item.menuItem.price * item.quantity) * (item.menuItem.taxRate / 100));
-    }, 0);
-
 
     const dialogRef = this.dialog.open(PaymentOptionFormComponent, {
       width: '400px',
@@ -194,10 +190,9 @@ onImageError(event: any) {
       if (result) {
         const dataToSend = {
         orderIds: this.myOrders.flatMap(order => order.id),
-        cashPayment: result.cashPayment,
-        giftCardPayment: result.giftCardPayment,
-        creditCards: result.creditCards,
-        taxAmount: taxAmount
+        cashPaymentAmount: result.cashPaymentAmount,
+        provider: result.provider,
+        transferAmount: result.transferAmount
       }
 
     this.orderFacade.dispatchMarkAsPaid(dataToSend, this.tableId);
