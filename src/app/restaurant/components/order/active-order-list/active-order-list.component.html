@@ -91,6 +91,10 @@
                 class="rounded-full bg-red-100 text-red-700 px-3 py-1 text-sm font-medium shadow hover:bg-red-200">
           Cancel
         </button>
+        <button (click)="viewDetails(order.table.id); $event.stopPropagation()"
+          class="rounded-full bg-gray-100 text-gray-700 px-3 py-1 text-sm font-medium shadow hover:bg-gray-200">
+          View Details
+        </button>
       </ng-container>
     </div>
   </div>
