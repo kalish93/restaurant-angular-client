@@ -1,5 +1,5 @@
-<h1 mat-dialog-title *ngIf="!data.stock">Add Stock Item</h1>
-<h1 mat-dialog-title *ngIf="data.stock">Update Stock Item</h1>
+<h2 mat-dialog-title *ngIf="!data.stock">Add Stock Item</h2>
+<h2 mat-dialog-title *ngIf="data.stock">Update Stock Item</h2>
 <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
 
 <div mat-dialog-content>

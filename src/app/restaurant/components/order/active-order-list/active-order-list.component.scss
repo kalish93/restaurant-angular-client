@@ -1,4 +1,4 @@
-.container {
+.active-order-list-container {
   padding: 20px;
   min-height: 100vh;
   background-color: rgb(218, 236, 214);
@@ -98,7 +98,7 @@ mat-list-item {
 
 @media (max-width: 768px) {
   .card-grid {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
   }
 }
 

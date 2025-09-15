@@ -1,8 +1,6 @@
-<div class="mobile-navigation" [ngClass]="{ 'open': isOpen, 'close': !isOpen }">
-  <button class="close-btn" (click)="close()">&#10005;</button>
-
-  <div class="drawer-content">
-    <img class="logo" src="assets/logo2.jpeg" alt="Digital Dine Logo">
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="side" opened={{isOpen}} class="left-menu mat-elevation-z1">
+   <img class="logo" src="assets/logo2.jpeg" alt="Digital Dine Logo">
     <div *ngFor="let link of navLinks">
       <a
         class="menu-button"
@@ -13,5 +11,12 @@
         <mat-icon>{{ link.icon }}</mat-icon>
         <span>{{ link.label }}</span>
       </a>
-  </div>
+
 </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z1">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -23,6 +23,7 @@ import {
   GetMenuByRestaurant,
   GetMenus,
   UpdateMenu,
+  UpdateMenuAvailability,
 } from './menu.actions';
 import { MenuService } from '../../services/menu.service';
 
@@ -79,7 +80,6 @@ export class MenuState {
 
         this.store.dispatch(new SetProgressOff());
 
-        // Display a success message
         this.operationStatus.displayStatus(
           'Menu item created successfully!',
           successStyle
@@ -103,9 +103,28 @@ export class MenuState {
         );
         this.store.dispatch(new SetProgressOff());
 
-        // Display a success message
         this.operationStatus.displayStatus(
           'Menu item updated successfully!',
+          successStyle
+        );
+      })
+    );
+  }
+
+  @Action(UpdateMenuAvailability)
+  updateMenuAvailability(
+    { setState }: StateContext<MenuStateModel>,
+    { menuId, status }: UpdateMenuAvailability
+  ) {
+    return this.menuService.updateMenuAvailability(menuId, status).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            menus: updateItem((item) => item.id === result.id, result),
+          })
+        );
+        this.operationStatus.displayStatus(
+          status === 'AVAILABLE' ? 'Menu item marked as available.' : 'Menu item marked as sold out.',
           successStyle
         );
       })
@@ -126,7 +145,6 @@ export class MenuState {
         );
         this.store.dispatch(new SetProgressOff());
 
-        // Display a success message
         this.operationStatus.displayStatus(
           'Menu item deleted successfully!',
           successStyle

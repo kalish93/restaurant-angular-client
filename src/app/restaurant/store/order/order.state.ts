@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext, StateToken, Store } from '@ngxs/store';
-import {
-  insertItem,
-  patch,
-} from '@ngxs/store/operators';
+import { insertItem, patch } from '@ngxs/store/operators';
 import { tap } from 'rxjs';
 import { OperationStatusService } from 'src/app/core/services/operation-status/operation-status.service';
 import { successStyle } from 'src/app/core/services/operation-status/status-style-names';
@@ -13,7 +10,22 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 
-import { AddOrderItem, AddToCart, GetActiveOrders, GetActiveTableOrder, GetOrderHistory, MarkAsPaid, PlaceOrder, RemoveOrderItem, RequestPayment, SaveTipAndDiscount, UpdateCart, UpdateOrderItem, UpdateOrderStatus } from './order.actions';
+import {
+  AddOrderItem,
+  AddToCart,
+  GetActiveOrders,
+  GetActiveTableOrder,
+  GetActiveRestaurantOrder,
+  GetOrderHistory,
+  MarkAsPaid,
+  PlaceOrder,
+  RemoveOrderItem,
+  RequestPayment,
+  SaveTipAndDiscount,
+  UpdateCart,
+  UpdateOrderItem,
+  UpdateOrderStatus,
+} from './order.actions';
 import { OrderService } from '../../services/order.service';
 import { Cart } from '../../models/menu.model';
 
@@ -32,7 +44,7 @@ const defaults = {
   cart: [],
   myTableOrders: [],
   activeOrders: [],
-  orderHistory: []
+  orderHistory: [],
 };
 
 @State<OrderStateModel>({
@@ -47,7 +59,6 @@ export class OrderState {
     private orderService: OrderService
   ) {}
 
-
   @Action(AddToCart)
   addToCart(
     { setState, getState }: StateContext<OrderStateModel>,
@@ -57,6 +68,9 @@ export class OrderState {
 
     // Get the current cart from the state
     const currentCart = getState().cart || [];
+
+    console.log(currentCart);
+    console.log(data);
 
     // Check if the item already exists in the cart
     const existingCartItem = currentCart.find(
@@ -118,13 +132,20 @@ export class OrderState {
         setState(
           patch({
             order: result,
-            cart: []
+            cart: [],
           })
         );
 
         this.store.dispatch(new SetProgressOff());
 
-        this.store.dispatch( new GetActiveTableOrder(tableId))
+        // Refresh orders based on whether tableId exists
+        if (tableId) {
+          this.store.dispatch(new GetActiveTableOrder(tableId));
+        } else {
+          // Get restaurant orders when no table ID
+          this.store.dispatch(new GetActiveRestaurantOrder(order.restaurantId));
+        }
+
         // Display a success message
         this.operationStatus.displayStatus(
           'Order sent successfully!',
@@ -134,30 +155,46 @@ export class OrderState {
     );
   }
 
-
   @Action(GetActiveTableOrder)
-getTable(
-  { setState }: StateContext<OrderStateModel>,
-  { tableId }: GetActiveTableOrder
-) {
-  this.store.dispatch(new SetProgressOn());
-  return this.orderService.getActiveTableOrder(tableId).pipe(
-    tap((result) => {
-      setState(
-        patch({
-          myTableOrders: result,
-        })
-      );
-      this.store.dispatch(new SetProgressOff());
-    })
-  );
-}
+  getTable(
+    { setState }: StateContext<OrderStateModel>,
+    { tableId }: GetActiveTableOrder
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.getActiveTableOrder(tableId).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            myTableOrders: result,
+          })
+        );
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
 
+  @Action(GetActiveRestaurantOrder)
+  getRestaurantOrder(
+    { setState }: StateContext<OrderStateModel>,
+    { restaurantId }: GetActiveRestaurantOrder
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.getActiveRestaurantOrder(restaurantId).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            myTableOrders: result,
+          })
+        );
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
 
-@Action(GetActiveOrders)
+  @Action(GetActiveOrders)
   getActiveOrders(
     { setState }: StateContext<OrderStateModel>,
-    {  }: GetActiveOrders
+    {}: GetActiveOrders
   ) {
     this.store.dispatch(new SetProgressOn());
     return this.orderService.getActiveOrders().pipe(
@@ -173,7 +210,7 @@ getTable(
     );
   }
 
-@Action(GetOrderHistory)
+  @Action(GetOrderHistory)
   getOrderHistory(
     { setState }: StateContext<OrderStateModel>,
     { pageNumber, pageSize }: GetOrderHistory
@@ -200,14 +237,10 @@ getTable(
     this.store.dispatch(new SetProgressOn());
     return this.orderService.upateOrderStatus(data).pipe(
       tap((result) => {
-        setState(
-          patch({
-
-          })
-        );
+        setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
-        this.store.dispatch(new GetActiveOrders())
+        this.store.dispatch(new GetActiveOrders());
         // Display a success message
         this.operationStatus.displayStatus(
           'Status updated successfully!',
@@ -225,14 +258,10 @@ getTable(
     this.store.dispatch(new SetProgressOn());
     return this.orderService.updateOrderItem(data).pipe(
       tap((result) => {
-        setState(
-          patch({
-
-          })
-        );
+        setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
-        this.store.dispatch(new GetActiveTableOrder(tableId))
+        this.store.dispatch(new GetActiveTableOrder(tableId));
         // Display a success message
         this.operationStatus.displayStatus(
           'Order updated successfully!',
@@ -250,14 +279,10 @@ getTable(
     this.store.dispatch(new SetProgressOn());
     return this.orderService.removeOrderItem(itemId).pipe(
       tap((result) => {
-        setState(
-          patch({
-
-          })
-        );
+        setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
-        this.store.dispatch(new GetActiveTableOrder(tableId))
+        this.store.dispatch(new GetActiveTableOrder(tableId));
         // Display a success message
         this.operationStatus.displayStatus(
           'Item removed successfully!',
@@ -275,14 +300,10 @@ getTable(
     this.store.dispatch(new SetProgressOn());
     return this.orderService.addOrderItem(data).pipe(
       tap((result) => {
-        setState(
-          patch({
-
-          })
-        );
+        setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
-        this.store.dispatch(new GetActiveTableOrder(tableId))
+        this.store.dispatch(new GetActiveTableOrder(tableId));
         // Display a success message
         this.operationStatus.displayStatus(
           'Item removed successfully!',
@@ -300,11 +321,7 @@ getTable(
     this.store.dispatch(new SetProgressOn());
     return this.orderService.requestPayment(tableId).pipe(
       tap((result) => {
-        setState(
-          patch({
-
-          })
-        );
+        setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
         // Display a success message
@@ -324,14 +341,10 @@ getTable(
     this.store.dispatch(new SetProgressOn());
     return this.orderService.markAsPaid(orderIds).pipe(
       tap((result) => {
-        setState(
-          patch({
-
-          })
-        );
+        setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
-        this.store.dispatch(new GetActiveTableOrder(tableId))
+        this.store.dispatch(new GetActiveTableOrder(tableId));
         // Display a success message
         this.operationStatus.displayStatus(
           'Table Reset successfully!',
@@ -349,11 +362,7 @@ getTable(
     this.store.dispatch(new SetProgressOn());
     return this.orderService.saveTipAndDiscount(data).pipe(
       tap((result) => {
-        setState(
-          patch({
-
-          })
-        );
+        setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
       })

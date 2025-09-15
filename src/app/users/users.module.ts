@@ -19,7 +19,7 @@ import { AddAdminFormComponent } from './components/add-admin-form/add-admin-for
     HomeComponent,
     UserListComponent,
     ChangePasswordComponent,
-    AddAdminFormComponent
+    AddAdminFormComponent,
   ],
   imports: [
     SharedModule,
@@ -27,5 +27,6 @@ import { AddAdminFormComponent } from './components/add-admin-form/add-admin-for
     NgxsModule.forFeature([UserState, RoleState]),
     FormsModule,
   ],
+  exports: [ChangePasswordComponent],
 })
 export class UsersModule {}

@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -24,7 +25,8 @@ const initalState: NotificationButtonState = {
   styleUrls: ['./notification-button.component.scss'],
 })
 export class NotificationButtonComponent implements OnInit, OnDestroy {
-  @Output() openNotificationMenu: EventEmitter<void> = new EventEmitter<void>();
+  @Output() openNotificationMenu: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() isOpen: boolean = false;
 
   unreadNotifications$ = this.state.select('unreadNotifications');
 
@@ -49,5 +51,10 @@ export class NotificationButtonComponent implements OnInit, OnDestroy {
     //   if (handle)
     //     this.notificationFacade.dispatchSyncUnreadNotifications(handle);
     // });
+  }
+
+  handleClick() {
+    console.log('isOpen', this.isOpen);
+    this.openNotificationMenu.emit(this.isOpen);
   }
 }

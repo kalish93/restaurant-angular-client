@@ -15,8 +15,9 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, DowloadRestaurantQrCode, GenerateMenuQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
+import { MenuService } from '../services/menu.service';
 
 export interface RestaurantStateModel {
   restaurants: PaginatedList<any>;
@@ -55,6 +56,7 @@ const defaults = {
 export class RestaurantState {
   constructor(
     private restaurantService: RestaurantService,
+    private menuService: MenuService,
     private operationStatus: OperationStatusService,
     private store: Store
   ) {}
@@ -193,6 +195,27 @@ dowloadQr(
   );
 }
 
+@Action(DowloadRestaurantQrCode)
+dowloadMenuQr(
+  { setState }: StateContext<RestaurantStateModel>,
+  {}: DowloadRestaurantQrCode
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.menuService.downloadMenuQrCode().pipe(
+    tap(blob => {
+      if (blob) {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `menu-qrcode.png`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }
+      this.store.dispatch(new SetProgressOff());
+    })
+  );
+}
+
 @Action(CreateTable)
 createTable(
   { setState, getState }: StateContext<RestaurantStateModel>,
@@ -222,15 +245,15 @@ createTable(
 @Action(UpdateRestaurant)
 updateRestaurant(
   { setState, getState }: StateContext<RestaurantStateModel>,
-  { data }: UpdateRestaurant
+  { restaurantId, data }: UpdateRestaurant
 ) {
   this.store.dispatch(new SetProgressOn());
-  return this.restaurantService.updateRestaurant(data).pipe(
+  return this.restaurantService.updateRestaurant(restaurantId, data).pipe(
     tap((updatedRestaurant) => {
       const state = getState();
 
       const updatedItems = state.restaurants.items.map((item) =>
-        item.id === data.id ? updatedRestaurant : item
+        item.id === restaurantId ? updatedRestaurant : item
       );
 
       setState(
@@ -460,6 +483,40 @@ updateRestaurantStatus(
   );
 }
 
+@Action(UpdateRestaurantActiveStatus)
+updateRestaurantActiveStatus(
+  { setState, getState }: StateContext<RestaurantStateModel>,
+  { data }: UpdateRestaurantActiveStatus
+) {
+  this.store.dispatch(new SetProgressOn());
+  return this.restaurantService.updateRestaurantActiveStatus(data).pipe(
+    tap((updatedRestaurant) => {
+      const state = getState();
+
+      const updatedItems = state.restaurants.items.map((item) =>
+        item.id === data.restaurantId ? updatedRestaurant : item
+      );
+
+      setState(
+        patch({
+          restaurants: {
+            ...state.restaurants,
+            items: updatedItems, // Update the specific restaurant in the list
+          },
+        })
+      );
+
+      this.store.dispatch(new SetProgressOff());
+
+      // Display a success message
+      this.operationStatus.displayStatus(
+        'Restaurant status updated successfully!',
+        successStyle,
+      );
+    })
+  );
+}
+
 @Action(UpdateRestaurantTaxRate)
 updateRestaurantTaxRate(
   { setState, getState }: StateContext<RestaurantStateModel>,
@@ -639,6 +696,25 @@ getZreportData(
         setState(
           patch({
             zReportData: result,
+          })
+        );
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
+
+
+  @Action(GetRestaurant)
+  generateQrCode(
+    { setState }: StateContext<RestaurantStateModel>,
+    {  }: GenerateMenuQrCode
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.menuService.generateMenuQrCode().pipe(
+      tap((result) => {
+        setState(
+          patch({
+            selectedRestaurant: result,
           })
         );
         this.store.dispatch(new SetProgressOff());

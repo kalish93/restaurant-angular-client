@@ -46,11 +46,16 @@ export class DowloadQrCode {
     public readonly tableNumber: any
   ) {}
 }
+export class DowloadRestaurantQrCode {
+  static readonly type = `${DowloadRestaurantQrCode.name}`;
+  constructor() {}
+}
 
 export class UpdateRestaurant {
   static readonly type = `${UpdateRestaurant.name}`;
   constructor(
-    public readonly data: any
+    public readonly restaurantId: any,
+    public readonly data: FormData
   ) {}
 }
 
@@ -96,6 +101,12 @@ export class DeleteRestaurantStaff {
 
 export class UpdateRestaurantStatus {
   static readonly type = `${UpdateRestaurantStatus.name}`;
+  constructor(
+    public readonly data: any
+  ) {}
+}
+export class UpdateRestaurantActiveStatus {
+  static readonly type = `${UpdateRestaurantActiveStatus.name}`;
   constructor(
     public readonly data: any
   ) {}
@@ -148,4 +159,8 @@ export class GetZreportData {
   constructor(
     public readonly restaurantId: any
   ) {}
+}
+export class GenerateMenuQrCode {
+  static readonly type = `${GenerateMenuQrCode.name}`;
+  constructor() {}
 }

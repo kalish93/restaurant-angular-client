@@ -1,53 +1,15 @@
-.container {
-  min-height: 100vh;
-  background-color: rgb(218 236 214);
-}
+// Dashboard component styles
+// Most styling is now handled by Tailwind CSS classes
 
+// Custom styles for any specific overrides if needed
 .dashboard-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  // Fallback styles in case Tailwind is not loaded
+  min-height: 100vh;
+  background-color: #f9fafb;
 }
 
-.dashboard-title {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.dashboard-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 20px;
+// Ensure proper spacing for the active order list component
+app-active-order-list {
+  display: block;
   width: 100%;
-  max-width: 1200px;
-}
-
-.dashboard-card {
-  width: 300px;
-  min-height: 150px;
-  text-align: center;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s;
-}
-
-.dashboard-card:hover {
-  transform: scale(1.05);
-}
-
-mat-card-title, mat-card-subtitle {
-  text-align: left;
-}
-
-.card-icon {
-  margin-left: 5px;
-  color: #4caf50;
-}
-
-mat-card-header {
-  display: flex;
-  align-items: center;
 }

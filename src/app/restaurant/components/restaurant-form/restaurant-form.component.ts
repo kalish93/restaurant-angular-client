@@ -6,7 +6,7 @@ import { RestaurantFacade } from '../../facades/restaurant.facade';
 @Component({
   selector: 'app-restaurant-form',
   templateUrl: './restaurant-form.component.html',
-  styleUrl: './restaurant-form.component.scss'
+  styleUrls: ['./restaurant-form.component.scss']
 })
 export class RestaurantFormComponent {
   addRestaurantForm: FormGroup;
@@ -18,28 +18,50 @@ export class RestaurantFormComponent {
     private restaurantFacade: RestaurantFacade
   ) {
     this.addRestaurantForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(100)]]
+      name: ['', [Validators.required, Validators.maxLength(100)]],
+      phone: [''],
+      address: [''],
+      subscription: ['BASIC'],
+      logo: [null]
     });
-    if(data.restaurant){
-      this.addRestaurantForm.get('name')?.setValue(data.restaurant.name);
+
+    if (data.restaurant) {
+      this.addRestaurantForm.patchValue({
+        name: data.restaurant.name,
+        phone: data.restaurant.phone,
+        address: data.restaurant.address,
+        subscription: data.restaurant.subscription
+      });
+    }
+  }
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.addRestaurantForm.patchValue({ logo: file });
+      this.addRestaurantForm.get('logo')?.updateValueAndValidity();
     }
   }
 
   onSubmit(): void {
     if (this.addRestaurantForm.valid) {
-      if(this.data.restaurant){
-        const updated = {
-          id: this.data.restaurant.id,
-          name: this.addRestaurantForm.value.name,
-        }
-        this.restaurantFacade.dispatchUpdateRestaurant(updated);
-      }else{
-      const newRestaurant = {
-        name: this.addRestaurantForm.value.name,
-      };
+      const formData = new FormData();
+      formData.append('name', this.addRestaurantForm.value.name);
+      formData.append('phone', this.addRestaurantForm.value.phone);
+      formData.append('address', this.addRestaurantForm.value.address);
+      formData.append('subscription', this.addRestaurantForm.value.subscription);
 
-      this.restaurantFacade.dispatchCreateRestaurant(newRestaurant);
-    }
+      if (this.addRestaurantForm.value.logo) {
+        formData.append('image', this.addRestaurantForm.value.logo);
+      }
+
+      if (this.data.restaurant) {
+        formData.append('id', this.data.restaurant.id);
+        this.restaurantFacade.dispatchUpdateRestaurant(this.data.restaurant.id, formData);
+      } else {
+        this.restaurantFacade.dispatchCreateRestaurant(formData);
+      }
+
       this.dialogRef.close();
     }
   }

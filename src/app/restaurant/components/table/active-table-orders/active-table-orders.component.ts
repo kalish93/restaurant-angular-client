@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm
 import { AddItemToOrderComponent } from '../add-item-to-order/add-item-to-order.component';
 import { DiscountTipDialogComponent } from '../discount-tip-dialog/discount-tip-dialog.component';
 import { PaymentOptionFormComponent } from '../../payment/payment-option-form/payment-option-form.component';
+import { EditOrderModalComponent } from '../edit-order-modal/edit-order-modal.component';
 
 interface OrdersComponentState {
   myOrders: any[];
@@ -120,8 +121,27 @@ export class ActiveTableOrdersComponent implements OnInit {
       this.dialog.closeAll();
     });
   }
+openEditModal(item: any) {
+  const dialogRef = this.dialog.open(EditOrderModalComponent, {
+    width: '400px',
+    data: { item }
+  });
 
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      const dataToSend = {
+        id: item.id,
+        quantity: result.quantity,
+        specialInstructions: result.specialInstructions
+      };
+      this.orderFacade.dispatchUpdateOrderItem(dataToSend, this.tableId);
+    }
+  });
+}
 
+onImageError(event: any) {
+    event.target.src = 'https://placehold.co/600x400?text=Menu+Image';
+  }
 
   getTotal(item: any) {
     return item.reduce((total: number, item: { menuItem: { price: number; }; quantity: number; }) => total + (item.menuItem.price * item.quantity), 0);
@@ -161,10 +181,6 @@ export class ActiveTableOrdersComponent implements OnInit {
     // this.orderFacade.dispatchMarkAsPaid(dataToSend, this.tableId);
     this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
 
-    const taxAmount = this.combinedItems.reduce((taxTotal, item) => {
-      return taxTotal + ((item.menuItem.price * item.quantity) * (item.menuItem.taxRate / 100));
-    }, 0);
-
 
     const dialogRef = this.dialog.open(PaymentOptionFormComponent, {
       width: '400px',
@@ -174,10 +190,9 @@ export class ActiveTableOrdersComponent implements OnInit {
       if (result) {
         const dataToSend = {
         orderIds: this.myOrders.flatMap(order => order.id),
-        cashPayment: result.cashPayment,
-        giftCardPayment: result.giftCardPayment,
-        creditCards: result.creditCards,
-        taxAmount: taxAmount
+        cashPaymentAmount: result.cashPaymentAmount,
+        provider: result.provider,
+        transferAmount: result.transferAmount
       }
 
     this.orderFacade.dispatchMarkAsPaid(dataToSend, this.tableId);

@@ -8,6 +8,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MenuFacade } from '../../facades/menu.facade';
 import { Menu } from '../../models/menu.model';
+import { RestaurantFacade } from '../../facades/restaurant.facade';
 
 interface MenuFormState {
   categories: Category[];
@@ -28,6 +29,7 @@ export class MenuFormComponent implements OnInit {
   menuType: 'menuOnly' | 'menuWithStock' = 'menuOnly';
   categories: Category[] = [];
   imageFile: File | null = null;
+  private restaurantId: string | null = null;
 
   categories$: Observable<Category[]> = this.state.select('categories');
 
@@ -37,7 +39,8 @@ export class MenuFormComponent implements OnInit {
     private categoryFacade: CategoryFacade,
     private menuFacade: MenuFacade,
     public dialogRef: MatDialogRef<MenuFormComponent>,
-    private state: RxState<MenuFormState>
+    private state: RxState<MenuFormState>,
+    private restaurantFacade: RestaurantFacade,
   ) {
     this.state.set(initMenuFormState);
     this.state.connect('categories', categoryFacade.categories$);
@@ -47,8 +50,6 @@ export class MenuFormComponent implements OnInit {
       ingredients: ['', []],
       price: ['', [Validators.required, Validators.min(0)]],
       itemType: ['', Validators.required],
-      currency: ['', Validators.required],
-      taxRate: [0, Validators.required],
     });
     if (data) {
       this.addMenuForm.patchValue({
@@ -64,7 +65,13 @@ export class MenuFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryFacade.dispatchGetCategories();
+    this.restaurantFacade.selectedRestaurant$.subscribe((r: any) => {
+      this.restaurantId = r?.id ?? r?._id ?? null;
+      if (this.restaurantId) {
+        this.categoryFacade.dispatchGetCategoriesByRestaurant(this.restaurantId);
+      }
+    });
+
     this.categories$.subscribe((data) => {
       this.categories = data;
     });
@@ -75,7 +82,6 @@ export class MenuFormComponent implements OnInit {
     this.addMenuForm.patchValue({
       name: stockItem.name,
       ingredients: stockItem.ingredients,
-      // Populate other fields as needed
     });
   }
 
@@ -86,8 +92,6 @@ export class MenuFormComponent implements OnInit {
       price: menuItem.price,
       category: menuItem.category.id,
       itemType: menuItem.destination,
-      currency: menuItem.currency,
-      taxRate: menuItem.taxRate
     });
 
     this.imageFile = menuItem.image as any;
@@ -120,8 +124,6 @@ export class MenuFormComponent implements OnInit {
       formData.append('price', this.addMenuForm.get('price')?.value);
       formData.append('quantity', this.addMenuForm.get('quantity')?.value);
       formData.append('destination',  this.addMenuForm.get('itemType')?.value);
-      formData.append('currency',  this.addMenuForm.get('currency')?.value);
-      formData.append('taxRate',  this.addMenuForm.get('taxRate')?.value);
 
       if(this.data?.editableItem){
         formData.append('id', this.data?.editableItem?.id);
@@ -132,12 +134,6 @@ export class MenuFormComponent implements OnInit {
       }else{
         this.menuFacade.dispatchCreateMenu(formData);
       }
-
-      // if (this.data) {
-      //   this.menuFacade.dispatchUpdateMenu(this.data.id, formData);
-      // } else {
-      //   this.menuFacade.dispatchCreateMenu(formData);
-      // }
 
       this.dialogRef.close(formData);
     }

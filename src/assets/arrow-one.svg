@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="63.2883 28.505 159.4497 217.3476" width="159.45px" height="217.348px">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="145.002" y1="28.505" x2="145.002" y2="245.8526" id="gradient-0">
+      <stop offset="0" style="stop-color: srgb(36.5% 25.9% 6.67%)"/>
+      <stop offset="0.5" style="stop-color: srgb(36.5% 25.9% 6.67%)"/>
+      <stop offset="1" style="stop-color: srgb(36.5% 25.9% 6.67%)"/>
+    </linearGradient>
+    <style>
+      /* * Keyframes for the animation.
+       * We animate the stroke-dashoffset from 0 to a negative value.
+       * The value is a multiple of the stroke-dasharray (8 * 6 = 48).
+       * This creates a seamless, continuous looping effect, so it
+       * doesn't "snap" back to the original position.
+       */
+      @keyframes strokeAnimation {
+        0% {
+          stroke-dashoffset: 0;
+        }
+        100% {
+          stroke-dashoffset: -48; /* Animate to a negative multiple of the dash array */
+        }
+      }
+      
+      .animated-path {
+        /*
+         * Set the animation properties.
+         * The duration is increased to 4s for a slower, smoother flow.
+         * We use an `infinite` loop and `ease-in-out` for a smooth effect.
+         */
+        animation: strokeAnimation 4s ease-in-out infinite;
+        
+        /* * Set the dash-array to define the dashes and gaps.
+         * The initial stroke-dashoffset is set to 0.
+         */
+        stroke-dasharray: 8;
+        stroke-dashoffset: 0;
+      }
+    </style>
+  </defs>
+  <!-- 
+   * The path element is the same, but we've removed the inline
+   * stroke-dashoffset style, as it's now controlled by the CSS animation.
+   -->
+  <path class="animated-path" style="fill: transparent; stroke-linecap: round; stroke-miterlimit: 5.98; stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-width: 3px; paint-order: stroke; stroke: url(&quot;#gradient-0&quot;);" d="M 106.728 28.505 C 75.099 44.32 63.136 93.354 68.942 125.29 C 73.314 149.334 95.112 170.621 119.986 164.402 C 127.451 162.536 126.041 152.989 118.661 151.144 C 96.726 145.66 78.183 146.584 67.617 167.717 C 64.874 173.202 62.339 179.116 63.639 185.615 C 65.109 192.965 73.041 202.219 77.56 207.491 C 103.955 238.285 139.368 248.528 181.637 245.277 C 194.752 244.268 211.387 237.322 222.738 237.322" transform="matrix(1, 0, 0, 1, 7.105427357601002e-15, 0)"/>
+</svg>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { Roles } from 'src/app/core/constants/roles';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
@@ -24,6 +25,7 @@ export class ActiveOrderListComponent implements OnInit{
   constructor(
     private orderFacade: OrderFacade,
     private state: RxState<ActiveOrderListComponentState>,
+    private router: Router
   ) {
     this.state.set(initActiveOrderListComponentState);
     this.state.connect('orders', this.orderFacade.activeOrders$);
@@ -35,11 +37,6 @@ export class ActiveOrderListComponent implements OnInit{
       this.orders = data;
     });
   }
-
-  viewDetails(orderId: string): void {
-    // Logic to view order details, maybe navigate to another route or open a modal
-  }
-
 
   getOrderStatusName(status: string): string {
     switch (status) {
@@ -106,4 +103,9 @@ export class ActiveOrderListComponent implements OnInit{
   hasWaiterRole(){
     return Roles.Waiter
   }
+
+  viewDetails(tableId: string): void {
+    this.router.navigate(['/home', 'tables', tableId]);
+  }
+
 }

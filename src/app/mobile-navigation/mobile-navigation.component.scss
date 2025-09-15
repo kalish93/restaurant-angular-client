@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 200px; /* Width of the drawer */
+  width: 240px; /* Width of the drawer */
   background-color: white;
   transition: transform 0.3s ease-in-out;
   z-index: 1000; /* Ensure it is above other content */
@@ -44,12 +44,6 @@
 
 .close{
   display: none;
-}
-
-
-.is-active {
-  background-color: rgb(218 236 214);
-  transition: 100ms;
 }
 
 .menu-button {

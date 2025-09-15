@@ -6,7 +6,6 @@ import {
   USERS_LIST,
   ADMINS_LIST,
   RESTAURANT_LIST,
-  STOCK_LIST,
   MENU_LIST,
   TABLE_LIST,
 } from 'src/app/core/constants/routes';
@@ -27,11 +26,6 @@ export class HomeComponent {
       link: TABLE_LIST,
       label: 'Tables',
       icon: 'table_chart',
-    },
-    {
-      link: STOCK_LIST,
-      label: 'Stock',
-      icon: 'local_bar',
     },
     {
       link: MENU_LIST,

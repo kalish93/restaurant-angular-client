@@ -20,3 +20,8 @@ export class GetMenuByRestaurant {
   static readonly type = `${GetMenuByRestaurant.name}`;
   constructor(public restaurantId:any) {}
 }
+
+export class UpdateMenuAvailability {
+  static readonly type = `${UpdateMenuAvailability.name}`;
+  constructor(public menuId: string, public status: string) {}
+}

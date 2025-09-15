@@ -1,21 +1,44 @@
-<mat-sidenav-container class="container">
-  <mat-sidenav mode="side" opened class="left-menu mat-elevation-z1">
-   <img class="logo" src="assets/logo2.jpeg" alt="Digital Dine Logo">
+<mat-sidenav-container class="relative !bg-transparent">
+  <mat-sidenav
+    [mode]=" isMobile ? 'over' : 'side'"
+    [opened]="isOpen"
+    class="left-menu !bg-gray-100 overflow-hidden mat-elevation-z1"
+  >
+      <div class="flex items-center gap-3 mt-4 mb-4">
+      <img
+        class="w-[50px] h-[50px]"
+        src="assets/mesob-browser-logo.png"
+        alt="Mesob"
+      />
+      <h1 class="text-2xl text-amber-600">Mesob</h1>
+    </div>
+
+    <h4 class="text-center text-black ">
+      {{ currentRestaurant?.name }}
+    </h4>
+    <hr
+      class="my-4 border-amber-500 py-0.3 w-[100%] bg-amber-500 mb-8 rounded-full"
+    />
     <div *ngFor="let link of navLinks">
       <a
         class="menu-button"
         mat-button
         [routerLink]="link.link"
-        [routerLinkActive]="['is-active']"
+        routerLinkActive="active-link"
+        #rla="routerLinkActive"
+        [ngStyle]="
+          rla.isActive
+            ? { 'background-color': 'rgb(255, 152, 0)', color: 'white' }
+            : {}
+        "
       >
         <mat-icon>{{ link.icon }}</mat-icon>
         <span>{{ link.label }}</span>
       </a>
-
-</div>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content mat-elevation-z1">
+    <div class="content !bg-transparent overflow-y-auto md:h-[calc(100vh-75px)] mat-elevation-z1">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>

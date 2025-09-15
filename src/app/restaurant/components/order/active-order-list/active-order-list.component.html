@@ -1,139 +1,103 @@
-<div class="container" *appHasRole="[hasManagerRole(), hasKitchenRole(), hasWaiterRole(), hasBartenderRole()]">
-  <h1>Active Orders</h1>
-  <div class="card-grid">
+<div class="min-h-screen bg-gray-100 p-4"
+     *appHasRole="[hasManagerRole(), hasKitchenRole(), hasWaiterRole(), hasBartenderRole()]">
 
-  <div *ngFor="let order of orders">
-    <mat-card class="order-card">
-      <mat-card-header>
-        <mat-card-title
-          >Order for Table - {{ order.table.number }}</mat-card-title
-        >
-      </mat-card-header>
+  <!-- Header -->
+  <div class="mx-auto md:max-w-[90%] mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Active Orders</h1>
+    <p class="mt-2 text-gray-600">Manage your active orders</p>
+  </div>
 
-      <mat-card-content>
+ <!-- Orders Grid -->
+<div class="mx-auto md:max-w-[90%] grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+
+  <div *ngFor="let order of orders"
+       class="group relative overflow-hidden rounded-3xl bg-white p-6 space-y-4 shadow-lg hover:shadow-xl transition-all duration-300">
+
+    <!-- Table Info -->
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold text-gray-900">
+        Table {{ order.table.number }}
+      </h2>
+      <span class="inline-block rounded-full px-3 py-1 text-xs font-medium"
+            [ngClass]="{
+              'bg-blue-100 text-blue-800': order.status === 'PENDING',
+              'bg-yellow-100 text-yellow-800': order.status === 'IN_PROGRESS',
+              'bg-green-100 text-green-800': order.status === 'READY',
+              'bg-red-100 text-red-800': order.status === 'CANCELLED',
+              'bg-gray-100 text-gray-800': order.status === 'SERVED'
+            }">
+        {{ getOrderStatusName(order.status) }}
+      </span>
+    </div>
+
+    <!-- Sub-order statuses -->
+    <div class="space-y-1 text-sm text-gray-700">
+      <p *appHasRole="[hasManagerRole()]">
+        <strong>Status:</strong> {{ getOrderStatusName(order.status) }}
+      </p>
+
+      <ng-container *appHasRole="[hasBartenderRole(), hasWaiterRole(), hasManagerRole()]">
+        <p *ngIf="order.barOrders?.length > 0">
+          <strong>Bar:</strong> {{ getOrderStatusName(order.barOrders[0].status) }}
+        </p>
+      </ng-container>
+
+      <ng-container *appHasRole="[hasKitchenRole(), hasWaiterRole(), hasManagerRole()]">
+        <p *ngIf="order.kitchenOrders?.length > 0">
+          <strong>Kitchen:</strong> {{ getOrderStatusName(order.kitchenOrders[0].status) }}
+        </p>
+      </ng-container>
+    </div>
+
+    <!-- Items -->
+    <div class="space-y-2">
+      <div *ngFor="let item of order.items" class="flex gap-3 p-3 rounded-xl bg-gray-50 shadow-inner">
+        <mat-icon class="text-gray-500">fastfood</mat-icon>
         <div>
-          <p *appHasRole="[hasManagerRole()]">
-            Status:
-            <strong class="status-chip" [ngClass]="order?.status">{{
-              getOrderStatusName(order.status)
-            }}</strong>
+          <h6 class="text-sm font-medium text-gray-900">{{ item.menuItem.name }}</h6>
+          <p class="text-xs text-gray-600">Qty: {{ item.quantity }}</p>
+          <p class="text-xs text-gray-500">
+            {{ item.specialInstructions || "No special instructions" }}
           </p>
-          <ng-container
-            *appHasRole="[
-              hasBartenderRole(),
-              hasWaiterRole(),
-              hasManagerRole()
-            ]"
-          >
-            <p *ngIf="order.barOrders && order.barOrders.length > 0">
-              Bar order status:
-              <strong
-                class="status-chip"
-                [ngClass]="order.barOrders[0].status"
-                >{{ getOrderStatusName(order.barOrders[0].status) }}</strong
-              >
-            </p>
-          </ng-container>
-          <ng-container
-            *appHasRole="[hasKitchenRole(), hasWaiterRole(), hasManagerRole()]"
-          >
-            <p *ngIf="order.kitchenOrders && order.kitchenOrders.length > 0">
-              Kitchen order status:
-              <strong
-                class="status-chip"
-                [ngClass]="order.kitchenOrders[0].status"
-                >{{ getOrderStatusName(order.kitchenOrders[0].status) }}</strong
-              >
-            </p>
-          </ng-container>
         </div>
+      </div>
+    </div>
 
-        <mat-list-item *ngFor="let item of order.items" class="order">
-          <mat-icon mat-list-icon>fastfood</mat-icon>
-          <h4 mat-line>{{ item.menuItem.name }}</h4>
-          <p mat-line>Quantity: {{ item.quantity }}</p>
-          <p mat-line>
-            Special Instructions: {{ item.specialInstructions || "None" }}
-          </p>
-        </mat-list-item>
-      </mat-card-content>
+    <!-- Actions -->
+    <div class="grid grid-cols-2 gap-3 pt-2">
+      <!-- Preparation buttons -->
+      <ng-container *appHasRole="[hasBartenderRole(), hasKitchenRole()]">
+        <button *ngIf="order.status === 'PENDING'"
+                (click)="changeStatus(order.id, 'IN_PROGRESS')"
+                class="rounded-full bg-blue-100 text-blue-700 px-3 py-1 text-sm font-medium shadow hover:bg-blue-200">
+          Start Prep
+        </button>
+        <button *ngIf="order.status === 'IN_PROGRESS'"
+                (click)="changeStatus(order.id, 'READY')"
+                class="rounded-full bg-green-100 text-green-700 px-3 py-1 text-sm font-medium shadow hover:bg-green-200">
+          Mark Ready
+        </button>
+      </ng-container>
 
-      <mat-card-actions class="btns">
-        <ng-container *appHasRole="[hasBartenderRole(), hasKitchenRole()]">
-          <button
-            *ngIf="order.status === 'PENDING'"
-            mat-button
-            color="primary"
-            (click)="changeStatus(order.id, 'IN_PROGRESS')"
-            class="status"
-          >
-            Start Preparation
-          </button>
-          <button
-          *ngIf="order.status === 'IN_PROGRESS'"
-            mat-button
-            color="primary"
-            (click)="changeStatus(order.id, 'READY')"
-            class="status"
-          >
-            Mark as Ready
-          </button></ng-container
-        >
-        <ng-container *appHasRole="[hasWaiterRole(), hasManagerRole()]">
-          <button
-            *ngIf="canChangeStatus(order.status, 'SERVED')"
-            mat-button
-            color="primary"
-            (click)="changeStatus(order.id, 'SERVED')"
-            class="status"
-          >
-            Mark as Served
-          </button>
-          <button
-            *ngIf="
-              order.kitchenOrders &&
-              order.kitchenOrders.length > 0 &&
-              order.kitchenOrders[0].status === 'READY'
-            "
-            mat-button
-            color="primary"
-            (click)="changeSubOrderStatus(order.id, 'SERVED', 'Kitchen')"
-            mat-button
-            color="primary"
-            class="status"
-          >
-            Mark Kitchen Order as Served
-          </button>
-          <button
-            *ngIf="
-              order.barOrders &&
-              order.barOrders.length > 0 &&
-              order.barOrders[0].status === 'READY'
-            "
-            mat-button
-            color="primary"
-            (click)="changeSubOrderStatus(order.id, 'SERVED', 'Bar')"
-            class="status"
-          >
-            Mark Bar Order as Served
-          </button>
-
-          <button
-            *ngIf="
-              order.status === 'IN_PROGRESS' ||
-              order.status == 'PENDING' ||
-              order.status == 'READY'
-            "
-            mat-button
-            color="warn"
-            (click)="changeStatus(order.id, 'CANCELLED')"
-            class="cancel"
-          >
-            Cancel Order
-          </button>
-        </ng-container>
-      </mat-card-actions>
-    </mat-card>
+      <!-- Serving / Cancel -->
+      <ng-container *appHasRole="[hasWaiterRole(), hasManagerRole()]">
+        <button *ngIf="canChangeStatus(order.status, 'SERVED')"
+                (click)="changeStatus(order.id, 'SERVED')"
+                class="rounded-full bg-amber-100 text-amber-700 px-3 py-1 text-sm font-medium shadow hover:bg-amber-200">
+          Serve
+        </button>
+        <button *ngIf="order.status === 'IN_PROGRESS' || order.status == 'PENDING' || order.status == 'READY'"
+                (click)="changeStatus(order.id, 'CANCELLED')"
+                class="rounded-full bg-red-100 text-red-700 px-3 py-1 text-sm font-medium shadow hover:bg-red-200">
+          Cancel
+        </button>
+        <button (click)="viewDetails(order.table.id); $event.stopPropagation()"
+          class="rounded-full bg-gray-100 text-gray-700 px-3 py-1 text-sm font-medium shadow hover:bg-gray-200">
+          View Details
+        </button>
+      </ng-container>
+    </div>
   </div>
-  </div>
+
+</div>
 </div>

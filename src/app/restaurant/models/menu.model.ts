@@ -1,26 +1,25 @@
-import { Category } from "./category.model";
+import { Category } from './category.model';
 
 export interface Menu {
-  id : string,
-  name : string,
-  price : number,
-  ingredients: string,
-  category : Category,
-  image: string,
+  id: string;
+  name: string;
+  price: number;
+  ingredients: string;
+  category: Category;
+  image: string;
   destination: any;
-  currency: string;
-  taxRate: number;
+  status: string;
 }
 
 export interface Cart {
-  menuItem: Menu,
-  quantity: number,
+  menuItem: Menu;
+  quantity: number;
   specialInstructions?: string;
   showInstructions: boolean;
 }
 
-export interface Order{
+export interface Order {
   restaurantId: string;
-  tableId: string;
-  items: Cart[]
+  tableId?: string;
+  items: Cart[];
 }

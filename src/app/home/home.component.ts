@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  HostListener,
+  Input,
+} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
@@ -13,6 +20,8 @@ import {
 } from 'src/app/core/constants/routes';
 import { AuthFacade } from '../auth/facade/auth.facade';
 import { first } from 'rxjs/operators';
+import { SidenavService } from '../core/services/sidenav.service';
+import { ChangePasswordComponent } from '../users/components/change-password/change-password.component';
 
 interface HomeComponentState {
   isAuthenticated: boolean;
@@ -23,11 +32,13 @@ const initHomeComponentState: Partial<HomeComponentState> = {
 };
 
 import { MobileNavigationComponent } from '../mobile-navigation/mobile-navigation.component';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [RxState],
 })
 export class HomeComponent implements OnInit {
@@ -36,7 +47,6 @@ export class HomeComponent implements OnInit {
     label: `users`,
     icon: `account_circle`,
   };
-
 
   loginRoute = {
     link: LOGIN_ROUTE,
@@ -56,6 +66,7 @@ export class HomeComponent implements OnInit {
     icon: '',
   };
   isOnSpecificPage: boolean = false;
+  isMobile = false;
 
   isAuthenticated$: Observable<boolean> = this.state.select('isAuthenticated');
   isAuthenticated: any;
@@ -63,17 +74,29 @@ export class HomeComponent implements OnInit {
     private authFacade: AuthFacade,
     private router: Router,
     private state: RxState<HomeComponentState>,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private sidenavService: SidenavService
   ) {
     this.state.set(initHomeComponentState);
     this.state.connect('isAuthenticated', authFacade.isAuthenticated$);
+    this.checkScreenSize();
   }
   @ViewChild('mobileNav') mobileNav!: MobileNavigationComponent;
+  @ViewChild('drawer') drawer!: MatDrawer;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize() {
+    this.isMobile = window.innerWidth < 768;
+  }
 
   ngOnInit(): void {
     this.isAuthenticated$.subscribe((isAuthenticated) => {
-          // !isAuthenticated && this.router.navigate(['/']);
-          this.isAuthenticated = isAuthenticated
+      // !isAuthenticated && this.router.navigate(['/']);
+      this.isAuthenticated = isAuthenticated;
     });
     // this.isAuthenticated$
     //   .pipe(first())
@@ -88,7 +111,7 @@ export class HomeComponent implements OnInit {
     //     }
     //   });
 
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.checkUrl();
       }
@@ -104,7 +127,10 @@ export class HomeComponent implements OnInit {
     const cartPattern = /^\/cart\/[a-z0-9-]+\/[a-z0-9-]+$/i;
     const orderPattern = /^\/orders\/[a-z0-9-]+\/[a-z0-9-]+$/i;
 
-    this.isOnSpecificPage = menuPattern.test(currentUrl) || cartPattern.test(currentUrl) || orderPattern.test(currentUrl);
+    this.isOnSpecificPage =
+      menuPattern.test(currentUrl) ||
+      cartPattern.test(currentUrl) ||
+      orderPattern.test(currentUrl);
   }
 
   logout() {
@@ -112,16 +138,30 @@ export class HomeComponent implements OnInit {
     this.router.navigate([LOGIN_ROUTE]);
   }
 
+  openChangePasswordDialog() {
+    this.matDialog.open(ChangePasswordComponent, {
+      width: '500px',
+      disableClose: false,
+      data: {},
+    });
+  }
 
-  openMobileNavigation() {
-    if (this.mobileNav) {
-      this.mobileNav.open();
+  @Input() isOpen: boolean = false;
+
+  toggleNotificationDrawer(isOpen: boolean) {
+    console.log(
+      'Toggle notification drawer called from home component',
+      isOpen
+    );
+    if (isOpen) {
+      this.drawer.open();
+    } else {
+      this.drawer.close();
     }
   }
 
-  onDrawerClose() {
-    if (this.mobileNav) {
-      this.mobileNav.close();
-    }
+  toggleDrawer(event?: boolean) {
+    console.log('Toggle drawer called from home component');
+    this.sidenavService.toggleSidenav();
   }
 }

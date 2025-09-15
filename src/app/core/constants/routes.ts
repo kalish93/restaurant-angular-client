@@ -19,7 +19,6 @@ export const RESET_PASSWORD_ROUTE = 'reset-password';
 export const EMPLOYEES_ROUTE = 'employees';
 export const EMPLOYEES_LIST = `employees-list`;
 export const RESTAURANT_LIST = `restaurants`;
-export const STOCK_LIST = `stock`;
 export const MENU_LIST = `menu`;
 export const TABLE_LIST = `tables`;
 export const CART_ROUTE = `cart`;
