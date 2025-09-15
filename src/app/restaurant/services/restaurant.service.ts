@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_BASE_URL, RESTAURANTS_URL, TABLES_URL, USERS_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, MENU_URL, RESTAURANTS_URL, TABLES_URL, USERS_URL } from 'src/app/core/constants/api-endpoints';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 
 @Injectable({
@@ -18,8 +18,8 @@ export class RestaurantService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
-  createRestaurant(restaurant: any): Observable<any> {
-    return this.http.post<any>(`${RESTAURANTS_URL}`, restaurant, this.httpOptions);
+  createRestaurant(restaurant: FormData): Observable<any> {
+    return this.http.post<any>(`${RESTAURANTS_URL}`, restaurant);
   }
 
   getRestaurants(
@@ -63,8 +63,8 @@ export class RestaurantService {
     return this.http.get<any>(downloadUrl, options);
   }
 
-  updateRestaurant(restaurant: any): Observable<any> {
-    return this.http.put<any>(`${RESTAURANTS_URL}/${restaurant.id}`, restaurant, this.httpOptions);
+  updateRestaurant(restaurantId: string, data: FormData): Observable<any> {
+    return this.http.put<any>(`${RESTAURANTS_URL}/${restaurantId}`, data);
   }
 
   deleteRestaurant(restaurantId: any): Observable<any> {
@@ -117,5 +117,22 @@ export class RestaurantService {
 
   getZreportData(restaurantId: any): Observable<any> {
     return this.http.get<any>(`${RESTAURANTS_URL}/${restaurantId}/z-report`, this.httpOptions);
+  }
+
+  updateRestaurantActiveStatus(data: any): Observable<any> {
+    return this.http.put<any>(`${RESTAURANTS_URL}/${data.restaurantId}/active`, data, this.httpOptions);
+  }
+
+  generateMenuQrCode(): Observable<any> {
+    return this.http.post<any>(`${MENU_URL}/qr-code`, {}, this.httpOptions);
+  }
+
+  downloadMenuQrCode(): Observable<any> {
+    const options = {
+      responseType: 'blob' as 'json',
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    const downloadUrl = `${MENU_URL}/qr-code/download`;
+    return this.http.get<any>(downloadUrl, options);
   }
 }

@@ -8,13 +8,18 @@ import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { StockSelectionComponent } from '../menu/stock-selection/stock-selection.component';
 import { Roles } from 'src/app/core/constants/roles';
+import { CategoryManagerComponent } from '../category-manager/category-manager.component';
+import { RestaurantFacade } from '../../facades/restaurant.facade';
+import { MenuQrDialogComponent } from '../menu-qr-dialog/menu-qr-dialog.component';
 
 interface MenuState {
   menus: Menu[];
+  selectedRestaurant: any;
 }
 
 const initMenuState: MenuState = {
-  menus: []
+  menus: [],
+  selectedRestaurant: null
 };
 
 @Component({
@@ -25,20 +30,28 @@ const initMenuState: MenuState = {
 export class MenuListComponent implements OnInit {
   menus: Menu[] = [];
   menus$ = this.state.select('menus');
+  selectedRestaurant$ = this.state.select('selectedRestaurant');
+  selectedRestaurant: any= null;
+
 
   constructor(
     private dialog: MatDialog,
-    private menuFacade: MenuFacade,
-    private state: RxState<MenuState>
+    public menuFacade: MenuFacade,
+    private state: RxState<MenuState>,
+    private restaurantFacade: RestaurantFacade
   ) {
     this.state.set(initMenuState);
     this.state.connect('menus', this.menuFacade.menus$);
+    this.state.connect('selectedRestaurant', this.restaurantFacade.selectedRestaurant$);
   }
 
   ngOnInit(): void {
     this.menuFacade.dispatchGetMenus();
     this.menus$.subscribe((item) => {
       this.menus = item;
+    });
+    this.selectedRestaurant$.subscribe((item) => {
+      this.selectedRestaurant = item;
     });
   }
 
@@ -47,7 +60,7 @@ export class MenuListComponent implements OnInit {
   }
 
   openMenuModal(): void {
-    const dialogRef = this.dialog.open(StockSelectionComponent, {
+    const dialogRef = this.dialog.open(MenuFormComponent, {
       width: '500px'
     });
 
@@ -57,6 +70,12 @@ export class MenuListComponent implements OnInit {
       } else if (result?.type === 'new') {
         this.openNewMenuItemForm();
       }
+    });
+  }
+
+  openCategoryManager(): void {
+    this.dialog.open(CategoryManagerComponent, {
+      width: '480px'
     });
   }
 
@@ -96,5 +115,50 @@ export class MenuListComponent implements OnInit {
 
   hasManagerRole(){
     return Roles.RestaurantManager
+  }
+
+  onImageError(event: any) {
+    event.target.src = 'https://placehold.co/600x400?text=Menu+Image';
+  }
+
+confirmToggleAvailability(item: Menu): void {
+  const newStatus = item.status === 'AVAILABLE' ? 'SOLD_OUT' : 'AVAILABLE';
+
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    data: {
+      message: `Are you sure you want to set "${item.name}" as ${newStatus.replace('_', ' ')}?`
+    }
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result === 'confirm') {
+      this.menuFacade.dispatchUpdateMenuAvailability(item.id, newStatus);
+    }
+  });
+}
+
+ generateMenuQr(): void {
+    this.restaurantFacade.dispatchGenerateMenuQrCode();
+  }
+
+  getQrImageUrl(): string | null {
+    return this.selectedRestaurant.qrCodeImage;
+  }
+
+  // viewMenuQr(): void {
+  //   return this.selectedRestaurant.qrCodeImage;
+
+  // }
+
+  viewMenuQr(): void {
+  this.dialog.open(MenuQrDialogComponent, {
+    width: '420px',
+    data: { qrImageUrl: this.getQrImageUrl() }
+  });
+}
+
+
+  downloadMenuQr(): void {
+    this.restaurantFacade.dispatchDownloadMenuQrCode()
   }
 }

@@ -1,66 +1,41 @@
-.container{
-  background-color: rgb(218, 236, 214);
-  min-height: 100vh;
+// Custom animations that aren't available in Tailwind
+@keyframes backdropShift {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(-10px) translateY(-5px);
+  }
+  50% {
+    transform: translateX(5px) translateY(-10px);
+  }
+  75% {
+    transform: translateX(-5px) translateY(5px);
+  }
 }
 
-.login-form {
-  padding-top: 5rem;
-  margin: 0rem auto;
-  max-width: 450px;
+// Custom shadow for enhanced depth
+.shadow-3xl {
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15), 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
-.login-card{
-  background-color: #e6f5e9; /* Light green background for the card */
-  border-radius: 10px;
-  box-shadow: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.mat-card {
-  background-color: #e6f5e9; /* Light green background for the card */
-  border-radius: 10px;
-  box-shadow: none;
-  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #4caf50;
+// Responsive adjustments for mobile
+@media (max-width: 1024px) {
+  .animate-bounce {
+    animation: none;
+  }
 }
 
-.login-fields {
-  display: flex;
-  flex-direction: column;
-  margin: 2.5rem 0;
-  gap: 1.5rem;
+// Custom form field styling for Material Design
+::ng-deep .mat-form-field-outline {
+  border-radius: 12px !important;
 }
 
-.mat-form-field-outline {
-  border-color: #4caf50 !important; /* Green outline for input fields */
+::ng-deep .mat-form-field-label {
+  color: #666 !important;
 }
 
-.submit {
-  background-color: #4caf50; /* Darker green for login button */
-  color: white;
-}
-
-.submit:hover {
-  background-color: #45a049; /* Slightly darker on hover */
-}
-
-.forget {
-  margin-left: 5px;
-  background-color: #ffffff;
-  color: #4caf50;
-  border: 2px solid #4caf50;
-}
-
-.forget:hover {
-  background-color: #f0f0f0; 
-}
-
-.visibility{
-  color: #45a049;
-}
-
-
-.add-btn{
-  // background-color: rgb(60 80 224);
-  background-color: rgb(99, 150, 111);
-  color: white;
+::ng-deep .mat-form-field-outline-thick {
+  color: #d97706 !important; // amber-600
 }

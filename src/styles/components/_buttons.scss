@@ -1,0 +1,79 @@
+// Buttons Customizations
+// This file contains all button related customizations
+
+// Custom Button Styling
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-button,
+.mat-raised-button,
+.mat-outlined-button,
+.mat-button {
+  border-radius: 8px !important; // Rounded corners
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: 0.5px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; // Subtle shadow
+  border: 2px solid transparent !important;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+// Primary Button (Filled)
+.mat-mdc-raised-button.mat-primary,
+.mat-raised-button.mat-primary {
+  background-color: #ff9800 !important;
+  color: white !important;
+  border: 2px solid #ff9800 !important;
+
+  &:hover {
+    background-color: #f57c00 !important;
+    border-color: #f57c00 !important;
+  }
+}
+
+// Accent Button (Outlined)
+.mat-mdc-outlined-button.mat-primary,
+.mat-outlined-button.mat-primary {
+  color: #ff9800 !important;
+  border: 2px solid #ff9800 !important;
+  background-color: transparent !important;
+
+  &:hover {
+    background-color: rgba(255, 152, 0, 0.1) !important;
+    border-color: #f57c00 !important;
+    color: #f57c00 !important;
+  }
+}
+
+// Text Button
+.mat-mdc-button.mat-primary,
+.mat-button.mat-primary {
+  color: #ff9800 !important;
+  background-color: transparent !important;
+
+  &:hover {
+    background-color: rgba(255, 152, 0, 0.1) !important;
+    color: #f57c00 !important;
+  }
+}
+
+// Disabled Button
+.mat-mdc-raised-button.mat-button-disabled,
+.mat-mdc-outlined-button.mat-button-disabled,
+.mat-mdc-button.mat-button-disabled,
+.mat-raised-button.mat-button-disabled,
+.mat-outlined-button.mat-button-disabled,
+.mat-button.mat-button-disabled {
+  opacity: 0.6 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}

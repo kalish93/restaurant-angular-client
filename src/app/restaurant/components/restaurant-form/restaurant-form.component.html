@@ -9,18 +9,42 @@
       <mat-error *ngIf="addRestaurantForm.get('name')?.hasError('required')">
         Name is required
       </mat-error>
-      <mat-error *ngIf="addRestaurantForm.get('name')?.hasError('maxLength')">
+      <mat-error *ngIf="addRestaurantForm.get('name')?.hasError('maxlength')">
         Name cannot exceed 100 characters
       </mat-error>
     </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone" placeholder="Enter phone number">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" placeholder="Enter address">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Subscription</mat-label>
+      <mat-select formControlName="subscription">
+        <mat-option value="BASIC">Basic</mat-option>
+        <mat-option value="STANDARD">Standard</mat-option>
+        <mat-option value="PREMIUM">Premium</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="file-upload mt-3">
+      <label for="logo">Upload Logo</label>
+      <input type="file" id="logo" (change)="onFileSelected($event)">
+    </div>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-button type="button" class="cancel" (click)="onCancel()"> <mat-icon>cancel</mat-icon> Cancel</button>
-    <button mat-raised-button class="confirm" color="primary" type="submit" [disabled]="addRestaurantForm.invalid">
-      Submit
-      <mat-icon>save</mat-icon>
+    <button mat-button type="button" class="cancel" (click)="onCancel()">
+      <mat-icon>cancel</mat-icon> Cancel
+    </button>
+    <button mat-button class="confirm" color="primary" type="submit" [disabled]="addRestaurantForm.invalid">
+      Submit <mat-icon>save</mat-icon>
     </button>
   </mat-dialog-actions>
-
 </form>

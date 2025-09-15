@@ -9,7 +9,6 @@ import {
   MENU_LIST,
   ORDER_HISTORY_ROUTE,
   RESTAURANT_LIST,
-  STOCK_LIST,
   TABLE_LIST,
   USERS_LIST,
   USERS_ROUTE,
@@ -33,23 +32,20 @@ import { DashboardComponent } from './restaurant/components/dashboard/dashboard.
 import { ChangePasswordComponent } from './users/components/change-password/change-password.component';
 import { SettingsComponent } from './restaurant/components/settings/settings.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: LOGIN_ROUTE, pathMatch: 'full' },
   { path: LOGIN_ROUTE, component: LoginComponent },
   { path: 'menu/:restaurantId/:tableId', component: MenuListForUsersComponent },
-  { path: `${CART_ROUTE}/:restaurantId/:tableId`,
-    component: CartComponent
-    },
-  { path: `orders/:restaurantId/:tableId`,
-    component: OrdersComponent
-    },
-
+  { path: 'menu/:restaurantId', component: MenuListForUsersComponent },
+  { path: `orders/:restaurantId/:tableId`, component: OrdersComponent },
+  { path: `orders/:restaurantId`, component: OrdersComponent },
 
   // { path: 'home', component: ActiveOrderListComponent},
 
-  { path: 'home', component: RestaurantHomeComponent,
-    children:[
+  {
+    path: 'home',
+    component: RestaurantHomeComponent,
+    children: [
       {
         path: RESTAURANT_LIST,
         component: RestaurantListComponent,
@@ -58,35 +54,21 @@ const routes: Routes = [
         path: `${RESTAURANT_LIST}/:id`,
         component: RestaurantDetailComponent,
       },
-      { path: ORDER_HISTORY_ROUTE, component: OrderHistoryComponent},
+      { path: ORDER_HISTORY_ROUTE, component: OrderHistoryComponent },
 
-     { path: STOCK_LIST,
-      component: StockListComponent
-      },
-     { path: MENU_LIST,
-      component: MenuListComponent
-      },
-     { path: TABLE_LIST,
-      component: TableListComponent
-      },
-     { path: `${TABLE_LIST}/:id`,
-      component: ActiveTableOrdersComponent
-      },
-     { path: USERS_LIST,
-      component: UserListComponent
-      },
-     { path: 'staff',
-      component: RestaurantStaffComponent
-      },
-      { path: 'dashboard', component: DashboardComponent},
-      { path: 'settings', component: SettingsComponent},
+      { path: MENU_LIST, component: MenuListComponent },
+      { path: TABLE_LIST, component: TableListComponent },
+      { path: `${TABLE_LIST}/:id`, component: ActiveTableOrdersComponent },
+      { path: USERS_LIST, component: UserListComponent },
+      { path: 'staff', component: RestaurantStaffComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'settings', component: SettingsComponent },
       {
         path: CHANGE_PASSWORD_ROUTE,
         component: ChangePasswordComponent,
       },
-    ]
-   },
-
+    ],
+  },
 
   {
     path: USERS_ROUTE,
@@ -95,7 +77,6 @@ const routes: Routes = [
   },
 
   { path: HOME_ROUTE, component: HomeComponent },
-
 ];
 
 @NgModule({

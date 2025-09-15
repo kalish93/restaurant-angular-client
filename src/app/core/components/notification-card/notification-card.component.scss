@@ -1,13 +1,2 @@
-
-.notification-card {
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-
-  &.unread {
-    background-color: rgb(218 236 214);
-
-  }
-}
+// Notification card styles are now handled by Tailwind CSS classes
+// This file is kept for potential future custom styles if needed

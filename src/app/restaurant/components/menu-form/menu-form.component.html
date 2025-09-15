@@ -30,33 +30,17 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Tax Rate(%)</mat-label>
-      <input id="taxRate" formControlName="taxRate" matInput />
-      <mat-error *ngIf="addMenuForm.get('taxRate')?.hasError('required')">
-        Tax rate is required
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Currency</mat-label>
-      <mat-select formControlName="currency">
-        <mat-option value="USD">Dollar</mat-option>
-        <mat-option value="EUR">Euro</mat-option>
-        <mat-option value="RON">RON</mat-option>
-      </mat-select>
-      <mat-error *ngIf="addMenuForm.get('currency')?.hasError('required')">
-        Currency is required.
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
+    <mat-form-field class="!h-[100px]" appearance="outline">
       <mat-label>Ingredients or Description</mat-label>
-      <textarea
-        formControlName="ingredients"
-        matInput
-        placeholder="Add ingredients here."
-      ></textarea>
+
+          <textarea
+          class="!h-[100px] !w-full"
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="4"
+            formControlName="ingredients"
+            matInput
+            placeholder="Add ingredients here."
+          ></textarea>
     </mat-form-field>
 
     <div class="file-upload">
@@ -79,8 +63,8 @@
 </form>
 
 <mat-dialog-actions align="end">
-  <button mat-button type="button" class="cancel" (click)="onNoClick()"> <mat-icon>cancel</mat-icon> Cancel</button>
-  <button mat-raised-button class="confirm" color="primary" (click)="submitForm()" [disabled]="addMenuForm.invalid">
+  <button mat-flat-button type="button" color="" class="cancel" (click)="onNoClick()"> <mat-icon>cancel</mat-icon> Cancel</button>
+  <button mat-flat-button class="confirm" color="primary" (click)="submitForm()" [disabled]="addMenuForm.invalid">
     Submit
     <mat-icon>save</mat-icon>
   </button>

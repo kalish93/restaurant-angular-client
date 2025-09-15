@@ -1,4 +1,4 @@
-<button mat-icon-button (click)="openNotificationMenu.emit()">
+<button mat-icon-button (click)="handleClick()">
   <mat-icon
     [matBadge]="unreadNotifications$ | async"
     [matBadgeHidden]="(unreadNotifications$ | async) == 0"

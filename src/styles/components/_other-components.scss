@@ -1,0 +1,115 @@
+// Other Components Customizations
+// This file contains customizations for icons, selects, checkboxes, radio buttons, and autocomplete
+
+// Custom Mat-Icon Styling
+// .mat-icon,
+// .material-icons {
+//   font-size: 20px !important;
+//   width: 20px !important;
+//   height: 20px !important;
+//   line-height: 20px !important;
+//   color: #1a1a1a !important; // Very dark grey, almost black but softer
+// }
+
+// Custom Select/Dropdown Styling
+.mat-mdc-select,
+.mat-select {
+  .mat-mdc-select-value,
+  .mat-select-value {
+    color: #1a1a1a !important;
+  }
+
+  .mat-mdc-select-arrow,
+  .mat-select-arrow {
+    color: #1a1a1a !important;
+  }
+}
+
+// Custom Checkbox Styling
+.mat-mdc-checkbox,
+.mat-checkbox {
+  .mat-mdc-checkbox-frame,
+  .mat-checkbox-frame {
+    border-color: #e0e0e0 !important;
+    border-radius: 4px !important;
+  }
+
+  .mat-mdc-checkbox-background,
+  .mat-checkbox-background {
+    border-radius: 4px !important;
+  }
+
+  &.mat-checkbox-checked {
+    .mat-mdc-checkbox-frame,
+    .mat-checkbox-frame {
+      border-color: #ff9800 !important;
+    }
+
+    .mat-mdc-checkbox-background,
+    .mat-checkbox-background {
+      background-color: #ff9800 !important;
+    }
+  }
+}
+
+// Custom Radio Button Styling
+.mat-mdc-radio-button,
+.mat-radio-button {
+  .mat-mdc-radio-outer-circle,
+  .mat-radio-outer-circle {
+    border-color: #e0e0e0 !important;
+  }
+
+  &.mat-radio-checked {
+    .mat-mdc-radio-outer-circle,
+    .mat-radio-outer-circle {
+      border-color: #ff9800 !important;
+    }
+
+    .mat-mdc-radio-inner-circle,
+    .mat-radio-inner-circle {
+      background-color: #ff9800 !important;
+    }
+  }
+}
+
+// Custom Autocomplete Styling
+.mat-mdc-autocomplete-panel,
+.mat-autocomplete-panel {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e0e0e0 !important;
+
+  .mat-mdc-option,
+  .mat-option {
+    color: #1a1a1a !important;
+    font-size: 0.875rem !important;
+
+    &:hover {
+      background-color: rgba(255, 152, 0, 0.1) !important;
+    }
+
+    &.mat-selected {
+      background-color: rgba(255, 152, 0, 0.2) !important;
+      color: #ff9800 !important;
+    }
+  }
+}
+
+// Expansion Panel Customizations
+.mat-elevation-z0 .mat-expansion-panel-body {
+  padding: 0 0 0 16px;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  height: 48px;
+}
+
+// Timepicker Customizations
+.timepicker-overlay {
+  z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000000 !important;
+}

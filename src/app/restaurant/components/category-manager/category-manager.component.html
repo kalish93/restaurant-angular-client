@@ -1,0 +1,62 @@
+<h2 mat-dialog-title class="text-xl font-semibold text-gray-800">
+  Manage Categories
+</h2>
+
+<div class="p-4 space-y-6">
+  <!-- Add Category -->
+  <div class="flex gap-3 items-center">
+    <mat-form-field class="flex-1" appearance="outline">
+      <mat-label>New category name</mat-label>
+      <input matInput [(ngModel)]="newCategoryName" />
+    </mat-form-field>
+    <button
+      mat-flat-button
+      color="primary"
+      class="rounded-lg"
+      (click)="addCategory()"
+    >
+      <mat-icon class="mr-1">add</mat-icon>
+      Add
+    </button>
+  </div>
+
+  <!-- Category List -->
+  <mat-divider></mat-divider>
+
+  <div class="space-y-2 max-h-[300px] overflow-y-auto pr-2">
+    <div
+      *ngFor="let c of categories"
+      class="flex items-center justify-between rounded-lg border border-gray-200 px-3 py-2 hover:bg-gray-50 transition"
+    >
+      <ng-container *ngIf="editingCategoryId !== c.id; else editTpl">
+        <span class="text-gray-800 font-medium">{{ c.name }}</span>
+        <div class="flex gap-2" *ngIf="c.restaurantId !== null">
+          <button mat-stroked-button color="primary" (click)="startEdit(c)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-stroked-button color="warn" (click)="deleteCategory(c)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+
+      <ng-template #editTpl>
+        <mat-form-field class="flex-1 mr-2" appearance="outline">
+          <mat-label>Edit name</mat-label>
+          <input matInput [(ngModel)]="editingCategoryName" />
+        </mat-form-field>
+        <div class="flex gap-2">
+          <button mat-flat-button color="primary" (click)="saveEdit()">
+            Save
+          </button>
+          <button mat-stroked-button (click)="cancelEdit()">Cancel</button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="mt-6 flex justify-end">
+    <button mat-stroked-button (click)="close()">Close</button>
+  </div>
+</div>

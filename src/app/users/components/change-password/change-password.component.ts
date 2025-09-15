@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import {
   AbstractControl,
   NonNullableFormBuilder,
@@ -10,6 +10,7 @@ import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { LOGIN_ROUTE } from 'src/app/core/constants/routes';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 interface ChangePasswordComponentState {
   changePasswordSuccess: boolean;
@@ -58,7 +59,9 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     private fb: NonNullableFormBuilder,
     private userFacade: UserFacade,
     private state: RxState<ChangePasswordComponentState>,
-    private router: Router
+    private router: Router,
+    public dialogRef: MatDialogRef<ChangePasswordComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.state.set(initChangePasswordComponentState);
     this.state.connect(
@@ -70,7 +73,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.changePasswordSuccess$.subscribe((result) => {
       if (result) {
-        this.router.navigate([LOGIN_ROUTE]);
+        this.dialogRef.close();
       }
     });
   }
@@ -126,16 +129,21 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     };
   }
 
+  cancel() {
+    this.dialogRef.close();
+  }
+
   changePassword() {
     if (this.changePasswordForm.valid) {
       const dataToSend = {
-        email:  this.changePasswordForm.value.email,
+        email: this.changePasswordForm.value.email,
         oldPassword: this.changePasswordForm.value.currentPassword,
         newPassword: this.changePasswordForm.value.newPassword,
-        newPasswordConfirmation: this.changePasswordForm.value.confirmNewPassword
-      }
+        newPasswordConfirmation:
+          this.changePasswordForm.value.confirmNewPassword,
+      };
       this.userFacade.dispatchChangePassword(dataToSend);
-      this.router.navigate([LOGIN_ROUTE]);
+      this.dialogRef.close();
     }
   }
 }

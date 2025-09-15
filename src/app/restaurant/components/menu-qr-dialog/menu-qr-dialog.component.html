@@ -1,0 +1,26 @@
+<h2 mat-dialog-title class="flex items-center gap-2">
+  <mat-icon>qr_code_2</mat-icon>
+  Menu QR Code
+</h2>
+
+<div class="p-4 space-y-6">
+  <div class="flex justify-center">
+    <img
+      [src]="qrImageUrl || 'https://placehold.co/300x300?text=No+QR'"
+      alt="Menu QR Code"
+      class="max-h-72 rounded-lg border shadow"
+    />
+  </div>
+
+  <div class="flex justify-end gap-3">
+    <button mat-stroked-button (click)="close()">Close</button>
+    <button mat-stroked-button color="primary" (click)="generateQr()">
+      <mat-icon>refresh</mat-icon>
+      Generate
+    </button>
+    <button mat-flat-button color="primary" (click)="downloadQr()">
+      <mat-icon>download</mat-icon>
+      Download
+    </button>
+  </div>
+</div>

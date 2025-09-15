@@ -26,5 +26,4 @@ export class OrderSelector {
   static orderHistory(stateModel: OrderStateModel) {
     return stateModel.orderHistory;
   }
-
 }

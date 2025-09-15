@@ -1,0 +1,15 @@
+// Customizations Index
+// This file imports all customizations
+
+// Import theme configuration
+@import "theme/theme-config";
+
+// Import typography customizations
+@import "typography/typography";
+
+// Import component customizations
+@import "components/form-fields";
+@import "components/buttons";
+@import "components/menu";
+@import "components/other-components";
+@import "components/color-utilities";

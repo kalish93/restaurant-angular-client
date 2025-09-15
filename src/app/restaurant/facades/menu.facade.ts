@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { GetMenus, CreateMenu, DeleteMenu, UpdateMenu, GetMenuByRestaurant} from '../store/menu/menu.actions';
+import { GetMenus, CreateMenu, DeleteMenu, UpdateMenu, GetMenuByRestaurant, UpdateMenuAvailability} from '../store/menu/menu.actions';
 import { MenuSelector } from '../store/menu/menu.selectors';
 
 
@@ -30,5 +30,9 @@ export class MenuFacade {
 
   dispatchGetMenuByRestaurant(restaurantId:any){
     this.store.dispatch(new GetMenuByRestaurant(restaurantId));
+  }
+
+  dispatchUpdateMenuAvailability(menuId: string, status: string){
+    this.store.dispatch(new UpdateMenuAvailability(menuId, status));
   }
 }

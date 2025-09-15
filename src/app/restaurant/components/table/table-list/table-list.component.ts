@@ -25,6 +25,7 @@ export class TableListComponent implements OnInit{
 
   $tables = this.state.select('tables');
   tables: any[] = [];
+  selectedStatusFilter: string | null = null;
   constructor(
     private state: RxState<TableListComponentState>,
     private restaurantFacade: RestaurantFacade,
@@ -98,5 +99,29 @@ export class TableListComponent implements OnInit{
   
   hasWaiterRole(){
     return Roles.Waiter
+  }
+  get filteredTables() {
+    if (!this.selectedStatusFilter) {
+      return this.tables;
+    }
+    return this.tables.filter(table => table.status === this.selectedStatusFilter);
+  }
+
+  setStatusFilter(status: string | null) {
+    this.selectedStatusFilter = status;
+  }
+
+  getFilterButtonClass(status: string | null): string {
+    const baseClasses = "rounded-full px-6 py-2.5 text-sm font-medium transition-all";
+    
+    if (this.selectedStatusFilter === status) {
+      return `${baseClasses} bg-white text-blue-600 shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)]`;
+    } else {
+      return `${baseClasses} bg-white text-gray-700 shadow-[2px_2px_5px_rgba(0,0,0,0.05),-2px_-2px_5px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)]`;
+    }
+  }
+
+  onImageError(event: any) {
+    event.target.src = '/placeholder.svg?height=112&width=112&text=QR';
   }
 }

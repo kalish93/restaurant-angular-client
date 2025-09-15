@@ -1,60 +1,46 @@
-<mat-toolbar
-[ngClass]="{
-  'toolbar-menu': true,
-  'full-width': !isAuthenticated || isOnSpecificPage,
-  'offset': isAuthenticated && !isOnSpecificPage
-}"
-  color="primary"
->
-<button *ngIf="(isAuthenticated$ | async)" class="burger-menu" mat-icon-button (click)="openMobileNavigation()"> <mat-icon>menu</mat-icon> </button>
-
-  <div class="progress-status">
-    <app-progress-status></app-progress-status>
-  </div>
-  <!-- <div id="google_translate_element" style="margin-left: auto; margin-right: 15px;"></div> -->
-
-  <div class="right-menu"
-  [ngClass]="{'unauthenticated-full-width': !isAuthenticated || isOnSpecificPage}"
-  >
-    <app-notification-button
-      *ngIf="(isAuthenticated$ | async)"
-      (openNotificationMenu)="drawer.open()"
-
-    ></app-notification-button>
-    <button class="account-icon" mat-icon-button [matMenuTriggerFor]="accountMenu">
-      <mat-icon>{{ accountManagement.icon }}</mat-icon>
-    </button>
-    <mat-menu #accountMenu="matMenu">
-      <a
-        *ngIf="!(isAuthenticated$ | async)"
-        mat-menu-item
-        [routerLink]="loginRoute.link"
-        [routerLinkActive]="['is-active']"
-      >Login</a>
-      <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()">
-        Logout
-      </a>
-      <a
-        *ngIf="isAuthenticated$ | async"
-        mat-menu-item
-        [routerLink]="changePasswordRoute.link"
-        [routerLinkActive]="['is-active']"
-      >Change Password</a>
-    </mat-menu>
-    <div id="google_translate_element" style="margin-right: 15px;"></div>
-  </div>
-  <!-- <div id="google_translate_element" style="margin-left: auto; margin-right: 15px;"></div> -->
-
-</mat-toolbar>
-
-<app-mobile-navigation #mobileNav (closeDrawer)="onDrawerClose()"></app-mobile-navigation>
-
-<mat-drawer-container class="notification-container">
-  <mat-drawer #drawer position="end" class="notification-drawer">
+<mat-drawer-container (backdropClick)="toggleNotificationDrawer(false)" class="md:!mt-75px
+ md:relative overflow-hidden !bg-gray-100">
+  <mat-drawer #drawer position="end" class="!fixed top-0 right-0 h-full !w-[80%] p-4 sm:!w-[80vw] md:!w-[60vw] xl:!w-[30vw]">
     <app-notification-menu></app-notification-menu>
   </mat-drawer>
   <mat-drawer-content>
-    <router-outlet></router-outlet>
+    <mat-toolbar [ngClass]="{
+      '!hidden': !isAuthenticated,
+      ' md:fixed top-0 md:z-[1000] h-[75px]  w-full justify-between items-center': isAuthenticated,
+      'md:rounded-full md:top-[4px] left-[240px] right-0 max-[768px]:left-0 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-between': true
+    }" color="primary">
+      <button *ngIf="(isAuthenticated$ | async) && isMobile" class="text-black md:hidden" mat-icon-button
+        (click)="toggleDrawer()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class="absolute left-[23px] right-0 bottom-0 rounded-bl-full">
+        <app-progress-status></app-progress-status>
+      </div>
+
+      <div
+        class="md:fixed last:md:mr-10 right-0 flex flex-row items-center gap-4 justify-self-end max-[768px]:ml-auto max-[325px]:gap-[5px]"
+        [ngClass]="{
+          'ml-[calc(100vw-150px)]': !isAuthenticated || isOnSpecificPage
+        }">
+        <app-notification-button *ngIf="(isAuthenticated$ | async)"
+          (openNotificationMenu)="toggleNotificationDrawer(!$event)" [isOpen]="drawer.opened"></app-notification-button>
+        <button class="text-black" mat-icon-button [matMenuTriggerFor]="accountMenu">
+          <mat-icon>{{ accountManagement.icon }}</mat-icon>
+        </button>
+        <mat-menu #accountMenu="matMenu">
+          <a *ngIf="!(isAuthenticated$ | async)" mat-menu-item [routerLink]="loginRoute.link"
+            [routerLinkActive]="['is-active']">Login</a>
+          <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()">
+            Logout
+          </a>
+          <a *ngIf="isAuthenticated$ | async" mat-menu-item (click)="openChangePasswordDialog()">Change Password</a>
+        </mat-menu>
+      </div>
+
+    </mat-toolbar>
+    <div class="h-full md:mt-[75px] overflow-hidden">
+      <router-outlet></router-outlet>
+    </div>
   </mat-drawer-content>
 </mat-drawer-container>
-

@@ -6,6 +6,7 @@
     padding: 5%;
 }
 .form-fields{
+  margin:0 auto;
     display:flex;
     flex-direction: column;
     justify-content:stretch;
@@ -32,18 +33,14 @@
     }
   }
 
-  .cancel{
-    color: white;
-    background-color: black;
-  }
-
-  .confirm{
-    color: white;
-    background-color: green;
-  }
 
   .error{
     font-size: 12px;
+  }
+
+  .cancel{
+    color: white;
+    background-color: black;
   }
 
   .container{
