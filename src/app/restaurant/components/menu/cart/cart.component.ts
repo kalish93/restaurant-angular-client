@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Optional } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { Cart, Menu } from 'src/app/restaurant/models/menu.model';
 import { MenuFacade } from 'src/app/restaurant/facades/menu.facade';
 import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
+import { MatDialogRef } from '@angular/material/dialog';
 
 interface CartComponentState {
   cart: Cart[];
@@ -21,10 +22,11 @@ const initCartComponentState: CartComponentState = {
   providers: [RxState],
 })
 export class CartComponent implements OnInit {
+  @Input() restaurantId: string | null = null;
+  @Input() tableId: string | null = null;
   cart$ = this.state.select('cart');
   cart: Cart[] = [];
-  restaurantId: string | null = null;
-  tableId: string | null = null;
+
 
   // Discount properties
   discountCode: string = '';
@@ -35,17 +37,24 @@ export class CartComponent implements OnInit {
     private menuFacade: MenuFacade,
     private router: Router,
     private route: ActivatedRoute,
-    private orderFacade: OrderFacade
+    private orderFacade: OrderFacade,
+    @Optional() private dialogRef?: MatDialogRef<CartComponent> // <-- injected only when in modal
   ) {
     this.state.set(initCartComponentState);
     this.state.connect('cart', this.orderFacade.cart$);
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.restaurantId = params.get('restaurantId');
-      this.tableId = params.get('tableId');
-    });
+    // this.route.paramMap.subscribe((params) => {
+    //   this.restaurantId = params.get('restaurantId');
+    //   this.tableId = params.get('tableId');
+    // });
+     if (!this.restaurantId || !this.tableId) {
+      this.route.paramMap.subscribe((params) => {
+        this.restaurantId = this.restaurantId || params.get('restaurantId');
+        this.tableId = this.tableId || params.get('tableId');
+      });
+    }
     this.cart$.subscribe((data) => {
       console.log(data);
       this.cart = data || [];
@@ -148,6 +157,10 @@ export class CartComponent implements OnInit {
       };
 
       this.orderFacade.dispatchPlaceOrder(dataToSend, this.tableId);
+    }
+
+    if (this.dialogRef) {
+      this.dialogRef.close();
     }
     // this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
     if (this.tableId) {

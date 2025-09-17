@@ -214,6 +214,10 @@ export class MenuListForUsersComponent implements OnInit {
       panelClass: 'cart-modal-panel',
       hasBackdrop: true,
       disableClose: false,
+      data: {
+        restaurantId: this.restaurantId,
+        tableId: this.tableId,
+      },
     });
   }
 }
