@@ -1,10 +1,19 @@
 <div class="min-h-screen bg-gray-100 p-4"
      *appHasRole="[hasManagerRole(), hasKitchenRole(), hasWaiterRole(), hasBartenderRole()]">
 
-  <!-- Header -->
-  <div class="mx-auto md:max-w-[90%] mb-8">
-    <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Active Orders</h1>
-    <p class="mt-2 text-gray-600">Manage your active orders</p>
+  <div class="mx-auto md:max-w-[90%] mb-8 flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Active Orders</h1>
+      <p class="mt-2 text-gray-600">Manage your active orders</p>
+    </div>
+
+    <!-- ✅ Create Order Button for Waiters / Managers -->
+    <ng-container *appHasRole="[hasWaiterRole(), hasManagerRole()]">
+      <button *ngIf="currentRestaurant.isActive" (click)="openCreateOrderModal()"
+              class="rounded-full bg-orange-400 text-white px-4 py-2 text-sm font-medium shadow hover:bg-orange-600">
+        + Create Order
+      </button>
+    </ng-container>
   </div>
 
  <!-- Orders Grid -->
@@ -15,8 +24,11 @@
 
     <!-- Table Info -->
     <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold text-gray-900">
-        Table {{ order.table.number }}
+      <h2 *ngIf="order?.table" class="text-lg font-semibold text-gray-900">
+        Table {{ order?.table?.number }}
+      </h2>
+      <h2 *ngIf="!order?.table" class="text-lg font-semibold text-gray-900">
+        Order: {{ order?.number }}
       </h2>
       <span class="inline-block rounded-full px-3 py-1 text-xs font-medium"
             [ngClass]="{
@@ -91,7 +103,7 @@
                 class="rounded-full bg-red-100 text-red-700 px-3 py-1 text-sm font-medium shadow hover:bg-red-200">
           Cancel
         </button>
-        <button (click)="viewDetails(order.table.id); $event.stopPropagation()"
+        <button (click)="viewDetails(order?.table?.id, order?.number, order?.restaurantId); $event.stopPropagation()"
           class="rounded-full bg-gray-100 text-gray-700 px-3 py-1 text-sm font-medium shadow hover:bg-gray-200">
           View Details
         </button>

@@ -149,23 +149,29 @@ export class CartComponent implements OnInit {
           item.specialInstructions = instructions.trim();
         }
       });
-
+    }
       const dataToSend = {
         restaurantId: this.restaurantId,
-        tableId: this.tableId,
+        // tableId: this.tableId,
         items: this.cart,
       };
 
-      this.orderFacade.dispatchPlaceOrder(dataToSend, this.tableId);
-    }
+    //   this.orderFacade.dispatchPlaceOrder(dataToSend, this.tableId);
+    // }
 
     if (this.dialogRef) {
       this.dialogRef.close();
     }
     // this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
     if (this.tableId) {
+       this.orderFacade.dispatchPlaceOrder(
+        { ...dataToSend, tableId: this.tableId },
+        this.tableId
+      );
       this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
     } else {
+
+      this.orderFacade.dispatchPlaceOrderByNumber(dataToSend);
       this.router.navigate([`/orders/${this.restaurantId}`]);
     }
     // this.orderFacade.dispatchGetActiveTableOrder(this.tableId);

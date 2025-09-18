@@ -1,0 +1,93 @@
+<h1 mat-dialog-title>Create New Order</h1>
+
+<div mat-dialog-content class="space-y-4">
+  <!-- Table selector -->
+  <mat-form-field appearance="outline" class="w-full" *appHasSubscription="['PREMIUM']">
+    <mat-label>Table (optional)</mat-label>
+    <mat-select [(ngModel)]="tableId" placeholder="Select a table">
+      <mat-option [value]="null">No Table</mat-option>
+      <mat-option *ngFor="let table of tables$ | async" [value]="table.id">
+        Table {{ table.number }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Add item form -->
+  <form [formGroup]="menuItemForm" class="space-y-3">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Menu Item</mat-label>
+      <mat-select formControlName="menuItemId" placeholder="Select a menu item">
+        <mat-option *ngFor="let item of menuItems" [value]="item.id">
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Quantity</mat-label>
+      <input matInput type="number" formControlName="quantity" min="1" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Special Instructions</mat-label>
+      <textarea
+        class="!h-[100px] !w-full"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="4"
+        matInput
+        formControlName="specialInstructions"
+      ></textarea>
+    </mat-form-field>
+
+    <!-- Add to Cart button: orange text on white background -->
+    <button
+      mat-flat-button
+      type="button"
+      class="bg-white text-orange-500 border border-orange-500 px-4 py-2 shadow hover:bg-orange-50 flex items-center gap-2"
+      (click)="addToCart()"
+    >
+      <mat-icon class="text-orange-500">add_shopping_cart</mat-icon>
+      Add to Cart
+    </button>
+  </form>
+
+  <!-- Cart items -->
+  <h3>Cart Items</h3>
+  <div
+    *ngFor="let item of cart$ | async; let i = index"
+    class="flex items-center justify-between p-2 bg-gray-100 rounded mb-1"
+  >
+    <div>
+      {{ item.menuItem.name }} - Qty: {{ item.quantity }}
+      <span *ngIf="item.specialInstructions">
+        ({{ item.specialInstructions }})
+      </span>
+    </div>
+    <button mat-icon-button color="warn" (click)="removeFromCart(i)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>
+
+<!-- Dialog actions -->
+<div mat-dialog-actions align="end" class="mt-3 flex gap-2">
+  <!-- Cancel button: black -->
+  <button
+    mat-flat-button
+    class="bg-black text-white px-4 py-2 shadow hover:bg-gray-800 flex items-center gap-2"
+    (click)="cancel()"
+  >
+    <mat-icon>close</mat-icon> Cancel
+  </button>
+
+  <!-- Confirm button: orange -->
+  <button
+    mat-flat-button
+    color="primary"
+    class="bg-orange-500 text-white px-4 py-2 shadow hover:bg-orange-600 flex items-center gap-2"
+    [disabled]="(cart$ | async)?.length === 0"
+    (click)="confirmOrder()"
+  >
+    <mat-icon>check_circle</mat-icon> Confirm Order
+  </button>
+</div>

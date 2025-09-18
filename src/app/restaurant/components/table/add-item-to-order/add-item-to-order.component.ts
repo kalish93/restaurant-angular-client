@@ -64,7 +64,7 @@ export class AddItemToOrderComponent implements OnInit{
       this.orderFacade.dispatchAddOrderItem({
         orderId: this.data.orderId,
         ...this.menuItemForm.value
-      }, this.data.tableId)
+      }, this.data.tableId, this.data.restaurantId, this.data.orderNumber)
       this.dialogRef.close();
     }
   }

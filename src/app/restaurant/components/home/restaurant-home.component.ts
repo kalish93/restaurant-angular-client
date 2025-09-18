@@ -150,6 +150,7 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
   setNavLinks(roleName: string): void {
     const subscription = (this.currentRestaurant as any)?.subscription;
     const isBasic = subscription === 'BASIC';
+    const isStandard = subscription === 'STANDARD';
 
     if (roleName === 'Admin') {
       this.navLinks = [
@@ -177,7 +178,7 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
           icon: 'dashboard',
         },
         // BASIC hides Tables
-        ...(!isBasic
+        ...(!isBasic && !isStandard
           ? [
               {
                 link: TABLE_LIST,
@@ -220,7 +221,7 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
           icon: 'dashboard',
         },
         // BASIC hides Tables
-        ...(!isBasic
+        ...(!isBasic && !isStandard
           ? [
               {
                 link: TABLE_LIST,

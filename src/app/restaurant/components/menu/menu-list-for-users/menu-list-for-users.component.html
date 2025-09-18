@@ -1,4 +1,4 @@
-<div class="h-[calc(100vh-75px)] w-full mx-auto overflow-y-scroll bg-gray-50 p-4">
+<div *ngIf="restaurant?.isActive; else inactiveRestaurant" class="h-[calc(100vh-75px)] w-full mx-auto overflow-y-scroll bg-gray-50 p-4">
   <div class="max-w-7xl h-full mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
     <div class="lg:col-span-2">
       <!-- Header: Logo, Name and Search -->
@@ -113,7 +113,7 @@
 
               <!-- Ingredients Section -->
               <p
-                class="text-gray-600 text-xs leading-relaxed mb-2 line-clamp-2"
+                class="text-gray-600 text-xs leading-relaxed mb-2 line-clamp-2 py-4"
               >
                 {{ item.ingredients }}
               </p>
@@ -161,7 +161,7 @@
     </div>
 
     <!-- Floating Buttons -->
-    <div *ngIf="tableId" class="fixed bottom-6 right-6 z-50">
+    <div *appHasSubscription="['STANDARD','PREMIUM']" class="fixed bottom-6 right-6 z-50">
       <div class="flex flex-col gap-4">
         <!-- Cart Button Group -->
         <div class="lg:hidden relative group">
@@ -190,7 +190,7 @@
           </button>
 
           <mat-menu #menu="matMenu" yPosition="above">
-            <button mat-menu-item (click)="callWaiter()">
+            <button mat-menu-item (click)="callWaiter()" *ngIf="tableId">
               <mat-icon>restaurant_menu</mat-icon>
               <span>Call Waiter</span>
             </button>
@@ -200,7 +200,7 @@
                 <span>Open Cart</span>
               </button>
             </div>
-            <button mat-menu-item (click)="requestPayment()">
+            <button mat-menu-item (click)="requestPayment()" *ngIf="tableId">
               <mat-icon>payment</mat-icon>
               <span>Request Payment</span>
             </button>
@@ -214,3 +214,17 @@
     </div>
   </div>
 </div>
+
+<ng-template #inactiveRestaurant>
+  <div class="h-[calc(100vh-75px)] w-full flex flex-col items-center justify-center bg-gray-50 p-6">
+    <img
+      src="assets/page-not-found.svg"
+      alt="Not Available"
+      class="max-w-xs mb-6"
+    />
+    <h2 class="text-2xl font-semibold text-gray-400 mb-2">This Page is Not Available</h2>
+    <p class="text-orange-400 max-w-md text-center mb-4">
+      This menu is not currently available. Please check back later for updates.
+    </p>
+  </div>
+</ng-template>

@@ -10,6 +10,7 @@ import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
 import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 import { Cart, Menu } from 'src/app/restaurant/models/menu.model';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
+import { EnterOrderNumberModalComponent } from '../enter-order-number-modal/enter-order-number-modal.component';
 
 interface MenuListForUsersComponentState {
   restaurant: any;
@@ -182,13 +183,37 @@ export class MenuListForUsersComponent implements OnInit {
     }, {} as { [category: string]: Menu[] });
   }
 
+  // viewOrders() {
+  //   if (this.tableId) {
+  //     this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
+  //   } else {
+  //     this.router.navigate([`/orders/${this.restaurantId}`]);
+  //   }
+  // }
   viewOrders() {
-    if (this.tableId) {
+  if (!this.tableId) {
+    // Open modal for order number input
+    const dialogRef = this.dialog.open(EnterOrderNumberModalComponent, {
+      width: '400px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe((orderNumber) => {
+      if (orderNumber) {
+        // Dispatch action to fetch order by number
+        this.orderFacade.dispatchGetOrderByNumber(this.restaurantId, orderNumber);
+        this.router.navigate([`/orders/${this.restaurantId}`], {
+          queryParams: { orderNumber },
+        });
+      }
+    });
+  } else {
+    // Premium or table exists
+
       this.router.navigate([`/orders/${this.restaurantId}/${this.tableId}`]);
-    } else {
-      this.router.navigate([`/orders/${this.restaurantId}`]);
-    }
+
   }
+}
 
   callWaiter() {
     if (this.tableId) {
