@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Enter Order Number</h2>
+    <mat-dialog-content>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Order Number</mat-label>
+        <input matInput [formControl]="orderNumberControl" type="number" />
+        <mat-error *ngIf="orderNumberControl.hasError('required')">
+          Order number is required
+        </mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="close()">Cancel</button>
+      <button mat-flat-button color="primary" [disabled]="orderNumberControl.invalid" (click)="submit()">Submit</button>
+    </mat-dialog-actions>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Order } from '../models/menu.model';
-import { ORDER_URL } from 'src/app/core/constants/api-endpoints';
+import { ORDER_BY_NUMBER_URL, ORDER_URL } from 'src/app/core/constants/api-endpoints';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -56,5 +56,13 @@ export class OrderService {
 
   saveTipAndDiscount(data: any): Observable<any> {
     return this.http.post<any>(`${ORDER_URL}/print-bill`, data);
+  }
+
+  placeOrderByNumber(data: string): Observable<any> {
+    return this.http.post<Order[]>(`${ORDER_BY_NUMBER_URL}`, data);
+  }
+
+  getOrderByNumber(restaurantId: string, number: string): Observable<any> {
+    return this.http.get<any>(`${ORDER_URL}/${restaurantId}/${number}`);
   }
 }

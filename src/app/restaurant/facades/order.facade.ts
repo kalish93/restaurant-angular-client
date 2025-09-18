@@ -17,6 +17,8 @@ import {
   UpdateCart,
   UpdateOrderItem,
   UpdateOrderStatus,
+  PlaceOrderByNumber,
+  GetOrderByNumber,
 } from '../store/order/order.actions';
 import { Cart } from '../models/menu.model';
 
@@ -69,24 +71,31 @@ export class OrderFacade {
   dispatchUpdateOrderStatus(data: any) {
     this.store.dispatch(new UpdateOrderStatus(data));
   }
-  dispatchUpdateOrderItem(data: any, tableId: any) {
-    this.store.dispatch(new UpdateOrderItem(data, tableId));
+  dispatchUpdateOrderItem(data: any, tableId?: any, restaurantId?: any, orderNumber?: any) {
+    this.store.dispatch(new UpdateOrderItem(data, tableId, restaurantId, orderNumber));
   }
-  dispatchRemoveOrderItem(itemId: any, tableId: any) {
-    this.store.dispatch(new RemoveOrderItem(itemId, tableId));
+  dispatchRemoveOrderItem(itemId: any, tableId?: any, restaurantId?: any, orderNumber?: any) {
+    this.store.dispatch(new RemoveOrderItem(itemId, tableId, restaurantId, orderNumber));
   }
-  dispatchAddOrderItem(data: any, tableId: any) {
-    this.store.dispatch(new AddOrderItem(data, tableId));
+  dispatchAddOrderItem(data: any, tableId: any, restaurantId?: any, orderNumber?: any) {
+    this.store.dispatch(new AddOrderItem(data, tableId, restaurantId, orderNumber));
   }
   dispatchRequestPayment(tableId: any) {
     this.store.dispatch(new RequestPayment(tableId));
   }
 
-  dispatchMarkAsPaid(orderIds: any, tableId: any) {
-    this.store.dispatch(new MarkAsPaid(orderIds, tableId));
+  dispatchMarkAsPaid(orderIds: any, tableId?: any, restaurantId?: any, orderNumber?: any) {
+    this.store.dispatch(new MarkAsPaid(orderIds, tableId, restaurantId, orderNumber));
   }
 
   dispatchSaveTipAndDiscount(data: any) {
     this.store.dispatch(new SaveTipAndDiscount(data));
+  }
+
+  dispatchPlaceOrderByNumber(data: any) {
+    this.store.dispatch(new PlaceOrderByNumber(data));
+  }
+  dispatchGetOrderByNumber(restaurantId: any, number: any) {
+    this.store.dispatch(new GetOrderByNumber(restaurantId, number));
   }
 }

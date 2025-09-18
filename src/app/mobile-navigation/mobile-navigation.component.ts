@@ -55,6 +55,8 @@ export class MobileNavigationComponent  {
   setNavLinks(roleName: string): void {
     const subscription = (this.state.get('currentRestaurant') as any)?.subscription;
     const isBasic = subscription === 'BASIC';
+    const isStandard = subscription === 'STANDARD';
+
     if (roleName === 'Admin') {
       this.navLinks = [
         {
@@ -81,7 +83,7 @@ export class MobileNavigationComponent  {
           icon: 'dashboard',
         },
         // BASIC hides Tables
-        ...(!isBasic ? [{ link: `home/${TABLE_LIST}`, label: 'Tables', icon: 'table_chart' }] : []),
+        ...(!isBasic && !isStandard ? [{ link: `home/${TABLE_LIST}`, label: 'Tables', icon: 'table_chart' }] : []),
         {
           link: `home/${MENU_LIST}`,
           label: 'Menu',
@@ -109,7 +111,7 @@ export class MobileNavigationComponent  {
           icon: 'dashboard',
         },
         // BASIC hides Tables
-        ...(!isBasic ? [{ link: `home/${TABLE_LIST}`, label: 'Tables', icon: 'table_chart' }] : []),
+        ...(!isBasic && !isStandard ? [{ link: `home/${TABLE_LIST}`, label: 'Tables', icon: 'table_chart' }] : []),
         {
           link: `home/${MENU_LIST}`,
           label: 'Menu',

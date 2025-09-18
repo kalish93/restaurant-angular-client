@@ -40,6 +40,9 @@ import { EditOrderModalComponent } from './components/table/edit-order-modal/edi
 import { CartModalComponent } from './components/menu/cart-modal/cart-modal.component';
 import { CategoryManagerComponent } from './components/category-manager/category-manager.component';
 import { MenuQrDialogComponent } from './components/menu-qr-dialog/menu-qr-dialog.component';
+import { EnterOrderNumberModalComponent } from './components/menu/enter-order-number-modal/enter-order-number-modal.component';
+import { OrderDetailComponent } from './components/menu/order-detail/order-detail.component';
+import { CreateOrderComponent } from './components/order/create-order/create-order.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +75,10 @@ import { MenuQrDialogComponent } from './components/menu-qr-dialog/menu-qr-dialo
     EditOrderModalComponent,
     CartModalComponent,
     CategoryManagerComponent,
-    MenuQrDialogComponent
+    MenuQrDialogComponent,
+    EnterOrderNumberModalComponent,
+    OrderDetailComponent,
+    CreateOrderComponent
   ],
   imports: [
     SharedModule,

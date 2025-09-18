@@ -25,6 +25,8 @@ import {
   UpdateCart,
   UpdateOrderItem,
   UpdateOrderStatus,
+  PlaceOrderByNumber,
+  GetOrderByNumber,
 } from './order.actions';
 import { OrderService } from '../../services/order.service';
 import { Cart } from '../../models/menu.model';
@@ -253,7 +255,7 @@ export class OrderState {
   @Action(UpdateOrderItem)
   updateOrderItem(
     { setState, patchState }: StateContext<OrderStateModel>,
-    { data, tableId }: UpdateOrderItem
+    { data, tableId, restaurantId, orderNumber }: UpdateOrderItem
   ) {
     this.store.dispatch(new SetProgressOn());
     return this.orderService.updateOrderItem(data).pipe(
@@ -261,7 +263,11 @@ export class OrderState {
         setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
+        if (tableId) {
         this.store.dispatch(new GetActiveTableOrder(tableId));
+        }else{
+          this.store.dispatch(new GetOrderByNumber(restaurantId, orderNumber));
+        }
         // Display a success message
         this.operationStatus.displayStatus(
           'Order updated successfully!',
@@ -274,7 +280,7 @@ export class OrderState {
   @Action(RemoveOrderItem)
   removeOrderItem(
     { setState, patchState }: StateContext<OrderStateModel>,
-    { itemId, tableId }: RemoveOrderItem
+    { itemId, tableId, restaurantId, orderNumber }: RemoveOrderItem
   ) {
     this.store.dispatch(new SetProgressOn());
     return this.orderService.removeOrderItem(itemId).pipe(
@@ -282,7 +288,11 @@ export class OrderState {
         setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
+        if (tableId){
         this.store.dispatch(new GetActiveTableOrder(tableId));
+        }else{
+          this.store.dispatch(new GetOrderByNumber(restaurantId, orderNumber));
+        }
         // Display a success message
         this.operationStatus.displayStatus(
           'Item removed successfully!',
@@ -295,7 +305,7 @@ export class OrderState {
   @Action(AddOrderItem)
   addOrderItem(
     { setState, patchState }: StateContext<OrderStateModel>,
-    { data, tableId }: AddOrderItem
+    { data, tableId,restaurantId, orderNumber }: AddOrderItem
   ) {
     this.store.dispatch(new SetProgressOn());
     return this.orderService.addOrderItem(data).pipe(
@@ -303,7 +313,11 @@ export class OrderState {
         setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
+        if(tableId){
         this.store.dispatch(new GetActiveTableOrder(tableId));
+        }else{
+          this.store.dispatch(new GetOrderByNumber(restaurantId, orderNumber));
+        }
         // Display a success message
         this.operationStatus.displayStatus(
           'Item removed successfully!',
@@ -336,7 +350,7 @@ export class OrderState {
   @Action(MarkAsPaid)
   markAsPaid(
     { setState, patchState }: StateContext<OrderStateModel>,
-    { orderIds, tableId }: MarkAsPaid
+    { orderIds, tableId, restaurantId, orderNumber }: MarkAsPaid
   ) {
     this.store.dispatch(new SetProgressOn());
     return this.orderService.markAsPaid(orderIds).pipe(
@@ -344,7 +358,11 @@ export class OrderState {
         setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
+        if(tableId){
         this.store.dispatch(new GetActiveTableOrder(tableId));
+        }else{
+          this.store.dispatch(new GetOrderByNumber(restaurantId, orderNumber));
+        }
         // Display a success message
         this.operationStatus.displayStatus(
           'Table Reset successfully!',
@@ -368,4 +386,59 @@ export class OrderState {
       })
     );
   }
+
+
+  @Action(PlaceOrderByNumber)
+  createOrderByNumber(
+    { setState, patchState }: StateContext<OrderStateModel>,
+    { order }: PlaceOrderByNumber
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.placeOrderByNumber(order).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            order: result,
+            cart: [],
+          })
+        );
+
+        this.store.dispatch(new SetProgressOff());
+
+        // Refresh orders based on whether tableId exists
+        // if (tableId) {
+          this.store.dispatch(new GetOrderByNumber(order.restaurantId, result.number));
+        // } else {
+        //   // Get restaurant orders when no table ID
+        //   this.store.dispatch(new GetActiveRestaurantOrder(order.restaurantId));
+        // }
+
+        // Display a success message
+        this.operationStatus.displayStatus(
+          'Order sent successfully!, your order number is ' + result.number + '',
+          successStyle
+        );
+      })
+    );
+  }
+
+  @Action(GetOrderByNumber)
+  getOrderByNumber(
+    { setState }: StateContext<OrderStateModel>,
+    { restaurantId, number }: GetOrderByNumber
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.orderService.getOrderByNumber(restaurantId, number).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            myTableOrders: [result],
+          })
+        );
+        console.log(result);
+        this.store.dispatch(new SetProgressOff());
+      })
+    );
+  }
+
 }

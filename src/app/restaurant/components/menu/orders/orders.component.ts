@@ -2,15 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
+import { combineLatest, map } from 'rxjs';
+import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
 
 interface Order {
-  id: number;
+  id: any;
+  number?: number;
   status: any;
   items: {
     menuItem: {
       name: string;
+      price: number;
+      image: string;
     };
     quantity: number;
+    specialInstructions?: string;
   }[];
 }
 
@@ -41,19 +47,52 @@ export class OrdersComponent implements OnInit {
     this.state.connect('myOrders', this.orderFacade.myTableOrders$);
   }
 
+  // ngOnInit(): void {
+  //   this.route.paramMap.subscribe((params) => {
+  //     this.tableId = params.get('tableId');
+  //     const restaurantId = params.get('restaurantId');
+
+  //     if (this.tableId) {
+  //       this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
+  //     } else {
+  //       // Get restaurant orders when no table ID
+  //      this.route.queryParamMap.subscribe((queryParams) => {
+  //       const orderNumber = queryParams.get('orderNumber');
+  //       if (orderNumber) {
+  //         this.orderFacade.dispatchGetOrderByNumber(restaurantId, orderNumber);
+  //       }
+  //     });
+  //     }
+  //   });
+
+  //   this.$myOrders.subscribe((data) => {
+  //     this.myOrders = data;
+  //   });
+  // }
+
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.tableId = params.get('tableId');
-      const restaurantId = params.get('restaurantId');
+    // Combine route params and query params
+    combineLatest([this.route.paramMap, this.route.queryParamMap])
+      .pipe(
+        map(([params, queryParams]) => {
+          return {
+            tableId: params.get('tableId'),
+            restaurantId: params.get('restaurantId'),
+            orderNumber: queryParams.get('orderNumber'),
+          };
+        })
+      )
+      .subscribe(({ tableId, restaurantId, orderNumber }) => {
+        this.tableId = tableId;
 
-      if (this.tableId) {
-        this.orderFacade.dispatchGetActiveTableOrder(this.tableId);
-      } else {
-        // Get restaurant orders when no table ID
-        this.orderFacade.dispatchGetActiveRestaurantOrder(restaurantId);
-      }
-    });
+        if (tableId) {
+          this.orderFacade.dispatchGetActiveTableOrder(tableId);
+        } else if (orderNumber) {
+          this.orderFacade.dispatchGetOrderByNumber(restaurantId, orderNumber);
+        }
+      });
 
+    // Subscribe to orders
     this.$myOrders.subscribe((data) => {
       this.myOrders = data;
     });
@@ -83,4 +122,12 @@ export class OrdersComponent implements OnInit {
         return 'Unknown Status'; // Handle any unexpected status values
     }
   }
+
+    getImageUrl(imagePath: string): string {
+      return `${API_BASE_URL}/uploads/${imagePath}`;
+    }
+
+    getOrderTotal(order: Order): number {
+  return order.items.reduce((sum, item) => sum + (item.menuItem.price || 0) * item.quantity, 0);
+}
 }

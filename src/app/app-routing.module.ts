@@ -31,6 +31,7 @@ import { ActiveTableOrdersComponent } from './restaurant/components/table/active
 import { DashboardComponent } from './restaurant/components/dashboard/dashboard.component';
 import { ChangePasswordComponent } from './users/components/change-password/change-password.component';
 import { SettingsComponent } from './restaurant/components/settings/settings.component';
+import { OrderDetailComponent } from './restaurant/components/menu/order-detail/order-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: LOGIN_ROUTE, pathMatch: 'full' },
@@ -67,6 +68,8 @@ const routes: Routes = [
         path: CHANGE_PASSWORD_ROUTE,
         component: ChangePasswordComponent,
       },
+      { path: `order-detail/:restaurantId/:orderNumber`, component: OrderDetailComponent },
+
     ],
   },
 

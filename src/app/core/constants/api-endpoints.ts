@@ -28,3 +28,4 @@ export const MENU_URL = `${API_BASE_URL}/menus`;
 export const TABLES_URL = `${API_BASE_URL}/tables`;
 export const CATEGORY_URL = `${API_BASE_URL}/categories`;
 export const ORDER_URL = `${API_BASE_URL}/orders`;
+export const ORDER_BY_NUMBER_URL = `${API_BASE_URL}/order-by-number`;

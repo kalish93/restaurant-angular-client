@@ -1,16 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { Roles } from 'src/app/core/constants/roles';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
+import { CreateOrderComponent } from '../create-order/create-order.component';
+import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 
 
 interface ActiveOrderListComponentState {
   orders: any;
+  currentRestaurant: any;
 }
 
 const initActiveOrderListComponentState: Partial<ActiveOrderListComponentState> = {
   orders: undefined,
+  currentRestaurant: undefined
 };
 
 @Component({
@@ -22,19 +27,28 @@ export class ActiveOrderListComponent implements OnInit{
 
   orders$ = this.state.select('orders');
   orders: any[] = [];
+  currentRestaurant$ = this.state.select('currentRestaurant');
+  currentRestaurant: any = undefined;
+
   constructor(
     private orderFacade: OrderFacade,
     private state: RxState<ActiveOrderListComponentState>,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
+    private restaurantFacade: RestaurantFacade
   ) {
     this.state.set(initActiveOrderListComponentState);
     this.state.connect('orders', this.orderFacade.activeOrders$);
+    this.state.connect('currentRestaurant', this.restaurantFacade.selectedRestaurant$);
   }
 
   ngOnInit(): void {
     this.orderFacade.dispatchGetActiveOrders();
     this.orders$.subscribe(data => {
       this.orders = data;
+    });
+    this.currentRestaurant$.subscribe(data => {
+      this.currentRestaurant = data;
     });
   }
 
@@ -104,8 +118,32 @@ export class ActiveOrderListComponent implements OnInit{
     return Roles.Waiter
   }
 
-  viewDetails(tableId: string): void {
+  viewDetails(tableId: string, orderNumber: string, restaurantId: string): void {
+    if(tableId){
     this.router.navigate(['/home', 'tables', tableId]);
+    }else{
+    this.router.navigate(['/home', 'order-detail', restaurantId, orderNumber]);
+    }
+  }
+
+  openCreateOrderModal(){
+  const dialogRef = this.dialog.open(CreateOrderComponent, {
+    width: '400px',
+    data: { restaurantId: this.currentRestaurant.id }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    // if (result) {
+    //   const dataToSend = {
+    //     id: item.id,
+    //     quantity: result.quantity,
+    //     specialInstructions: result.specialInstructions
+    //   };
+    //   this.orderFacade.dispatchUpdateOrderItem(dataToSend, null, this.restaurantId, this.orderNumber);
+    // }
+  });
+
+
   }
 
 }

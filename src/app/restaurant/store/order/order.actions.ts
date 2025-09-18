@@ -35,15 +35,15 @@ export class UpdateOrderStatus {
 
 export class RemoveOrderItem {
   static readonly type = `${RemoveOrderItem.name}`;
-  constructor(public itemId: any, public tableId: any) {}
+  constructor(public itemId: any, public tableId?: any, public restaurantId?: any, public orderNumber?: any) {}
 }
 export class UpdateOrderItem {
   static readonly type = `${UpdateOrderItem.name}`;
-  constructor(public data: any, public tableId: any) {}
+  constructor(public data: any, public tableId?: any , public restaurantId?: any, public orderNumber?: any) {}
 }
 export class AddOrderItem {
   static readonly type = `${AddOrderItem.name}`;
-  constructor(public data: any, public tableId: any) {}
+  constructor(public data: any, public tableId: any, public restaurantId?: any, public orderNumber?: any) {}
 }
 
 export class RequestPayment {
@@ -52,9 +52,17 @@ export class RequestPayment {
 }
 export class MarkAsPaid {
   static readonly type = `${MarkAsPaid.name}`;
-  constructor(public orderIds: any, public tableId: any) {}
+  constructor(public orderIds: any, public tableId?: any, public restaurantId?: any, public orderNumber?: any) {}
 }
 export class SaveTipAndDiscount {
   static readonly type = `${SaveTipAndDiscount.name}`;
   constructor(public data: any) {}
+}
+export class PlaceOrderByNumber {
+  static readonly type = `${PlaceOrderByNumber.name}`;
+  constructor(public order: any) {}
+}
+export class GetOrderByNumber {
+  static readonly type = `${GetOrderByNumber.name}`;
+  constructor(public restaurantId: any, public number: any) {}
 }

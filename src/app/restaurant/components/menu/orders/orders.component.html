@@ -1,60 +1,97 @@
 <div
-  class="fixed flex flex-col items-center justify-start w-full gap-5  mx-auto px-4 h-[calc(100vh-75px)] overflow-y-auto top-[75px] ">
-  <h1 class="text-2xl font-semibold text-center">{{ tableId ? 'Table Orders' : 'Restaurant Orders' }}</h1>
+  class="fixed top-[75px] flex flex-col items-center w-full gap-6 px-4 h-[calc(100vh-75px)] overflow-y-auto"
+>
+  <!-- Page Title -->
+  <h1 class="text-3xl font-lightbold text-gray-800 text-center">
+    {{ tableId ? "Table Orders" : "Your Order" }}
+  </h1>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3/4 mx-auto" *ngIf="myOrders.length">
-    <div *ngFor="let order of myOrders; let i = index">
-      <div class="bg-stone-600 text-white p-4 min-h-[50px] min-w-[300px] rounded-t-xl">
-        <div class="flex items-center justify-between">
-          <h3 class="!text-[16px] font-semibold text-white">Order {{i + 1}}</h3>
-          <span class="text-sm px-2 py-1 rounded-full" [ngClass]="{
-          'bg-yellow-500': order.status === 'PENDING',
-          'bg-blue-500': order.status === 'IN_PROGRESS',
-          'bg-green-500': order.status === 'READY',
-          'bg-purple-500': order.status === 'SERVED',
-          'bg-red-500': order.status === 'CANCELLED',
-          'bg-gray-500': order.status === 'PAID',
-          'bg-orange-500': order.status === 'PAYMENT_REQUESTED'
-        }">
-            {{ order.status | titlecase }}
-          </span>
+  <!-- Orders Grid -->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl"
+    *ngIf="myOrders.length"
+  >
+    <div
+      *ngFor="let order of myOrders; let i = index"
+      class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    >
+      <!-- Order Header -->
+      <div
+        class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-orange-400 to-orange-500 text-white"
+      >
+        <h3 class="font-semibold text-lg">
+          {{ tableId ? "Order " + (i + 1) : "Order # " + order.number }}
+        </h3>
+        <span
+          class="text-sm px-3 py-1 rounded-full font-medium"
+          [ngClass]="{
+            'bg-yellow-500': order.status === 'PENDING',
+            'bg-blue-500': order.status === 'IN_PROGRESS',
+            'bg-green-500': order.status === 'READY',
+            'bg-purple-500': order.status === 'SERVED',
+            'bg-red-500': order.status === 'CANCELLED',
+            'bg-gray-500': order.status === 'PAID',
+            'bg-orange-500': order.status === 'PAYMENT_REQUESTED'
+          }"
+        >
+          {{ order.status | titlecase }}
+        </span>
+      </div>
+
+      <!-- Order Body -->
+      <div class="p-6 space-y-4">
+        <div
+          *ngFor="let item of order.items"
+          class="flex items-center p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors duration-200 gap-4"
+        >
+          <!-- Item Image -->
+          <div
+            class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100"
+          >
+            <img
+              [src]="getImageUrl(item.menuItem.image)"
+              alt="{{ item.menuItem.name }}"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <!-- Item Name and Quantity -->
+          <div class="flex-1">
+            <p class="font-medium text-gray-700">{{ item.menuItem.name }}</p>
+            <p class="text-sm text-gray-500">Qty: {{ item.quantity }}</p>
+          </div>
+
+          <!-- Item Price -->
+          <div class="text-right">
+            <p class="font-semibold text-gray-900">
+              {{ item.menuItem.price * item.quantity | number : "1.2-2" }} ETB
+            </p>
+          </div>
+        </div>
+
+        <!-- Order Totals -->
+        <div
+          class="flex justify-between items-center mt-4 border-t border-gray-200 pt-4"
+        >
+          <p class="text-sm font-medium text-gray-700">
+            Total Items: {{ order.items.length }}
+          </p>
+          <p class="text-sm font-semibold text-gray-900">
+            Total Price: {{ getOrderTotal(order) | number : "1.2-2" }} ETB
+          </p>
         </div>
       </div>
-      <div class="border border-stone-600 text-white p-4 min-h-[50px] rounded-b-xl">
+    </div>
+  </div>
 
-
-        <mat-card-content class="p-4 space-y-4">
-          <!-- Order Items -->
-          <div class="space-y-3 pt-8">
-            <div *ngFor="let item of order.items; let i = index"
-              class="group relative flex flex-col p-3 rounded-lg border border-orange-200 hover:border-orange-300 transition-colors duration-200">
-
-              <div class="flex justify-between items-start pr-8 mb-3">
-                <p class="text-sm font-medium text-gray-900">{{ item.menuItem.name }}</p>
-                <p class="text-sm text-right font-medium text-gray-900">
-                  Qty: {{ item.quantity }}
-                </p>
-              </div>
-
-              <!-- <div *ngIf="item.specialInstructions" class="mt-3 p-2 rounded-md bg-orange-50 border border-orange-200">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-medium text-orange-800 shrink-0">Note:</span>
-              <p class="text-xs text-orange-700 leading-relaxed">
-                {{ item.specialInstructions }}
-              </p>
-            </div>
-          </div> -->
-            </div>
-            <div class="flex flex-col justify-end items-end pr-8 mb-3">
-              <p class="text-sm font-medium text-right text-gray-900">
-                Total Order items: {{ order.items.length }}
-              </p>
-              <span class="text-sm font-medium text-right text-gray-900 ml-2">
-                Total Quantity: {{ getTotalQuantity(order.items) }}
-              </span>
-            </div>
-          </div>
-
-          <div *ngIf="!myOrders.length" class="empty-orders">
-            <p>{{ tableId ? 'No active orders for this table.' : 'No active orders for this restaurant.' }}</p>
-          </div>
+  <!-- Empty State -->
+  <div *ngIf="!myOrders.length" class="mt-12 text-center text-gray-400">
+    <p>
+      {{
+        tableId
+          ? "No active orders for this table."
+          : "No active orders for this restaurant."
+      }}
+    </p>
+  </div>
+</div>
