@@ -4,7 +4,7 @@ import { MenuFormComponent } from '../menu-form/menu-form.component';
 import { RxState } from '@rx-angular/state';
 import { MenuFacade } from '../../facades/menu.facade';
 import { Menu } from '../../models/menu.model';
-import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { StockSelectionComponent } from '../menu/stock-selection/stock-selection.component';
 import { Roles } from 'src/app/core/constants/roles';
@@ -56,7 +56,7 @@ export class MenuListComponent implements OnInit {
   }
 
   getImageUrl(imagePath: string): string {
-    return `${API_BASE_URL}/uploads/${imagePath}`;
+    return `${MEDIA_URL}/${imagePath}`;
   }
 
   openMenuModal(): void {
@@ -137,9 +137,9 @@ confirmToggleAvailability(item: Menu): void {
   });
 }
 
- generateMenuQr(): void {
-    this.restaurantFacade.dispatchGenerateMenuQrCode();
-  }
+//  generateMenuQr(): void {
+//     this.restaurantFacade.dispatchGenerateMenuQrCode(this.selectedRestaurant.id);
+//   }
 
   getQrImageUrl(): string | null {
     return this.selectedRestaurant.qrCodeImage;

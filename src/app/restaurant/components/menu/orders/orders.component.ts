@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
 import { combineLatest, map } from 'rxjs';
-import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 
 interface Order {
   id: any;
@@ -124,7 +124,7 @@ export class OrdersComponent implements OnInit {
   }
 
     getImageUrl(imagePath: string): string {
-      return `${API_BASE_URL}/uploads/${imagePath}`;
+      return `${MEDIA_URL}/${imagePath}`;
     }
 
     getOrderTotal(order: Order): number {

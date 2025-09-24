@@ -115,8 +115,8 @@ export class RestaurantFacade {
     this.store.dispatch(new UpdateRestaurantActiveStatus(data));
   }
 
-  dispatchGenerateMenuQrCode() {
-    this.store.dispatch(new GenerateMenuQrCode());
+  dispatchGenerateMenuQrCode(restaurantId: any) {
+    this.store.dispatch(new GenerateMenuQrCode(restaurantId));
   }
 
   dispatchDownloadMenuQrCode() {

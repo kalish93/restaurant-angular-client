@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { Cart, Menu } from 'src/app/restaurant/models/menu.model';
 import { MenuFacade } from 'src/app/restaurant/facades/menu.facade';
-import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -69,7 +69,7 @@ export class CartComponent implements OnInit {
   }
 
   getImageUrl(imagePath: string): string {
-    return `${API_BASE_URL}/uploads/${imagePath}`;
+    return `${MEDIA_URL}/${imagePath}`;
   }
 
   updateQuantity(index: number, newQuantity: number): void {

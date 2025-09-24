@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreditCardFormComponent } from '../payment/credit-card-form/credit-card-form.component';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { DiscountFormComponent } from '../payment/discount-form/discount-form.component';
-import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 
 interface SettingsComponentState {
   restaurant: Restaurant | null;
@@ -111,7 +111,7 @@ export class SettingsComponent implements OnInit {
   discounts: any[] = [];
   zReportData$ = this.state.select('zReportData');
   zReportData: any;
-  apiUrl: string = API_BASE_URL;
+  apiUrl: string = MEDIA_URL;
 
   constructor(
     private fb: FormBuilder,

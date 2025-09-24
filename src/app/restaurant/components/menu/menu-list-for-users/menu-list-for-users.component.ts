@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { MatDialog } from '@angular/material/dialog';
-import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 import { NotificationFacade } from 'src/app/core/facades/notification.facade';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { MenuFacade } from 'src/app/restaurant/facades/menu.facade';
@@ -126,7 +126,7 @@ export class MenuListForUsersComponent implements OnInit {
   }
 
   getImageUrl(imagePath: string): string {
-    return `${API_BASE_URL}/uploads/${imagePath}`;
+    return `${MEDIA_URL}/${imagePath}`;
   }
 
   get availableCategories(): string[] {

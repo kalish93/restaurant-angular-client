@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { RxState } from '@rx-angular/state';
-import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { AddItemToOrderComponent } from '../add-item-to-order/add-item-to-order.component';
@@ -79,7 +79,7 @@ export class ActiveTableOrdersComponent implements OnInit {
   }
 
   getImageUrl(imagePath: string): string {
-    return `${API_BASE_URL}/uploads/${imagePath}`;
+    return `${MEDIA_URL}/${imagePath}`;
   }
 
   updateQuantity(item: any, event: any): void {

@@ -7,7 +7,7 @@ import { RestaurantFormComponent } from '../restaurant-form/restaurant-form.comp
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
-import { API_BASE_URL } from 'src/app/core/constants/api-endpoints';
+import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 
 interface RestaurantListComponentState {
   restaurants: any;
@@ -108,7 +108,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   getImageUrl(imagePath: string): string {
-    return `${API_BASE_URL}/uploads/${imagePath}`;
+    return `${MEDIA_URL}/${imagePath}`;
   }
 
   onImageError(event: any) {

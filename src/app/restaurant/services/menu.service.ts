@@ -40,9 +40,9 @@ export class MenuService {
     return this.http.get<any>(`${MENU_URL}/${id}`);
   }
 
-  generateMenuQrCode(): Observable<any> {
-    return this.http.post<any>(`${MENU_URL}/qr-code`, {});
-  }
+  // generateMenuQrCode(restaurantId: string): Observable<any> {
+  //   return this.http.post<any>(`${MENU_URL}/generate-qr-code/${restaurantId}`, {});
+  // }
 
   downloadMenuQrCode(): Observable<any> {
     const options = {

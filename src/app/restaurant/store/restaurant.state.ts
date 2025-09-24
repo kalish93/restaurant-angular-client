@@ -704,22 +704,22 @@ getZreportData(
   }
 
 
-  @Action(GetRestaurant)
-  generateQrCode(
-    { setState }: StateContext<RestaurantStateModel>,
-    {  }: GenerateMenuQrCode
-  ) {
-    this.store.dispatch(new SetProgressOn());
-    return this.menuService.generateMenuQrCode().pipe(
-      tap((result) => {
-        setState(
-          patch({
-            selectedRestaurant: result,
-          })
-        );
-        this.store.dispatch(new SetProgressOff());
-      })
-    );
-  }
+  // @Action(GetRestaurant)
+  // generateQrCode(
+  //   { setState }: StateContext<RestaurantStateModel>,
+  //   { restaurantId }: GenerateMenuQrCode
+  // ) {
+  //   this.store.dispatch(new SetProgressOn());
+  //   return this.menuService.generateMenuQrCode(restaurantId).pipe(
+  //     tap((result) => {
+  //       setState(
+  //         patch({
+  //           selectedRestaurant: result,
+  //         })
+  //       );
+  //       this.store.dispatch(new SetProgressOff());
+  //     })
+  //   );
+  // }
 
 }

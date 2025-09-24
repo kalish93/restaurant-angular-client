@@ -162,5 +162,5 @@ export class GetZreportData {
 }
 export class GenerateMenuQrCode {
   static readonly type = `${GenerateMenuQrCode.name}`;
-  constructor() {}
+  constructor(public readonly restaurantId: any) {}
 }

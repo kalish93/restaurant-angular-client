@@ -19,7 +19,7 @@ export class MenuQrDialogComponent {
   }
 
   generateQr(): void {
-    this.restaurantFacade.dispatchGenerateMenuQrCode();
+    // this.restaurantFacade.dispatchGenerateMenuQrCode();
     // Optionally: refresh QR after generation if backend returns it automatically
     // setTimeout(() => {
     //   this.qrImageUrl = this.data.qrImageUrl;
