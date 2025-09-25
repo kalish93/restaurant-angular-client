@@ -15,12 +15,14 @@
           class="group relative flex flex-col p-3 rounded-lg border border-orange-200 hover:border-orange-300 transition-colors duration-200"
           [class.expanding]="showInstructionsFor[item.menuItem.id]">
 
+          <!-- Remove Item -->
           <button (click)="removeFromCart(item)" variant="icon"
             class="absolute top-[9px] right-2 text-gray-700 hover:text-red-500 transition-all duration-200 z-10"
             [attr.aria-label]="'Remove ' + item.menuItem.name">
-            <mat-icon class="!text-base !w-[13px] !h-[13px]">close</mat-icon>
+            <mat-icon class="!text-base !w-[16px] !h-[16px]">close</mat-icon>
           </button>
 
+          <!-- Item Details -->
           <div class="flex justify-between items-start pr-8 mb-3">
             <div class="flex-1">
               <p class="text-sm font-medium text-gray-900">{{ item.menuItem.name }}</p>
@@ -33,24 +35,35 @@
             </div>
           </div>
 
+          <!-- Quantity + Special Instructions -->
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-xs text-gray-700">Qty:</span>
-              <button (click)="updateQuantity(i, item.quantity - 1)" [disabled]="item.quantity <= 1"
-                class="hover:text-orange-700 disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 flex items-center justify-center"
+
+              <!-- Decrease Button -->
+              <button mat-icon-button
+                (click)="updateQuantity(i, item.quantity - 1)"
+                [disabled]="item.quantity <= 1"
+                class="hover:text-orange-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Decrease quantity">
-                <mat-icon class="!w-[14px] !h-[14px]">remove</mat-icon>
+                <mat-icon class="!text-[20px]">remove</mat-icon>
               </button>
-              <span class="text-xs font-medium text-gray-900 min-w-[20px] text-center">
+
+              <!-- Quantity Number -->
+              <span class="text-sm font-medium text-gray-900 w-[24px] text-center">
                 {{ item.quantity }}
               </span>
-              <button (click)="updateQuantity(i, item.quantity + 1)"
-                class="hover:text-orange-700 text-gray-700 flex items-center justify-center"
+
+              <!-- Increase Button -->
+              <button mat-icon-button
+                (click)="updateQuantity(i, item.quantity + 1)"
+                class="hover:text-orange-700"
                 aria-label="Increase quantity">
-                <mat-icon class="!w-[14px] !h-[14px]">add</mat-icon>
+                <mat-icon class="!text-[20px]">add</mat-icon>
               </button>
             </div>
 
+            <!-- Special Instructions Toggle -->
             <button (click)="toggleSpecialInstructions(item.menuItem.id)"
               class="text-xs text-orange-600 hover:text-orange-700 font-medium transition-colors flex items-center gap-1 mb-1">
               <mat-icon class="!text-xs !h-[14px] !w-[14px]">
@@ -61,6 +74,7 @@
             </button>
           </div>
 
+          <!-- Special Instructions Textarea -->
           <div *ngIf="showInstructionsFor[item.menuItem.id]" class="rounded-lg mb-2">
             <mat-form-field appearance="outline" class="w-full !h-[100px]">
               <mat-label>Special instructions</mat-label>
@@ -72,6 +86,7 @@
             </mat-form-field>
           </div>
 
+          <!-- Display Special Instructions -->
           <div *ngIf="item.specialInstructions" class="mt-3 p-2 rounded-md bg-orange-50 border border-orange-200">
             <div class="flex items-center gap-2">
               <span class="text-xs font-medium text-orange-800 shrink-0">Note:</span>
@@ -83,6 +98,7 @@
         </div>
       </div>
 
+      <!-- Subtotal -->
       <div class="space-y-3 pt-4 border-t border-orange-200">
         <div class="flex justify-between text-sm pb-2 border-b border-orange-200">
           <span class="text-gray-700">Subtotal</span>
@@ -90,6 +106,7 @@
         </div>
       </div>
 
+      <!-- Total & Order Button -->
       <div (click)="order()" class="bg-orange-400 hover:bg-orange-500 cursor-pointer text-white p-4 rounded-lg">
         <div class="flex justify-between items-center">
           <span class="text-lg font-semibold">Total to pay</span>
