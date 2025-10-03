@@ -164,3 +164,7 @@ export class GenerateMenuQrCode {
   static readonly type = `${GenerateMenuQrCode.name}`;
   constructor(public readonly restaurantId: any) {}
 }
+export class SelfRegisterRestaurant {
+  static readonly type = `${SelfRegisterRestaurant.name}`;
+  constructor(public readonly data: FormData) {}
+}

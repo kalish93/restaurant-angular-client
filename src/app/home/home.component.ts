@@ -22,13 +22,17 @@ import { AuthFacade } from '../auth/facade/auth.facade';
 import { first } from 'rxjs/operators';
 import { SidenavService } from '../core/services/sidenav.service';
 import { ChangePasswordComponent } from '../users/components/change-password/change-password.component';
+import { Restaurant } from './../restaurant/models/restaurant.model'
+import { RestaurantFacade } from './../restaurant/facades/restaurant.facade'
 
 interface HomeComponentState {
   isAuthenticated: boolean;
+  currentRestaurant: Restaurant | undefined;
 }
 
 const initHomeComponentState: Partial<HomeComponentState> = {
   isAuthenticated: true,
+  currentRestaurant: undefined
 };
 
 import { MobileNavigationComponent } from '../mobile-navigation/mobile-navigation.component';
@@ -70,16 +74,24 @@ export class HomeComponent implements OnInit {
 
   isAuthenticated$: Observable<boolean> = this.state.select('isAuthenticated');
   isAuthenticated: any;
+  $currentRestaurant = this.state.select('currentRestaurant');
+  currentRestaurant: Restaurant | undefined;
   constructor(
     private authFacade: AuthFacade,
     private router: Router,
     private state: RxState<HomeComponentState>,
     private matDialog: MatDialog,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private restaurantFacade: RestaurantFacade,
   ) {
     this.state.set(initHomeComponentState);
     this.state.connect('isAuthenticated', authFacade.isAuthenticated$);
+    this.state.connect('currentRestaurant', restaurantFacade.selectedRestaurant$);
     this.checkScreenSize();
+
+    this.$currentRestaurant.subscribe((restaurant) => {
+      this.currentRestaurant = restaurant;
+    });
   }
   @ViewChild('mobileNav') mobileNav!: MobileNavigationComponent;
   @ViewChild('drawer') drawer!: MatDrawer;
@@ -135,7 +147,7 @@ export class HomeComponent implements OnInit {
 
   logout() {
     this.authFacade.dispatchLogout();
-    this.router.navigate([LOGIN_ROUTE]);
+    this.router.navigateByUrl('/login', { replaceUrl: true });
   }
 
   openChangePasswordDialog() {

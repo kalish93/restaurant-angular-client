@@ -10,15 +10,17 @@ import {
   FORGET_PASSWORD_ROUTE,
 } from 'src/app/core/constants/routes';
 import { Store } from '@ngxs/store';
-
+import { RestaurantFacade } from '../../../restaurant/facades/restaurant.facade'
 interface LoginComponentState {
   isAuthenticated: boolean;
   isPasswordVisible: boolean;
+  currentRestaurant: any | undefined
 }
 
 const initLoginComponentState: Partial<LoginComponentState> = {
   isAuthenticated: true,
   isPasswordVisible: true,
+  currentRestaurant: undefined
 };
 
 @Component({
@@ -34,24 +36,35 @@ export class LoginComponent implements OnInit {
   });
 
   isAuthenticated$: Observable<boolean> = this.state.select('isAuthenticated');
-
+  currentRestaurant$: Observable<any> = this.state.select('currentRestaurant');
   constructor(
     private fb: NonNullableFormBuilder,
     private authFacade: AuthFacade,
     private state: RxState<LoginComponentState>,
-    private router: Router
+    private router: Router,
+    private restaurantFacade: RestaurantFacade
   ) {
     this.state.set(initLoginComponentState);
     this.state.connect('isAuthenticated', authFacade.isAuthenticated$);
+    this.state.connect('currentRestaurant', restaurantFacade.selectedRestaurant$);
   }
 
-  ngOnInit(): void {
-    this.isAuthenticated$.subscribe((result) => {
-      if (result) {
-        this.router.navigate(['/home/dashboard']);
-      }
-    });
-  }
+ngOnInit(): void {
+  this.isAuthenticated$.subscribe((result) => {
+    if (result) {
+      this.currentRestaurant$.subscribe((restaurant) => {
+        if (restaurant) {
+          if (restaurant.subscription === 'BASIC') {
+            this.router.navigate(['/home/menu']);
+          } else {
+            this.router.navigate(['/home/dashboard']);
+          }
+        }
+      });
+    }
+  });
+}
+
 
   get emailValidationError() {
     return this.loginForm.controls.email;

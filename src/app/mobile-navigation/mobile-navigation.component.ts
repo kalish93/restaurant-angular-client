@@ -77,11 +77,12 @@ export class MobileNavigationComponent  {
       ];
     }else if (roleName === Roles.RestaurantManager){
       this.navLinks = [
-        {
+        ...(!isBasic
+          ? [{
           link: 'home/dashboard',
           label: 'Dashboard',
           icon: 'dashboard',
-        },
+        }]:[]),
         // BASIC hides Tables
         ...(!isBasic && !isStandard ? [{ link: `home/${TABLE_LIST}`, label: 'Tables', icon: 'table_chart' }] : []),
         {
@@ -91,11 +92,12 @@ export class MobileNavigationComponent  {
         },
         // BASIC hides Order History
         ...(!isBasic ? [{ link: `home/${ORDER_HISTORY_ROUTE}`, label: 'Order History', icon: 'list' }] : []),
-        {
+        ...(!isBasic
+          ? [{
           link:  'home/staff',
           label: 'My Staff',
           icon: 'persons',
-        },
+        }] : []),
         {
           link:  'home/settings',
           label: 'Settings',
@@ -105,11 +107,12 @@ export class MobileNavigationComponent  {
 
     }else{
       this.navLinks = [
-        {
+        ...(!isBasic
+          ? [{
           link: 'home/dashboard',
           label: 'Dashboard',
           icon: 'dashboard',
-        },
+        }]:[]),
         // BASIC hides Tables
         ...(!isBasic && !isStandard ? [{ link: `home/${TABLE_LIST}`, label: 'Tables', icon: 'table_chart' }] : []),
         {

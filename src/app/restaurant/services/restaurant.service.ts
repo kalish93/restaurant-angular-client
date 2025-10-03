@@ -135,4 +135,9 @@ export class RestaurantService {
     const downloadUrl = `${MENU_URL}/qr-code/download`;
     return this.http.get<any>(downloadUrl, options);
   }
+
+    selfRegisterRestaurant(data: FormData): Observable<any> {
+    return this.http.post<any>(`${API_BASE_URL}/self-register-restaurant`, data);
+  }
+
 }

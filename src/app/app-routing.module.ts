@@ -32,9 +32,14 @@ import { DashboardComponent } from './restaurant/components/dashboard/dashboard.
 import { ChangePasswordComponent } from './users/components/change-password/change-password.component';
 import { SettingsComponent } from './restaurant/components/settings/settings.component';
 import { OrderDetailComponent } from './restaurant/components/menu/order-detail/order-detail.component';
+import { LandingComponent } from './restaurant/components/landing/landing.component';
+import { RegistrationComponent } from './restaurant/components/registration/registration.component';
+import { authGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: LOGIN_ROUTE, pathMatch: 'full' },
+  // { path: '', redirectTo: LOGIN_ROUTE, pathMatch: 'full' },
+  { path: '', component: LandingComponent },
+  { path: 'register', component: RegistrationComponent },
   { path: LOGIN_ROUTE, component: LoginComponent },
   { path: 'menu/:restaurantId/:tableId', component: MenuListForUsersComponent },
   { path: 'menu/:restaurantId', component: MenuListForUsersComponent },
@@ -46,6 +51,8 @@ const routes: Routes = [
   {
     path: 'home',
     component: RestaurantHomeComponent,
+    canActivate: [authGuard],        // 👈 protects the /home itself
+    canActivateChild: [authGuard],   // 👈 protects all children of /home
     children: [
       {
         path: RESTAURANT_LIST,

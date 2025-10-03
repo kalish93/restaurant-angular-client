@@ -43,6 +43,8 @@ import { MenuQrDialogComponent } from './components/menu-qr-dialog/menu-qr-dialo
 import { EnterOrderNumberModalComponent } from './components/menu/enter-order-number-modal/enter-order-number-modal.component';
 import { OrderDetailComponent } from './components/menu/order-detail/order-detail.component';
 import { CreateOrderComponent } from './components/order/create-order/create-order.component';
+import { LandingComponent } from './components/landing/landing.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +80,9 @@ import { CreateOrderComponent } from './components/order/create-order/create-ord
     MenuQrDialogComponent,
     EnterOrderNumberModalComponent,
     OrderDetailComponent,
-    CreateOrderComponent
+    CreateOrderComponent,
+    LandingComponent,
+    RegistrationComponent
   ],
   imports: [
     SharedModule,

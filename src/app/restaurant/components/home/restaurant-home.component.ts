@@ -172,11 +172,12 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
       ];
     } else if (roleName === Roles.RestaurantManager) {
       this.navLinks = [
-        {
+        ...(!isBasic
+          ? [{
           link: 'dashboard',
           label: 'Dashboard',
           icon: 'dashboard',
-        },
+        }]:[]),
         // BASIC hides Tables
         ...(!isBasic && !isStandard
           ? [
@@ -202,11 +203,12 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
               },
             ]
           : []),
-        {
+          ...(!isBasic
+          ? [{
           link: 'staff',
           label: 'My Staff',
           icon: 'persons',
-        },
+        }] : []),
         {
           link: 'settings',
           label: 'Settings',
@@ -215,11 +217,12 @@ export class RestaurantHomeComponent implements OnDestroy, OnInit {
       ];
     } else {
       this.navLinks = [
-        {
+        ...(!isBasic
+          ? [{
           link: 'dashboard',
           label: 'Dashboard',
           icon: 'dashboard',
-        },
+        }]:[]),
         // BASIC hides Tables
         ...(!isBasic && !isStandard
           ? [

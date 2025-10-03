@@ -13,6 +13,21 @@
         (click)="toggleDrawer()">
         <mat-icon>menu</mat-icon>
       </button>
+      <div
+        *ngIf="currentRestaurant && !currentRestaurant.isActive && !isMobile"
+        class="flex items-center bg-orange-100 border border-orange-400 text-orange-700 rounded-md px-3 py-3 mx-2"
+        >
+        <mat-icon class="text-orange-500 mr-1">warning</mat-icon>
+        <span class="text-sm">
+          Your subscription has expired.
+          <a
+            routerLink="/pricing"
+            class="font-semibold underline text-orange-600 hover:text-orange-800"
+          >
+            Renew now
+          </a>
+        </span>
+      </div>
 
       <div class="absolute left-[23px] right-0 bottom-0 rounded-bl-full">
         <app-progress-status></app-progress-status>
@@ -39,7 +54,26 @@
       </div>
 
     </mat-toolbar>
-    <div class="h-full md:mt-[75px] overflow-hidden">
+
+    <div
+    *ngIf="currentRestaurant && !currentRestaurant.isActive && isMobile"
+    class="flex items-center bg-orange-100 border border-orange-400 text-orange-700 rounded-md px-3 py-3 mx-2"
+    >
+    <mat-icon class="text-orange-500 mr-1">warning</mat-icon>
+    <span class="text-sm">
+      Your subscription has expired.
+      <a
+        routerLink="/pricing"
+        class="font-semibold underline text-orange-600 hover:text-orange-800"
+      >
+        Renew now
+      </a>
+    </span>
+  </div>
+    <div
+      class="h-full overflow-hidden"
+      [ngClass]="{ 'md:mt-[75px]': isAuthenticated }"
+    >
       <router-outlet></router-outlet>
     </div>
   </mat-drawer-content>
