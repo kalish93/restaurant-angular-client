@@ -358,11 +358,11 @@ export class OrderState {
         setState(patch({}));
 
         this.store.dispatch(new SetProgressOff());
-        if(tableId){
+        // if(tableId){
         this.store.dispatch(new GetActiveTableOrder(tableId));
-        }else{
+        // }else{
           this.store.dispatch(new GetOrderByNumber(restaurantId, orderNumber));
-        }
+        // }
         // Display a success message
         this.operationStatus.displayStatus(
           'Table Reset successfully!',
@@ -410,7 +410,7 @@ export class OrderState {
           this.store.dispatch(new GetOrderByNumber(order.restaurantId, result.number));
         // } else {
         //   // Get restaurant orders when no table ID
-        //   this.store.dispatch(new GetActiveRestaurantOrder(order.restaurantId));
+          this.store.dispatch(new GetActiveRestaurantOrder(order.restaurantId));
         // }
 
         // Display a success message
