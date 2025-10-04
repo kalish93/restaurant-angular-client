@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RxState } from '@rx-angular/state';
 import { MenuFacade } from 'src/app/restaurant/facades/menu.facade';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
-
+import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade'
 interface CreateOrderState {
   menu: any[];
   cart: any[]; // holds items before confirming
@@ -38,10 +38,12 @@ export class CreateOrderComponent implements OnInit {
     private menuFacade: MenuFacade,
     private orderFacade: OrderFacade,
     private state: RxState<CreateOrderState>,
+    private restaurantFacade: RestaurantFacade,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.state.set(initCreateOrderState);
     this.state.connect('menu', this.menuFacade.menus$);
+    this.state.connect('tables', this.restaurantFacade.tables$)
 
     this.menuItemForm = this.fb.group({
       menuItemId: ['', Validators.required],
@@ -57,8 +59,8 @@ export class CreateOrderComponent implements OnInit {
 
     // Load tables (if available)
     if (this.data.restaurantId) {
+      this.restaurantFacade.dispatchGetTables()
       // Replace with actual facade/service call to fetch tables
-      this.state.set('tables', this.data.tables || []);
     }
   }
 
