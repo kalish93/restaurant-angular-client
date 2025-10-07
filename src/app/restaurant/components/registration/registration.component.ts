@@ -40,6 +40,7 @@ export class RegistrationComponent implements OnInit {
       phone: ['', Validators.required],
       address: ['', Validators.required],
       logo: [null],
+      acceptTerms: [false, Validators.requiredTrue]
     });
 
     // STEP 2: Subscription Selection Form

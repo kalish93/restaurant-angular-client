@@ -35,11 +35,13 @@ import { OrderDetailComponent } from './restaurant/components/menu/order-detail/
 import { LandingComponent } from './restaurant/components/landing/landing.component';
 import { RegistrationComponent } from './restaurant/components/registration/registration.component';
 import { authGuard } from './shared/guards/auth.guard';
+import { TermsConditionsComponent } from './restaurant/components/terms-conditions/terms-conditions.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: LOGIN_ROUTE, pathMatch: 'full' },
   { path: '', component: LandingComponent },
   { path: 'register', component: RegistrationComponent },
+  { path: 'terms-conditions', component: TermsConditionsComponent },
   { path: LOGIN_ROUTE, component: LoginComponent },
   { path: 'menu/:restaurantId/:tableId', component: MenuListForUsersComponent },
   { path: 'menu/:restaurantId', component: MenuListForUsersComponent },

@@ -45,6 +45,7 @@ import { OrderDetailComponent } from './components/menu/order-detail/order-detai
 import { CreateOrderComponent } from './components/order/create-order/create-order.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { RegistrationComponent } from './components/registration/registration.co
     OrderDetailComponent,
     CreateOrderComponent,
     LandingComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    TermsConditionsComponent
   ],
   imports: [
     SharedModule,

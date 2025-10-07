@@ -21,8 +21,8 @@
         <span class="text-sm">
           Your subscription has expired.
           <a
-            routerLink="/pricing"
-            class="font-semibold underline text-orange-600 hover:text-orange-800"
+            (click)="openRenewDialog()"
+            class="font-semibold underline text-orange-600 hover:text-orange-800 cursor-pointer"
           >
             Renew now
           </a>

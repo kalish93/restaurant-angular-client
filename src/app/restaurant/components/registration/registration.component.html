@@ -166,6 +166,32 @@
             </div>
           </div>
 
+          <div class="lg:col-span-2 flex items-center space-x-3 mt-4">
+          <input
+            type="checkbox"
+            formControlName="acceptTerms"
+            id="acceptTerms"
+            class="w-5 h-5 text-orange-500 border-gray-300 rounded focus:ring-orange-500 focus:ring-2"
+          />
+          <label for="acceptTerms" class="text-gray-700 text-sm">
+            I accept the
+            <a
+              routerLink="/terms-conditions"
+              class="text-orange-500 underline hover:text-orange-600"
+              target="_blank"
+              >Terms & Conditions</a
+            >
+          </label>
+        </div>
+
+        <!-- Error message -->
+        <div
+          *ngIf="restaurantForm.get('acceptTerms')?.invalid && restaurantForm.get('acceptTerms')?.touched"
+          class="text-orange-500 text-sm mt-1 lg:col-span-2"
+        >
+          You must accept the terms and conditions to continue
+        </div>
+
           <!-- Navigation -->
           <div class="lg:col-span-2 flex justify-end pt-4">
             <button

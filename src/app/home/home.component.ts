@@ -37,6 +37,7 @@ const initHomeComponentState: Partial<HomeComponentState> = {
 
 import { MobileNavigationComponent } from '../mobile-navigation/mobile-navigation.component';
 import { MatDrawer } from '@angular/material/sidenav';
+import { SubscriptionRenewalDialogComponent } from '../restaurant/components/subscription-renewal-dialog/subscription-renewal-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -83,6 +84,7 @@ export class HomeComponent implements OnInit {
     private matDialog: MatDialog,
     private sidenavService: SidenavService,
     private restaurantFacade: RestaurantFacade,
+    private dialog: MatDialog
   ) {
     this.state.set(initHomeComponentState);
     this.state.connect('isAuthenticated', authFacade.isAuthenticated$);
@@ -176,4 +178,11 @@ export class HomeComponent implements OnInit {
     console.log('Toggle drawer called from home component');
     this.sidenavService.toggleSidenav();
   }
+
+  openRenewDialog() {
+  this.dialog.open(SubscriptionRenewalDialogComponent, {
+    width: '450px',
+    disableClose: true
+  });
+}
 }

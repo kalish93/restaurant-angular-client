@@ -118,6 +118,7 @@ export class CreateOrderComponent implements OnInit {
       this.orderFacade.dispatchPlaceOrderByNumber(dataToSend);
     }
 
+    this.orderFacade.dispatchGetActiveRestaurantOrder(this.data.restaurantId)
     this.dialogRef.close();
   }
 
