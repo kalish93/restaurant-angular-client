@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthFacade } from '../../facade/auth.facade';
 import { RxState } from '@rx-angular/state';
-import { Observable, tap } from 'rxjs';
+import { filter, Observable, take, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import {
   HOME_ROUTE,
@@ -11,6 +11,8 @@ import {
 } from 'src/app/core/constants/routes';
 import { Store } from '@ngxs/store';
 import { RestaurantFacade } from '../../../restaurant/facades/restaurant.facade'
+import { jwtDecode } from 'jwt-decode';
+
 interface LoginComponentState {
   isAuthenticated: boolean;
   isPasswordVisible: boolean;
@@ -49,23 +51,42 @@ export class LoginComponent implements OnInit {
     this.state.connect('currentRestaurant', restaurantFacade.selectedRestaurant$);
   }
 
-ngOnInit(): void {
-  this.isAuthenticated$.subscribe((result) => {
-    if (result) {
-      this.currentRestaurant$.subscribe((restaurant) => {
-        if (restaurant) {
-          if (restaurant.subscription === 'BASIC') {
-            this.router.navigate(['/home/menu']);
-          } else {
-            this.router.navigate(['/home/dashboard']);
+ ngOnInit(): void {
+    this.isAuthenticated$
+      .pipe(filter((isAuth) => isAuth))
+      .subscribe(() => {
+        this.authFacade.accessToken$.pipe(take(1)).subscribe((token) => {
+          if (token) {
+            try {
+              const decodedToken: { restaurantId?: string } = jwtDecode(token);
+
+              if (decodedToken?.restaurantId) {
+                // ✅ Fetch restaurant from backend
+                this.restaurantFacade.dispatchGetRestaurant(decodedToken.restaurantId);
+
+                // ✅ Navigate based on restaurant subscription
+                this.currentRestaurant$
+                  .pipe(filter((r) => !!r), take(1))
+                  .subscribe((restaurant) => {
+                    if (restaurant.subscription === 'BASIC') {
+                      this.router.navigate(['/home/menu']);
+                    } else {
+                      this.router.navigate(['/home/dashboard']);
+                    }
+                  });
+              } else {
+                // ✅ No restaurant — navigate to dashboard directly
+                this.router.navigate(['/home/dashboard']);
+              }
+            } catch (error) {
+              console.error('Error decoding token:', error);
+              this.router.navigate(['/home/dashboard']);
+            }
           }
-        }
+        });
       });
-    }
-  });
-}
-
-
+  }
+  
   get emailValidationError() {
     return this.loginForm.controls.email;
   }

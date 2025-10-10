@@ -18,6 +18,7 @@ import { RestaurantService } from '../services/restaurant.service';
 import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, DowloadRestaurantQrCode, GenerateMenuQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, SelfRegisterRestaurant, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 import { MenuService } from '../services/menu.service';
+import { Logout } from 'src/app/auth/store/auth.actions';
 
 export interface RestaurantStateModel {
   restaurants: PaginatedList<any>;
@@ -740,4 +741,10 @@ getZreportData(
       })
     );
   }
+
+  @Action(Logout)
+  clearRestaurant(ctx: StateContext<RestaurantStateModel>) {
+  ctx.patchState({ selectedRestaurant: undefined, tables: []});
+  }
+
 }
