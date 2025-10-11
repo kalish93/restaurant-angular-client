@@ -689,10 +689,10 @@ deleteDiscount(
 @Action(GetZreportData)
 getZreportData(
     { setState }: StateContext<RestaurantStateModel>,
-    { restaurantId }: GetZreportData
+    { restaurantId, date }: GetZreportData
   ) {
     this.store.dispatch(new SetProgressOn());
-    return this.restaurantService.getZreportData(restaurantId).pipe(
+    return this.restaurantService.getZreportData(restaurantId, date).pipe(
       tap((result) => {
         setState(
           patch({

@@ -2,17 +2,27 @@
   <div class="mx-auto max-w-7xl">
     <!-- Header -->
     <div class="mb-8">
-      <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Settings</h1>
-      <p class="mt-2 text-sm text-gray-600">Manage your restaurant configuration and preferences</p>
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+        Settings
+      </h1>
+      <p class="mt-2 text-sm text-gray-600">
+        Manage your restaurant configuration and preferences
+      </p>
     </div>
 
     <!-- Settings Tabs -->
     <div class="mb-8">
       <nav class="flex flex-wrap space-x-4 sm:space-x-8" aria-label="Tabs">
-        <button *ngFor="let tab of tabs" (click)="activeTab = tab.id" [class]="activeTab === tab.id
-            ? 'border-primary-500 text-primary-600'
-            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-          class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors">
+        <button
+          *ngFor="let tab of tabs"
+          (click)="activeTab = tab.id"
+          [class]="
+            activeTab === tab.id
+              ? 'border-primary-500 text-primary-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          "
+          class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors"
+        >
           {{ tab.name }}
         </button>
       </nav>
@@ -23,62 +33,145 @@
       <!-- Profile Information Card -->
       <div class="bg-white shadow rounded-lg">
         <div class="px-6 py-4 border-b border-gray-200">
-          <h6 class=" font-medium text-gray-900">Profile Information</h6>
-          <p class="mt-1 text-sm text-gray-500">Update your restaurant's basic information</p>
+          <h6 class="font-medium text-gray-900">Profile Information</h6>
+          <p class="mt-1 text-sm text-gray-500">
+            Update your restaurant's basic information
+          </p>
         </div>
         <div class="px-6 py-4">
-          <form [formGroup]="profileForm" (ngSubmit)="onProfileSubmit()" class="space-y-6">
+          <form
+            [formGroup]="profileForm"
+            (ngSubmit)="onProfileSubmit()"
+            class="space-y-6"
+          >
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label for="restaurantName" class="block text-sm font-medium text-gray-700">Restaurant Name</label>
-                <input type="text" id="restaurantName" formControlName="name"
+                <label
+                  for="restaurantName"
+                  class="block text-sm font-medium text-gray-700"
+                  >Restaurant Name</label
+                >
+                <input
+                  type="text"
+                  id="restaurantName"
+                  formControlName="name"
                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
-                  [class.border-red-500]="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
-                <div *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
-                  class="mt-1 text-sm text-red-600">
-                  <span *ngIf="profileForm.get('name')?.errors?.['required']">Restaurant name is required</span>
-                  <span *ngIf="profileForm.get('name')?.errors?.['minlength']">Restaurant name must be at least 2
-                    characters</span>
+                  [class.border-red-500]="
+                    profileForm.get('name')?.invalid &&
+                    profileForm.get('name')?.touched
+                  "
+                />
+                <div
+                  *ngIf="
+                    profileForm.get('name')?.invalid &&
+                    profileForm.get('name')?.touched
+                  "
+                  class="mt-1 text-sm text-red-600"
+                >
+                  <span *ngIf="profileForm.get('name')?.errors?.['required']"
+                    >Restaurant name is required</span
+                  >
+                  <span *ngIf="profileForm.get('name')?.errors?.['minlength']"
+                    >Restaurant name must be at least 2 characters</span
+                  >
                 </div>
               </div>
 
               <div>
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                <input type="tel" id="phone" formControlName="phone"
+                <label
+                  for="phone"
+                  class="block text-sm font-medium text-gray-700"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  id="phone"
+                  formControlName="phone"
                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
-                  [class.border-red-500]="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched">
-                <div *ngIf="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched"
-                  class="mt-1 text-sm text-red-600">
-                  <span *ngIf="profileForm.get('phone')?.errors?.['required']">Phone number is required</span>
-                  <span *ngIf="profileForm.get('phone')?.errors?.['pattern']">Please enter a valid phone number</span>
+                  [class.border-red-500]="
+                    profileForm.get('phone')?.invalid &&
+                    profileForm.get('phone')?.touched
+                  "
+                />
+                <div
+                  *ngIf="
+                    profileForm.get('phone')?.invalid &&
+                    profileForm.get('phone')?.touched
+                  "
+                  class="mt-1 text-sm text-red-600"
+                >
+                  <span *ngIf="profileForm.get('phone')?.errors?.['required']"
+                    >Phone number is required</span
+                  >
+                  <span *ngIf="profileForm.get('phone')?.errors?.['pattern']"
+                    >Please enter a valid phone number</span
+                  >
                 </div>
               </div>
             </div>
 
             <div>
-              <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-              <textarea id="address" rows="3" formControlName="address"
+              <label
+                for="address"
+                class="block text-sm font-medium text-gray-700"
+                >Address</label
+              >
+              <textarea
+                id="address"
+                rows="3"
+                formControlName="address"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
-                [class.border-red-500]="profileForm.get('address')?.invalid && profileForm.get('address')?.touched"></textarea>
-              <div *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched"
-                class="mt-1 text-sm text-red-600">
-                <span *ngIf="profileForm.get('address')?.errors?.['required']">Address is required</span>
-                <span *ngIf="profileForm.get('address')?.errors?.['minlength']">Address must be at least 10
-                  characters</span>
+                [class.border-red-500]="
+                  profileForm.get('address')?.invalid &&
+                  profileForm.get('address')?.touched
+                "
+              ></textarea>
+              <div
+                *ngIf="
+                  profileForm.get('address')?.invalid &&
+                  profileForm.get('address')?.touched
+                "
+                class="mt-1 text-sm text-red-600"
+              >
+                <span *ngIf="profileForm.get('address')?.errors?.['required']"
+                  >Address is required</span
+                >
+                <span *ngIf="profileForm.get('address')?.errors?.['minlength']"
+                  >Address must be at least 10 characters</span
+                >
               </div>
             </div>
 
             <div class="flex justify-end">
-              <button type="submit" [disabled]="!profileForm.valid || profileForm.pristine || isProfileLoading"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg *ngIf="isProfileLoading" class="animate-spin -ml-1 mr-3 h-4 w-4 text-white"
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                  </path>
+              <button
+                type="submit"
+                [disabled]="
+                  !profileForm.valid || profileForm.pristine || isProfileLoading
+                "
+                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg
+                  *ngIf="isProfileLoading"
+                  class="animate-spin -ml-1 mr-3 h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
-                {{ isProfileLoading ? 'Saving...' : 'Save Profile' }}
+                {{ isProfileLoading ? "Saving..." : "Save Profile" }}
               </button>
             </div>
           </form>
@@ -88,32 +181,64 @@
       <!-- Restaurant Logo Card -->
       <div class="bg-white shadow rounded-lg">
         <div class="px-6 py-4 border-b border-gray-200">
-          <h6 class=" font-medium text-gray-900">Restaurant Logo</h6>
-          <p class="mt-1 text-sm text-gray-500">Upload or update your restaurant logo</p>
+          <h6 class="font-medium text-gray-900">Restaurant Logo</h6>
+          <p class="mt-1 text-sm text-gray-500">
+            Upload or update your restaurant logo
+          </p>
         </div>
         <div class="px-6 py-4">
           <div class="flex items-center space-x-6">
             <div class="flex-shrink-0">
-              <img [src]="logoPreview || apiUrl + '/' + restaurant?.logo || 'assets/logo.jpeg'"
-                alt="Restaurant Logo" class="h-20 w-20 rounded-lg object-cover border-2 border-gray-200">
+              <img
+                [src]="
+                  logoPreview ||
+                  apiUrl + '/' + restaurant?.logo ||
+                  'assets/logo.jpeg'
+                "
+                alt="Restaurant Logo"
+                class="h-20 w-20 rounded-lg object-cover border-2 border-gray-200"
+              />
             </div>
             <div class="flex-1">
               <div class="flex items-center space-x-4">
-                <label for="logo-upload"
-                  class="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                  <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                <label
+                  for="logo-upload"
+                  class="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                >
+                  <svg
+                    class="mr-2 h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    ></path>
                   </svg>
                   Upload Logo
                 </label>
-                <button *ngIf="selectedFile" (click)="uploadLogo()"
-                  class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                <button
+                  *ngIf="selectedFile"
+                  (click)="uploadLogo()"
+                  class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                >
                   Save Logo
                 </button>
-                <input id="logo-upload" type="file" accept="image/*" (change)="onLogoChange($event)" class="hidden">
-                <button *ngIf="logoPreview" (click)="removeLogo()"
-                  class="inline-flex items-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                <input
+                  id="logo-upload"
+                  type="file"
+                  accept="image/*"
+                  (change)="onLogoChange($event)"
+                  class="hidden"
+                />
+                <button
+                  *ngIf="logoPreview"
+                  (click)="removeLogo()"
+                  class="inline-flex items-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
                   Remove
                 </button>
               </div>
@@ -124,9 +249,7 @@
       </div>
     </div>
 
-    <!-- Appearance Settings Tab -->
-    <div *ngIf="activeTab === 'appearance'" class="space-y-6">
-      <!-- Color Palette Card -->
+    <!-- <div *ngIf="activeTab === 'appearance'" class="space-y-6">
       <div class="bg-white shadow rounded-lg">
         <div class="px-6 py-4 border-b border-gray-200">
           <h6 class=" font-medium text-gray-900">Color Palette</h6>
@@ -134,7 +257,6 @@
         </div>
         <div class="px-6 py-4">
           <form [formGroup]="appearanceForm" (ngSubmit)="onAppearanceSubmit()" class="space-y-6">
-            <!-- Preset Color Palettes -->
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-3">Choose from Preset Palettes</label>
               <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -150,7 +272,6 @@
               </div>
             </div>
 
-            <!-- Custom Color Picker -->
             <div class="border-t pt-6">
               <label class="block text-sm font-medium text-gray-700 mb-3">Custom Colors</label>
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -189,7 +310,6 @@
               </div>
             </div>
 
-            <!-- Color Preview -->
             <div class="border-t pt-6">
               <label class="block text-sm font-medium text-gray-700 mb-3">Preview</label>
               <div class="bg-gray-50 rounded-lg p-4">
@@ -220,56 +340,180 @@
           </form>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Business Settings Tab -->
     <div *ngIf="activeTab === 'business'" class="space-y-6">
       <!-- Restaurant Status Card -->
       <div class="bg-white shadow rounded-lg">
         <div class="px-6 py-4 border-b border-gray-200">
-          <h6 class=" font-medium text-gray-900">Restaurant Status</h6>
-          <p class="mt-1 text-sm text-gray-500">Control your restaurant's availability</p>
+          <h6 class="font-medium text-gray-900">Restaurant Status</h6>
+          <p class="mt-1 text-sm text-gray-500">
+            Control your restaurant's availability
+          </p>
         </div>
         <div class="px-6 py-4">
           <div class="flex items-center justify-between">
             <div>
-              <h6 class="text-base font-medium text-gray-900">Open/Closed Status</h6>
-              <p class="text-sm text-gray-500">Set whether your restaurant is currently accepting orders</p>
+              <h6 class="text-base font-medium text-gray-900">
+                Open/Closed Status
+              </h6>
+              <p class="text-sm text-gray-500">
+                Set whether your restaurant is currently accepting orders
+              </p>
             </div>
             <div class="flex items-center space-x-2">
-              <mat-slide-toggle formControlName="restaurantStatus" color="primary" (change)="onOpenOrClose()"
-                [checked]="restaurant?.isOpen" class="scale-90">
+              <mat-slide-toggle
+                formControlName="restaurantStatus"
+                color="primary"
+                (change)="onOpenOrClose()"
+                [checked]="restaurant?.isOpen"
+                class="scale-90"
+              >
               </mat-slide-toggle>
-              <span class="text-sm font-medium"
-                [class]="settingsForm.get('restaurantStatus')?.value ? 'text-green-600' : 'text-red-600'">
-                {{ settingsForm.get("restaurantStatus")?.value ? "Open" : "Closed" }}
+              <span
+                class="text-sm font-medium"
+                [class]="
+                  settingsForm.get('restaurantStatus')?.value
+                    ? 'text-green-600'
+                    : 'text-red-600'
+                "
+              >
+                {{
+                  settingsForm.get("restaurantStatus")?.value
+                    ? "Open"
+                    : "Closed"
+                }}
               </span>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Tax Rate Card -->
+    </div>
+    
+    <!-- Reports Tab -->
+    <div *ngIf="activeTab === 'reports'" class="space-y-6">
       <div class="bg-white shadow rounded-lg">
-        <div class="px-6 py-4 border-b border-gray-200">
-          <h6 class=" font-medium text-gray-900">Tax Configuration</h6>
-          <p class="mt-1 text-sm text-gray-500">Set your restaurant's tax rate</p>
+        <div
+          class="px-6 py-4 border-b border-gray-200 flex justify-between items-center"
+        >
+          <div>
+            <h6 class="font-medium text-gray-900">Daily Report</h6>
+            <p class="mt-1 text-sm text-gray-500">
+              View your restaurant performance summary for any date
+            </p>
+          </div>
+
+          <mat-form-field appearance="outline" class="w-56">
+            <mat-label>Select Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [(ngModel)]="selectedDate"
+              (dateChange)="getDailyReport()"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
         </div>
-        <div class="px-6 py-4">
-          <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="space-y-4">
-            <div>
-              <label for="taxRate" class="block text-sm font-medium text-gray-700">Tax Rate (%)</label>
-              <mat-form-field appearance="outline" class="w-32">
-                <input matInput type="number" id="taxRate" formControlName="taxRate" step="0.01" min="0" max="100">
-              </mat-form-field>
+
+        <div class="px-6 py-6">
+          <div
+            *ngIf="loadingReport"
+            class="flex justify-center items-center h-32"
+          >
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+
+          <div *ngIf="!loadingReport && dailyReport">
+            <!-- Summary Cards -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6"
+            >
+              <div
+                class="bg-primary-50 border border-primary-100 rounded-lg p-4"
+              >
+                <p class="text-sm text-gray-600">Total Orders</p>
+                <p class="text-2xl font-semibold text-primary-700">
+                  {{ dailyReport.totalOrders }}
+                </p>
+              </div>
+
+              <div class="bg-green-50 border border-green-100 rounded-lg p-4">
+                <p class="text-sm text-gray-600">Total Items Sold</p>
+                <p class="text-2xl font-semibold text-green-700">
+                  {{ dailyReport.totalItemsSold }}
+                </p>
+              </div>
+
+              <div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <p class="text-sm text-gray-600">Total Revenue</p>
+                <p class="text-2xl font-semibold text-blue-700">
+                  {{ dailyReport.totalRevenue | currency }}
+                </p>
+              </div>
             </div>
-            <div class="flex justify-end">
-              <button type="submit" [disabled]="!settingsForm.get('taxRate')?.valid"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                Save Tax Rate
+
+            <!-- Breakdown Table -->
+            <div class="overflow-x-auto">
+              <table
+                mat-table
+                [dataSource]="dailyReport.breakdown"
+                class="min-w-full"
+              >
+                <ng-container matColumnDef="itemName">
+                  <th mat-header-cell *matHeaderCellDef>Item</th>
+                  <td mat-cell *matCellDef="let item">{{ item.itemName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantitySold">
+                  <th mat-header-cell *matHeaderCellDef>Qty Sold</th>
+                  <td mat-cell *matCellDef="let item">
+                    {{ item.quantitySold }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalSales">
+                  <th mat-header-cell *matHeaderCellDef>Total Sales</th>
+                  <td mat-cell *matCellDef="let item">
+                    {{ item.totalSales | currency }}
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="['itemName', 'quantitySold', 'totalSales']"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="
+                    let row;
+                    columns: ['itemName', 'quantitySold', 'totalSales']
+                  "
+                ></tr>
+              </table>
+            </div>
+
+            <div class="mt-6 text-right">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="printZreport()"
+              >
+                <mat-icon>print</mat-icon> Print Report
               </button>
             </div>
-          </form>
+          </div>
+
+          <div
+            *ngIf="!loadingReport && !dailyReport"
+            class="text-center py-8 text-gray-500"
+          >
+            No report found for this date.
+          </div>
         </div>
       </div>
     </div>

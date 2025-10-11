@@ -107,8 +107,8 @@ export class RestaurantFacade {
     this.store.dispatch(new GetDiscounts(restaurantId));
   }
 
-  dispatchGetZreportData(restaurantId: any) {
-    this.store.dispatch(new GetZreportData(restaurantId));
+  dispatchGetZreportData(restaurantId: any, date?: any) {
+    this.store.dispatch(new GetZreportData(restaurantId, date));
   }
 
   dispatchUpdateRestaurantActiveStatus(data: any) {

@@ -10,6 +10,8 @@ import { CreditCardFormComponent } from '../payment/credit-card-form/credit-card
 import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm-dialog/confirm-dialog.component';
 import { DiscountFormComponent } from '../payment/discount-form/discount-form.component';
 import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
+import { formatDate } from '@angular/common';
+import { jsPDF } from 'jspdf';
 
 interface SettingsComponentState {
   restaurant: Restaurant | null;
@@ -51,8 +53,9 @@ export class SettingsComponent implements OnInit {
   // Tab management
   tabs: Tab[] = [
     { id: 'profile', name: 'Profile' },
-    { id: 'appearance', name: 'Appearance' },
-    { id: 'business', name: 'Business' },
+    // { id: 'appearance', name: 'Appearance' },
+    // { id: 'business', name: 'Business' },
+    { id: 'reports', name: 'Reports' },
   ];
   activeTab: string = 'profile';
 
@@ -65,6 +68,9 @@ export class SettingsComponent implements OnInit {
   isAppearanceLoading = false;
   isLogoLoading = false;
 
+  selectedDate: Date = new Date();
+  loadingReport = false;
+  dailyReport: any = null;
   // Color palette management
   presetPalettes: ColorPalette[] = [
     {
@@ -163,10 +169,17 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.restaurant$.subscribe((data) => {
+     this.restaurant$.subscribe((data) => {
+    if (data) {
       this.restaurant = data;
       this.loadSettings();
-    });
+      const today = new Date();
+
+      const formattedDate = formatDate(today, 'yyyy-MM-dd', 'en');
+      this.restaurantFacade.dispatchGetZreportData(this.restaurant.id, formattedDate);
+      this.getDailyReport()
+    }
+  });
 
     // this.restaurantFacade.dispatchGetCreditCards(this.restaurant.id);
     // this.restaurantFacade.dispatchGetDiscounts(this.restaurant.id);
@@ -177,7 +190,6 @@ export class SettingsComponent implements OnInit {
       this.discounts = data;
     });
 
-    // this.restaurantFacade.dispatchGetZreportData(this.restaurant.id);
     this.zReportData$.subscribe((data) => {
       this.zReportData = data;
     });
@@ -419,173 +431,69 @@ export class SettingsComponent implements OnInit {
     return now.toLocaleDateString(); // Format the date
   }
 
-  pritntZreport() {
-    this.restaurantFacade.dispatchGetZreportData(this.restaurant.id);
-    this.zReportData$.subscribe((data) => {
-      this.zReportData = data;
-    });
 
-    let totalPayment = 0; // Initialize to 0
-    Object.entries(this.zReportData.paymentDetails).forEach(
-      ([categoryName, amount]) => {
-        // Check if amount is a number before adding
-        if (typeof amount === 'number') {
-          totalPayment += amount;
-        }
-      }
-    );
+printZreport() {
+  if (!this.zReportData) return;
 
-    let totalCredit = 0;
-    this.zReportData.creditCardBreakdown.map(
-      (item: any) => (totalCredit += item.amount)
-    );
+  const doc = new jsPDF({
+    orientation: 'p',
+    unit: 'mm',
+    format: 'a4',
+  });
 
-    const printableContent = `
-    <div style=" width: 100%; padding: 10px; font-size: 13px; max-width: 80mm">
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Z Report</span>
-        <span>${this.getCurrentDate()}</span>
-      </div>
-      <hr/>
+  let y = 10; // starting y position
 
-      <h5 style="text-align: center; text-transform: uppercase;">Sales And Taxes Summary</h5>
-      <hr />
+  doc.setFontSize(16);
+  doc.text('Z Report', 105, y, { align: 'center' });
+  y += 10;
+  doc.setFontSize(12);
+  doc.text(`Date: ${this.zReportData.reportDate}`, 105, y, { align: 'center' });
+  y += 10;
+  doc.line(10, y, 200, y); // horizontal line
+  y += 5;
 
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Total Net Sales</span>
-        <span>${this.zReportData.totalSales.toFixed(2)}</span>
-      </div>
+  doc.setFontSize(12);
+  doc.text(`Total Orders: ${this.zReportData.totalOrders}`, 10, y);
+  y += 7;
+  doc.text(`Total Items Sold: ${this.zReportData.totalItemsSold}`, 10, y);
+  y += 7;
+  doc.text(`Total Revenue: ${this.zReportData.totalRevenue.toFixed(2)}`, 10, y);
+  y += 10;
 
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Tax</span>
-        <span>${this.zReportData.totalTax.toFixed(2)}</span>
-      </div>
+  doc.text('Breakdown:', 10, y);
+  y += 7;
 
-      <hr />
+  this.zReportData.breakdown.forEach((item: any) => {
+    doc.text(`${item.itemName} - Qty: ${item.quantitySold}, Sales: ${item.totalSales.toFixed(2)}`, 10, y);
+    y += 7;
+  });
 
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Total Sales</span>
-        <span>${(
-          this.zReportData.totalTax + this.zReportData.totalSales
-        ).toFixed(2)}</span>
-      </div>
-       <h5 style="text-align: center; text-transform: uppercase;">Sales Categories</h5>
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Category</span>
-        <span>Quantity Net Sales</span>
-      </div>
-      <hr />
+  // Save the PDF
+  const fileName = `ZReport-${this.zReportData.reportDate}.pdf`;
+  doc.save(fileName);
+}
 
-      ${Object.entries(this.zReportData.categorySales)
-        .map(([categoryName, salesData]) => {
-          const data = salesData as any; // Type assertion
-          return `
-          <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-            <span>${categoryName}</span>
-            <span>(${data.quantitySold}) ${data.totalSales.toFixed(2)}</span>
-          </div>
-        `;
-        })
-        .join('')}
-      <hr />
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Total Net Sales</span>
-        <span>${this.zReportData.totalSales.toFixed(2)}</span>
-      </div>
 
-       <h5 style="text-align: center; text-transform: uppercase;">Payment Details</h5>
-      <hr />
+  getDailyReport() {
+  if (!this.restaurant || !this.restaurant.id) return;
 
-    ${Object.entries(this.zReportData.paymentDetails)
-      .map(([categoryName, amount]) => {
-        let a = amount as any;
-        return `
-          <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-            <span>${categoryName}</span>
-            <span>${a.toFixed(2)}</span>
-          </div>
-        `;
-      })
-      .join('')}
+  this.loadingReport = true;
+  const formattedDate = formatDate(this.selectedDate, 'yyyy-MM-dd', 'en');
 
-      <hr />
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Total Payment</span>
-        <span>${totalPayment.toFixed(2)}</span>
-      </div>
+  // Call backend via your existing facade
+  this.restaurantFacade.dispatchGetZreportData(this.restaurant.id, formattedDate);
 
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Total Payment - Total Sales</span>
-        <span>${(
-          totalPayment -
-          (this.zReportData.totalTax + this.zReportData.totalSales)
-        ).toFixed(2)}</span>
-      </div>
+  this.zReportData$.subscribe({
+    next: (data) => {
+      this.dailyReport = data;
+      this.loadingReport = false;
+    },
+    error: (err) => {
+      console.error('Error fetching daily report:', err);
+      this.loadingReport = false;
+      this.dailyReport = null;
+    },
+  });
+}
 
-       <h5 style="text-align: center; text-transform: uppercase;">Server TipOuts</h5>
-      <hr />
-
-       <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Total Cash Before Tip</span>
-        <span>${this.zReportData.paymentDetails.cash.toFixed(2)}</span>
-      </div>
-       <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Total Tip</span>
-        <span>${this.zReportData.totalTips.toFixed(2)}</span>
-      </div>
-
-      <hr />
-     <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Total Cash</span>
-        <span>${(
-          this.zReportData.paymentDetails.cash - this.zReportData.totalTips
-        ).toFixed(2)}</span>
-      </div>
-
-       <h5 style="text-align: center; text-transform: uppercase;">Total Discounts</h5>
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-        <span>Discount Name</span>
-        <span>Count    Amount</span>
-      </div>
-      <hr />
-
-      ${Object.entries(this.zReportData.discounts)
-        .map(([categoryName, discountData]) => {
-          const data = discountData as any; // Type assertion
-          return `
-          <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-            <span>${categoryName}</span>
-            <span>(${data.count})          ${data.total.toFixed(2)}</span>
-          </div>
-        `;
-        })
-        .join('')}
-
-       <h5 style="text-align: center; text-transform: uppercase;">Credit Card Breakdown</h5>
-      <hr />
-      ${this.zReportData.creditCardBreakdown
-        .map(
-          (item: any) => `
-        <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-          <span>${item.cardType}</span>
-          <span>${item.amount.toFixed(2)}</span>
-        </div>
-      `
-        )
-        .join('')}
-      <hr />
-      <div style="margin-bottom: 5px; display: flex; flex-direction: row; justify-content: space-between;">
-          <span>Total</span>
-          <span>${totalCredit.toFixed(2)}</span>
-        </div>
-
-    </div>
-  `;
-
-    const originalContent = document.body.innerHTML;
-    document.body.innerHTML = printableContent;
-    window.print();
-    document.body.innerHTML = originalContent;
-    window.location.reload();
-  }
 }

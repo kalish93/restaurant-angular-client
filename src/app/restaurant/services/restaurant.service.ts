@@ -115,8 +115,8 @@ export class RestaurantService {
     return this.http.get<any>(`${RESTAURANTS_URL}/${restaurantId}/discounts`, this.httpOptions);
   }
 
-  getZreportData(restaurantId: any): Observable<any> {
-    return this.http.get<any>(`${RESTAURANTS_URL}/${restaurantId}/z-report`, this.httpOptions);
+  getZreportData(restaurantId: any, date?: any): Observable<any> {
+    return this.http.get<any>(`${API_BASE_URL}/reports/daily-reports?restaurantId=${restaurantId}&date=${date}`, this.httpOptions);
   }
 
   updateRestaurantActiveStatus(data: any): Observable<any> {
