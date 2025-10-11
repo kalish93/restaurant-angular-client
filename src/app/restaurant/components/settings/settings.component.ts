@@ -11,7 +11,6 @@ import { ConfirmDialogComponent } from 'src/app/shared/shared-components/confirm
 import { DiscountFormComponent } from '../payment/discount-form/discount-form.component';
 import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 import { formatDate } from '@angular/common';
-import { jsPDF } from 'jspdf';
 
 interface SettingsComponentState {
   restaurant: Restaurant | null;
@@ -432,46 +431,46 @@ export class SettingsComponent implements OnInit {
   }
 
 
-printZreport() {
-  if (!this.zReportData) return;
+// printZreport() {
+//   if (!this.zReportData) return;
 
-  const doc = new jsPDF({
-    orientation: 'p',
-    unit: 'mm',
-    format: 'a4',
-  });
+//   const doc = new jsPDF({
+//     orientation: 'p',
+//     unit: 'mm',
+//     format: 'a4',
+//   });
 
-  let y = 10; // starting y position
+//   let y = 10; // starting y position
 
-  doc.setFontSize(16);
-  doc.text('Z Report', 105, y, { align: 'center' });
-  y += 10;
-  doc.setFontSize(12);
-  doc.text(`Date: ${this.zReportData.reportDate}`, 105, y, { align: 'center' });
-  y += 10;
-  doc.line(10, y, 200, y); // horizontal line
-  y += 5;
+//   doc.setFontSize(16);
+//   doc.text('Z Report', 105, y, { align: 'center' });
+//   y += 10;
+//   doc.setFontSize(12);
+//   doc.text(`Date: ${this.zReportData.reportDate}`, 105, y, { align: 'center' });
+//   y += 10;
+//   doc.line(10, y, 200, y); // horizontal line
+//   y += 5;
 
-  doc.setFontSize(12);
-  doc.text(`Total Orders: ${this.zReportData.totalOrders}`, 10, y);
-  y += 7;
-  doc.text(`Total Items Sold: ${this.zReportData.totalItemsSold}`, 10, y);
-  y += 7;
-  doc.text(`Total Revenue: ${this.zReportData.totalRevenue.toFixed(2)}`, 10, y);
-  y += 10;
+//   doc.setFontSize(12);
+//   doc.text(`Total Orders: ${this.zReportData.totalOrders}`, 10, y);
+//   y += 7;
+//   doc.text(`Total Items Sold: ${this.zReportData.totalItemsSold}`, 10, y);
+//   y += 7;
+//   doc.text(`Total Revenue: ${this.zReportData.totalRevenue.toFixed(2)}`, 10, y);
+//   y += 10;
 
-  doc.text('Breakdown:', 10, y);
-  y += 7;
+//   doc.text('Breakdown:', 10, y);
+//   y += 7;
 
-  this.zReportData.breakdown.forEach((item: any) => {
-    doc.text(`${item.itemName} - Qty: ${item.quantitySold}, Sales: ${item.totalSales.toFixed(2)}`, 10, y);
-    y += 7;
-  });
+//   this.zReportData.breakdown.forEach((item: any) => {
+//     doc.text(`${item.itemName} - Qty: ${item.quantitySold}, Sales: ${item.totalSales.toFixed(2)}`, 10, y);
+//     y += 7;
+//   });
 
-  // Save the PDF
-  const fileName = `ZReport-${this.zReportData.reportDate}.pdf`;
-  doc.save(fileName);
-}
+//   // Save the PDF
+//   const fileName = `ZReport-${this.zReportData.reportDate}.pdf`;
+//   doc.save(fileName);
+// }
 
 
   getDailyReport() {
