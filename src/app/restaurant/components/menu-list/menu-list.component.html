@@ -1,148 +1,138 @@
 <div class="min-h-screen bg-gray-100 p-4">
   <div class="mx-auto md:max-w-[90%]">
-    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-0">
-  <div>
-    <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">Our Menus</h1>
-    <p class="mt-2 text-gray-600">Manage your restaurant menu items</p>
-  </div>
-  <div class="flex flex-wrap gap-3 mt-4 md:mt-0">
-    <ng-container *appHasRole="[hasManagerRole()]">
-      <ng-container *appHasSubscription="['BASIC','STANDARD']">
-        <button
-          (click)="viewMenuQr()"
-          class="flex items-center gap-2 rounded-full bg-white px-4 sm:px-6 py-2 sm:py-3 font-medium text-green-600 shadow transition-all hover:shadow-md text-sm sm:text-base"
-        >
-          <mat-icon class="!text-lg">qr_code_2</mat-icon>
-          Manage Menu QR
-        </button>
-      </ng-container>
-    </ng-container>
-
-    <button
-      *appHasRole="[hasManagerRole()]"
-      (click)="openCategoryManager()"
-      class="flex items-center gap-2 rounded-full bg-white px-4 sm:px-6 py-2 sm:py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)] text-sm sm:text-base"
+    <header
+      class="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
     >
-      <mat-icon class="!text-lg">category</mat-icon>
-      Manage Categories
-    </button>
-
-    <button
-      *appHasRole="[hasManagerRole()]"
-      (click)="openMenuModal()"
-      class="flex items-center gap-2 rounded-full bg-white px-4 sm:px-6 py-2 sm:py-3 font-medium text-amber-600 shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)] text-sm sm:text-base"
-    >
-      <mat-icon class="!text-lg">add</mat-icon>
-      Add Menu Item
-    </button>
-  </div>
-</div>
-
-    <!-- <div  class="mb-6">
-      <div class="rounded-2xl bg-white p-4 shadow">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <mat-icon>qr_code_2</mat-icon>
-            <span class="font-semibold">Menu QR Code</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <button (click)="viewMenuQr()" class="text-blue-600 text-sm">Open</button>
-            <button (click)="downloadMenuQr()" class="text-blue-600 text-sm">Download</button>
-          </div>
-        </div>
-        <div class="mt-3 flex items-center justify-center">
-          <img [src]="getQrImageUrl()" alt="Menu QR Code" class="max-h-56" />
-        </div>
+      <div>
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
+          Our Menus 🍜
+        </h1>
+        <p class="mt-1 text-lg text-gray-500">
+          Manage your restaurant menu items and categories
+        </p>
       </div>
-    </div> -->
-
-    <div
-      class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      <div class="flex flex-wrap justify-end gap-3">
+        <ng-container *appHasRole="[hasManagerRole()]">
+          <ng-container *appHasSubscription="['BASIC', 'STANDARD']">
+            <button
+              (click)="viewMenuQr()"
+              class="flex items-center gap-2 rounded-xl bg-white px-4 sm:px-6 py-2 sm:py-3 font-medium text-green-600 shadow transition-all hover:shadow-md text-sm sm:text-base"
+            >
+              <mat-icon class="!text-xl">qr_code_2</mat-icon> Manage Menu QR
+            </button>
+          </ng-container>
+        </ng-container>
+        <button
+          *appHasRole="[hasManagerRole()]"
+          (click)="openCategoryManager()"
+          class="flex items-center gap-2 rounded-xl bg-white px-5 py-3 font-semibold text-amber-700 shadow-md transition-all duration-300 hover:shadow-lg hover:bg-gray-50 text-base"
+        >
+          <mat-icon class="!text-xl">category</mat-icon> Manage Categories
+        </button>
+        <button
+          *appHasRole="[hasManagerRole()]"
+          (click)="openMenuModal()"
+          class="flex items-center gap-2 rounded-xl bg-amber-600 px-5 py-3 font-semibold text-white shadow-lg shadow-amber-600/50 transition-all duration-300 hover:bg-amber-700 hover:shadow-xl hover:shadow-amber-700/50 text-base"
+        >
+          <mat-icon class="!text-xl">add_circle</mat-icon> Add Menu Item
+        </button>
+      </div>
+    </header>
+    <main
+      class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
     >
       <mat-card
         *ngFor="let item of menus"
-        class="group relative overflow-hidden rounded-3xl bg-white shadow-[12px_12px_24px_rgba(0,0,0,0.15),-12px_-12px_24px_rgba(255,255,255,0.9)] transition-all duration-300 hover:shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.8)]"
+        class="group relative overflow-hidden rounded-xl bg-white shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 p-5"
       >
         <div
           *ngIf="item.status === 'SOLD_OUT'"
-          class="absolute top-3 left-3 z-10"
+          class="absolute top-3 right-3 z-10 p-1.5 bg-red-600 rounded-full"
         >
-          <span
-            class="px-2 py-1 text-xs font-semibold text-white bg-red-600 rounded"
-            >Sold Out</span
-          >
+          <span class="text-xs font-bold text-white uppercase tracking-wider">
+            OUT
+          </span>
         </div>
-        <img
-          mat-card-image
-          [src]="getImageUrl(item.image)"
-          alt="Photo of a menu item"
-          class="h-48 w-full object-cover rounded-t-3xl opacity-100"
-          (error)="onImageError($event)"
-        />
-
-        <mat-card-header class="flex items-center justify-between px-4 pt-4">
-          <mat-card-title class="text-lg font-semibold text-gray-900">{{
-            item.name
-          }}</mat-card-title>
-          <span class="text-amber-600 font-semibold text-base"
+        <div class="flex justify-center mb-4">
+          <img
+            [src]="getImageUrl(item.image)"
+            alt="Photo of a menu item"
+            class="h-28 w-28 object-cover rounded-full border-4 border-amber-500 shadow-lg transition-transform duration-300 group-hover:scale-105"
+            (error)="onImageError($event)"
+          />
+        </div>
+        <mat-card-header
+          class="flex flex-col items-center text-center px-0 pt-0 pb-3 border-b border-gray-100"
+        >
+          <mat-card-title
+            class="text-xl font-bold text-gray-900 truncate w-full mb-1"
+          >
+            {{ item.name }}
+          </mat-card-title>
+          <span class="text-lg font-extrabold text-amber-700 mt-1"
             >{{ item.price }} ETB</span
           >
         </mat-card-header>
-
-        <mat-card-content class="px-4 py-2 text-gray-600">
-          <mat-card-subtitle class="text-sm line-clamp-3">{{
-            item.ingredients
-          }}</mat-card-subtitle>
+        <mat-card-content class="px-0 py-3 text-gray-600">
+          <p class="text-sm line-clamp-2 italic text-gray-500 text-center">
+            {{ item.ingredients }}
+          </p>
         </mat-card-content>
-
         <mat-card-actions
-          align="end"
-          class="flex gap-2 px-4 pb-4 pt-2 justify-end"
+          class="flex flex-wrap gap-2 pt-3 justify-between items-center border-t border-gray-100"
         >
           <button
             *appHasRole="[hasManagerRole()]"
             (click)="confirmToggleAvailability(item)"
-            class="flex items-center justify-center gap-2 w-32 rounded-full bg-white h-[36px] text-sm font-medium text-amber-600 shadow-md transition-all hover:shadow-lg"
+            [ngClass]="{
+              'bg-gray-100 text-amber-600 hover:bg-gray-200':
+                item.status === 'AVAILABLE',
+              'bg-red-50 text-red-600 hover:bg-red-100':
+                item.status === 'SOLD_OUT'
+            }"
+            class="flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 shadow-sm flex-grow sm:flex-none sm:w-1/2"
           >
             <mat-icon class="!text-lg">
-              {{ item.status === "AVAILABLE" ? "toggle_on" : "toggle_off" }}
-            </mat-icon>
-            <span class="hidden sm:inline">
               {{
-                item.status === "AVAILABLE" ? "Mark Sold Out" : "Mark Available"
+                item.status === "AVAILABLE" ? "visibility_off" : "visibility"
               }}
+            </mat-icon>
+            <span class="truncate">
+              {{ item.status === "AVAILABLE" ? "Sold Out" : "Available" }}
             </span>
           </button>
-
-          <button
-            *appHasRole="[hasManagerRole()]"
-            (click)="editMenuItem(item)"
-            class="flex items-center justify-center gap-1 w-20 rounded-full bg-white h-[30px] text-sm font-medium text-blue-600 shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)] transition-all hover:shadow-[2px_2px_4px_rgba(0,0,0,0.05),-2px_-2px_4px_rgba(255,255,255,0.8)]"
-          >
-            <mat-icon class="!text-base">edit</mat-icon>
-            <span class="hidden sm:inline">Edit</span>
-          </button>
-          <button
-            *appHasRole="[hasManagerRole()]"
-            (click)="deleteMenuItem(item)"
-            class="flex items-center justify-center gap-1 w-24 rounded-full bg-white h-[30px] text-sm font-medium text-red-600 shadow-[6px_6px_12px_rgba(0,0,0,0.1),-6px_-6px_12px_rgba(255,255,255,0.9)] transition-all hover:shadow-[2px_2px_4px_rgba(0,0,0,0.05),-2px_-2px_4px_rgba(255,255,255,0.8)]"
-          >
-            <mat-icon class="!text-base">delete</mat-icon>
-            <span class="hidden sm:inline">Delete</span>
-          </button>
+          <div class="flex gap-2 justify-end flex-grow sm:flex-none">
+            <button
+              *appHasRole="[hasManagerRole()]"
+              (click)="editMenuItem(item)"
+              class="flex items-center justify-center gap-1 h-10 w-1/2 px-3 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50 transition-all hover:bg-blue-100"
+            >
+              <mat-icon class="!text-base">edit</mat-icon>
+            </button>
+            <button
+              *appHasRole="[hasManagerRole()]"
+              (click)="deleteMenuItem(item)"
+              class="flex items-center justify-center gap-1 h-10 w-1/2 px-3 rounded-lg text-sm font-semibold text-red-600 bg-red-50 transition-all hover:bg-red-100"
+            >
+              <mat-icon class="!text-base">delete</mat-icon>
+            </button>
+          </div>
         </mat-card-actions>
       </mat-card>
-    </div>
-
+    </main>
     <div
       *ngIf="menus.length === 0"
-      class="flex flex-col items-center justify-center py-16 text-gray-600"
+      class="flex flex-col items-center justify-center py-24 bg-white rounded-xl shadow-lg mt-8"
     >
-      <mat-icon class="!text-6xl mb-4 text-gray-400">restaurant_menu</mat-icon>
-      <h3 class="mb-2 text-xl font-semibold text-gray-900">
-        No menu items found
+      <mat-icon class="!text-7xl mb-6 text-amber-400 opacity-70"
+        >restaurant_menu</mat-icon
+      >
+      <h3 class="mb-2 text-2xl font-bold text-gray-800">
+        No Menu Items Yet 😔
       </h3>
-      <p>You don't have any menu items yet.</p>
+      <p class="text-gray-500 text-lg">
+        It looks a little empty here. Click "Add Menu Item" to get started!
+      </p>
     </div>
   </div>
 </div>
