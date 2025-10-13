@@ -28,7 +28,7 @@ export class OrderService {
 
   getOrderHistory(pageNumber: number, pageSize: number): Observable<any[]> {
     return this.http.get<any[]>(
-      `${ORDER_URL}/history?pageNumber=${pageNumber}&pageSize=${pageSize}`
+      `${ORDER_URL}/history?page=${pageNumber}&pageSize=${pageSize}`
     );
   }
 

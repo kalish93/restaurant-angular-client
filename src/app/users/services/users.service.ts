@@ -34,7 +34,7 @@ export class UsersService {
     pageSize: number
   ): Observable<PaginatedList<User>> {
     return this.http.get<PaginatedList<User>>(
-      `${USERS_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`
+      `${USERS_URL}?page=${pageNumber}&pageSize=${pageSize}`
     );
   }
 
