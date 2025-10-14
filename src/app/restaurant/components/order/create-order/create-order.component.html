@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Create New Order</h1>
+<h4 mat-dialog-title>Create New Order</h4>
 
 <div mat-dialog-content class="space-y-4">
   <!-- Table selector -->
@@ -47,12 +47,12 @@
       (click)="addToCart()"
     >
       <mat-icon class="text-orange-500">add_shopping_cart</mat-icon>
-      Add to Cart
+      Add to Order
     </button>
   </form>
 
   <!-- Cart items -->
-  <h3>Cart Items</h3>
+  <h6 *ngIf="(cart$ | async)?.length">Order Summary</h6>
   <div
     *ngFor="let item of cart$ | async; let i = index"
     class="flex items-center justify-between p-2 bg-gray-100 rounded mb-1"
