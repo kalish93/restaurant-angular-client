@@ -37,7 +37,12 @@ export class RegistrationComponent implements OnInit {
     // STEP 1: Restaurant Details Form
     this.restaurantForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(100)]],
-      phone: ['', Validators.required],
+      phone: ['',
+              [
+                Validators.required,
+                Validators.pattern(/^(9|7)\d{8}$/) // Must start with 9 or 7, total 9 digits
+              ]
+            ],
       address: ['', Validators.required],
       logo: [null],
       acceptTerms: [false, Validators.requiredTrue]
