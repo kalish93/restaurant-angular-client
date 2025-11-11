@@ -1,2 +1,15 @@
-// All styles are now handled by Tailwind CSS classes in the HTML template
-// This file is kept for potential future custom styles that can't be handled by Tailwind
+// .no-scrollbar {
+//   scrollbar-width: none; /* Firefox */
+//   -ms-overflow-style: none; /* IE 10+ */
+// }
+
+// .no-scrollbar::-webkit-scrollbar {
+//   display: none; /* Chrome, Safari, Opera */
+// }
+::ng-deep .no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+::ng-deep .no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

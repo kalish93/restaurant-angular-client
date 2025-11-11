@@ -52,7 +52,7 @@ export class SettingsComponent implements OnInit {
   // Tab management
   tabs: Tab[] = [
     { id: 'profile', name: 'Profile' },
-    // { id: 'appearance', name: 'Appearance' },
+    { id: 'appearance', name: 'Appearance' },
     // { id: 'business', name: 'Business' },
     { id: 'reports', name: 'Reports' },
   ];
@@ -71,38 +71,64 @@ export class SettingsComponent implements OnInit {
   loadingReport = false;
   dailyReport: any = null;
   // Color palette management
-  presetPalettes: ColorPalette[] = [
-    {
-      id: 'blue',
-      name: 'Ocean Blue',
-      colors: ['#3B82F6', '#10B981', '#F59E0B'],
-    },
-    {
-      id: 'green',
-      name: 'Forest Green',
-      colors: ['#059669', '#10B981', '#F59E0B'],
-    },
-    {
-      id: 'purple',
-      name: 'Royal Purple',
-      colors: ['#7C3AED', '#EC4899', '#F59E0B'],
-    },
-    {
-      id: 'red',
-      name: 'Sunset Red',
-      colors: ['#DC2626', '#F59E0B', '#10B981'],
-    },
-    {
-      id: 'gray',
-      name: 'Modern Gray',
-      colors: ['#374151', '#6B7280', '#F59E0B'],
-    },
-    {
-      id: 'teal',
-      name: 'Teal Dream',
-      colors: ['#0D9488', '#14B8A6', '#F59E0B'],
-    },
-  ];
+  // Color palette management
+// presetPalettes: ColorPalette[] = [
+//   { id: 'blue', name: 'Ocean Blue', colors: ['#3B82F6', '#E0F2FE', '#1E3A8A'] },       // blue highlight, light bg, dark text
+//   { id: 'green', name: 'Forest Green', colors: ['#16A34A', '#DCFCE7', '#065F46'] },     // green highlight, soft green bg, dark green text
+//   { id: 'purple', name: 'Royal Purple', colors: ['#7C3AED', '#EDE9FE', '#4C1D95'] },    // purple highlight, light purple bg, deep purple text
+//   { id: 'red', name: 'Sunset Red', colors: ['#DC2626', '#FEE2E2', '#7F1D1D'] },         // red highlight, soft red bg, dark red text
+//   { id: 'teal', name: 'Teal Dream', colors: ['#0D9488', '#CCFBF1', '#115E59'] },        // teal highlight, light teal bg, dark teal text
+//   { id: 'orange', name: 'Sunrise Orange', colors: ['#F97316', '#FFF7ED', '#C2410C'] },  // orange highlight, light orange bg, deep orange text
+//   { id: 'pink', name: 'Blush Pink', colors: ['#EC4899', '#FCE7F3', '#831843'] },        // pink highlight, light pink bg, dark pink text
+//   { id: 'cyan', name: 'Cool Cyan', colors: ['#06B6D4', '#E0F7FA', '#07575B'] },         // cyan highlight, soft cyan bg, dark cyan text
+//   { id: 'amber', name: 'Golden Amber', colors: ['#F59E0B', '#FFFBEB', '#78350F'] },     // amber highlight, pale bg, dark amber text
+//   { id: 'violet', name: 'Violet Sky', colors: ['#8B5CF6', '#F3E8FF', '#4C1D95'] },      // violet highlight, soft violet bg, dark violet text
+//   { id: 'emerald', name: 'Emerald Green', colors: ['#10B981', '#ECFDF5', '#065F46'] },  // emerald highlight, light green bg, dark green text
+//   { id: 'sky', name: 'Sky Blue', colors: ['#0EA5E9', '#E0F2FE', '#0C4A6E'] },           // sky highlight, soft blue bg, deep blue text
+//   { id: 'coral', name: 'Coral Reef', colors: ['#FB7185', '#FFF1F2', '#9D174D'] },       // coral highlight, pale bg, dark coral text
+//   { id: 'mint', name: 'Mint Fresh', colors: ['#6EE7B7', '#ECFDF5', '#047857'] },        // mint highlight, soft mint bg, dark mint text
+//   { id: 'lavender', name: 'Lavender Mist', colors: ['#C084FC', '#F5F3FF', '#6D28D9'] }, // lavender highlight, light bg, dark purple text
+//   { id: 'peach', name: 'Peach Sunset', colors: ['#FDBA74', '#FFF7ED', '#C2410C'] },     // peach highlight, light bg, dark peach text
+//   { id: 'sand', name: 'Sandy Beach', colors: ['#FDE68A', '#FEFCE8', '#78350F'] },       // sandy highlight, soft cream bg, deep sand text
+// ];
+presetPalettes: ColorPalette[] = [
+  // Original palettes
+  { id: 'default', name: 'Default', colors: ['#F97316', '#F9FAFB', '#374151'] },
+  { id: 'blue', name: 'Ocean Blue', colors: ['#3B82F6', '#E0F2FE', '#1E3A8A'] },
+  { id: 'green', name: 'Forest Green', colors: ['#16A34A', '#DCFCE7', '#065F46'] },
+  { id: 'purple', name: 'Royal Purple', colors: ['#7C3AED', '#EDE9FE', '#4C1D95'] },
+  { id: 'red', name: 'Sunset Red', colors: ['#DC2626', '#FEE2E2', '#7F1D1D'] },
+  { id: 'teal', name: 'Teal Dream', colors: ['#0D9488', '#CCFBF1', '#115E59'] },
+  { id: 'orange', name: 'Sunrise Orange', colors: ['#F97316', '#FFF7ED', '#C2410C'] },
+  { id: 'pink', name: 'Blush Pink', colors: ['#EC4899', '#FCE7F3', '#831843'] },
+  { id: 'cyan', name: 'Cool Cyan', colors: ['#06B6D4', '#E0F7FA', '#07575B'] },
+  { id: 'amber', name: 'Golden Amber', colors: ['#F59E0B', '#FFFBEB', '#78350F'] },
+  { id: 'violet', name: 'Violet Sky', colors: ['#8B5CF6', '#F3E8FF', '#4C1D95'] },
+  { id: 'emerald', name: 'Emerald Green', colors: ['#10B981', '#ECFDF5', '#065F46'] },
+  { id: 'sky', name: 'Sky Blue', colors: ['#0EA5E9', '#E0F2FE', '#0C4A6E'] },
+  { id: 'coral', name: 'Coral Reef', colors: ['#FB7185', '#FFF1F2', '#9D174D'] },
+  { id: 'mint', name: 'Mint Fresh', colors: ['#6EE7B7', '#ECFDF5', '#047857'] },
+  { id: 'lavender', name: 'Lavender Mist', colors: ['#C084FC', '#F5F3FF', '#6D28D9'] },
+  { id: 'peach', name: 'Peach Sunset', colors: ['#FDBA74', '#FFF7ED', '#C2410C'] },
+  { id: 'sand', name: 'Sandy Beach', colors: ['#FDE68A', '#FEFCE8', '#78350F'] },
+
+  // Complementary / elegant palettes
+  { id: 'classicBlackWhite', name: 'Classic Black & White', colors: ['#000000', '#FFFFFF', '#4B5563'] }, // black highlight, white bg, gray text
+  { id: 'charcoalElegance', name: 'Charcoal Elegance', colors: ['#1F2937', '#F9FAFB', '#6B7280'] }, // charcoal highlight, light bg, subtle gray text
+  { id: 'goldLuxury', name: 'Gold Luxury', colors: ['#D4AF37', '#FDF6E3', '#5C4033'] }, // gold highlight, cream bg, dark brown text
+  { id: 'wineRed', name: 'Wine & Elegance', colors: ['#7F1D1D', '#FBE4E4', '#3B0B0B'] }, // deep red highlight, soft pink bg, almost black text
+  { id: 'forestElegance', name: 'Forest Elegance', colors: ['#065F46', '#DCFCE7', '#134E4A'] }, // dark green, soft green bg, deep green text
+  { id: 'pearlGray', name: 'Pearl Gray', colors: ['#6B7280', '#F3F4F6', '#111827'] }, // gray highlight, light gray bg, dark gray text
+  { id: 'royalGold', name: 'Royal Gold', colors: ['#B45309', '#FEF3C7', '#78350F'] }, // warm gold highlight, cream bg, brown text
+  { id: 'ivoryBlush', name: 'Ivory Blush', colors: ['#FFF8F0', '#FEE2E2', '#9D174D'] }, // ivory bg, light pink, deep pink text
+  { id: 'navyElegance', name: 'Navy Elegance', colors: ['#1E3A8A', '#E0F2FE', '#0C1A4B'] }, // navy highlight, pale blue bg, dark navy text
+
+  // Modern / trendy complementary palettes
+  { id: 'sunsetTeal', name: 'Sunset Teal', colors: ['#0D9488', '#FDE68A', '#115E59'] },
+  { id: 'skyAmber', name: 'Sky Amber', colors: ['#0EA5E9', '#FBBF24', '#78350F'] },
+  { id: 'roseGold', name: 'Rose Gold', colors: ['#EC4899', '#FCD34D', '#831843'] },
+];
+
   selectedPalette: ColorPalette | null = null;
 
   restaurant$ = this.state.select('restaurant');
@@ -117,6 +143,9 @@ export class SettingsComponent implements OnInit {
   zReportData$ = this.state.select('zReportData');
   zReportData: any;
   apiUrl: string = MEDIA_URL;
+  public currentPrimaryColor: string = '#F97316';
+  public currentSecondaryColor: string = '#F9FAFB';
+  public currentAccentColor: string = '#374151';
 
   constructor(
     private fb: FormBuilder,
@@ -153,33 +182,41 @@ export class SettingsComponent implements OnInit {
 
     this.appearanceForm = this.fb.group({
       primaryColor: [
-        '#3B82F6',
+        '#F97316',
         [Validators.required, Validators.pattern(/^#[0-9A-F]{6}$/i)],
       ],
       secondaryColor: [
-        '#10B981',
+        '#F9FAFB',
         [Validators.required, Validators.pattern(/^#[0-9A-F]{6}$/i)],
       ],
       accentColor: [
-        '#F59E0B',
+        '#374151',
         [Validators.required, Validators.pattern(/^#[0-9A-F]{6}$/i)],
       ],
+    });
+
+    // CRITICAL FIX: Subscribe to form value changes to update live preview
+    this.appearanceForm.valueChanges.subscribe(values => {
+      this.currentPrimaryColor = values.primaryColor;
+      this.currentSecondaryColor = values.secondaryColor;
+      this.currentAccentColor = values.accentColor;
     });
   }
 
   ngOnInit(): void {
-     this.restaurant$.subscribe((data) => {
-    if (data) {
-      this.restaurant = data;
-      this.loadSettings();
-      const today = new Date();
+    this.restaurant$.subscribe((data) => {
+      if (data) {
+        this.restaurant = data;
+        const today = new Date();
 
-      const formattedDate = formatDate(today, 'yyyy-MM-dd', 'en');
-      this.restaurantFacade.dispatchGetZreportData(this.restaurant.id, formattedDate);
-      this.getDailyReport()
-    }
-  });
+        const formattedDate = formatDate(today, 'yyyy-MM-dd', 'en');
+        this.restaurantFacade.dispatchGetZreportData(this.restaurant.id, formattedDate);
+        this.getDailyReport()
+      }
+    });
+    this.loadSettings();
 
+    // Ensure the get methods are called inside the restaurant subscription or when needed
     // this.restaurantFacade.dispatchGetCreditCards(this.restaurant.id);
     // this.restaurantFacade.dispatchGetDiscounts(this.restaurant.id);
     this.creditCards$.subscribe((data) => {
@@ -209,8 +246,14 @@ export class SettingsComponent implements OnInit {
     // Load saved appearance settings if they exist
     const savedColors = this.getSavedColors();
     if (savedColors) {
-      this.appearanceForm.patchValue(savedColors);
+      // FIX: Use { emitEvent: false } to prevent immediate valueChanges emission on load
+      this.appearanceForm.patchValue(savedColors, { emitEvent: false });
     }
+
+    // FIX: Initialize the live preview variables from the form's current value
+    this.currentPrimaryColor = this.appearanceForm.get('primaryColor')?.value || this.currentPrimaryColor;
+    this.currentSecondaryColor = this.appearanceForm.get('secondaryColor')?.value || this.currentSecondaryColor;
+    this.currentAccentColor = this.appearanceForm.get('accentColor')?.value || this.currentAccentColor;
   }
 
   // Profile management methods
@@ -314,11 +357,16 @@ export class SettingsComponent implements OnInit {
   // Appearance management methods
   selectPresetPalette(palette: ColorPalette) {
     this.selectedPalette = palette;
-    this.appearanceForm.patchValue({
+    const colors = {
       primaryColor: palette.colors[0],
       secondaryColor: palette.colors[1],
       accentColor: palette.colors[2],
-    });
+    };
+
+    // FIX: Set colors on the form, which will update the live variables via valueChanges subscription
+    // Using { emitEvent: true } (the default) is fine here, but if the issue persists, 
+    // you can use { emitEvent: false } and manually update the currentXxxColor variables.
+    this.appearanceForm.patchValue(colors);
   }
 
   onAppearanceSubmit() {
@@ -430,69 +478,25 @@ export class SettingsComponent implements OnInit {
     return now.toLocaleDateString(); // Format the date
   }
 
-
-// printZreport() {
-//   if (!this.zReportData) return;
-
-//   const doc = new jsPDF({
-//     orientation: 'p',
-//     unit: 'mm',
-//     format: 'a4',
-//   });
-
-//   let y = 10; // starting y position
-
-//   doc.setFontSize(16);
-//   doc.text('Z Report', 105, y, { align: 'center' });
-//   y += 10;
-//   doc.setFontSize(12);
-//   doc.text(`Date: ${this.zReportData.reportDate}`, 105, y, { align: 'center' });
-//   y += 10;
-//   doc.line(10, y, 200, y); // horizontal line
-//   y += 5;
-
-//   doc.setFontSize(12);
-//   doc.text(`Total Orders: ${this.zReportData.totalOrders}`, 10, y);
-//   y += 7;
-//   doc.text(`Total Items Sold: ${this.zReportData.totalItemsSold}`, 10, y);
-//   y += 7;
-//   doc.text(`Total Revenue: ${this.zReportData.totalRevenue.toFixed(2)}`, 10, y);
-//   y += 10;
-
-//   doc.text('Breakdown:', 10, y);
-//   y += 7;
-
-//   this.zReportData.breakdown.forEach((item: any) => {
-//     doc.text(`${item.itemName} - Qty: ${item.quantitySold}, Sales: ${item.totalSales.toFixed(2)}`, 10, y);
-//     y += 7;
-//   });
-
-//   // Save the PDF
-//   const fileName = `ZReport-${this.zReportData.reportDate}.pdf`;
-//   doc.save(fileName);
-// }
-
-
   getDailyReport() {
-  if (!this.restaurant || !this.restaurant.id) return;
+    if (!this.restaurant || !this.restaurant.id) return;
 
-  this.loadingReport = true;
-  const formattedDate = formatDate(this.selectedDate, 'yyyy-MM-dd', 'en');
+    this.loadingReport = true;
+    const formattedDate = formatDate(this.selectedDate, 'yyyy-MM-dd', 'en');
 
-  // Call backend via your existing facade
-  this.restaurantFacade.dispatchGetZreportData(this.restaurant.id, formattedDate);
+    // Call backend via your existing facade
+    this.restaurantFacade.dispatchGetZreportData(this.restaurant.id, formattedDate);
 
-  this.zReportData$.subscribe({
-    next: (data) => {
-      this.dailyReport = data;
-      this.loadingReport = false;
-    },
-    error: (err) => {
-      console.error('Error fetching daily report:', err);
-      this.loadingReport = false;
-      this.dailyReport = null;
-    },
-  });
-}
-
+    this.zReportData$.subscribe({
+      next: (data) => {
+        this.dailyReport = data;
+        this.loadingReport = false;
+      },
+      error: (err) => {
+        console.error('Error fetching daily report:', err);
+        this.loadingReport = false;
+        this.dailyReport = null;
+      },
+    });
+  }
 }

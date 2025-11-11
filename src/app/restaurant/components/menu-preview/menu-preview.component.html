@@ -1,0 +1,228 @@
+<div
+  class="h-full w-full flex justify-center p-4"
+  style="background-color: #f3f4f6"
+>
+  <div
+    class="w-full max-w-sm h-full overflow-hidden rounded-3xl shadow-2xl bg-gray-50 border-8 border-black relative"
+    [ngStyle]="previewStyles"
+    style="height: 100%"
+  >
+    <div
+      class="h-full w-full mx-auto overflow-y-scroll p-4 no-scrollbar"
+      [ngStyle]="{ 'background-color': secondaryColor }"
+    >
+      <div class="max-w-7xl h-full mx-auto grid grid-cols-1 gap-6">
+        <div class="col-span-1">
+          <div class="mb-8 flex flex-col gap-4">
+            <div class="flex items-center gap-4">
+              <div class="relative">
+                <img
+                  *ngIf="restaurant?.logo"
+                  [src]="getImageUrl(restaurant.logo)"
+                  alt="{{ restaurant?.name }} Logo"
+                  class="h-14 w-14 md:h-16 md:w-16 rounded-xl object-cover shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                  [ngStyle]="{ border: '2px solid ' + primaryColor }"
+                />
+                <div
+                  class="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent pointer-events-none"
+                ></div>
+              </div>
+              <div>
+                <h3
+                  class="text-xl md:text-3xl font-semibold tracking-tight"
+                  [ngStyle]="{ color: primaryColor }"
+                >
+                  {{ restaurant?.name }}
+                </h3>
+                <p
+                  *ngIf="restaurant?.description"
+                  class="text-xs mt-1 max-w-md"
+                  [ngStyle]="{ color: accentColor }"
+                >
+                  {{ restaurant.description }}
+                </p>
+              </div>
+            </div>
+
+            <div class="w-full mt-3 md:mt-0">
+              <div
+                class="relative rounded-lg shadow-sm transition-shadow duration-300"
+                [ngStyle]="{ 'background-color': secondaryColor }"
+              >
+                <div
+                  class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                >
+                  <svg
+                    class="h-5 w-5"
+                    [ngStyle]="{ color: accentColor }"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  [value]="searchTerm"
+                  (input)="onSearchChange($any($event.target).value)"
+                  placeholder="Search..."
+                  class="block w-full rounded-lg border-0 py-3 pl-10 pr-4 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6 transition-colors duration-200"
+                  [ngStyle]="{
+                    'background-color': secondaryColor,
+                    color: accentColor,
+                    'border-color': primaryColor,
+                    'caret-color': primaryColor
+                  }"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4 flex flex-col gap-3">
+            <div
+              class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"
+            >
+              <button
+                (click)="setCategoryFilter(null)"
+                [ngStyle]="
+                  selectedCategory === null
+                    ? {
+                        'background-color': primaryColor,
+                        color: secondaryColor
+                      }
+                    : {
+                        'background-color': secondaryColor,
+                        color: accentColor,
+                        border: '1px solid ' + primaryColor
+                      }
+                "
+                class="rounded-full px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap transition-all"
+              >
+                All Items
+              </button>
+
+              <button
+                *ngFor="let category of availableCategories"
+                (click)="setCategoryFilter(category)"
+                [ngStyle]="
+                  selectedCategory === category
+                    ? {
+                        'background-color': primaryColor,
+                        color: secondaryColor
+                      }
+                    : {
+                        'background-color': secondaryColor,
+                        color: accentColor,
+                        border: '1px solid ' + primaryColor
+                      }
+                "
+                class="rounded-full px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap transition-all"
+              >
+                {{ category }}
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-y-4 gap-x-6">
+            <mat-card
+              *ngFor="let item of filteredMenus"
+              class="shadow-lg rounded-xl break-inside-avoid"
+              [ngStyle]="{
+                'background-color': secondaryColor,
+                border: '1px solid ' + primaryColor
+              }"
+            >
+              <mat-card-content class="p-3">
+                <div class="flex items-start gap-3">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="w-16 h-16 rounded-full relative"
+                      [ngStyle]="{ 'background-color': accentColor }"
+                    >
+                      <img
+                        [src]="getImageUrl(item.image)"
+                        [alt]="item.name"
+                        class="!w-full !h-full rounded-full object-cover shadow-md"
+                      />
+                      <span
+                        *ngIf="item.status === 'SOLD_OUT'"
+                        class="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[10px] px-1.5 py-0.5 rounded text-white"
+                        [ngStyle]="{ 'background-color': primaryColor }"
+                      >
+                        Sold Out
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between mb-1">
+                      <h3
+                        class="!text-sm font-semibold line-clamp-2 pr-2"
+                        [ngStyle]="{ color: accentColor }"
+                      >
+                        {{ item.name }}
+                      </h3>
+                      <span
+                        class="text-sm font-bold ml-2 flex-shrink-0"
+                        [ngStyle]="{ color: primaryColor }"
+                      >
+                        {{ item.price.toFixed(2) }} ETB
+                      </span>
+                    </div>
+                    <p
+                      class="text-xs leading-relaxed line-clamp-3"
+                      [ngStyle]="{ color: accentColor }"
+                    >
+                      {{ item.ingredients }}
+                    </p>
+
+                    <div
+                      class="flex items-center justify-center"
+                      *appHasSubscription="['STANDARD', 'PREMIUM']"
+                    >
+                      <button
+                        mat-raised-button
+                        *ngIf="item.price"
+                        [disabled]="item.status === 'SOLD_OUT'"
+                        class="enhanced-add-button px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2 w-full mt-3"
+                        [ngStyle]="{
+                          'background-color':
+                            item.status === 'SOLD_OUT'
+                              ? '#D1D5DB'
+                              : primaryColor,
+                          color:
+                            item.status === 'SOLD_OUT'
+                              ? '#9CA3AF'
+                              : secondaryColor,
+                          border: '1px solid ' + primaryColor,
+                          cursor:
+                            item.status === 'SOLD_OUT'
+                              ? 'not-allowed'
+                              : 'pointer'
+                        }"
+                      >
+                        <mat-icon
+                          class="text-sm"
+                          [ngStyle]="{ color: secondaryColor }"
+                          >shopping_cart</mat-icon
+                        >
+                        Add to Order
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+        <div class="hidden md:col-span-1"></div>
+      </div>
+    </div>
+  </div>
+</div>

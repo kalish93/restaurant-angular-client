@@ -46,6 +46,7 @@ import { CreateOrderComponent } from './components/order/create-order/create-ord
 import { LandingComponent } from './components/landing/landing.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
+import { MenuPreviewComponent } from './components/menu-preview/menu-preview.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { TermsConditionsComponent } from './components/terms-conditions/terms-co
     CreateOrderComponent,
     LandingComponent,
     RegistrationComponent,
-    TermsConditionsComponent
+    TermsConditionsComponent,
+    MenuPreviewComponent
   ],
   imports: [
     SharedModule,

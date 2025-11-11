@@ -1,8 +1,9 @@
 <div class="min-h-screen bg-gray-50/50 p-4 sm:p-6 lg:p-10">
   <div class="mx-auto max-w-7xl">
-
     <div class="mb-10 border-b border-gray-200 pb-3">
-      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+      >
         Settings ⚙️
       </h1>
       <p class="mt-1 text-base text-gray-500">
@@ -11,7 +12,10 @@
     </div>
 
     <div class="mb-8">
-      <nav class="flex flex-wrap space-x-4 sm:space-x-8 -mb-px" aria-label="Tabs">
+      <nav
+        class="flex flex-wrap space-x-4 sm:space-x-8 -mb-px"
+        aria-label="Tabs"
+      >
         <button
           *ngFor="let tab of tabs"
           (click)="activeTab = tab.id"
@@ -28,10 +32,10 @@
     </div>
 
     <div class="space-y-8">
-
       <div *ngIf="activeTab === 'profile'" class="space-y-8">
-
-        <div class="bg-white shadow-xl rounded-xl overflow-hidden border-t-4 border-amber-500">
+        <div
+          class="bg-white shadow-xl rounded-xl overflow-hidden border-t-4 border-amber-500"
+        >
           <div class="px-6 py-5 sm:px-8 border-b border-gray-100 bg-gray-50">
             <h6 class="text-lg font-bold text-gray-900">Restaurant Profile</h6>
             <p class="mt-1 text-sm text-gray-500">
@@ -57,17 +61,23 @@
                     formControlName="name"
                     class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm transition duration-150 ease-in-out"
                     [class.border-red-500]="
-                      profileForm.get('name')?.invalid && profileForm.get('name')?.touched
+                      profileForm.get('name')?.invalid &&
+                      profileForm.get('name')?.touched
                     "
                   />
                   <div
                     *ngIf="
-                      profileForm.get('name')?.invalid && profileForm.get('name')?.touched
+                      profileForm.get('name')?.invalid &&
+                      profileForm.get('name')?.touched
                     "
                     class="mt-1 text-xs text-red-600"
                   >
-                    <span *ngIf="profileForm.get('name')?.errors?.['required']">Restaurant name is required</span>
-                    <span *ngIf="profileForm.get('name')?.errors?.['minlength']">Must be at least 2 characters</span>
+                    <span *ngIf="profileForm.get('name')?.errors?.['required']"
+                      >Restaurant name is required</span
+                    >
+                    <span *ngIf="profileForm.get('name')?.errors?.['minlength']"
+                      >Must be at least 2 characters</span
+                    >
                   </div>
                 </div>
 
@@ -83,17 +93,23 @@
                     formControlName="phone"
                     class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm transition duration-150 ease-in-out"
                     [class.border-red-500]="
-                      profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched
+                      profileForm.get('phone')?.invalid &&
+                      profileForm.get('phone')?.touched
                     "
                   />
                   <div
                     *ngIf="
-                      profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched
+                      profileForm.get('phone')?.invalid &&
+                      profileForm.get('phone')?.touched
                     "
                     class="mt-1 text-xs text-red-600"
                   >
-                    <span *ngIf="profileForm.get('phone')?.errors?.['required']">Phone number is required</span>
-                    <span *ngIf="profileForm.get('phone')?.errors?.['pattern']">Please enter a valid phone number</span>
+                    <span *ngIf="profileForm.get('phone')?.errors?.['required']"
+                      >Phone number is required</span
+                    >
+                    <span *ngIf="profileForm.get('phone')?.errors?.['pattern']"
+                      >Please enter a valid phone number</span
+                    >
                   </div>
                 </div>
               </div>
@@ -110,17 +126,24 @@
                   formControlName="address"
                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm transition duration-150 ease-in-out"
                   [class.border-red-500]="
-                    profileForm.get('address')?.invalid && profileForm.get('address')?.touched
+                    profileForm.get('address')?.invalid &&
+                    profileForm.get('address')?.touched
                   "
                 ></textarea>
                 <div
                   *ngIf="
-                    profileForm.get('address')?.invalid && profileForm.get('address')?.touched
+                    profileForm.get('address')?.invalid &&
+                    profileForm.get('address')?.touched
                   "
                   class="mt-1 text-xs text-red-600"
                 >
-                  <span *ngIf="profileForm.get('address')?.errors?.['required']">Address is required</span>
-                  <span *ngIf="profileForm.get('address')?.errors?.['minlength']">Address must be at least 10 characters</span>
+                  <span *ngIf="profileForm.get('address')?.errors?.['required']"
+                    >Address is required</span
+                  >
+                  <span
+                    *ngIf="profileForm.get('address')?.errors?.['minlength']"
+                    >Address must be at least 10 characters</span
+                  >
                 </div>
               </div>
 
@@ -128,7 +151,9 @@
                 <button
                   type="submit"
                   [disabled]="
-                    !profileForm.valid || profileForm.pristine || isProfileLoading
+                    !profileForm.valid ||
+                    profileForm.pristine ||
+                    isProfileLoading
                   "
                   class="inline-flex items-center justify-center py-2 px-6 border border-transparent shadow-md text-base font-medium rounded-lg text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
                 >
@@ -139,8 +164,19 @@
                     fill="none"
                     viewBox="0 0 24 24"
                   >
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   {{ isProfileLoading ? "Saving..." : "Save Profile" }}
                 </button>
@@ -157,7 +193,9 @@
             </p>
           </div>
           <div class="p-6 sm:p-8">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-8">
+            <div
+              class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-8"
+            >
               <div class="flex-shrink-0">
                 <img
                   [src]="
@@ -170,7 +208,9 @@
                 />
               </div>
               <div class="flex-1 w-full">
-                <div class="flex flex-wrap items-center space-x-3 space-y-2 sm:space-y-0">
+                <div
+                  class="flex flex-wrap items-center space-x-3 space-y-2 sm:space-y-0"
+                >
                   <label
                     for="logo-upload"
                     class="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition duration-150 ease-in-out"
@@ -223,62 +263,78 @@
       </div>
 
       <div *ngIf="activeTab === 'business'" class="space-y-8">
-        <div class="bg-white shadow-xl rounded-xl overflow-hidden border-t-4 border-blue-500">
+        <div
+          class="bg-white shadow-xl rounded-xl overflow-hidden border-t-4 border-blue-500"
+        >
           <div class="px-6 py-5 sm:px-8 border-b border-gray-100 bg-gray-50">
-            <h6 class="text-lg font-bold text-gray-900">Restaurant Operations</h6>
+            <h6 class="text-lg font-bold text-gray-900">
+              Restaurant Operations
+            </h6>
             <p class="mt-1 text-sm text-gray-500">
               Control your restaurant's order-taking status.
             </p>
           </div>
           <div class="px-6 py-6 sm:px-8">
-            <div class="flex items-center justify-between py-2">
-              <div>
-                <h6 class="text-base font-medium text-gray-900">
-                  Online Ordering Status
-                </h6>
-                <p class="text-sm text-gray-500 max-w-sm">
-                  Toggling this determines if customers can place new orders via the system.
-                </p>
+            <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+              <div class="flex items-center justify-between py-2">
+                <div>
+                  <h6 class="text-base font-medium text-gray-900">
+                    Online Ordering Status
+                  </h6>
+                  <p class="text-sm text-gray-500 max-w-sm">
+                    Toggling this determines if customers can place new orders
+                    via the system.
+                  </p>
+                </div>
+                <div class="flex items-center space-x-4">
+                  <span
+                    class="text-sm font-semibold transition-colors duration-200"
+                    [class]="
+                      settingsForm.get('restaurantStatus')?.value
+                        ? 'text-green-600'
+                        : 'text-red-600'
+                    "
+                  >
+                    {{
+                      settingsForm.get("restaurantStatus")?.value
+                        ? "OPEN"
+                        : "CLOSED"
+                    }}
+                  </span>
+                  <mat-slide-toggle
+                    formControlName="restaurantStatus"
+                    color="primary"
+                    (change)="onOpenOrClose()"
+                    [checked]="restaurant?.isOpen"
+                    class="scale-110"
+                  ></mat-slide-toggle>
+                </div>
               </div>
-              <div class="flex items-center space-x-4">
-                <span
-                  class="text-sm font-semibold transition-colors duration-200"
-                  [class]="
-                    settingsForm.get('restaurantStatus')?.value
-                      ? 'text-green-600'
-                      : 'text-red-600'
-                  "
-                >
-                  {{
-                    settingsForm.get("restaurantStatus")?.value
-                      ? "OPEN"
-                      : "CLOSED"
-                  }}
-                </span>
-                <mat-slide-toggle
-                  formControlName="restaurantStatus"
-                  color="primary"
-                  (change)="onOpenOrClose()"
-                  [checked]="restaurant?.isOpen"
-                  class="scale-110"
-                ></mat-slide-toggle>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
-      <ng-container *appHasSubscription="['STANDARD','PREMIUM']">
+      <ng-container *appHasSubscription="['STANDARD', 'PREMIUM']">
         <div *ngIf="activeTab === 'reports'" class="space-y-8">
-          <div class="bg-white shadow-xl rounded-xl overflow-hidden border-t-4 border-green-500">
-            <div class="px-6 py-5 sm:px-8 border-b border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
+          <div
+            class="bg-white shadow-xl rounded-xl overflow-hidden border-t-4 border-green-500"
+          >
+            <div
+              class="px-6 py-5 sm:px-8 border-b border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0"
+            >
               <div>
-                <h6 class="text-lg font-bold text-gray-900">Daily Sales Report</h6>
+                <h6 class="text-lg font-bold text-gray-900">
+                  Daily Sales Report
+                </h6>
                 <p class="mt-1 text-sm text-gray-500">
                   View your restaurant performance summary for a selected date.
                 </p>
               </div>
 
-              <mat-form-field appearance="outline" class="w-full sm:w-56 custom-datepicker">
+              <mat-form-field
+                appearance="outline"
+                class="w-full sm:w-56 custom-datepicker"
+              >
                 <mat-label>Select Date</mat-label>
                 <input
                   matInput
@@ -310,56 +366,108 @@
                   <div
                     class="bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-md"
                   >
-                    <p class="text-sm font-medium text-amber-700">Total Orders</p>
+                    <p class="text-sm font-medium text-amber-700">
+                      Total Orders
+                    </p>
                     <p class="text-3xl font-extrabold text-amber-900 mt-1">
                       {{ dailyReport.totalOrders }}
                     </p>
                   </div>
 
-                  <div class="bg-green-50 border border-green-200 rounded-xl p-5 shadow-md">
-                    <p class="text-sm font-medium text-green-700">Total Items Sold</p>
+                  <div
+                    class="bg-green-50 border border-green-200 rounded-xl p-5 shadow-md"
+                  >
+                    <p class="text-sm font-medium text-green-700">
+                      Total Items Sold
+                    </p>
                     <p class="text-3xl font-extrabold text-green-900 mt-1">
                       {{ dailyReport.totalItemsSold }}
                     </p>
                   </div>
 
-                  <div class="bg-blue-50 border border-blue-200 rounded-xl p-5 shadow-md">
-                    <p class="text-sm font-medium text-blue-700">Total Revenue</p>
+                  <div
+                    class="bg-blue-50 border border-blue-200 rounded-xl p-5 shadow-md"
+                  >
+                    <p class="text-sm font-medium text-blue-700">
+                      Total Revenue
+                    </p>
                     <p class="text-3xl font-extrabold text-blue-900 mt-1">
-                      {{ dailyReport.totalRevenue | currency: 'ETB' : 'ETB ' }}
+                      {{ dailyReport.totalRevenue | currency : "ETB" : "ETB " }}
                     </p>
                   </div>
                 </div>
 
-                <h4 class="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">Item Sales Breakdown</h4>
-                <div class="overflow-x-auto bg-white rounded-lg border border-gray-100 shadow-sm">
+                <h4
+                  class="text-lg font-semibold text-gray-800 mb-4 border-b pb-2"
+                >
+                  Item Sales Breakdown
+                </h4>
+                <div
+                  class="overflow-x-auto bg-white rounded-lg border border-gray-100 shadow-sm"
+                >
                   <table
                     mat-table
                     [dataSource]="dailyReport.breakdown"
                     class="min-w-full table-auto"
                   >
                     <ng-container matColumnDef="itemName">
-                      <th mat-header-cell *matHeaderCellDef class="py-3 px-6 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 bg-gray-50 rounded-tl-lg">Item</th>
-                      <td mat-cell *matCellDef="let item" class="py-3 px-6 border-b border-gray-100 text-sm font-medium text-gray-900">{{ item.itemName }}</td>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="py-3 px-6 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 bg-gray-50 rounded-tl-lg"
+                      >
+                        Item
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let item"
+                        class="py-3 px-6 border-b border-gray-100 text-sm font-medium text-gray-900"
+                      >
+                        {{ item.itemName }}
+                      </td>
                     </ng-container>
 
                     <ng-container matColumnDef="quantitySold">
-                      <th mat-header-cell *matHeaderCellDef class="py-3 px-6 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 bg-gray-50">Qty Sold</th>
-                      <td mat-cell *matCellDef="let item" class="py-3 px-6 border-b border-gray-100 text-sm text-gray-700 font-mono">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="py-3 px-6 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 bg-gray-50"
+                      >
+                        Qty Sold
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let item"
+                        class="py-3 px-6 border-b border-gray-100 text-sm text-gray-700 font-mono"
+                      >
                         {{ item.quantitySold }}
                       </td>
                     </ng-container>
 
                     <ng-container matColumnDef="totalSales">
-                      <th mat-header-cell *matHeaderCellDef class="py-3 px-6 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 bg-gray-50 rounded-tr-lg">Total Sales</th>
-                      <td mat-cell *matCellDef="let item" class="py-3 px-6 border-b border-gray-100 text-sm text-green-600 font-bold font-mono">
-                        {{ item.totalSales | currency: 'ETB' : 'ETB ' }}
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="py-3 px-6 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 bg-gray-50 rounded-tr-lg"
+                      >
+                        Total Sales
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let item"
+                        class="py-3 px-6 border-b border-gray-100 text-sm text-green-600 font-bold font-mono"
+                      >
+                        {{ item.totalSales | currency : "ETB" : "ETB " }}
                       </td>
                     </ng-container>
 
                     <tr
                       mat-header-row
-                      *matHeaderRowDef="['itemName', 'quantitySold', 'totalSales']"
+                      *matHeaderRowDef="[
+                        'itemName',
+                        'quantitySold',
+                        'totalSales'
+                      ]"
                     ></tr>
                     <tr
                       mat-row
@@ -371,7 +479,10 @@
                     ></tr>
 
                     <tr class="mat-row" *matNoDataRow>
-                      <td class="mat-cell p-4 text-center text-gray-500" [attr.colspan]="3">
+                      <td
+                        class="mat-cell p-4 text-center text-gray-500"
+                        [attr.colspan]="3"
+                      >
                         No item sales data available for the selected date.
                       </td>
                     </tr>
@@ -383,10 +494,24 @@
                 *ngIf="!loadingReport && !dailyReport"
                 class="text-center py-10 text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-200"
               >
-                <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m-6 0h6"></path>
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m-6 0h6"
+                  ></path>
                 </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-900">No Data Found</h3>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">
+                  No Data Found
+                </h3>
                 <p class="mt-1 text-sm text-gray-500">
                   Please select a date with recorded sales transactions.
                 </p>
@@ -395,6 +520,375 @@
           </div>
         </div>
       </ng-container>
+      <!-- <div
+        *ngIf="activeTab === 'appearance'"
+        class="space-y-6 h-[calc(100vh-160px)] md:h-[calc(100vh-100px)]"
+      >
+        <div class="h-full grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="md:col-span-2 bg-white shadow rounded-lg overflow-y-auto">
+            <div
+              class="px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10"
+            >
+              <h6 class="text-lg font-medium text-gray-900">
+                🎨 Menu Appearance & Color Palette
+              </h6>
+              <p class="mt-1 text-sm text-gray-500">
+                Customize your menu's color scheme and see an instant mobile
+                preview.
+              </p>
+            </div>
+
+            <div class="px-6 py-4">
+              <form
+                [formGroup]="appearanceForm"
+                (ngSubmit)="onAppearanceSubmit()"
+                class="space-y-8"
+              >
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-3"
+                    >Choose from Preset Palettes</label
+                  >
+                  <div
+                    class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4"
+                  >
+                    <div
+                      *ngFor="let palette of presetPalettes"
+                      (click)="selectPresetPalette(palette)"
+                      [class]="
+                        selectedPalette?.id === palette.id
+                          ? 'ring-2 ring-blue-500'
+                          : 'ring-1 ring-gray-200'
+                      "
+                      class="relative cursor-pointer rounded-lg p-3 hover:ring-2 hover:ring-blue-300 transition-all bg-gray-50"
+                    >
+                      <div class="flex space-x-1 mb-2">
+                        <div
+                          *ngFor="let color of palette.colors"
+                          [style.background-color]="color"
+                          class="w-6 h-6 rounded border border-gray-200 shadow-sm"
+                        ></div>
+                      </div>
+                      <p class="text-xs font-medium text-gray-900">
+                        {{ palette.name }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-t pt-8">
+                  <label class="block text-lg font-semibold text-gray-700 mb-4"
+                    >Custom Colors</label
+                  >
+                  <div
+                    class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                  >
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Primary Color (Buttons, Links)</label
+                      >
+                      <div class="flex items-center space-x-3">
+                        <input
+                          type="color"
+                          formControlName="primaryColor"
+                          class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          formControlName="primaryColor"
+                          class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="#3B82F6"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Secondary Color (Price Text)</label
+                      >
+                      <div class="flex items-center space-x-3">
+                        <input
+                          type="color"
+                          formControlName="secondaryColor"
+                          class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          formControlName="secondaryColor"
+                          class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="#10B981"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Accent Color (Active Filter Background)</label
+                      >
+                      <div class="flex items-center space-x-3">
+                        <input
+                          type="color"
+                          formControlName="accentColor"
+                          class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          formControlName="accentColor"
+                          class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="#F59E0B"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-t pt-8">
+                  <label class="block text-sm font-semibold text-gray-700 mb-3"
+                    >Button Style Preview</label
+                  >
+                  <div class="bg-gray-100 rounded-lg p-4">
+                    <div class="flex flex-wrap items-center gap-4">
+                      <button
+                        [style.background-color]="
+                          appearanceForm.get('primaryColor')?.value
+                        "
+                        class="px-4 py-2 rounded-md text-white font-medium shadow-md hover:opacity-90 transition-opacity"
+                      >
+                        Primary Button
+                      </button>
+                      <button
+                        [style.background-color]="
+                          appearanceForm.get('secondaryColor')?.value
+                        "
+                        class="px-4 py-2 rounded-md text-white font-medium shadow-md hover:opacity-90 transition-opacity"
+                      >
+                        Secondary Button
+                      </button>
+                      <div
+                        [style.background-color]="
+                          appearanceForm.get('accentColor')?.value
+                        "
+                        class="w-10 h-10 rounded-full border border-gray-300 shadow"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="flex justify-end border-t pt-6 sticky bottom-0 bg-white z-10"
+                >
+                  <button
+                    type="submit"
+                    [disabled]="!appearanceForm.valid"
+                    class="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Save Appearance
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+<div class="flex md:col-span-1 justify-center items-center mt-6 md:mt-0">
+            <div
+              class="w-full h-[620px] bg-gray-100 rounded-[3rem] shadow-2xl p-2"
+            >
+              <app-menu-preview
+                [primaryColor]="currentPrimaryColor"
+                [secondaryColor]="currentSecondaryColor"
+                [accentColor]="currentAccentColor"
+                class="block h-full w-full rounded-[2.5rem] no-scrollbar overflow-y-auto"
+              >
+              </app-menu-preview>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    <div
+  *ngIf="activeTab === 'appearance'"
+  class="space-y-6"
+>
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+    <div class="xl:col-span-1 order-first xl:order-2 flex justify-center items-start mt-0">
+      <div
+        class="w-full max-h-[95vh] lg:h-[620px] h-[620px] bg-gray-100 rounded-[3rem] shadow-2xl p-2"
+      >
+        <app-menu-preview
+          [primaryColor]="currentPrimaryColor"
+          [secondaryColor]="currentSecondaryColor"
+          [secondaryColor]="currentSecondaryColor"
+          [accentColor]="currentAccentColor"
+          class="block h-full w-full rounded-[2.5rem] no-scrollbar overflow-y-auto"
+        >
+        </app-menu-preview>
+      </div>
+    </div>
+    
+    <div class="xl:col-span-2 xl:order-1 bg-white shadow rounded-lg overflow-y-auto">
+      <div
+        class="px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10"
+      >
+        <h6 class="text-lg font-medium text-gray-900">
+          🎨 Menu Appearance & Color Palette
+        </h6>
+        <p class="mt-1 text-sm text-gray-500">
+          Customize your menu's color scheme and see an instant mobile
+          preview.
+        </p>
+      </div>
+
+      <div class="px-6 py-4">
+        <form
+          [formGroup]="appearanceForm"
+          (ngSubmit)="onAppearanceSubmit()"
+          class="space-y-8"
+        >
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-3"
+              >Choose from Preset Palettes</label
+            >
+            <div
+              class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4"
+            >
+              <div
+                *ngFor="let palette of presetPalettes"
+                (click)="selectPresetPalette(palette)"
+                [class]="
+                  selectedPalette?.id === palette.id
+                    ? 'ring-2 ring-blue-500'
+                    : 'ring-1 ring-gray-200'
+                "
+                class="relative cursor-pointer rounded-lg p-3 hover:ring-2 hover:ring-blue-300 transition-all bg-gray-50"
+              >
+                <div class="flex space-x-1 mb-2">
+                  <div
+                    *ngFor="let color of palette.colors"
+                    [style.background-color]="color"
+                    class="w-6 h-6 rounded border border-gray-200 shadow-sm"
+                  ></div>
+                </div>
+                <p class="text-xs font-medium text-gray-900">
+                  {{ palette.name }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="border-t pt-8">
+            <label class="block text-lg font-semibold text-gray-700 mb-4"
+              >Custom Colors</label
+            >
+            <div
+              class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Primary Color (Buttons, Links)</label
+                >
+                <div class="flex items-center space-x-3">
+                  <input
+                    type="color"
+                    formControlName="primaryColor"
+                    class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                  />
+                  <input
+                    type="text"
+                    formControlName="primaryColor"
+                    class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="#3B82F6"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Secondary Color (Price Text)</label
+                >
+                <div class="flex items-center space-x-3">
+                  <input
+                    type="color"
+                    formControlName="secondaryColor"
+                    class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                  />
+                  <input
+                    type="text"
+                    formControlName="secondaryColor"
+                    class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="#10B981"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Accent Color (Active Filter Background)</label
+                >
+                <div class="flex items-center space-x-3">
+                  <input
+                    type="color"
+                    formControlName="accentColor"
+                    class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                  />
+                  <input
+                    type="text"
+                    formControlName="accentColor"
+                    class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="#F59E0B"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="border-t pt-8">
+            <label class="block text-sm font-semibold text-gray-700 mb-3"
+              >Button Style Preview</label
+            >
+            <div class="bg-gray-100 rounded-lg p-4">
+              <div class="flex flex-wrap items-center gap-4">
+                <button
+                  [style.background-color]="
+                    appearanceForm.get('primaryColor')?.value
+                  "
+                  class="px-4 py-2 rounded-md text-white font-medium shadow-md hover:opacity-90 transition-opacity"
+                >
+                  Primary Button
+                </button>
+                <button
+                  [style.background-color]="
+                    appearanceForm.get('secondaryColor')?.value
+                  "
+                  class="px-4 py-2 rounded-md text-white font-medium shadow-md hover:opacity-90 transition-opacity"
+                >
+                  Secondary Button
+                </button>
+                <div
+                  [style.background-color]="
+                    appearanceForm.get('accentColor')?.value
+                  "
+                  class="w-10 h-10 rounded-full border border-gray-300 shadow"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-end border-t pt-6 sticky bottom-0 bg-white z-10"
+          >
+            <button
+              type="submit"
+              [disabled]="!appearanceForm.valid"
+              class="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Save Appearance
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 </div>
