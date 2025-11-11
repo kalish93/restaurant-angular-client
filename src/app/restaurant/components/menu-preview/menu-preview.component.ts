@@ -34,6 +34,7 @@ export class MenuPreviewComponent implements OnInit, OnChanges {
   @Input() primaryColor: string = '#F97316';
   @Input() secondaryColor: string = '#F9FAFB';
   @Input() accentColor: string = '#374151';
+  @Input() fontType: string = 'Poppins';
 
   // Property to hold the dynamic CSS styles for the preview container
   public previewStyles: { [key: string]: string } = {};
@@ -82,7 +83,6 @@ export class MenuPreviewComponent implements OnInit, OnChanges {
       this.menus = data;
       this.categorizeMenus();
     });
-
     // Initialize styles on load
     this.updatePreviewStyles();
   }
@@ -98,7 +98,8 @@ export class MenuPreviewComponent implements OnInit, OnChanges {
     if (
       changes['primaryColor'] ||
       changes['secondaryColor'] ||
-      changes['accentColor']
+      changes['accentColor'] ||
+      changes['fontType'] 
     ) {
       this.updatePreviewStyles();
     }
@@ -118,6 +119,7 @@ export class MenuPreviewComponent implements OnInit, OnChanges {
       // We'll use a slightly lighter/darker version of the primary color for text contrast
       '--active-filter-bg': this.accentColor,
       '--active-filter-text': this.primaryColor, // Use Primary for contrast text
+      'font-family': `'${this.fontType}', sans-serif`,
     };
   }
 

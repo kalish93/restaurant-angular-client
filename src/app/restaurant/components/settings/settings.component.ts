@@ -129,6 +129,32 @@ presetPalettes: ColorPalette[] = [
   { id: 'roseGold', name: 'Rose Gold', colors: ['#EC4899', '#FCD34D', '#831843'] },
 ];
 
+availableFonts: string[] = [
+  // Modern & readable
+  'Poppins',
+  'Roboto',
+  'Montserrat',
+
+  // Elegant serif
+  'Playfair Display',
+  'Merriweather',
+  'Lora',
+  'Cormorant Garamond',
+
+  // Monospace
+  'Fira Code',
+
+  // Cursive / handwritten
+  'Dancing Script',
+  'Pacifico',
+  'Great Vibes',
+  'Caveat'  // Handwritten
+];
+
+
+selectedFont: string = 'Poppins'; // default font
+public currentFont: string = 'Poppins';
+
   selectedPalette: ColorPalette | null = null;
 
   restaurant$ = this.state.select('restaurant');
@@ -193,6 +219,7 @@ presetPalettes: ColorPalette[] = [
         '#374151',
         [Validators.required, Validators.pattern(/^#[0-9A-F]{6}$/i)],
       ],
+      fontType: ['Poppins', Validators.required], 
     });
 
     // CRITICAL FIX: Subscribe to form value changes to update live preview
@@ -200,6 +227,7 @@ presetPalettes: ColorPalette[] = [
       this.currentPrimaryColor = values.primaryColor;
       this.currentSecondaryColor = values.secondaryColor;
       this.currentAccentColor = values.accentColor;
+      this.currentFont = values.fontType;
     });
   }
 
@@ -231,6 +259,11 @@ presetPalettes: ColorPalette[] = [
     });
   }
 
+  selectFont(font: string) {
+  this.selectedFont = font;
+  this.appearanceForm.patchValue({ fontType: font });
+}
+
   loadSettings() {
     this.settingsForm.patchValue({
       taxRate: this.restaurant?.taxRate,
@@ -244,16 +277,19 @@ presetPalettes: ColorPalette[] = [
     });
 
     // Load saved appearance settings if they exist
-    const savedColors = this.getSavedColors();
-    if (savedColors) {
-      // FIX: Use { emitEvent: false } to prevent immediate valueChanges emission on load
-      this.appearanceForm.patchValue(savedColors, { emitEvent: false });
-    }
+    const savedColors = this.getSavedColors() || {};
+    this.appearanceForm.patchValue({
+      primaryColor: savedColors.primaryColor || '#F97316',
+      secondaryColor: savedColors.secondaryColor || '#F9FAFB',
+      accentColor: savedColors.accentColor || '#374151',
+      fontType: savedColors.fontType || 'Poppins',
+    }, { emitEvent: false });
 
     // FIX: Initialize the live preview variables from the form's current value
     this.currentPrimaryColor = this.appearanceForm.get('primaryColor')?.value || this.currentPrimaryColor;
     this.currentSecondaryColor = this.appearanceForm.get('secondaryColor')?.value || this.currentSecondaryColor;
     this.currentAccentColor = this.appearanceForm.get('accentColor')?.value || this.currentAccentColor;
+    this.currentFont = this.appearanceForm.get('fontType')?.value || this.currentFont;
   }
 
   // Profile management methods

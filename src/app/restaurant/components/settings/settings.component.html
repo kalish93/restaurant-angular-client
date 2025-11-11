@@ -706,189 +706,220 @@
           </div>
         </div>
       </div> -->
-    <div
-  *ngIf="activeTab === 'appearance'"
-  class="space-y-6"
->
-  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-
-    <div class="xl:col-span-1 order-first xl:order-2 flex justify-center items-start mt-0">
-      <div
-        class="w-full max-h-[95vh] lg:h-[620px] h-[620px] bg-gray-100 rounded-[3rem] shadow-2xl p-2"
-      >
-        <app-menu-preview
-          [primaryColor]="currentPrimaryColor"
-          [secondaryColor]="currentSecondaryColor"
-          [secondaryColor]="currentSecondaryColor"
-          [accentColor]="currentAccentColor"
-          class="block h-full w-full rounded-[2.5rem] no-scrollbar overflow-y-auto"
-        >
-        </app-menu-preview>
-      </div>
-    </div>
-    
-    <div class="xl:col-span-2 xl:order-1 bg-white shadow rounded-lg overflow-y-auto">
-      <div
-        class="px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10"
-      >
-        <h6 class="text-lg font-medium text-gray-900">
-          🎨 Menu Appearance & Color Palette
-        </h6>
-        <p class="mt-1 text-sm text-gray-500">
-          Customize your menu's color scheme and see an instant mobile
-          preview.
-        </p>
-      </div>
-
-      <div class="px-6 py-4">
-        <form
-          [formGroup]="appearanceForm"
-          (ngSubmit)="onAppearanceSubmit()"
-          class="space-y-8"
-        >
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-3"
-              >Choose from Preset Palettes</label
-            >
-            <div
-              class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4"
-            >
-              <div
-                *ngFor="let palette of presetPalettes"
-                (click)="selectPresetPalette(palette)"
-                [class]="
-                  selectedPalette?.id === palette.id
-                    ? 'ring-2 ring-blue-500'
-                    : 'ring-1 ring-gray-200'
-                "
-                class="relative cursor-pointer rounded-lg p-3 hover:ring-2 hover:ring-blue-300 transition-all bg-gray-50"
-              >
-                <div class="flex space-x-1 mb-2">
-                  <div
-                    *ngFor="let color of palette.colors"
-                    [style.background-color]="color"
-                    class="w-6 h-6 rounded border border-gray-200 shadow-sm"
-                  ></div>
-                </div>
-                <p class="text-xs font-medium text-gray-900">
-                  {{ palette.name }}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="border-t pt-8">
-            <label class="block text-lg font-semibold text-gray-700 mb-4"
-              >Custom Colors</label
-            >
-            <div
-              class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              <div>
-                <label
-                  class="block text-sm font-medium text-gray-700 mb-2"
-                  >Primary Color (Buttons, Links)</label
-                >
-                <div class="flex items-center space-x-3">
-                  <input
-                    type="color"
-                    formControlName="primaryColor"
-                    class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    formControlName="primaryColor"
-                    class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="#3B82F6"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  class="block text-sm font-medium text-gray-700 mb-2"
-                  >Secondary Color (Price Text)</label
-                >
-                <div class="flex items-center space-x-3">
-                  <input
-                    type="color"
-                    formControlName="secondaryColor"
-                    class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    formControlName="secondaryColor"
-                    class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="#10B981"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  class="block text-sm font-medium text-gray-700 mb-2"
-                  >Accent Color (Active Filter Background)</label
-                >
-                <div class="flex items-center space-x-3">
-                  <input
-                    type="color"
-                    formControlName="accentColor"
-                    class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    formControlName="accentColor"
-                    class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="#F59E0B"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="border-t pt-8">
-            <label class="block text-sm font-semibold text-gray-700 mb-3"
-              >Button Style Preview</label
-            >
-            <div class="bg-gray-100 rounded-lg p-4">
-              <div class="flex flex-wrap items-center gap-4">
-                <button
-                  [style.background-color]="
-                    appearanceForm.get('primaryColor')?.value
-                  "
-                  class="px-4 py-2 rounded-md text-white font-medium shadow-md hover:opacity-90 transition-opacity"
-                >
-                  Primary Button
-                </button>
-                <button
-                  [style.background-color]="
-                    appearanceForm.get('secondaryColor')?.value
-                  "
-                  class="px-4 py-2 rounded-md text-white font-medium shadow-md hover:opacity-90 transition-opacity"
-                >
-                  Secondary Button
-                </button>
-                <div
-                  [style.background-color]="
-                    appearanceForm.get('accentColor')?.value
-                  "
-                  class="w-10 h-10 rounded-full border border-gray-300 shadow"
-                ></div>
-              </div>
-            </div>
-          </div>
+      <div *ngIf="activeTab === 'appearance'" class="space-y-6">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <div
-            class="flex justify-end border-t pt-6 sticky bottom-0 bg-white z-10"
+            class="xl:col-span-1 order-first xl:order-2 flex justify-center items-start mt-0"
           >
-            <button
-              type="submit"
-              [disabled]="!appearanceForm.valid"
-              class="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            <div
+              class="w-full max-h-[95vh] lg:h-[620px] h-[620px] bg-gray-100 rounded-[3rem] shadow-2xl p-2"
             >
-              Save Appearance
-            </button>
+              <app-menu-preview
+                [primaryColor]="currentPrimaryColor"
+                [secondaryColor]="currentSecondaryColor"
+                [secondaryColor]="currentSecondaryColor"
+                [accentColor]="currentAccentColor"
+                [fontType]="currentFont"
+                class="block h-full w-full rounded-[2.5rem] no-scrollbar overflow-y-auto"
+              >
+              </app-menu-preview>
+            </div>
           </div>
-        </form>
+
+          <div
+            class="xl:col-span-2 xl:order-1 bg-white shadow rounded-lg overflow-y-auto"
+          >
+            <div
+              class="px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10"
+            >
+              <h6 class="text-lg font-medium text-gray-900">
+                🎨 Menu Appearance & Color Palette
+              </h6>
+              <p class="mt-1 text-sm text-gray-500">
+                Customize your menu's color scheme and see an instant mobile
+                preview.
+              </p>
+            </div>
+
+            <div class="border-t pt-8 pb-4 px-4">
+              <label class="block text-lg font-semibold text-gray-700 mb-4">
+                Font Type
+              </label>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div
+                  *ngFor="let font of availableFonts"
+                  (click)="selectFont(font)"
+                  [class]="
+                    selectedFont === font
+                      ? 'ring-2 ring-blue-500'
+                      : 'ring-1 ring-gray-200'
+                  "
+                  class="cursor-pointer rounded-lg p-3 bg-gray-50 hover:ring-2 hover:ring-blue-300 transition-all"
+                  [style.font-family]="font"
+                >
+                  <p
+                    class="text-base font-medium text-gray-800"
+                    [style.font-family]="font"
+                  >
+                    {{ font }}
+                  </p>
+                  <p class="text-xs text-gray-500 mt-1">
+                    The quick brown fox jumps over the lazy dog.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 py-4">
+              <form
+                [formGroup]="appearanceForm"
+                (ngSubmit)="onAppearanceSubmit()"
+                class="space-y-8"
+              >
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-3"
+                    >Choose from Preset Palettes</label
+                  >
+                  <div
+                    class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4"
+                  >
+                    <div
+                      *ngFor="let palette of presetPalettes"
+                      (click)="selectPresetPalette(palette)"
+                      [class]="
+                        selectedPalette?.id === palette.id
+                          ? 'ring-2 ring-blue-500'
+                          : 'ring-1 ring-gray-200'
+                      "
+                      class="relative cursor-pointer rounded-lg p-3 hover:ring-2 hover:ring-blue-300 transition-all bg-gray-50"
+                    >
+                      <div class="flex space-x-1 mb-2">
+                        <div
+                          *ngFor="let color of palette.colors"
+                          [style.background-color]="color"
+                          class="w-6 h-6 rounded border border-gray-200 shadow-sm"
+                        ></div>
+                      </div>
+                      <p class="text-xs font-medium text-gray-900">
+                        {{ palette.name }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="border-t pt-8">
+                  <label class="block text-lg font-semibold text-gray-700 mb-4"
+                    >Custom Colors</label
+                  >
+                  <div
+                    class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                  >
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Primary Color (Buttons, Links)</label
+                      >
+                      <div class="flex items-center space-x-3">
+                        <input
+                          type="color"
+                          formControlName="primaryColor"
+                          class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          formControlName="primaryColor"
+                          class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="#3B82F6"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Secondary Color (Price Text)</label
+                      >
+                      <div class="flex items-center space-x-3">
+                        <input
+                          type="color"
+                          formControlName="secondaryColor"
+                          class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          formControlName="secondaryColor"
+                          class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="#10B981"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Accent Color (Active Filter Background)</label
+                      >
+                      <div class="flex items-center space-x-3">
+                        <input
+                          type="color"
+                          formControlName="accentColor"
+                          class="h-10 w-16 rounded border border-gray-300 cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          formControlName="accentColor"
+                          class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="#F59E0B"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="border-t pt-8">
+                  <label class="block text-sm font-semibold text-gray-700 mb-3"
+                    >Button Style Preview</label
+                  >
+                  <div class="bg-gray-100 rounded-lg p-4">
+                    <div class="flex flex-wrap items-center gap-4">
+                      <button
+                        [style.background-color]="
+                          appearanceForm.get('primaryColor')?.value
+                        "
+                        class="px-4 py-2 rounded-md text-white font-medium shadow-md hover:opacity-90 transition-opacity"
+                      >
+                        Primary Button
+                      </button>
+                      <button
+                        [style.background-color]="
+                          appearanceForm.get('secondaryColor')?.value
+                        "
+                        class="px-4 py-2 rounded-md text-white font-medium shadow-md hover:opacity-90 transition-opacity"
+                      >
+                        Secondary Button
+                      </button>
+                      <div
+                        [style.background-color]="
+                          appearanceForm.get('accentColor')?.value
+                        "
+                        class="w-10 h-10 rounded-full border border-gray-300 shadow"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="flex justify-end border-t pt-6 sticky bottom-0 bg-white z-10"
+                >
+                  <button
+                    type="submit"
+                    [disabled]="!appearanceForm.valid"
+                    class="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Save Appearance
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
     </div>
   </div>
 </div>
