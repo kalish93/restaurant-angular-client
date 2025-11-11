@@ -192,20 +192,21 @@
                         *ngIf="item.price"
                         [disabled]="item.status === 'SOLD_OUT'"
                         class="enhanced-add-button px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2 w-full mt-3"
-                        [ngStyle]="{
-                          'background-color':
+                       [ngStyle]="{
+                        'background-color':
                             item.status === 'SOLD_OUT'
-                              ? '#D1D5DB'
-                              : primaryColor,
-                          color:
+                            ? '#D1D5DB'
+                            : primaryColor,
+                        color:
                             item.status === 'SOLD_OUT'
-                              ? '#9CA3AF'
-                              : secondaryColor,
-                          border: '1px solid ' + primaryColor,
-                          cursor:
+                            ? '#9CA3AF'
+                            : secondaryColor,
+                        border: '1px solid ' + primaryColor,
+                        cursor:
                             item.status === 'SOLD_OUT'
-                              ? 'not-allowed'
-                              : 'pointer'
+                            ? 'not-allowed'
+                            : 'pointer',
+                        'font-family': 'inherit'
                         }"
                       >
                         <mat-icon
