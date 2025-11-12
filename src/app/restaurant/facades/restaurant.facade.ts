@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { RestaurantSelector } from '../store/restaurant.selectors';
-import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, DowloadRestaurantQrCode, GenerateMenuQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, SelfRegisterRestaurant, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from '../store/restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, DowloadRestaurantQrCode, GenerateMenuQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, SelfRegisterRestaurant, UpdateAppearance, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from '../store/restaurant.actions';
 
 
 @Injectable({
@@ -124,6 +124,10 @@ export class RestaurantFacade {
   }
   dispatchSelfRegisterRestaurant(data: FormData) {
     this.store.dispatch(new SelfRegisterRestaurant(data));
+  }
+
+  dispatchUpdateAppearance(data: any) {
+    this.store.dispatch(new UpdateAppearance(data));
   }
 
 }

@@ -140,4 +140,8 @@ export class RestaurantService {
     return this.http.post<any>(`${API_BASE_URL}/self-register-restaurant`, data);
   }
 
+  updateAppearance(data: any): Observable<any> {
+    return this.http.put<any>(`${RESTAURANTS_URL}/${data.restaurantId}/appearance`, data, this.httpOptions);
+  }
+
 }

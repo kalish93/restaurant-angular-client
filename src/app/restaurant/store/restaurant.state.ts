@@ -15,7 +15,7 @@ import {
   SetProgressOn,
 } from 'src/app/core/store/progress-status.actions';
 import { RestaurantService } from '../services/restaurant.service';
-import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, DowloadRestaurantQrCode, GenerateMenuQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, SelfRegisterRestaurant, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
+import { AddRestaurantStaff, CreateCreditCard, CreateDiscount, CreateRestaurant, CreateTable, DeleteCreditCard, DeleteDiscount, DeleteRestaurant, DeleteRestaurantStaff, DeleteTable, DowloadQrCode, DowloadRestaurantQrCode, GenerateMenuQrCode, GetCreditCards, GetDiscounts, GetRestaurant, GetRestaurants, GetTable, GetTables, GetZreportData, SelfRegisterRestaurant, UpdateAppearance, UpdateRestaurant, UpdateRestaurantActiveStatus, UpdateRestaurantStaff, UpdateRestaurantStatus, UpdateRestaurantTaxRate, UpdateTable } from './restaurant.actions';
 import { PaginatedList } from 'src/app/core/models/paginated-list.interface';
 import { MenuService } from '../services/menu.service';
 import { Logout } from 'src/app/auth/store/auth.actions';
@@ -746,5 +746,28 @@ getZreportData(
   clearRestaurant(ctx: StateContext<RestaurantStateModel>) {
   ctx.patchState({ selectedRestaurant: undefined, tables: []});
   }
+
+
+  @Action(UpdateAppearance)
+  updateAppearance(
+    { setState }: StateContext<RestaurantStateModel>,
+    { data }: UpdateAppearance
+  ) {
+    this.store.dispatch(new SetProgressOn());
+    return this.restaurantService.updateAppearance(data).pipe(
+      tap((result) => {
+        setState(
+          patch({
+            selectedRestaurant: result,
+          })
+        );
+        this.store.dispatch(new SetProgressOff());
+        this.operationStatus.displayStatus(
+          'Menu appearance updated successfully!',
+        successStyle,);
+      })
+    );
+  }
+
 
 }

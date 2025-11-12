@@ -21,4 +21,9 @@ export interface Restaurant {
   taxRate: number;
   subscription?: 'BASIC' | 'STANDARD' | 'PREMIUM' | string;
   createdAt: string;
+  subscriptionExpiry: any,
+  primaryColor: string,
+  secondaryColor: string,
+  accentColor: string,
+  fontFamily: string, 
 }

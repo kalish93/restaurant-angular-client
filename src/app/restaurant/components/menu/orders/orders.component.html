@@ -1,12 +1,10 @@
-<div
+<!-- <div
   class="fixed top-[75px] flex flex-col items-center w-full gap-6 px-4 h-[calc(100vh-75px)] overflow-y-auto"
 >
-  <!-- Page Title -->
   <h1 class="text-3xl font-lightbold text-gray-800 text-center">
     {{ tableId ? "Table Orders" : "Your Order" }}
   </h1>
 
-  <!-- Orders Grid -->
   <div
     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl"
     *ngIf="myOrders.length"
@@ -15,7 +13,6 @@
       *ngFor="let order of myOrders; let i = index"
       class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
     >
-      <!-- Order Header -->
       <div
         class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-orange-400 to-orange-500 text-white"
       >
@@ -38,13 +35,11 @@
         </span>
       </div>
 
-      <!-- Order Body -->
       <div class="p-6 space-y-4">
         <div
           *ngFor="let item of order.items"
           class="flex items-center p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors duration-200 gap-4"
         >
-          <!-- Item Image -->
           <div
             class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100"
           >
@@ -55,13 +50,11 @@
             />
           </div>
 
-          <!-- Item Name and Quantity -->
           <div class="flex-1">
             <p class="font-medium text-gray-700">{{ item.menuItem.name }}</p>
             <p class="text-sm text-gray-500">Qty: {{ item.quantity }}</p>
           </div>
 
-          <!-- Item Price -->
           <div class="text-right">
             <p class="font-semibold text-gray-900">
               {{ item.menuItem.price * item.quantity | number : "1.2-2" }} ETB
@@ -69,7 +62,6 @@
           </div>
         </div>
 
-        <!-- Order Totals -->
         <div
           class="flex justify-between items-center mt-4 border-t border-gray-200 pt-4"
         >
@@ -84,13 +76,161 @@
     </div>
   </div>
 
-  <!-- Empty State -->
   <div *ngIf="!myOrders.length" class="mt-12 text-center text-gray-400">
     <p>
       {{
         tableId
           ? "No active orders for this table."
           : "No active orders for this restaurant."
+      }}
+    </p>
+  </div>
+</div> -->
+
+<div
+  class="fixed top-[75px] flex flex-col items-center w-full gap-6 px-4 h-[calc(100vh-75px)] overflow-y-auto"
+  [ngStyle]="{
+    'font-family': restaurant?.fontFamily || 'inherit'
+  }"
+>
+  <!-- Page Title -->
+  <h1
+    class="text-3xl font-bold text-center"
+    [ngStyle]="{
+      color: restaurant?.primaryColor || '#1f2937'
+    }"
+  >
+    {{ tableId ? 'Table Orders' : 'Your Order' }}
+  </h1>
+
+  <!-- Orders Grid -->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl"
+    *ngIf="myOrders.length"
+  >
+    <div
+      *ngFor="let order of myOrders; let i = index"
+      class="rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl"
+      [ngStyle]="{
+        'background-color': '#ffffff'
+      }"
+    >
+      <!-- Order Header -->
+      <div
+        class="flex justify-between items-center px-6 py-4 text-white"
+        [ngStyle]="{
+          'background-color': restaurant?.primaryColor || '#f97316'
+        }"
+      >
+        <h3 class="font-semibold text-lg">
+          {{ tableId ? 'Order ' + (i + 1) : 'Order # ' + order.number }}
+        </h3>
+        <span
+          class="text-sm px-3 py-1 rounded-full font-medium"
+          [ngStyle]="{
+            'background-color':
+              order.status === 'PENDING'
+                ? restaurant?.secondaryColor || '#fbbf24'
+                : order.status === 'IN_PROGRESS'
+                ? restaurant?.accentColor || '#3b82f6'
+                : order.status === 'READY'
+                ? restaurant?.primaryColor || '#10b981'
+                : order.status === 'SERVED'
+                ? restaurant?.secondaryColor || '#8b5cf6'
+                : order.status === 'CANCELLED'
+                ? '#ef4444'
+                : order.status === 'PAID'
+                ? '#6b7280'
+                : restaurant?.primaryColor || '#f97316',
+            color: '#fff'
+          }"
+        >
+          {{ order.status | titlecase }}
+        </span>
+      </div>
+
+      <!-- Order Body -->
+      <div class="p-6 space-y-4">
+        <div
+          *ngFor="let item of order.items"
+          class="flex items-center p-3 rounded-xl border transition-colors duration-200 gap-4 hover:opacity-90"
+          [ngStyle]="{
+            'border-color': restaurant?.secondaryColor || '#e5e7eb',
+            'background-color': '#ffffff'
+          }"
+        >
+          <!-- Item Image -->
+          <div
+            class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0"
+            [ngStyle]="{ 'background-color': restaurant?.accentColor + '20' || '#f3f4f6' }"
+          >
+            <img
+              [src]="getImageUrl(item.menuItem.image)"
+              alt="{{ item.menuItem.name }}"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <!-- Item Name and Quantity -->
+          <div class="flex-1">
+            <p
+              class="font-medium"
+              [ngStyle]="{ color: restaurant?.primaryColor || '#374151' }"
+            >
+              {{ item.menuItem.name }}
+            </p>
+            <p
+              class="text-sm"
+              [ngStyle]="{ color: restaurant?.secondaryColor || '#6b7280' }"
+            >
+              Qty: {{ item.quantity }}
+            </p>
+          </div>
+
+          <!-- Item Price -->
+          <div class="text-right">
+            <p
+              class="font-semibold"
+              [ngStyle]="{ color: restaurant?.accentColor || '#111827' }"
+            >
+              {{ item.menuItem.price * item.quantity | number: '1.2-2' }} ETB
+            </p>
+          </div>
+        </div>
+
+        <!-- Order Totals -->
+        <div
+          class="flex justify-between items-center mt-4 border-t pt-4"
+          [ngStyle]="{ 'border-color': restaurant?.secondaryColor || '#e5e7eb' }"
+        >
+          <p
+            class="text-sm font-medium"
+            [ngStyle]="{ color: restaurant?.primaryColor || '#374151' }"
+          >
+            Total Items: {{ order.items.length }}
+          </p>
+          <p
+            class="text-sm font-semibold"
+            [ngStyle]="{ color: restaurant?.accentColor || '#111827' }"
+          >
+            Total Price: {{ getOrderTotal(order) | number: '1.2-2' }} ETB
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div
+    *ngIf="!myOrders.length"
+    class="mt-12 text-center"
+    [ngStyle]="{ color: restaurant?.secondaryColor || '#9ca3af' }"
+  >
+    <p>
+      {{
+        tableId
+          ? 'No active orders for this table.'
+          : 'No active orders for this restaurant.'
       }}
     </p>
   </div>

@@ -4,6 +4,8 @@ import { RxState } from '@rx-angular/state';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
 import { combineLatest, map } from 'rxjs';
 import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
+import { Restaurant } from 'src/app/restaurant/models/restaurant.model';
+import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 
 interface Order {
   id: any;
@@ -22,10 +24,12 @@ interface Order {
 
 interface OrdersComponentState {
   myOrders: Order[];
+  restaurant: Restaurant | undefined;
 }
 
 const initOrdersComponentState: OrdersComponentState = {
   myOrders: [],
+  restaurant: undefined
 };
 
 @Component({
@@ -37,14 +41,18 @@ export class OrdersComponent implements OnInit {
   $myOrders = this.state.select('myOrders');
   myOrders: Order[] = [];
   tableId: any;
+  restaurant$ = this.state.select('restaurant');
+  restaurant: Restaurant | undefined = undefined;
 
   constructor(
     private state: RxState<OrdersComponentState>,
     private orderFacade: OrderFacade,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private restaurantFacade: RestaurantFacade
   ) {
     this.state.set(initOrdersComponentState);
     this.state.connect('myOrders', this.orderFacade.myTableOrders$);
+    this.state.connect('restaurant', this.restaurantFacade.selectedRestaurant$)
   }
 
   // ngOnInit(): void {
@@ -90,6 +98,11 @@ export class OrdersComponent implements OnInit {
         } else if (orderNumber) {
           this.orderFacade.dispatchGetOrderByNumber(restaurantId, orderNumber);
         }
+
+        this.restaurantFacade.dispatchGetRestaurant(restaurantId);
+        this.restaurant$.subscribe((data)=>{
+          this.restaurant = data;
+        })
       });
 
     // Subscribe to orders

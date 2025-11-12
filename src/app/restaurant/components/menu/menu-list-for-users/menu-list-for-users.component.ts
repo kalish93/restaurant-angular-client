@@ -49,6 +49,7 @@ export class MenuListForUsersComponent implements OnInit {
   selectedTable: any = {};
   selectedCategory: string | null = null;
   searchTerm: string = '';
+  previewStyles: { [key: string]: string } = {};
 
   constructor(
     private state: RxState<MenuListForUsersComponentState>,
@@ -87,6 +88,25 @@ export class MenuListForUsersComponent implements OnInit {
 
     this.$restaurant.subscribe((data) => {
       this.restaurant = data;
+
+      if (this.restaurant?.primaryColor || this.restaurant.fontFamily) {
+
+        this.previewStyles = {
+        '--primary-color': this.restaurant.primaryColor || '#F97316',
+        '--secondary-color': this.restaurant.secondaryColor || '#F9FAFB',
+        '--accent-color': this.restaurant.accentColor || '#374151',
+        'font-family': `'${this.restaurant.fontFamily || 'Poppins'}', sans-serif`,
+      };
+
+      // Optionally apply font globally
+      document.documentElement.style.setProperty(
+        '--app-font-family',
+        this.restaurant.fontFamily || 'Poppins'
+      );
+      } else {
+        // No appearance data, keep defaults
+        this.previewStyles = {};
+      }
     });
 
     this.menus$.subscribe((data) => {

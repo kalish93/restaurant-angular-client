@@ -168,3 +168,8 @@ export class SelfRegisterRestaurant {
   static readonly type = `${SelfRegisterRestaurant.name}`;
   constructor(public readonly data: FormData) {}
 }
+
+export class UpdateAppearance {
+  static readonly type = `${UpdateAppearance.name}`;
+  constructor(public readonly data: any) {}
+}

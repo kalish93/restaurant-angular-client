@@ -240,9 +240,24 @@ public currentFont: string = 'Poppins';
         const formattedDate = formatDate(today, 'yyyy-MM-dd', 'en');
         this.restaurantFacade.dispatchGetZreportData(this.restaurant.id, formattedDate);
         this.getDailyReport()
+
+        this.loadSettings();
+
+        this.appearanceForm.patchValue({
+        primaryColor: data.primaryColor || '#F97316',
+        secondaryColor: data.secondaryColor || '#F9FAFB',
+        accentColor: data.accentColor || '#374151',
+        fontType: data.fontFamily || 'Poppins',
+    }, { emitEvent: false });
+
+    // Initialize live preview variables
+    this.currentPrimaryColor = this.appearanceForm.get('primaryColor')?.value;
+    this.currentSecondaryColor = this.appearanceForm.get('secondaryColor')?.value;
+    this.currentAccentColor = this.appearanceForm.get('accentColor')?.value;
+    this.currentFont = this.appearanceForm.get('fontType')?.value;
+  
       }
     });
-    this.loadSettings();
 
     // Ensure the get methods are called inside the restaurant subscription or when needed
     // this.restaurantFacade.dispatchGetCreditCards(this.restaurant.id);
@@ -407,24 +422,23 @@ public currentFont: string = 'Poppins';
 
   onAppearanceSubmit() {
     if (this.appearanceForm.valid) {
-      const appearanceData = this.appearanceForm.value;
+      const data = {
+        restaurantId: this.restaurant.id,
+        primaryColor: this.appearanceForm.value.primaryColor,
+        secondaryColor: this.appearanceForm.value.secondaryColor,
+        accentColor: this.appearanceForm.value.accentColor,
+        fontFamily: this.appearanceForm.value.fontType,
+      };
 
-      // Save colors to localStorage for persistence
-      this.saveColors(appearanceData);
+      // Dispatch to update backend
+      this.restaurantFacade.dispatchUpdateAppearance(data);
 
-      // Apply colors to the application
-      this.applyColors(appearanceData);
+      // Optional: update localStorage or live preview
+      this.saveColors(data);
+      this.applyColors(data);
 
-      // Show success message
-      this.showNotification(
-        'Appearance settings saved successfully!',
-        'success'
-      );
-
-      console.log('Appearance settings saved:', appearanceData);
     }
   }
-
   private saveColors(colors: any) {
     localStorage.setItem('restaurantColors', JSON.stringify(colors));
   }

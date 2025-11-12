@@ -6,13 +6,17 @@ import { MenuFacade } from 'src/app/restaurant/facades/menu.facade';
 import { API_BASE_URL, MEDIA_URL } from 'src/app/core/constants/api-endpoints';
 import { OrderFacade } from 'src/app/restaurant/facades/order.facade';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Restaurant } from 'src/app/restaurant/models/restaurant.model';
+import { RestaurantFacade } from 'src/app/restaurant/facades/restaurant.facade';
 
 interface CartComponentState {
   cart: Cart[];
+  restaurant: Restaurant | undefined
 }
 
 const initCartComponentState: CartComponentState = {
   cart: [],
+  restaurant: undefined
 };
 
 @Component({
@@ -26,7 +30,8 @@ export class CartComponent implements OnInit {
   @Input() tableId: string | null = null;
   cart$ = this.state.select('cart');
   cart: Cart[] = [];
-
+  restaurant$ = this.state.select('restaurant');
+  restaurant: Restaurant | undefined = undefined;
 
   // Discount properties
   discountCode: string = '';
@@ -38,10 +43,12 @@ export class CartComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private orderFacade: OrderFacade,
+    private restaurantFacade: RestaurantFacade,
     @Optional() private dialogRef?: MatDialogRef<CartComponent> // <-- injected only when in modal
   ) {
     this.state.set(initCartComponentState);
     this.state.connect('cart', this.orderFacade.cart$);
+    this.state.connect('restaurant', this.restaurantFacade.selectedRestaurant$)
   }
 
   ngOnInit(): void {
@@ -53,6 +60,10 @@ export class CartComponent implements OnInit {
       this.route.paramMap.subscribe((params) => {
         this.restaurantId = this.restaurantId || params.get('restaurantId');
         this.tableId = this.tableId || params.get('tableId');
+      this.restaurantFacade.dispatchGetRestaurant(this.restaurantId);
+      this.restaurant$.subscribe((data) =>{
+        this.restaurant = data;
+      })
       });
     }
     this.cart$.subscribe((data) => {
