@@ -60,11 +60,11 @@ export class CartComponent implements OnInit {
       this.route.paramMap.subscribe((params) => {
         this.restaurantId = this.restaurantId || params.get('restaurantId');
         this.tableId = this.tableId || params.get('tableId');
+      });
       this.restaurantFacade.dispatchGetRestaurant(this.restaurantId);
       this.restaurant$.subscribe((data) =>{
         this.restaurant = data;
       })
-      });
     }
     this.cart$.subscribe((data) => {
       console.log(data);
